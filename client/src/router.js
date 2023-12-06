@@ -5,6 +5,7 @@ import SidebarLayout from './layouts/SidebarLayout';
 import BaseLayout from './layouts/BaseLayout';
 
 import SuspenseLoader from './components/SuspenseLoader';
+import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
 
 const Loader = (Component) => (props) =>
   (
@@ -212,6 +213,13 @@ const routes = [
         path: 'forms',
         element: <Forms />
       }
+    ]
+  },
+  {
+    path : 'curriculumDeveloper',
+    element : <CurriculumDeveloperLayout />,
+    children : [
+      
     ]
   }
 ];
