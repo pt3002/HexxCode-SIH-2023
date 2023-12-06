@@ -1,0 +1,22 @@
+{
+  "name": "hexxcode-sih-2023",
+  "version": "1.0.0",
+  "description": "A unified portal for developing a model Curriculum for all the AICTE Approved Institutes",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "HexxCode Team",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5"
+  }
+}
