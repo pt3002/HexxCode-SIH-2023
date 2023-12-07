@@ -8,6 +8,8 @@ import SuspenseLoader from './components/SuspenseLoader';
 import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
 import RegistrationForm from './content/pages/register';
 import Checkout from './content/pages/checkout';
+import CurriculumDeveloperLogin from './content/pages/login-user';
+import CurriculumDeveloperSignUp from './content/pages/signup-user';
 
 const Loader = (Component) => (props) =>
   (
@@ -227,6 +229,20 @@ const routes = [
   {
     path : 'register',
     element : <Checkout />,
+    children : [
+      
+    ]
+  },
+  {
+    path : 'login',
+    element : <CurriculumDeveloperLogin />,
+    children : [
+      
+    ]
+  },
+  {
+    path : 'sign-up',
+    element : <CurriculumDeveloperSignUp />,
     children : [
       
     ]
