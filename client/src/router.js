@@ -6,6 +6,8 @@ import BaseLayout from './layouts/BaseLayout';
 
 import SuspenseLoader from './components/SuspenseLoader';
 import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
+import RegistrationForm from './content/pages/register';
+import Checkout from './content/pages/checkout';
 
 const Loader = (Component) => (props) =>
   (
@@ -218,6 +220,13 @@ const routes = [
   {
     path : 'curriculumDeveloper',
     element : <CurriculumDeveloperLayout />,
+    children : [
+      
+    ]
+  },
+  {
+    path : 'register',
+    element : <Checkout />,
     children : [
       
     ]
