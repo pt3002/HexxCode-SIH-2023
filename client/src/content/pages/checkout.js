@@ -37,7 +37,8 @@ import {
   } from "@material-ui/core";
 import { Search } from '@mui/icons-material';
 export default function CurriculumDeveloperRegistration() {
-  const [Data, setData] = React.useState({
+  const [stateVar, setStateVar] = React.useState({
+    Data: {
     email: '',
     name: '',
     contactNumber: '',
@@ -60,14 +61,18 @@ export default function CurriculumDeveloperRegistration() {
     research: '',
     previousWork: '',
     specializationDomain: '',
-  });
-   const [contacts, setContacts] = React.useState(Data.experiences);
+    password: '',
+    confirmPassword: '',
+  },
+  errors:{}
+});
+   const [contacts, setContacts] = React.useState(stateVar.Data.experiences);
    const [addFormData, setAddFormData] = React.useState({
     workPlace: "",
     rankDesignation: "",
     years: "",
   });
-  const [conQualifications, setConQualification] = React.useState(Data.qualifications);
+  const [conQualifications, setConQualification] = React.useState(stateVar.Data.qualifications);
    const [addFormDataQuali, setAddFormDataQuali] = React.useState({
     specialization: "",
     periodFrom: "",
@@ -75,25 +80,155 @@ export default function CurriculumDeveloperRegistration() {
   });
   const [periodFromDate, setPeriodFromDate] = React.useState(null);
   const [periodToDate, setPeriodToDate] = React.useState(null);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    //console.log(name, value)
-    setData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleChange = ({target}) => {
+    let errors = { ...stateVar.errors };
+    let Data = { ...stateVar.Data };
+    Data[target.name] = target.value;
+    console.log(target.name, target.value)
+    setStateVar({ Data: Data, errors: errors });
+    // const { name, value } = e.target;
+    // //console.log(name, value)
+    // setStateVar((prevData) => ({
+    //   ...prevData,
+    //   Data.name: value,
+    // }));
   };
+    const validateEmail = (email) => {
+        return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
     const handleSubmit = () => {
+        let { Data, errors } = stateVar;
         console.log('Form submitted:', Data);
+        console.log("date",Data.qualifications[1].periodFrom)
+        if (Data.experiences.length > 1) {
+            for (let index = 1; index < Data.experiences.length; index++) {
+                const hasEmptyField = Object.values(Data.experiences[index]).some((field) => field === "");
+        
+                if (hasEmptyField) {
+                    errors["experiences"] = "All subfields in Experiences should be filled";
+                    break;
+                } 
+                else {
+                    var isValidYears = /^\d+$/.test(Data.experiences[index].years) && parseInt(Data.experiences[index].years) >= 0 && parseInt(Data.experiences[index].years) <= 100;
+
+                    if (!isValidYears) {
+                        errors["experiences"] = "Years should be a numeric value between 0 and 100";
+                        break;
+                    } else {
+                        errors["experiences"] = "";
+                    }
+                }
+            }
+        } else {
+            errors["experiences"] = "";
+        }
+        if (Data.qualifications.length > 1) {
+            for (let index = 1; index < Data.qualifications.length; index++) {
+                const hasEmptyField = Object.values(Data.qualifications[index]).some((field) => field === "");
+        
+                if (hasEmptyField) {
+                    errors["qualifications"] = "All subfields in Qualifications should be filled";
+                    break;
+                } else {    
+                    var dateFrom = Data.qualifications[index].periodFrom.split("-")
+                    var dateTo= Data.qualifications[index].periodTo.split("-")
+                    console.log(dateFrom)
+                    console.log(dateTo)
+                    if ((Number(dateFrom[2])>Number(dateTo[2]))||((Number(dateFrom[2]) == Number(dateTo[2])) && (Number(dateFrom[1]) > Number(dateTo[1])))||((Number(dateFrom[2]) == Number(dateTo[2])) && (Number(dateFrom[1]) == Number(dateTo[1])) && (Number(dateFrom[0]) > Number(dateTo[0])))) {
+                        errors["qualifications"] = "Period From date should be less than Period To date";
+                        break
+                    } else {
+                        errors["qualifications"] = "";
+                    }
+                }
+            }
+        } else {
+            errors["qualifications"] = "";
+        }
+    
+        if (Data.name === "") {
+            errors["name"] = "Field cannot be empty";
+        } else {
+            errors["name"] = "";
+        }
+        if (Data.email === "") {
+            errors["email"] = "Email cannot be empty";
+        } else if(!validateEmail(Data.email)){
+            errors["email"] = "invalid email";
+        }else{
+            errors["email"] = "";
+        }
+        if (Data.contactNumber === "" ) {
+            errors["contactNumber"] = "Contact Number cannot be empty";
+        }else if (!new RegExp("^([0|+[0-9]{1,5})?([7-9][0-9]{9})$").test(Data.contactNumber)){
+            errors["contactNumber"] = "Invalid Contact Number";
+        }
+         else {
+            errors["contactNumber"] = "";
+        }
+        if (Data.specializationDomain === "") {
+            errors["specializationDomain"] = "Specialization Domain cannot be empty";
+        } else {
+            errors["specializationDomain"] = "";
+        }
+        if (Data.currentJob === "") {
+            errors["currentJob"] = "Current Job Domain cannot be empty";
+        } else {
+            errors["currentJob"] = "";
+        }
+        if (Data.previousWork === "") {
+            errors["previousWork"] = "Previous Work cannot be empty";
+        } else {
+            errors["previousWork"] = "";
+        }
+        if (Data.password === "") {
+            errors["password"] = "Password cannot be empty";
+        } else {
+            const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(Data.password)) {
+                errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
+            } else {
+                errors["password"] = "";
+            }
+        }
+    
+        if (Data.confirmPassword === "") {
+            errors["confirmPassword"] = "Confirm Password cannot be empty";
+        } else if (Data.password !== Data.confirmPassword) {
+            errors["confirmPassword"] = "Passwords do not match";
+        } else {
+            errors["confirmPassword"] = "";
+        }
+        let validate = true;
+
+        Object.keys(errors).map((error) => {
+          if (errors[error] !== "") {
+            validate = false;
+          }
+        });
+        if (validate == true) {
+            console.log("All data is correctly filled", Data)
+          } else {
+            console.log(errors)
+            alert("Please fill all data first");
+          }
     };
 
-    const professionalExperienceChange = (value) => {
-        setData((prevData) => ({
-            ...prevData,
-            experiences: value,
-        }));
-        console.log(contacts)
-    }
+    // const professionalExperienceChange = (value) => {
+    //     // let errors = { ...stateVar.errors };
+    //     // let Data = { ...stateVar.Data };
+    //     // Data[target.name] = target.value;
+    // //setStateVar({ Data: Data, errors: errors });
+    //     setStateVar((prevData) => ({
+    //         ...prevData,
+    //         experiences: value,
+    //     }));
+    //     console.log(contacts)
+    // }
     const handleDeleteClick = (contactId) => {
     const newContacts = [...contacts];
 
@@ -102,7 +237,8 @@ export default function CurriculumDeveloperRegistration() {
     newContacts.splice(index, 1);
 
     setContacts(newContacts);
-    professionalExperienceChange(newContacts)
+    handleChange({target:{name:"experiences", value:newContacts}})
+    // professionalExperienceChange(newContacts)
   };
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -141,16 +277,22 @@ const handleAddFormSubmit = (event) => {
     getValue2.value = "";
     var getValue3= document.getElementById("t4");
     getValue3.value = ""
-    professionalExperienceChange(newContacts)
+    handleChange({target:{name:"experiences", value:newContacts}})
+    setAddFormData({
+        workPlace: "",
+        rankDesignation: "",
+        years: "",
+      })
+    // professionalExperienceChange(newContacts)
 };
 //Qualifications
-    const qualificationsChange = (value) => {
-        setData((prevData) => ({
-            ...prevData,
-            qualifications: value,
-        }));
-        console.log(conQualifications)
-    }
+    // const qualificationsChange = (value) => {
+    //     setStateVar((prevData) => ({
+    //         ...prevData,
+    //         qualifications: value,
+    //     }));
+    //     console.log(conQualifications)
+    // }
     const handleDeleteClickQuali = (contactId) => {
         const newContacts = [...conQualifications];
 
@@ -159,7 +301,8 @@ const handleAddFormSubmit = (event) => {
         newContacts.splice(index, 1);
 
         setConQualification(newContacts);
-        qualificationsChange(newContacts)
+        handleChange({target:{name:"qualifications", value:newContacts}})
+        //qualificationsChange(newContacts)
     };
     const handleAddFormChangeQuali = (event) => {
         event.preventDefault();
@@ -191,7 +334,13 @@ const handleAddFormSubmit = (event) => {
         getValue2.value = "";
         var getValue3= document.getElementById("t7");
         getValue3.value = ""
-        qualificationsChange(newContacts)
+        handleChange({target:{name:"qualifications", value:newContacts}})
+        setAddFormDataQuali({
+            specialization: "",
+            periodFrom: "",
+            periodTo: "",
+          })
+        //qualificationsChange(newContacts)
     };
     const handleOnChangeDate = (name, value) => {
         const newFormData = { ...addFormDataQuali };
@@ -216,13 +365,6 @@ const handleAddFormSubmit = (event) => {
         }
         setAddFormDataQuali(newFormData);
       }
-      const handleOnChange = (target) => {
-        console.log(target)
-        // setGender(target.value)
-        // let data = { ...Data};
-        // data[target.name] = target.value;
-        // setData({ data: data });
-      };
       const arr = [
         { value: "male", label: "Male" },
         { value: "female", label: "Female" },
@@ -246,10 +388,13 @@ const handleAddFormSubmit = (event) => {
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography component="h1" variant="h4" align="center" sx={{ marginBottom: 5, fontSize: '1.5rem'}}>
             Curriculum Developer Registration
           </Typography>
-          <Grid container spacing={3}>
+          <Typography component="h2" variant="h4" align="left">
+            Personal Info
+          </Typography>
+          <Grid container spacing={3} marginBottom={5}>
             <Grid item xs={12} sm={6}>
               <TextField
                 required
@@ -259,7 +404,7 @@ const handleAddFormSubmit = (event) => {
                 fullWidth
                 autoComplete="email"
                 variant="standard"
-                value={Data.email}
+                value={stateVar.Data.email}
                 onChange={handleChange}
               />
             </Grid>
@@ -272,7 +417,7 @@ const handleAddFormSubmit = (event) => {
                 fullWidth
                 autoComplete="name"
                 variant="standard"
-                value={Data.name}
+                value={stateVar.Data.name}
                 onChange={handleChange}
               />
             </Grid>
@@ -285,33 +430,39 @@ const handleAddFormSubmit = (event) => {
                 fullWidth
                 autoComplete="tel"
                 variant="standard"
-                value={Data.contactNumber}
+                value={stateVar.Data.contactNumber}
                 onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
             <FormControl fullWidth>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
                     Gender
-                </InputLabel>
-                <NativeSelect
-                    defaultValue={30}
+                </InputLabel> */}
+                <Select
+                    label = "Gender"
+                    native
                     inputProps={{
                     name: 'gender',
                     id: 'uncontrolled-native',
                     }}
                     onChange={handleChange}
-                    value={Data.gender}
+                    value={stateVar.Data.gender}
                 >
                     {arr.map((choose) => (
 					<option key={choose.value} value={choose.value}>
 						{choose.label}
 					</option>
 				))}
-                </NativeSelect>
+                </Select>
             </FormControl>
              
             </Grid>
+            </Grid>
+            <Typography component="h2" variant="h4" align="left">
+            Qualification and Experience
+          </Typography>
+            <Grid container spacing={3} marginBottom={5}>
             <Grid item xs={20}>
             <TableContainer sx={{marginBottom : "20px", width: "100%"}}>
                 <TableHead>
@@ -515,6 +666,11 @@ const handleAddFormSubmit = (event) => {
                 </TableContainer>
 
               </Grid>
+              </Grid>
+              <Typography component="h2" variant="h4" align="left">
+            Other Information
+          </Typography>
+            <Grid container spacing={3} marginBottom={5}>
             <Grid item xs={12}>
                 <InputLabel variant="standard" htmlFor="uncontrolled-native">
                         Current Job
@@ -527,7 +683,7 @@ const handleAddFormSubmit = (event) => {
                     placeholder="Mention and describe about your current job"
                     minRows={1}
                     fullWidth
-                    value={Data.currentJob}
+                    value={stateVar.Data.currentJob}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -551,7 +707,7 @@ const handleAddFormSubmit = (event) => {
                     placeholder="List your areas of expertise/ research"
                     minRows={1}
                     fullWidth
-                    value={Data.research}
+                    value={stateVar.Data.research}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -575,7 +731,7 @@ const handleAddFormSubmit = (event) => {
                     placeholder="Mention your previous work/ Experience in Curriculum Designing"
                     minRows={1}
                     fullWidth
-                    value={Data.previousWork}
+                    value={stateVar.Data.previousWork}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -599,7 +755,7 @@ const handleAddFormSubmit = (event) => {
                     placeholder="Mention your domain of specialization"
                     minRows={1}
                     fullWidth
-                    value={Data.specializationDomain}
+                    value={stateVar.Data.specializationDomain}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -610,6 +766,32 @@ const handleAddFormSubmit = (event) => {
                         boxSizing: 'border-box', 
                     }}
                 />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="passwword"
+                name="password"
+                label="Password"
+                fullWidth
+                type="password"
+                variant="standard"
+                value={stateVar.Data.password}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="confirmPassword"
+                name="confirmPassword"
+                label="Confirm Password"
+                fullWidth
+                type="password"
+                variant="standard"
+                value={stateVar.Data.confirmPassword}
+                onChange={handleChange}
+              />
             </Grid>
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>
