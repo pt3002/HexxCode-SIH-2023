@@ -10,6 +10,9 @@ import TextField from '@mui/material/TextField';
 import { nanoid } from "nanoid";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -74,44 +77,12 @@ export default function CurriculumDeveloperRegistration() {
   const [periodToDate, setPeriodToDate] = React.useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
+    //console.log(name, value)
     setData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
-//   const handleQualificationChange = (index, value) => {
-//     const newQualifications = [...Data.qualifications];
-//     newQualifications[index] = value;
-//     setData((prevData) => ({
-//       ...prevData,
-//       qualifications: newQualifications,
-//     }));
-//   };
-
-//   const handleAddQualification = () => {
-//     setData((prevData) => ({
-//       ...prevData,
-//       qualifications: [...prevData.qualifications, ''],
-//     }));
-//   };
-
-//   const handleExperienceChange = (index, value) => {
-//     const newExperiences = [...Data.experiences];
-//     newExperiences[index] = value;
-//     setData((prevData) => ({
-//       ...prevData,
-//       experiences: newExperiences,
-//     }));
-//   };
-
-//   const handleAddExperience = () => {
-//     setData((prevData) => ({
-//       ...prevData,
-//       experiences: [...prevData.experiences, ''],
-//     }));
-//   };
-
     const handleSubmit = () => {
         console.log('Form submitted:', Data);
     };
@@ -203,13 +174,6 @@ const handleAddFormSubmit = (event) => {
     };
     const handleAddFormSubmitQuali = (event) => {
         event.preventDefault();
-        // console.log("run");
-        // companyName: ""
-        // rankDesignation: ""
-        // periodFrom: ""
-        // periodFrom: ""
-        // workNature: ""
-
         //console.log(addFormData)
 
         const newContact = {
@@ -252,11 +216,18 @@ const handleAddFormSubmit = (event) => {
         }
         setAddFormDataQuali(newFormData);
       }
-      const handleOnChange = ({ target }) => {
-        let data = { ...Data};
-        data[target.name] = target.value;
-        setData({ data: data });
+      const handleOnChange = (target) => {
+        console.log(target)
+        // setGender(target.value)
+        // let data = { ...Data};
+        // data[target.name] = target.value;
+        // setData({ data: data });
       };
+      const arr = [
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+        { value: "Other", label: "Other" },
+      ]
   return (
     <React.Fragment>
       <CssBaseline />
@@ -319,22 +290,27 @@ const handleAddFormSubmit = (event) => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-                <InputLabel id="gender-label">Gender</InputLabel>
-                <Select
-                    labelId="gender-label"
-                    id="gender"
-                    name="gender"
-                    fullWidth
+            <FormControl fullWidth>
+                <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                    Gender
+                </InputLabel>
+                <NativeSelect
+                    defaultValue={30}
+                    inputProps={{
+                    name: 'gender',
+                    id: 'uncontrolled-native',
+                    }}
+                    onChange={handleChange}
                     value={Data.gender}
-                    onChange={handleOnChange}
-                    label="Gender"
                 >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                    <MenuItem value="male">Male</MenuItem>
-                    <MenuItem value="female">Female</MenuItem>
-                    <MenuItem value="other">Other</MenuItem>
-                </div>
-                </Select>
+                    {arr.map((choose) => (
+					<option key={choose.value} value={choose.value}>
+						{choose.label}
+					</option>
+				))}
+                </NativeSelect>
+            </FormControl>
+             
             </Grid>
             <Grid item xs={20}>
             <TableContainer sx={{marginBottom : "20px", width: "100%"}}>
@@ -384,7 +360,7 @@ const handleAddFormSubmit = (event) => {
                                 textField: {
                                     required: true,
                                     id: 't6',
-                                    style: { width: '60%' }
+                                    style: { width: '55%' }
                                 }
                             }}
                             value = {periodFromDate}
@@ -395,8 +371,6 @@ const handleAddFormSubmit = (event) => {
                             ></DatePicker>
                           </DemoItem>
                         </DemoContainer>
-            {/* </LocalizationProvider>}
-        {    <LocalizationProvider dateAdapter={AdapterDayjs}> */}
                         <DemoContainer components={["DatePicker"]}>
                             {" "}
                             <DemoItem label="">
@@ -407,7 +381,7 @@ const handleAddFormSubmit = (event) => {
                                 textField: {
                                     required: true,
                                     id: 't7',
-                                    style: { width: '60%' }
+                                    style: { width: '55%' }
                                 }
                             }}
                             value = {periodToDate}
@@ -485,8 +459,9 @@ const handleAddFormSubmit = (event) => {
                 }
                 
                   </TableBody>
+                  <div style={{ display: 'flex', gap: '5px', height: '60px' }}>
                   <TextField
-					label="Name of the company"
+					label="Working Place"
 					// color={color ? color : "primary"}
 					variant="standard"
                     type = "search"
@@ -494,7 +469,7 @@ const handleAddFormSubmit = (event) => {
 					// fullWidth={true}
 					size="small"
 					onChange={handleAddFormChange}
-					style={{ margin: "5px", width: '30%' }}
+					style={{ margin: "5px", width: '28%' }}
                     id = "t1"
 				/>
 				<TextField
@@ -505,7 +480,7 @@ const handleAddFormSubmit = (event) => {
 					name="rankDesignation"
 					// fullWidth={true}
 					size="small"
-					style={{ margin: "5px", width: '28%' }}
+					style={{ margin: "5px", width: '27%' }}
 					onChange={handleAddFormChange}
                     id = "t2"
 				/>
@@ -517,7 +492,7 @@ const handleAddFormSubmit = (event) => {
 					name="years"
 					// fullWidth={true}
 					size="small"
-					style={{ margin: "5px", width: '28%' }}
+					style={{ margin: "5px", width: '27%' }}
 					onChange={handleAddFormChange}
                     id = "t4"
 				/>
@@ -536,62 +511,108 @@ const handleAddFormSubmit = (event) => {
               label: "Add",
               handleOnClick: handleAddFormSubmit,
             })}
+            </div>
                 </TableContainer>
 
               </Grid>
             <Grid item xs={12}>
-              <TextareaAutosize
-                required
-                id="currentJob"
-                name="currentJob"
-                aria-label="Current Job"
-                placeholder="Current Job"
-                minRows={3}
-                fullWidth
-                value={Data.currentJob}
-                onChange={handleChange}
-              />
+                <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                        Current Job
+                </InputLabel>
+                <TextareaAutosize
+                    required
+                    id="currentJob"
+                    name="currentJob"
+                    aria-label=""
+                    placeholder="Mention and describe about your current job"
+                    minRows={1}
+                    fullWidth
+                    value={Data.currentJob}
+                    onChange={handleChange}
+                    style={{
+                        padding: '10px', 
+                        fontSize: '16px', 
+                        border: '1px solid #ccc', 
+                        borderRadius: '5px', 
+                        width: '100%',
+                        boxSizing: 'border-box', 
+                    }}
+                    />
             </Grid>
             <Grid item xs={12}>
-              <TextareaAutosize
-                required
-                id="research"
-                name="research"
-                aria-label="Research"
-                placeholder="Research"
-                minRows={3}
-                fullWidth
-                value={Data.research}
-                onChange={handleChange}
-              />
+                <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                        Research
+                </InputLabel>
+                <TextareaAutosize
+                    required
+                    id="research"
+                    name="research"
+                    aria-label=""
+                    placeholder="List your areas of expertise/ research"
+                    minRows={1}
+                    fullWidth
+                    value={Data.research}
+                    onChange={handleChange}
+                    style={{
+                        padding: '10px', 
+                        fontSize: '16px', 
+                        border: '1px solid #ccc', 
+                        borderRadius: '5px', 
+                        width: '100%',
+                        boxSizing: 'border-box', 
+                    }}
+                />
             </Grid>
             <Grid item xs={12}>
-              <TextareaAutosize
-                required
-                id="previousWork"
-                name="previousWork"
-                aria-label="Previous Curriculum Development Work"
-                placeholder="Any previous curriculum development work"
-                minRows={3}
-                fullWidth
-                value={Data.previousWork}
-                onChange={handleChange}
-              />
+            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                        Previous Work
+                </InputLabel>
+                <TextareaAutosize
+                    required
+                    id="previousWork"
+                    name="previousWork"
+                    aria-label=""
+                    placeholder="Mention your previous work/ Experience in Curriculum Designing"
+                    minRows={1}
+                    fullWidth
+                    value={Data.previousWork}
+                    onChange={handleChange}
+                    style={{
+                        padding: '10px', 
+                        fontSize: '16px', 
+                        border: '1px solid #ccc', 
+                        borderRadius: '5px', 
+                        width: '100%',
+                        boxSizing: 'border-box', 
+                    }}
+                />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                id="specializationDomain"
-                name="specializationDomain"
-                label="Specialization Domain"
-                fullWidth
-                variant="standard"
-                value={Data.specializationDomain}
-                onChange={handleChange}
-              />
+            <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                        Specialization
+                </InputLabel>
+                <TextareaAutosize
+                    required
+                    id="specializationDomain"
+                    name="specializationDomain"
+                    aria-label=""
+                    placeholder="Mention your domain of specialization"
+                    minRows={1}
+                    fullWidth
+                    value={Data.specializationDomain}
+                    onChange={handleChange}
+                    style={{
+                        padding: '10px', 
+                        fontSize: '16px', 
+                        border: '1px solid #ccc', 
+                        borderRadius: '5px', 
+                        width: '100%',
+                        boxSizing: 'border-box', 
+                    }}
+                />
             </Grid>
           </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>
             <Button variant="contained" onClick={handleSubmit} sx={{ mt: 3, ml: 1 }}>
               Register
             </Button>
