@@ -73,8 +73,12 @@ export default function CurriculumDeveloperSignUp() {
             <Container component="main"  sx={{ mb: 4 ,width: 500}}  direction="column">
                  <Paper variant="outlined" sx={{ my: { xs: 7, md: 6 }, p: { xs: 2, md: 3 },borderRadius: 2.5}} >
 
+                 <Grid align="center" sx={{mt: 1,mb:4}}>
+                <img src="./static/images/logo/logo_new.png" alt="aicte" />
+                </Grid>
+
                     <Grid align="center">
-                    <Avatar sx={{width: 56, height: 56}} ><AccountCircleIcon /></Avatar>
+                    {/* <Avatar sx={{width: 56, height: 56}} ><AccountCircleIcon /></Avatar> */}
                     <h1>Create Account</h1>
                     </Grid>
 
@@ -117,7 +121,7 @@ export default function CurriculumDeveloperSignUp() {
 
                     <Grid align="center"  item xs={12} sm={6}
                     sx={{ mt: 2 }}>
-                        <Button type="submit" color="primary" variant="contained" sx={{width: 400, height: 46}} onClick={handleSubmit}>
+                        <Button type="submit" color="primary" variant="contained" sx={{width: 400, height: 46,bgcolor:'#ff865b'}} onClick={handleSubmit}>
                             Sign In
                         </Button>
                     </Grid>
