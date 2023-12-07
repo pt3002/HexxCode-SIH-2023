@@ -10,7 +10,9 @@ import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from '@mui/material/Link';
 import { Avatar,ButtonGroup } from '@mui/material';
+import {getUsers} from './signup-user';
 
+// const users=getUsers();
 export default function CurriculumDeveloperLogin() {
     const [Data, setData] = React.useState({
         email: '',
@@ -32,7 +34,14 @@ export default function CurriculumDeveloperLogin() {
     // };
     const handleSubmit = (event) => {
         event.preventDefault();
+        // console.log(users);
+        // if(users.some(user=>(user.email===Data.email && user.password===Data.password)))
+        {
         console.log("Logged In Successfully : ",Data);
+        }
+        // else{
+        //     console.log("incorrect credentials")
+        // }
       };
     return(
         

@@ -11,6 +11,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Link from '@mui/material/Link';
 import { Avatar ,Alert,AlertTitle} from '@mui/material';
 
+export let users=[];
 export default function CurriculumDeveloperSignUp() {
     const [Data, setData] = React.useState({
         email: '',
@@ -20,7 +21,7 @@ export default function CurriculumDeveloperSignUp() {
 
     const [showErrorAlert, setShowErrorAlert] = React.useState(false);
 
-    const user={};
+    
     // const [email, setEmail] = React.useState('')
     
 
@@ -43,8 +44,14 @@ export default function CurriculumDeveloperSignUp() {
             //     setShowErrorAlert(false);
             // },5000);
         }
+        else if(users.some(user=>user.email===Data.email)){
+            console.log(`user with ${Data.email} email already exists  `);
+        }
         else{
             console.log("Created User Successfully : ",Data);
+            users.push({"email":Data.email,"password":Data.password});
+            console.log(users);
+
         }
         
       };
@@ -122,7 +129,7 @@ export default function CurriculumDeveloperSignUp() {
                     <Grid align="center"  item xs={12} sm={6}
                     sx={{ mt: 2 }}>
                         <Button type="submit" color="primary" variant="contained" sx={{width: 400, height: 46,bgcolor:'#ff865b'}} onClick={handleSubmit}>
-                            Sign In
+                            Sign Up
                         </Button>
                     </Grid>
 
@@ -130,11 +137,15 @@ export default function CurriculumDeveloperSignUp() {
 
                     <Typography variant="h6" color="inherit" align="center" noWrap sx={{mx:{xs: 7, md: 6},mt:2 ,fontSize: 12}} >
                         Already have an account?
-                        <Link to="/login" color='secondary'>Click to Sign In</Link>
+                        <Link href="/login" color='secondary'>Click to Sign In</Link>
                     </Typography>
                  
                  </Paper>
             </Container>
         </React.Fragment>
     )
+}
+
+export function getUsers(){
+    return users;
 }
