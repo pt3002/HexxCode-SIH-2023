@@ -10,31 +10,38 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
-
+import { backendURL } from "../../../configKeys";
+import axios from "axios";
+import Swal from "sweetalert2";
+const uuid = require("uuid").v4;
 const columns = [
-  { field: "id", headerName: "ID", width: 90 },
-
   {
-    field: "Name",
+    field: "name",
     headerName: "Name",
     width: 150,
     editable: true,
   },
   {
     field: "email",
-    headerName: "email",
+    headerName: "Email",
     width: 150,
     editable: true,
   },
   {
     field: "college",
-    headerName: "college",
+    headerName: "College",
     width: 110,
     editable: true,
   },
   {
     field: "department",
     headerName: "Department",
+    width: 110,
+    editable: true,
+  },
+  {
+    field: "designation",
+    headerName: "Designation",
     width: 110,
     editable: true,
   },
@@ -52,97 +59,16 @@ const columns = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    Name: "Jon",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "5-5-5",
-    last_login_date: "",
-  },
-  {
-    id: 2,
-    Name: "Cersei",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "12-12-12",
-    last_login_date: "",
-  },
-  {
-    id: 3,
-    lastName: "Lannister",
-    Name: "Jaime",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "10-10-10",
-    last_login_date: "",
-  },
-  {
-    id: 4,
-    Name: "Arya",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "4-4-4",
-    last_login_date: "",
-  },
-  {
-    id: 5,
-    Name: "Daenerys",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "12-12-12",
-    last_login_date: "",
-  },
-  {
-    id: 6,
-    Name: "Sheldon",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "11-11-11",
-    last_login_date: "",
-  },
-  {
-    id: 7,
-    Name: "Ferrara",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "9-9-9",
-    last_login_date: "",
-  },
-  {
-    id: 8,
-    Name: "Rossini",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "7-7-7",
-    last_login_date: "",
-  },
-  {
-    id: 9,
-    Name: "Harvey",
-    email: "demo@gmail.com",
-    college: "SPPU",
-    department: "CS",
-    creation_date: "5-5-5",
-    last_login_date: "",
-  },
-];
-
-export default function AddDepartment() {
+export default function AddDepartmentHeads() {
   const [open, setOpen] = React.useState(false);
+  const [rows, setRows] = useState([]);
   const [newDepartmentHead, setNewDepartmentHead] = useState({
     deptHead_id: "",
-    deptHead_lastname: "",
+    deptHead_name: "",
     deptHead_email: "",
     deptHead_college: "",
+    deptHead_department: "",
+    deptHead_designation: "",
     deptHead_creationDate: "",
     deptHead_lastlogin: "",
   });
@@ -150,9 +76,11 @@ export default function AddDepartment() {
   const handleClickOpen = () => {
     setNewDepartmentHead({
       deptHead_id: "",
-      deptHead_lastname: "",
+      deptHead_name: "",
       deptHead_email: "",
       deptHead_college: "",
+      deptHead_department: "",
+      deptHead_designation: "",
       deptHead_creationDate: "",
       deptHead_lastlogin: "",
     });
@@ -160,9 +88,56 @@ export default function AddDepartment() {
   };
 
   const handleClose = () => {
+    // console.log(newDepartmentHead);
+    setOpen(false);
+  };
+
+  const handleAddDepartmentHead = () => {
+    let body = {
+      id: uuid(),
+      email: newDepartmentHead.deptHead_email,
+      password: Math.random().toString(36).substring(2, 7),
+      name: newDepartmentHead.deptHead_name,
+      department: newDepartmentHead.deptHead_department,
+      college: newDepartmentHead.deptHead_college,
+      designation: newDepartmentHead.deptHead_designation,
+    };
+
+    axios
+      .post(backendURL + "/AICTEAdmin/addDepartmentHead", body)
+      .then((res) => {
+        if (res.data.message) {
+          Swal.fire({
+            icon: "success",
+            title: "SUCCESS",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then((confirm) => {
+            if (confirm) {
+              window.location.reload();
+            }
+          });
+        } else if (res.data.error) {
+          Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: res.data.error,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+      });
     console.log(newDepartmentHead);
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    axios.get(backendURL + "/AICTEAdmin/getAllDepartmentHeads").then((res) => {
+      console.log(res.data.heads);
+      setRows(res.data.heads);
+    });
+  }, []);
   return (
     <>
       <Button
@@ -183,11 +158,11 @@ export default function AddDepartment() {
           initialState={{
             pagination: {
               paginationModel: {
-                pcollegeSize: 5,
+                pageSize: 5,
               },
             },
           }}
-          pcollegeSizeOptions={[5]}
+          pageSizeOptions={[5]}
           checkboxSelection
           disableRowSelectionOnClick
         />
@@ -206,14 +181,14 @@ export default function AddDepartment() {
             margin="dense"
             id="name"
             label="Name"
-            type="email"
+            type="text"
             fullWidth
             variant="standard"
-            value={newDepartmentHead.deptHead_firstname}
+            value={newDepartmentHead.deptHead_name}
             onChange={(e) => {
               setNewDepartmentHead({
                 ...newDepartmentHead,
-                deptHead_firstname: e.target.value,
+                deptHead_name: e.target.value,
               });
             }}
           />
@@ -241,6 +216,12 @@ export default function AddDepartment() {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(e) => {
+              setNewDepartmentHead({
+                ...newDepartmentHead,
+                deptHead_college: e.target.value,
+              });
+            }}
           />
           <TextField
             autoFocus
@@ -250,6 +231,12 @@ export default function AddDepartment() {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(e) => {
+              setNewDepartmentHead({
+                ...newDepartmentHead,
+                deptHead_designation: e.target.value,
+              });
+            }}
           />
           <TextField
             autoFocus
@@ -259,11 +246,17 @@ export default function AddDepartment() {
             type="text"
             fullWidth
             variant="standard"
+            onChange={(e) => {
+              setNewDepartmentHead({
+                ...newDepartmentHead,
+                deptHead_department: e.target.value,
+              });
+            }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleAddDepartmentHead}>Add</Button>
         </DialogActions>
       </Dialog>
     </>
