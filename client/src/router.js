@@ -11,6 +11,13 @@ import Checkout from './content/pages/checkout';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import CurriculumDeveloperSignUp from './content/pages/signup-user';
 
+import AICTELayout from './layouts/AICTELayout'
+import AddSubjHeads from './content/pages/AICTE/AddDeptHeads';
+import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
+import AddDepartment from './content/pages/AICTE/AddDepartment';
+import NotifyCDS from './content/pages/AICTE/NotifyCDS';
+import NotifyEducators from './content/pages/AICTE/NotifyEducators';
+
 const Loader = (Component) => (props) =>
   (
     <Suspense fallback={<SuspenseLoader />}>
@@ -246,7 +253,29 @@ const routes = [
     children : [
       
     ]
-  }
+  },
+  {
+    path : 'aicte',
+    element : <AICTELayout />,
+    children : [
+      {
+        path: 'addDeptHeads',
+        element: <AddDeptHeads />
+      },
+      {
+        path: 'addDepartment',
+        element: <AddDepartment />
+      },
+      {
+        path: 'notifyCD',
+        element: <NotifyCDS />
+      },
+      {
+        path: 'notifyEducators',
+        element: <NotifyEducators/>
+      },
+    ]
+  },
 ];
 
 export default routes;
