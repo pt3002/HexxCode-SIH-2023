@@ -7,7 +7,7 @@ import BaseLayout from './layouts/BaseLayout';
 import SuspenseLoader from './components/SuspenseLoader';
 import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
 import RegistrationForm from './content/pages/register';
-import Checkout from './content/pages/checkout';
+import Checkout from './content/pages/registerSteps';
 
 const Loader = (Component) => (props) =>
   (

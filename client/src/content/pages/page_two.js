@@ -36,13 +36,9 @@ import {
     TableContainer,
   } from "@material-ui/core";
 import { Search } from '@mui/icons-material';
-export default function CurriculumDeveloperRegistration() {
+export default function Page2() {
   const [stateVar, setStateVar] = React.useState({
     Data: {
-    email: '',
-    name: '',
-    contactNumber: '',
-    gender: '',
     qualifications: [
         {
         specialization: '',
@@ -57,12 +53,6 @@ export default function CurriculumDeveloperRegistration() {
           years: '',
         },
       ], 
-    currentJob: '',
-    research: '',
-    previousWork: '',
-    specializationDomain: '',
-    password: '',
-    confirmPassword: '',
   },
   errors:{}
 });
@@ -148,60 +138,6 @@ export default function CurriculumDeveloperRegistration() {
             }
         } else {
             errors["qualifications"] = "";
-        }
-    
-        if (Data.name === "") {
-            errors["name"] = "Field cannot be empty";
-        } else {
-            errors["name"] = "";
-        }
-        if (Data.email === "") {
-            errors["email"] = "Email cannot be empty";
-        } else if(!validateEmail(Data.email)){
-            errors["email"] = "invalid email";
-        }else{
-            errors["email"] = "";
-        }
-        if (Data.contactNumber === "" ) {
-            errors["contactNumber"] = "Contact Number cannot be empty";
-        }else if (!new RegExp("^([0|+[0-9]{1,5})?([7-9][0-9]{9})$").test(Data.contactNumber)){
-            errors["contactNumber"] = "Invalid Contact Number";
-        }
-         else {
-            errors["contactNumber"] = "";
-        }
-        if (Data.specializationDomain === "") {
-            errors["specializationDomain"] = "Specialization Domain cannot be empty";
-        } else {
-            errors["specializationDomain"] = "";
-        }
-        if (Data.currentJob === "") {
-            errors["currentJob"] = "Current Job Domain cannot be empty";
-        } else {
-            errors["currentJob"] = "";
-        }
-        if (Data.previousWork === "") {
-            errors["previousWork"] = "Previous Work cannot be empty";
-        } else {
-            errors["previousWork"] = "";
-        }
-        if (Data.password === "") {
-            errors["password"] = "Password cannot be empty";
-        } else {
-            const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            if (!passwordRegex.test(Data.password)) {
-                errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
-            } else {
-                errors["password"] = "";
-            }
-        }
-    
-        if (Data.confirmPassword === "") {
-            errors["confirmPassword"] = "Confirm Password cannot be empty";
-        } else if (Data.password !== Data.confirmPassword) {
-            errors["confirmPassword"] = "Passwords do not match";
-        } else {
-            errors["confirmPassword"] = "";
         }
         let validate = true;
 
@@ -387,78 +323,6 @@ const handleAddFormSubmit = (event) => {
         </Typography>
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center" sx={{ marginBottom: 5, fontSize: '1.5rem'}}>
-            Curriculum Developer Registration
-          </Typography>
-          <Typography component="h2" variant="h4" align="left">
-            Personal Info
-          </Typography>
-          <Grid container spacing={3} marginBottom={5}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="email"
-                name="email"
-                label="Email"
-                fullWidth
-                autoComplete="email"
-                variant="standard"
-                value={stateVar.Data.email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="name"
-                name="name"
-                label="Name"
-                fullWidth
-                autoComplete="name"
-                variant="standard"
-                value={stateVar.Data.name}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="contactNumber"
-                name="contactNumber"
-                label="Contact Number"
-                fullWidth
-                autoComplete="tel"
-                variant="standard"
-                value={stateVar.Data.contactNumber}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-                {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    Gender
-                </InputLabel> */}
-                <Select
-                    label = "Gender"
-                    native
-                    inputProps={{
-                    name: 'gender',
-                    id: 'uncontrolled-native',
-                    }}
-                    onChange={handleChange}
-                    value={stateVar.Data.gender}
-                >
-                    {arr.map((choose) => (
-					<option key={choose.value} value={choose.value}>
-						{choose.label}
-					</option>
-				))}
-                </Select>
-            </FormControl>
-             
-            </Grid>
-            </Grid>
             <Typography component="h2" variant="h4" align="left">
             Qualification and Experience
           </Typography>
@@ -486,7 +350,7 @@ const handleAddFormSubmit = (event) => {
                 }
                 
                   </TableBody>
-                  <div style={{ display: 'flex', gap: '5px' }}>
+                  <div style={{ display: 'flex', gap: '2px' }}>
                   <TextField
 					label="Specialization"
 					// color={color ? color : "primary"}
@@ -667,139 +531,11 @@ const handleAddFormSubmit = (event) => {
 
               </Grid>
               </Grid>
-              <Typography component="h2" variant="h4" align="left">
-            Other Information
-          </Typography>
-            <Grid container spacing={3} marginBottom={5}>
-            <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Current Job
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="currentJob"
-                    name="currentJob"
-                    aria-label=""
-                    placeholder="Mention and describe about your current job"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.currentJob}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                    />
-            </Grid>
-            <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Research
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="research"
-                    name="research"
-                    aria-label=""
-                    placeholder="List your areas of expertise/ research"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.research}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Previous Work
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="previousWork"
-                    name="previousWork"
-                    aria-label=""
-                    placeholder="Mention your previous work/ Experience in Curriculum Designing"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.previousWork}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Specialization
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="specializationDomain"
-                    name="specializationDomain"
-                    aria-label=""
-                    placeholder="Mention your domain of specialization"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.specializationDomain}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="passwword"
-                name="password"
-                label="Password"
-                fullWidth
-                type="password"
-                variant="standard"
-                value={stateVar.Data.password}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="confirmPassword"
-                name="confirmPassword"
-                label="Confirm Password"
-                fullWidth
-                type="password"
-                variant="standard"
-                value={stateVar.Data.confirmPassword}
-                onChange={handleChange}
-              />
-            </Grid>
-          </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>
+              {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>
             <Button variant="contained" onClick={handleSubmit} sx={{ mt: 3, ml: 1 }}>
-              Register
+              Save
             </Button>
-          </Box>
-        </Paper>
+          </Box> */}
       </Container>
     </React.Fragment>
   );
