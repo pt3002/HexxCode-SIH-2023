@@ -10,6 +10,7 @@ import RegistrationForm from './content/pages/register';
 import Checkout from './content/pages/checkout';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import CurriculumDeveloperSignUp from './content/pages/signup-user';
+import SubjectsForResources from './content/pages/CD/subjectsForResources';
 
 import AICTELayout from './layouts/AICTELayout'
 import AddSubjHeads from './content/pages/AICTE/AddDeptHeads';
@@ -230,7 +231,10 @@ const routes = [
     path : 'curriculumDeveloper',
     element : <CurriculumDeveloperLayout />,
     children : [
-      
+      {
+        path : 'subjects',
+        element : <SubjectsForResources />
+      }
     ]
   },
   {
