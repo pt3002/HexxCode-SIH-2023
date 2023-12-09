@@ -281,6 +281,17 @@ function SidebarMenu() {
                   Discussion Forum
                 </Button>
               </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/aicte/addGuidelines"
+                  startIcon={<GroupsIcon />}
+                >
+                  Add Guidelines
+                </Button>
+              </ListItem>
               {/* <ListItem component="div">
                 <Button
                   disableRipple
