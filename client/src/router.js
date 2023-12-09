@@ -6,8 +6,10 @@ import BaseLayout from './layouts/BaseLayout';
 
 import SuspenseLoader from './components/SuspenseLoader';
 import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
-import RegistrationForm from './content/pages/register';
-import Checkout from './content/pages/checkout';
+import Checkout from './content/pages/registerSteps';
+import Page1New from './content/pages/page_one_new';
+import Page2New from './content/pages/page_two_new';
+import Page3New from './content/pages/page_three_new';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
 
@@ -237,10 +239,29 @@ const routes = [
     ]
   },
   {
-    path : 'register',
+    path : '/register',
     element : <Checkout />,
     children : [
-      
+      {
+        path: 'page1',
+        element: <Page1New />
+      },
+      {
+        path: '',
+        element: <Navigate to="page2" replace />
+      },
+      {
+        path: 'page2',
+        element: <Page2New />
+      },
+      {
+        path: '',
+        element: <Navigate to="page3" replace />
+      },
+      {
+        path: 'page3',
+        element: <Page3New />
+      }
     ]
   },
   {

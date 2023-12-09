@@ -3,8 +3,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
+
+
+
+
+
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { nanoid } from "nanoid";
@@ -13,7 +24,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 
-import Button from '@mui/material/Button';
+
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -28,6 +39,7 @@ import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useNavigate } from 'react-router';
 import {
     Table,
     TableBody,
@@ -36,13 +48,40 @@ import {
     TableContainer,
   } from "@material-ui/core";
 import { Search } from '@mui/icons-material';
-export default function CurriculumDeveloperRegistration() {
+// import Page1 from './page_one'
+// import Page2 from './page_two';
+// import Page3 from './page_three'
+
+
+const steps = ['Personal Information', 'Academic and Work Details', 'Other Details'];
+
+// function getStepContent(step) {
+//   switch (step) {
+//     case 0:
+//       return <Page1 />;
+//     case 1:
+//       return <Page2 />;
+//     case 2:
+//       return <Page3 />;
+//     default:
+//       throw new Error('Unknown step');
+//   }
+// }
+
+export default function Page2New() {
+  const [activeStep, setActiveStep] = React.useState(1);
+
+  const handleNext = () => {
+    setActiveStep(activeStep + 1);
+  };
+  const handleBack = () =>{
+    setActiveStep(activeStep - 1);
+    navigate("/register/page1")
+  }
+
+  const navigate = useNavigate();
   const [stateVar, setStateVar] = React.useState({
     Data: {
-    email: '',
-    name: '',
-    contactNumber: '',
-    gender: '',
     qualifications: [
         {
         specialization: '',
@@ -57,12 +96,6 @@ export default function CurriculumDeveloperRegistration() {
           years: '',
         },
       ], 
-    currentJob: '',
-    research: '',
-    previousWork: '',
-    specializationDomain: '',
-    password: '',
-    confirmPassword: '',
   },
   errors:{}
 });
@@ -103,7 +136,6 @@ export default function CurriculumDeveloperRegistration() {
     const handleSubmit = () => {
         let { Data, errors } = stateVar;
         console.log('Form submitted:', Data);
-        console.log("date",Data.qualifications[1].periodFrom)
         if (Data.experiences.length > 1) {
             for (let index = 1; index < Data.experiences.length; index++) {
                 const hasEmptyField = Object.values(Data.experiences[index]).some((field) => field === "");
@@ -149,60 +181,6 @@ export default function CurriculumDeveloperRegistration() {
         } else {
             errors["qualifications"] = "";
         }
-    
-        if (Data.name === "") {
-            errors["name"] = "Field cannot be empty";
-        } else {
-            errors["name"] = "";
-        }
-        if (Data.email === "") {
-            errors["email"] = "Email cannot be empty";
-        } else if(!validateEmail(Data.email)){
-            errors["email"] = "invalid email";
-        }else{
-            errors["email"] = "";
-        }
-        if (Data.contactNumber === "" ) {
-            errors["contactNumber"] = "Contact Number cannot be empty";
-        }else if (!new RegExp("^([0|+[0-9]{1,5})?([7-9][0-9]{9})$").test(Data.contactNumber)){
-            errors["contactNumber"] = "Invalid Contact Number";
-        }
-         else {
-            errors["contactNumber"] = "";
-        }
-        if (Data.specializationDomain === "") {
-            errors["specializationDomain"] = "Specialization Domain cannot be empty";
-        } else {
-            errors["specializationDomain"] = "";
-        }
-        if (Data.currentJob === "") {
-            errors["currentJob"] = "Current Job Domain cannot be empty";
-        } else {
-            errors["currentJob"] = "";
-        }
-        if (Data.previousWork === "") {
-            errors["previousWork"] = "Previous Work cannot be empty";
-        } else {
-            errors["previousWork"] = "";
-        }
-        if (Data.password === "") {
-            errors["password"] = "Password cannot be empty";
-        } else {
-            const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            if (!passwordRegex.test(Data.password)) {
-                errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
-            } else {
-                errors["password"] = "";
-            }
-        }
-    
-        if (Data.confirmPassword === "") {
-            errors["confirmPassword"] = "Confirm Password cannot be empty";
-        } else if (Data.password !== Data.confirmPassword) {
-            errors["confirmPassword"] = "Passwords do not match";
-        } else {
-            errors["confirmPassword"] = "";
-        }
         let validate = true;
 
         Object.keys(errors).map((error) => {
@@ -212,6 +190,7 @@ export default function CurriculumDeveloperRegistration() {
         });
         if (validate == true) {
             console.log("All data is correctly filled", Data)
+            navigate("/register/page3")
           } else {
             console.log(errors)
             alert("Please fill all data first");
@@ -370,6 +349,7 @@ const handleAddFormSubmit = (event) => {
         { value: "female", label: "Female" },
         { value: "Other", label: "Other" },
       ]
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -382,83 +362,53 @@ const handleAddFormSubmit = (event) => {
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       >
-        <Typography variant="h6" color="inherit" noWrap>
-          {/* Your Website */}
-        </Typography>
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center" sx={{ marginBottom: 5, fontSize: '1.5rem'}}>
+          <Typography
+            component="h1"
+            variant="h4"
+            align="center"
+            style={{ fontSize: '1.5rem', margin: '20px' }}
+            >
             Curriculum Developer Registration
-          </Typography>
-          <Typography component="h2" variant="h4" align="left">
-            Personal Info
-          </Typography>
-          <Grid container spacing={3} marginBottom={5}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="email"
-                name="email"
-                label="Email"
-                fullWidth
-                autoComplete="email"
-                variant="standard"
-                value={stateVar.Data.email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="name"
-                name="name"
-                label="Name"
-                fullWidth
-                autoComplete="name"
-                variant="standard"
-                value={stateVar.Data.name}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="contactNumber"
-                name="contactNumber"
-                label="Contact Number"
-                fullWidth
-                autoComplete="tel"
-                variant="standard"
-                value={stateVar.Data.contactNumber}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-                {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    Gender
-                </InputLabel> */}
-                <Select
-                    label = "Gender"
-                    native
-                    inputProps={{
-                    name: 'gender',
-                    id: 'uncontrolled-native',
-                    }}
-                    onChange={handleChange}
-                    value={stateVar.Data.gender}
-                >
-                    {arr.map((choose) => (
-					<option key={choose.value} value={choose.value}>
-						{choose.label}
-					</option>
-				))}
-                </Select>
-            </FormControl>
-             
-            </Grid>
-            </Grid>
+            </Typography>
+
+          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === steps.length ? (
+            <React.Fragment>
+              <Typography variant="h5" gutterBottom>
+                Successfully Registered.
+              </Typography>
+              <Typography variant="subtitle1">
+                To confirm your registration check the otp sent in your email.
+              </Typography>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {/* {getStepContent(activeStep)} */}
+              <React.Fragment>
+      {/* <CssBaseline /> */}
+      <AppBar
+        position="absolute"
+        color="default"
+        elevation={0}
+        sx={{
+          position: 'relative',
+        //   borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        }}
+      >
+        {/* <Typography variant="h6" color="inherit" noWrap>
+        Qualification and Experience
+        </Typography> */}
+      </AppBar>
+      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
             <Typography component="h2" variant="h4" align="left">
             Qualification and Experience
           </Typography>
@@ -486,17 +436,17 @@ const handleAddFormSubmit = (event) => {
                 }
                 
                   </TableBody>
-                  <div style={{ display: 'flex', gap: '5px' }}>
+                  <div style={{ display: 'flex', gap: '2px' }}>
                   <TextField
 					label="Specialization"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="specialization"
 					// fullWidth={true}
-					size="small"
+					size="medium"
 					onChange={handleAddFormChangeQuali}
-					style={{ margin: "5px", width: '25%' }}
+					style={{margin:"9px", width: '25%', marginRight:"25px" }}
                     id = "t5"
 				/>
                 
@@ -511,7 +461,7 @@ const handleAddFormSubmit = (event) => {
                                 textField: {
                                     required: true,
                                     id: 't6',
-                                    style: { width: '55%' }
+                                    style: { width: '80%' }
                                 }
                             }}
                             value = {periodFromDate}
@@ -532,7 +482,7 @@ const handleAddFormSubmit = (event) => {
                                 textField: {
                                     required: true,
                                     id: 't7',
-                                    style: { width: '55%' }
+                                    style: { width: '80%' }
                                 }
                             }}
                             value = {periodToDate}
@@ -610,40 +560,40 @@ const handleAddFormSubmit = (event) => {
                 }
                 
                   </TableBody>
-                  <div style={{ display: 'flex', gap: '5px', height: '60px' }}>
+                  <div style={{ display: 'flex', gap: '2px', height:"68px" }}>
                   <TextField
 					label="Working Place"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="workPlace"
 					// fullWidth={true}
 					size="small"
 					onChange={handleAddFormChange}
-					style={{ margin: "5px", width: '28%' }}
+					style={{ margin: "9px", width: '27%' }}
                     id = "t1"
 				/>
 				<TextField
 					label="Designation and Rank"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="rankDesignation"
 					// fullWidth={true}
 					size="small"
-					style={{ margin: "5px", width: '27%' }}
+					style={{ margin: "9px", width: '27%' }}
 					onChange={handleAddFormChange}
                     id = "t2"
 				/>
                 <TextField
 					label="Years"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="years"
 					// fullWidth={true}
 					size="small"
-					style={{ margin: "5px", width: '27%' }}
+					style={{ margin: "9px", width: '27%', marginRight:"33px" }}
 					onChange={handleAddFormChange}
                     id = "t4"
 				/>
@@ -667,138 +617,25 @@ const handleAddFormSubmit = (event) => {
 
               </Grid>
               </Grid>
-              <Typography component="h2" variant="h4" align="left">
-            Other Information
-          </Typography>
-            <Grid container spacing={3} marginBottom={5}>
-            <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Current Job
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="currentJob"
-                    name="currentJob"
-                    aria-label=""
-                    placeholder="Mention and describe about your current job"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.currentJob}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                    />
-            </Grid>
-            <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Research
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="research"
-                    name="research"
-                    aria-label=""
-                    placeholder="List your areas of expertise/ research"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.research}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Previous Work
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="previousWork"
-                    name="previousWork"
-                    aria-label=""
-                    placeholder="Mention your previous work/ Experience in Curriculum Designing"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.previousWork}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Specialization
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="specializationDomain"
-                    name="specializationDomain"
-                    aria-label=""
-                    placeholder="Mention your domain of specialization"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.specializationDomain}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="passwword"
-                name="password"
-                label="Password"
-                fullWidth
-                type="password"
-                variant="standard"
-                value={stateVar.Data.password}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="confirmPassword"
-                name="confirmPassword"
-                label="Confirm Password"
-                fullWidth
-                type="password"
-                variant="standard"
-                value={stateVar.Data.confirmPassword}
-                onChange={handleChange}
-              />
-            </Grid>
-          </Grid>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>
-            <Button variant="contained" onClick={handleSubmit} sx={{ mt: 3, ml: 1 }}>
-              Register
-            </Button>
-          </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                 {activeStep !== 0 && (
+                  <Button onClick = {handleBack} sx={{ mt: 3, ml: 1 }}>
+                    Back
+                  </Button>
+                )}
+
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  sx={{ mt: 3, ml: 1 }}
+                >
+                  {activeStep === steps.length - 1 ? 'Register' : 'Next'}
+                </Button>
+              </Box>
+      </Container>
+    </React.Fragment>
+            </React.Fragment>
+          )}
         </Paper>
       </Container>
     </React.Fragment>
