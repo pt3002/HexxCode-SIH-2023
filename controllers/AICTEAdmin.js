@@ -29,7 +29,8 @@ exports.getAllDepartmentHeads = async (req, res, next) => {
 
 exports.addDepartmentHead = async (req, res, next) => {
   try {
-    let { id, email, password, name, department, college, designation } = req.body;
+    let { id, email, password, name, department, college, designation } =
+      req.body;
     let error_flag = false;
 
     let a = await AICTEAdminFeatures.addDepartmentHead(
@@ -52,5 +53,46 @@ exports.addDepartmentHead = async (req, res, next) => {
     }
   } catch (error) {
     res.send({ error: "Email ID of User Already exists" });
+  }
+};
+
+exports.updateDepartmentHead = async (req, res, next) => {
+  try {
+    let { id, email, name, department, college, designation } = req.body;
+    let error_flag = false;
+
+    let a = await AICTEAdminFeatures.updateDepartmentHead(
+      id,
+      email,
+      name,
+      department,
+      college,
+      designation
+    );
+    if (a == "error") {
+      error_flag = true;
+    }
+
+    if (error_flag) {
+      res.send({ error: "Error while updating Head" });
+    } else {
+      res.send({ message: "Head Updated Successfully" });
+    }
+  } catch (error) {
+    res.send({ error: "Error while updating Head" });
+  }
+};
+
+exports.deleteDepartmentHead = async (req, res, next) => {
+  try {
+    let { ids } = req.body;
+
+    for (let index = 0; index < ids.length; index++) {
+      let id = ids[index];
+      await AICTEAdminFeatures.deleteDepartmentHead(id);
+    }
+    res.send({ message: "Heads deleted successfully" });
+  } catch (error) {
+    console.log(error);
   }
 };

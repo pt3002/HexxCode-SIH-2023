@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -10,9 +11,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { backendURL } from "../../../configKeys";
+import { fDate } from "../../../utils/formatTime";
 import axios from "axios";
 import Swal from "sweetalert2";
 const uuid = require("uuid").v4;
@@ -34,7 +36,7 @@ export default function AddDepartmentHeads() {
     deptHead_creationDate: "",
     deptHead_lastlogin: "",
   });
-  
+
   const columns = [
     {
       field: "name",
@@ -70,31 +72,44 @@ export default function AddDepartmentHeads() {
       field: "creation_date",
       headerName: "Creation date",
       width: 110,
+      renderCell: (params) => {
+        return fDate(params.row.creation_date);
+      },
       editable: true,
     },
     {
-      field: "last_login",
+      field: "last_login_date",
       headerName: "Last Login",
       width: 110,
+      renderCell: (params) => {
+        return fDate(params.row.last_login_date)
+          ? fDate(params.row.last_login_date)
+          : "Not Signed in";
+      },
       editable: true,
     },
     {
       field: "Action",
       headerName: "Action",
-      width: 110,
+      width: 130,
       renderCell: (params) => (
         <>
-        <EditIcon 
-        onClick={() => {
-            setEdit(1);
-            handleClickEdit(params);
-          }} />
+          <Button
+            onClick={() => {
+              setEdit(1);
+              handleClickEdit(params);
+            }}
+          >
+            <EditIcon />
+          </Button>
 
-        <DeleteIcon sx={{ margin: "2%" }} onClick={() => {
-            // setEdit(1);
-            handleClickDelete(params);
-          }}   />
-        
+          <Button
+            onClick={() => {
+              handleClickDelete([params.id]);
+            }}
+          >
+            <DeleteIcon />
+          </Button>
         </>
       ),
     },
@@ -126,27 +141,82 @@ export default function AddDepartmentHeads() {
     setdeptHeadID(params.id);
     setNewDepartmentHead(data);
     setOpen(true);
-
   };
 
-  const finaledit = () =>
-  {
+  const finaledit = (e) => {
+    e.preventDefault();
+    let body = {
+      id: newDepartmentHead.deptHead_id,
+      name: newDepartmentHead.deptHead_name,
+      email: newDepartmentHead.deptHead_email,
+      college: newDepartmentHead.deptHead_college,
+      designation: newDepartmentHead.deptHead_designation,
+      department: newDepartmentHead.deptHead_department,
+    };
+
+    axios
+      .post(backendURL + "/AICTEAdmin/updateDepartmentHead", body)
+      .then((res) => {
+        console.log(res);
+        if (res.data.message) {
+          Swal.fire({
+            icon: "success",
+            title: "SUCCESS",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then((confirm) => {
+            if (confirm) {
+              window.location.reload();
+            }
+          });
+        } else if (res.data.error) {
+          Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: res.data.error,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+      });
     setOpen(false);
-    // console.log(newDepartmentHead);
-  }
+  };
 
-  const handleClickDelete = (params) => {
-    setDelete(params.row.id);
-    // console.log( params.id, Delete);
-
+  const handleClickDelete = (head_ids) => {
+    Swal.fire({
+      icon: "warning",
+      title: "WARNING",
+      text: `Are you sure, do you want to delete these heads?`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let body = { ids: head_ids };
+        axios
+          .post(backendURL + "/AICTEAdmin/deleteDepartmentHead", body)
+          .then((res) => {
+            Swal.fire({
+              icon: "success",
+              title: "SUCCESS",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            }).then((confirm) => {
+              if (confirm) {
+                window.location.reload();
+              }
+            });
+          });
+      }
+    });
   };
 
   const handleClose = () => {
     // console.log(newDepartmentHead);
     setOpen(false);
   };
-
- 
 
   const handleAddDepartmentHead = () => {
     let body = {
@@ -208,11 +278,25 @@ export default function AddDepartmentHeads() {
         Add New Department Head
       </Button>
 
- {/* {
-  selectedHeads.length ? (console.log(selectedHeads)) : 
-  (<> </>)
- } */}
       <Box sx={{ height: 400, width: "96%", margin: "2%" }}>
+        {selectedHeads.length ? (
+          <Grid container spacing={2}>
+            <Grid item>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleClickDelete(selectedHeads);
+                }}
+                // sx={{ backgroundColor: "green" }}
+              >
+                Delete Heads
+                <DeleteIcon />
+              </Button>
+            </Grid>
+          </Grid>
+        ) : (
+          <> </>
+        )}
         <DataGrid
           slots={{ toolbar: GridToolbar }}
           rows={rows}
@@ -221,7 +305,6 @@ export default function AddDepartmentHeads() {
             setSelectedHeads(newRowSelectionModel);
           }}
           rowSelectionModel={selectedHeads}
-
           initialState={{
             pagination: {
               paginationModel: {

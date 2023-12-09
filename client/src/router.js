@@ -16,7 +16,6 @@ import SubjectsForResources from './content/pages/CD/subjectsForResources';
 import Requirements from './content/pages/ED/requirements';
 import Dashboard from './content/pages/ED/dashboard';
 import AICTELayout from './layouts/AICTELayout'
-import AddSubjHeads from './content/pages/AICTE/AddDeptHeads';
 import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
 import AddDepartment from './content/pages/AICTE/AddDepartment';
 import NotifyCDS from './content/pages/AICTE/NotifyCDS';
