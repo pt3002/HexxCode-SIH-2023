@@ -10,6 +10,15 @@ import Checkout from './content/pages/registerSteps';
 import Page1New from './content/pages/page_one_new';
 import Page2New from './content/pages/page_two_new';
 import Page3New from './content/pages/page_three_new';
+import CurriculumDeveloperLogin from './content/pages/login-user';
+import SubjectsForResources from './content/pages/CD/subjectsForResources';
+
+import AICTELayout from './layouts/AICTELayout'
+import AddSubjHeads from './content/pages/AICTE/AddDeptHeads';
+import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
+import AddDepartment from './content/pages/AICTE/AddDepartment';
+import NotifyCDS from './content/pages/AICTE/NotifyCDS';
+import NotifyEducators from './content/pages/AICTE/NotifyEducators';
 
 const Loader = (Component) => (props) =>
   (
@@ -223,7 +232,10 @@ const routes = [
     path : 'curriculumDeveloper',
     element : <CurriculumDeveloperLayout />,
     children : [
-      
+      {
+        path : 'subjects',
+        element : <SubjectsForResources />
+      }
     ]
   },
   {
@@ -251,7 +263,36 @@ const routes = [
         element: <Page3New />
       }
     ]
-  }
+  },
+  {
+    path : 'login',
+    element : <CurriculumDeveloperLogin />,
+    children : [
+      
+    ]
+  },
+  {
+    path : 'aicte',
+    element : <AICTELayout />,
+    children : [
+      {
+        path: 'addDeptHeads',
+        element: <AddDeptHeads />
+      },
+      {
+        path: 'addDepartment',
+        element: <AddDepartment />
+      },
+      {
+        path: 'notifyCD',
+        element: <NotifyCDS />
+      },
+      {
+        path: 'notifyEducators',
+        element: <NotifyEducators/>
+      },
+    ]
+  },
 ];
 
 export default routes;

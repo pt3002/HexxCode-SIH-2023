@@ -18,6 +18,7 @@
     "axios": "^1.6.2",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.10",
     "history": "^5.3.0",
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
@@ -32,6 +33,7 @@
     "react-scripts": "^5.0.1",
     "stylis": "^4.3.0",
     "stylis-plugin-rtl": "^2.1.1",
+    "sweetalert2": "^11.10.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

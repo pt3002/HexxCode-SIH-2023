@@ -32,6 +32,12 @@ import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwo
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
 
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import NotificationAddIcon from '@mui/icons-material/NotificationAdd';
+import GroupsIcon from '@mui/icons-material/Groups';
+import ClassIcon from '@mui/icons-material/Class';
+
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
   .MuiList-root {
@@ -207,15 +213,39 @@ function SidebarMenu() {
         >
           <SubMenuWrapper>
             <List component="div">
-              <ListItem component="div">
+            <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/dashboards/crypto"
-                  startIcon={<BrightnessLowTwoToneIcon />}
+                  startIcon={<CheckCircleIcon />}
                 >
-                  Calendar
+                  Approve Curriculum
+                </Button>
+              </ListItem>
+              
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/aicte/addDepartment"
+                  startIcon={<ClassIcon />}
+                >
+                  Add Department
+                </Button>
+              </ListItem>
+
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/aicte/addDeptHeads"
+                  startIcon={<AdminPanelSettingsIcon />}
+                >
+                  Appoint Department Heads
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -223,10 +253,21 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/subjects"
-                  startIcon={<MmsTwoToneIcon />}
+                  to="/aicte/notifyEducators"
+                  startIcon={<NotificationAddIcon />}
                 >
-                  Resource Repository
+                  Notify Educators
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/aicte/notifyCD"
+                  startIcon={<NotificationAddIcon />}
+                >
+                  Notify CDs
                 </Button>
               </ListItem>
               <ListItem component="div">
@@ -235,23 +276,12 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
-                >
-                  Curriculum Development Tool
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<GroupsIcon />}
                 >
                   Discussion Forum
                 </Button>
               </ListItem>
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -272,7 +302,7 @@ function SidebarMenu() {
                 >
                   Past Curriculums
                 </Button>
-              </ListItem>
+              </ListItem> */}
             </List>
           </SubMenuWrapper>
         </List>
