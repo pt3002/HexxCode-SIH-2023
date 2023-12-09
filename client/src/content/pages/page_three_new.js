@@ -85,8 +85,8 @@ export default function Page3New() {
     research: '',
     previousWork: '',
     specializationDomain: '',
-    password: '',
-    confirmPassword: '',
+    // password: '',
+    // confirmPassword: '',
   },
   errors:{}
 });
@@ -120,24 +120,24 @@ export default function Page3New() {
         } else {
             errors["previousWork"] = "";
         }
-        if (Data.password === "") {
-            errors["password"] = "Password cannot be empty";
-        } else {
-            const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            if (!passwordRegex.test(Data.password)) {
-                errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
-            } else {
-                errors["password"] = "";
-            }
-        }
+        // if (Data.password === "") {
+        //     errors["password"] = "Password cannot be empty";
+        // } else {
+        //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        //     if (!passwordRegex.test(Data.password)) {
+        //         errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
+        //     } else {
+        //         errors["password"] = "";
+        //     }
+        // }
     
-        if (Data.confirmPassword === "") {
-            errors["confirmPassword"] = "Confirm Password cannot be empty";
-        } else if (Data.password !== Data.confirmPassword) {
-            errors["confirmPassword"] = "Passwords do not match";
-        } else {
-            errors["confirmPassword"] = "";
-        }
+        // if (Data.confirmPassword === "") {
+        //     errors["confirmPassword"] = "Confirm Password cannot be empty";
+        // } else if (Data.password !== Data.confirmPassword) {
+        //     errors["confirmPassword"] = "Passwords do not match";
+        // } else {
+        //     errors["confirmPassword"] = "";
+        // }
         let validate = true;
 
         Object.keys(errors).map((error) => {
@@ -313,7 +313,7 @@ export default function Page3New() {
                     }}
                 />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <TextField
                 required
                 id="passwword"
@@ -338,7 +338,7 @@ export default function Page3New() {
                 value={stateVar.Data.confirmPassword}
                 onChange={handleChange}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                  {activeStep !== 0 && (

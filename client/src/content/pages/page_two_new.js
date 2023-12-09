@@ -505,10 +505,13 @@ const handleAddFormSubmit = (event) => {
 					onChange={handleAddFormChange}
                     id = "t5"
 				/> */}
-                {renderButton({
-              label: "Add",
-              handleOnClick: handleAddFormSubmitQuali,
-            })}
+                <Button
+                  variant="contained"
+                  onClick={handleAddFormSubmitQuali}
+                  sx={{ mt: 1, mb: 1 }}
+                >
+                  Add
+                </Button>
             </div>
                 </TableContainer>
 
@@ -608,10 +611,13 @@ const handleAddFormSubmit = (event) => {
 					onChange={handleAddFormChange}
                     id = "t5"
 				/> */}
-                {renderButton({
-              label: "Add",
-              handleOnClick: handleAddFormSubmit,
-            })}
+                <Button
+                  variant="contained"
+                  onClick={handleAddFormSubmit}
+                  sx={{ mt: 1.2, mb: 2.2 }}
+                >
+                  Add
+                </Button>
             </div>
                 </TableContainer>
 
