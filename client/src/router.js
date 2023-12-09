@@ -252,13 +252,6 @@ const routes = [
     ]
   },
   {
-    path : 'sign-up',
-    element : <CurriculumDeveloperSignUp />,
-    children : [
-      
-    ]
-  },
-  {
     path : 'aicte',
     element : <AICTELayout />,
     children : [
