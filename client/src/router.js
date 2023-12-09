@@ -9,7 +9,6 @@ import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
 import RegistrationForm from './content/pages/register';
 import Checkout from './content/pages/checkout';
 import CurriculumDeveloperLogin from './content/pages/login-user';
-import CurriculumDeveloperSignUp from './content/pages/signup-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
 
 import AICTELayout from './layouts/AICTELayout'
