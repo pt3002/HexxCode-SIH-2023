@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-const { mongo_db } = require("./config/configKeys")
+const { mongoURI } = require("./configKeys")
+const Grid = require("gridfs-stream");
 
-function makeNewConnection(uri, config){
-    const db = mongoose.createConnection(uri, {
+const connectMongoDB = async() => {
+    const db = mongoose.createConnection(mongoURI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
@@ -13,10 +14,14 @@ function makeNewConnection(uri, config){
     });
 
     db.on('connected', function () {
+        mongoose.connect(mongoURI).then((res) => {
+            gfs = Grid(res.connection.db, mongoose.mongo);
+            gfs.collection("uploads");
+        })
         mongoose.set('debug', function (col, method, query, doc) {
             console.log(`MongoDB :: ${this.conn.name} ${col}.${method}(${JSON.stringify(query)},${JSON.stringify(doc)})`);
         });
-        console.log(`MongoDB :: connected ${this.name} - ${config}`);
+        console.log(`MongoDB :: connected ${this.name}`);
     });
 
     db.on('disconnected', function () {
@@ -26,7 +31,4 @@ function makeNewConnection(uri, config){
     return db;
 }
 
-// Connect to mongodb database
-const connection_mongo = makeNewConnection(mongo_db, "MongoDb Shiksha Niyojak");
-
-module.exports = { connection_mongo }
+module.exports = connectMongoDB
