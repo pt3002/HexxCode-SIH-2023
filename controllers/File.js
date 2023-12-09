@@ -54,7 +54,6 @@ exports.getFileGrid = (req, res) => {
     }
     const readstream = gfs.createReadStream(file.filename);
     res.header({ "Content-type": file.contentType });
-    console.log(res);
     readstream.on("error", (err) => {
       return res.status(404).send({ err: "Error getting the file" });
     });
