@@ -6,7 +6,7 @@ const {
 
 exports.GetAllSubjects = async (req, res, next) => {
   try {
-    let ans = curriculumDeveloperFeatures.getAllSubjects();
+    let ans = await curriculumDeveloperFeatures.getAllSubjects();
     try {
       let subjects = [];
       for (let i = 0; i < ans.length; i++) {
@@ -29,11 +29,17 @@ exports.GetAllSubjects = async (req, res, next) => {
 };
 
 exports.GetResourceBySubject = async (req, res, next) => {
+  const subject_id = req.params && req.params.subject_id;
+  if (!subject_id) {
+    return res.status(400).send({ err: " missing file name" });
+  }
   try {
-    let ans = curriculumDeveloperFeatures.getResourceBySubject(subject_id);
+    let ans = await curriculumDeveloperFeatures.getResourceBySubject(
+      subject_id
+    );
     try {
+      let resources = [];
       if (ans.length > 0) {
-        let resources = [];
         for (let i = 0; i < ans.length; i++) {
           let n = {
             id: ans[i].id,
@@ -88,6 +94,10 @@ exports.AddPinnedSubjects = async (req, res, next) => {
       await curriculumDeveloperFeatures.getPinnedSubjectsById(id);
     if (all_pinned_subject[0].pinned_subjects != null) {
       let array = all_pinned_subject[0].pinned_subjects.split("#");
+
+      if (array.length >= 3) {
+        res.send({ error: "Only 3 Subject Can be Added" });
+      }
 
       if (array.indexOf(subject) == -1) {
         let pinned_subjects =

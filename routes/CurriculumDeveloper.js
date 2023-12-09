@@ -5,7 +5,7 @@ const router = express.Router();
 // GET Request
 router.get("/getAllSubjects", CurriculumDeveloperControllers.GetAllSubjects);
 router.get(
-  "/getResourceBySubject",
+  "/getResourceBySubject/:subject_id",
   CurriculumDeveloperControllers.GetResourceBySubject
 );
 
