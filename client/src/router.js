@@ -21,6 +21,7 @@ import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
 import AddDepartment from './content/pages/AICTE/AddDepartment';
 import NotifyCDS from './content/pages/AICTE/NotifyCDS';
 import NotifyEducators from './content/pages/AICTE/NotifyEducators';
+import AddGuidelines from './content/pages/AICTE/AddGuidelines';
 
 const Loader = (Component) => (props) =>
   (
@@ -307,6 +308,10 @@ const routes = [
         path: 'notifyEducators',
         element: <NotifyEducators/>
       },
+      {
+        path: 'addGuidelines',
+        element : <AddGuidelines />
+      }
     ]
   },
 ];
