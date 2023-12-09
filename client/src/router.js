@@ -6,13 +6,15 @@ import BaseLayout from './layouts/BaseLayout';
 
 import SuspenseLoader from './components/SuspenseLoader';
 import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
+import EducatorLayout from './layouts/EDLayout';
 import Checkout from './content/pages/registerSteps';
 import Page1New from './content/pages/page_one_new';
 import Page2New from './content/pages/page_two_new';
 import Page3New from './content/pages/page_three_new';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
-
+import Requirements from './content/pages/ED/requirements';
+import Dashboard from './content/pages/ED/dashboard';
 import AICTELayout from './layouts/AICTELayout'
 import AddSubjHeads from './content/pages/AICTE/AddDeptHeads';
 import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
@@ -236,6 +238,20 @@ const routes = [
         path : 'subjects',
         element : <SubjectsForResources />
       }
+    ]
+  },
+  {
+    path : 'ED',
+    element : <EducatorLayout />,
+    children : [
+      {
+        path : 'dashboard',
+        element : <Dashboard />
+      },
+      {
+        path : 'requirements',
+        element : <Requirements />
+      },
     ]
   },
   {
