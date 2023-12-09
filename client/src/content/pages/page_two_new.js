@@ -136,7 +136,6 @@ export default function Page2New() {
     const handleSubmit = () => {
         let { Data, errors } = stateVar;
         console.log('Form submitted:', Data);
-        console.log("date",Data.qualifications[1].periodFrom)
         if (Data.experiences.length > 1) {
             for (let index = 1; index < Data.experiences.length; index++) {
                 const hasEmptyField = Object.values(Data.experiences[index]).some((field) => field === "");
@@ -441,13 +440,13 @@ const handleAddFormSubmit = (event) => {
                   <TextField
 					label="Specialization"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="specialization"
 					// fullWidth={true}
-					size="small"
+					size="medium"
 					onChange={handleAddFormChangeQuali}
-					style={{ margin: "5px", width: '25%' }}
+					style={{margin:"9px", width: '25%', marginRight:"25px" }}
                     id = "t5"
 				/>
                 
@@ -462,7 +461,7 @@ const handleAddFormSubmit = (event) => {
                                 textField: {
                                     required: true,
                                     id: 't6',
-                                    style: { width: '55%' }
+                                    style: { width: '80%' }
                                 }
                             }}
                             value = {periodFromDate}
@@ -483,7 +482,7 @@ const handleAddFormSubmit = (event) => {
                                 textField: {
                                     required: true,
                                     id: 't7',
-                                    style: { width: '55%' }
+                                    style: { width: '80%' }
                                 }
                             }}
                             value = {periodToDate}
@@ -561,40 +560,40 @@ const handleAddFormSubmit = (event) => {
                 }
                 
                   </TableBody>
-                  <div style={{ display: 'flex', gap: '5px', height: '60px' }}>
+                  <div style={{ display: 'flex', gap: '2px', height:"68px" }}>
                   <TextField
 					label="Working Place"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="workPlace"
 					// fullWidth={true}
 					size="small"
 					onChange={handleAddFormChange}
-					style={{ margin: "5px", width: '28%' }}
+					style={{ margin: "9px", width: '27%' }}
                     id = "t1"
 				/>
 				<TextField
 					label="Designation and Rank"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="rankDesignation"
 					// fullWidth={true}
 					size="small"
-					style={{ margin: "5px", width: '27%' }}
+					style={{ margin: "9px", width: '27%' }}
 					onChange={handleAddFormChange}
                     id = "t2"
 				/>
                 <TextField
 					label="Years"
 					// color={color ? color : "primary"}
-					variant="standard"
+					variant="outlined"
                     type = "search"
 					name="years"
 					// fullWidth={true}
 					size="small"
-					style={{ margin: "5px", width: '27%' }}
+					style={{ margin: "9px", width: '27%', marginRight:"33px" }}
 					onChange={handleAddFormChange}
                     id = "t4"
 				/>
@@ -618,8 +617,6 @@ const handleAddFormSubmit = (event) => {
 
               </Grid>
               </Grid>
-      </Container>
-    </React.Fragment>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                  {activeStep !== 0 && (
                   <Button onClick = {handleBack} sx={{ mt: 3, ml: 1 }}>
@@ -635,6 +632,8 @@ const handleAddFormSubmit = (event) => {
                   {activeStep === steps.length - 1 ? 'Register' : 'Next'}
                 </Button>
               </Box>
+      </Container>
+    </React.Fragment>
             </React.Fragment>
           )}
         </Paper>

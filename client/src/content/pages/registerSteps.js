@@ -1,6 +1,6 @@
 import { Box, alpha, lighten, useTheme } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-
+import Footer from "../../components/Footer";
 // import Sidebar from './Sidebar';
 // import Header from './Header';
 
@@ -12,7 +12,7 @@ const Checkout = () => {
       <Box
         sx={{
           flex: 1,
-          height: '100%',
+          height: '130%',
 
           '.MuiPageTitle-wrapper': {
             background:
@@ -36,8 +36,7 @@ const Checkout = () => {
           }
         }}
       >
-        {/* <Header />
-        <Sidebar /> */}
+
         <Box
           sx={{
             position: 'relative',
@@ -55,6 +54,7 @@ const Checkout = () => {
           </Box>
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };

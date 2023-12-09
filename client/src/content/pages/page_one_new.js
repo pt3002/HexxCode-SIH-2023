@@ -202,12 +202,9 @@ export default function Page1New() {
         elevation={0}
         sx={{
           position: 'relative',
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        //   borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       >
-        <Typography variant="h6" color="inherit" noWrap>
-          {/* Your Website */}
-        </Typography>
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
           <Grid container spacing={3} marginBottom={5}>
