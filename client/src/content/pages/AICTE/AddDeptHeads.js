@@ -10,58 +10,20 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { backendURL } from "../../../configKeys";
 import axios from "axios";
 import Swal from "sweetalert2";
 const uuid = require("uuid").v4;
-const columns = [
-  {
-    field: "name",
-    headerName: "Name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "college",
-    headerName: "College",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "department",
-    headerName: "Department",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "designation",
-    headerName: "Designation",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "creation_date",
-    headerName: "Creation date",
-    width: 110,
-    editable: true,
-  },
-  {
-    field: "last_login",
-    headerName: "Last Login",
-    width: 110,
-    editable: true,
-  },
-];
 
 export default function AddDepartmentHeads() {
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = useState([]);
+  const [Edit, setEdit] = useState(0);
+  const [Delete, setDelete] = useState(null);
+  const [deptHeadID, setdeptHeadID] = useState(0);
+  const [selectedHeads, setSelectedHeads] = useState([]);
   const [newDepartmentHead, setNewDepartmentHead] = useState({
     deptHead_id: "",
     deptHead_name: "",
@@ -72,8 +34,74 @@ export default function AddDepartmentHeads() {
     deptHead_creationDate: "",
     deptHead_lastlogin: "",
   });
+  
+  const columns = [
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "college",
+      headerName: "College",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "designation",
+      headerName: "Designation",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "creation_date",
+      headerName: "Creation date",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "last_login",
+      headerName: "Last Login",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "Action",
+      headerName: "Action",
+      width: 110,
+      renderCell: (params) => (
+        <>
+        <EditIcon 
+        onClick={() => {
+            setEdit(1);
+            handleClickEdit(params);
+          }} />
+
+        <DeleteIcon sx={{ margin: "2%" }} onClick={() => {
+            // setEdit(1);
+            handleClickDelete(params);
+          }}   />
+        
+        </>
+      ),
+    },
+  ];
 
   const handleClickOpen = () => {
+    setEdit(0);
     setNewDepartmentHead({
       deptHead_id: "",
       deptHead_name: "",
@@ -87,10 +115,38 @@ export default function AddDepartmentHeads() {
     setOpen(true);
   };
 
+  const handleClickEdit = (params) => {
+    let data = newDepartmentHead;
+    data.deptHead_id = params.row.id;
+    data.deptHead_name = params.row.name;
+    data.deptHead_college = params.row.college;
+    data.deptHead_designation = params.row.designation;
+    data.deptHead_department = params.row.department;
+    data.deptHead_email = params.row.email;
+    setdeptHeadID(params.id);
+    setNewDepartmentHead(data);
+    setOpen(true);
+
+  };
+
+  const finaledit = () =>
+  {
+    setOpen(false);
+    // console.log(newDepartmentHead);
+  }
+
+  const handleClickDelete = (params) => {
+    setDelete(params.row.id);
+    // console.log( params.id, Delete);
+
+  };
+
   const handleClose = () => {
     // console.log(newDepartmentHead);
     setOpen(false);
   };
+
+ 
 
   const handleAddDepartmentHead = () => {
     let body = {
@@ -128,13 +184,12 @@ export default function AddDepartmentHeads() {
           });
         }
       });
-    console.log(newDepartmentHead);
+    // console.log(newDepartmentHead);
     setOpen(false);
   };
 
   React.useEffect(() => {
     axios.get(backendURL + "/AICTEAdmin/getAllDepartmentHeads").then((res) => {
-      console.log(res.data.heads);
       setRows(res.data.heads);
     });
   }, []);
@@ -144,17 +199,29 @@ export default function AddDepartmentHeads() {
         variant="contained"
         sx={{ margin: "2%" }}
         size="large"
-        onClick={handleClickOpen}
+        onClick={() => {
+          setEdit(0);
+          handleClickOpen();
+        }}
         startIcon={<AddCircleSharpIcon />}
       >
         Add New Department Head
       </Button>
 
+ {/* {
+  selectedHeads.length ? (console.log(selectedHeads)) : 
+  (<> </>)
+ } */}
       <Box sx={{ height: 400, width: "96%", margin: "2%" }}>
         <DataGrid
           slots={{ toolbar: GridToolbar }}
           rows={rows}
           columns={columns}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setSelectedHeads(newRowSelectionModel);
+          }}
+          rowSelectionModel={selectedHeads}
+
           initialState={{
             pagination: {
               paginationModel: {
@@ -197,6 +264,7 @@ export default function AddDepartmentHeads() {
             autoFocus
             margin="dense"
             id="email"
+            value={newDepartmentHead.deptHead_email}
             label="Email id"
             type="email"
             fullWidth
@@ -212,6 +280,7 @@ export default function AddDepartmentHeads() {
             autoFocus
             margin="dense"
             id="college"
+            value={newDepartmentHead.deptHead_college}
             label="College"
             type="text"
             fullWidth
@@ -227,6 +296,7 @@ export default function AddDepartmentHeads() {
             autoFocus
             margin="dense"
             id="designation"
+            value={newDepartmentHead.deptHead_designation}
             label="Designation"
             type="text"
             fullWidth
@@ -242,6 +312,7 @@ export default function AddDepartmentHeads() {
             autoFocus
             margin="dense"
             id="department"
+            value={newDepartmentHead.deptHead_department}
             label="Department"
             type="text"
             fullWidth
@@ -256,7 +327,12 @@ export default function AddDepartmentHeads() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAddDepartmentHead}>Add</Button>
+          {/* <Button onClick={handleAddDepartmentHead}>Add</Button> */}
+          {Edit == 0 ? (
+            <Button onClick={handleAddDepartmentHead}>Add</Button>
+          ) : (
+            <Button onClick={finaledit}>Edit</Button>
+          )}
         </DialogActions>
       </Dialog>
     </>
