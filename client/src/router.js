@@ -21,6 +21,7 @@ import AddDepartment from './content/pages/AICTE/AddDepartment';
 import NotifyCDS from './content/pages/AICTE/NotifyCDS';
 import NotifyEducators from './content/pages/AICTE/NotifyEducators';
 import AddGuidelines from './content/pages/AICTE/AddGuidelines';
+import RegisterEducator from './content/pages/ED/register-educator';
 
 const Loader = (Component) => (props) =>
   (
@@ -283,6 +284,13 @@ const routes = [
   {
     path : 'login',
     element : <CurriculumDeveloperLogin />,
+    children : [
+      
+    ]
+  },
+  {
+    path : 'register-educator',
+    element : <RegisterEducator />,
     children : [
       
     ]

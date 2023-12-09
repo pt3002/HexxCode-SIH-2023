@@ -280,7 +280,6 @@ export default function CurriculumDeveloperLogin() {
               <Button
                 variant="contained"
                 size="medium"
-                color="primary"
                 onClick={handleSubmit}
               >
                 Sign In
