@@ -109,7 +109,7 @@ function SubjectsForResources() {
 
   React.useEffect(() => {
     axios
-      .get(backendURL + "/CurriculumDeveloper/getResourceBySubject/1")
+      .get(backendURL + "/CurriculumDeveloper/getResourceBySubject/Compilers")
       .then((res) => {
         let array = res.data.resources;
         let temp_resources = [];

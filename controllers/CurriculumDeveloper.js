@@ -129,14 +129,12 @@ exports.GetDraftByDepartment = async (req, res, next) => {
 };
 
 exports.GetResourceBySubject = async (req, res, next) => {
-  const subject_id = req.params && req.params.subject_id;
-  if (!subject_id) {
+  const name = req.params && req.params.name;
+  if (!name) {
     return res.status(400).send({ err: " missing file name" });
   }
   try {
-    let ans = await curriculumDeveloperFeatures.getResourceBySubject(
-      subject_id
-    );
+    let ans = await curriculumDeveloperFeatures.getResourceBySubject(name);
     try {
       let resources = [];
       if (ans.length > 0) {

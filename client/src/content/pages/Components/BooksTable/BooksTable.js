@@ -97,7 +97,6 @@ const BooksTable = ({ books }) => {
 
   const handleRatingChange = (e) => {
     let value = null;
-    console.log("Selctionsssd", e.target.value);
     if (e.target.value !== "all") {
       value = e.target.value;
     }

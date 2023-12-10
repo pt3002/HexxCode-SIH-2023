@@ -17,7 +17,7 @@ router.get(
   CurriculumDeveloperControllers.GetDraftByDepartment
 );
 router.get(
-  "/getResourceBySubject/:subject_id",
+  "/getResourceBySubject/:name",
   CurriculumDeveloperControllers.GetResourceBySubject
 );
 

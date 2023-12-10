@@ -15,8 +15,8 @@ class curriculumDeveloperFeatures {
     return result;
   }
 
-  static async getResourceBySubject(subject_id) {
-    let sql = `SELECT * FROM resource WHERE subject_id="${subject_id}";`;
+  static async getResourceBySubject(name) {
+    let sql = `SELECT * FROM  resource WHERE subject_id IN (SELECT subject_id FROM subject WHERE name="${name}");`;
     const [result, _] = await db.execute(sql);
     return result;
   }
