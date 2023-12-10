@@ -15,6 +15,7 @@ exports.GetAllSubjects = async (req, res, next) => {
           name: ans[i].name,
           department: ans[i].department,
           list_resource_id: ans[i].list_resource_id,
+          subject_code: ans[i].subject_code,
         };
         subjects.push(n);
       }
@@ -45,6 +46,7 @@ exports.GetAllSubjectsByDepartment = async (req, res, next) => {
           name: ans[i].name,
           department: ans[i].department,
           list_resource_id: ans[i].list_resource_id,
+          subject_code: ans[i].subject_code,
         };
         subjects.push(n);
       }
@@ -77,6 +79,7 @@ exports.GetDraftBySubjects = async (req, res, next) => {
           subject_name: ans[i].name,
           department: ans[i].department,
           list_resource_id: ans[i].list_resource_id,
+          subject_code: ans[i].subject_code,
         };
         drafts.push(n);
       }
@@ -111,6 +114,7 @@ exports.GetDraftByDepartment = async (req, res, next) => {
           subject_name: ans[i].name,
           department: ans[i].department,
           list_resource_id: ans[i].list_resource_id,
+          subject_code: ans[i].subject_code,
         };
         drafts.push(n);
       }
@@ -143,6 +147,8 @@ exports.GetResourceBySubject = async (req, res, next) => {
             code: ans[i].code,
             name: ans[i].name,
             author: ans[i].author,
+            rating: ans[i].rating,
+            creation_time: ans[i].creation_time,
           };
           resources.push(n);
         }
