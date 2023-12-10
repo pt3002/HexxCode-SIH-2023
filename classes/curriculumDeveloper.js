@@ -50,6 +50,24 @@ class curriculumDeveloperFeatures {
       console.log(error);
     }
   }
+
+  static async getAllSubjectsByDepartment(department) {
+    let sql = `SELECT * FROM subject WHERE department="${department}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
+
+  static async getDraftBySubject(subject_name) {
+    let sql = `SELECT * FROM subject_draft sd LEFT JOIN subject s ON s.subject_id = sd.subject_id WHERE s.name="${subject_name}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
+
+  static async getDraftByDepartment(department) {
+    let sql = `SELECT * FROM subject_draft sd LEFT JOIN subject s ON s.subject_id = sd.subject_id WHERE s.department="${department}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
 }
 
 module.exports = { curriculumDeveloperAuth, curriculumDeveloperFeatures };
