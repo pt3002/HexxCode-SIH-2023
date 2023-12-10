@@ -153,7 +153,7 @@ export default function RegisterEducator() {
             ></AppBar>
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
               <Grid container spacing={3} marginBottom={5}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="email"
@@ -166,7 +166,7 @@ export default function RegisterEducator() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="name"
@@ -250,7 +250,7 @@ export default function RegisterEducator() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="passwword"
@@ -263,7 +263,7 @@ export default function RegisterEducator() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="confirmPassword"
