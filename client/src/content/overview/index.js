@@ -17,7 +17,7 @@ function Overview() {
   return (
     <OverviewWrapper>
       <Helmet>
-        <title>Tokyo Free White React Javascript Admin Dashboard</title>
+        <title>Shiksha Niyojak</title>
       </Helmet>
       <Container maxWidth="lg">
         <Box display="flex" justifyContent="center" py={5} alignItems="center">

@@ -22,6 +22,7 @@ import NotifyCDS from './content/pages/AICTE/NotifyCDS';
 import NotifyEducators from './content/pages/AICTE/NotifyEducators';
 import AddGuidelines from './content/pages/AICTE/AddGuidelines';
 import RegisterEducator from './content/pages/ED/register-educator';
+import Courses from './content/pages/CD/courses';
 
 const Loader = (Component) => (props) =>
   (
@@ -236,8 +237,12 @@ const routes = [
     element : <CurriculumDeveloperLayout />,
     children : [
       {
-        path : 'subjects',
+        path : 'books',
         element : <SubjectsForResources />
+      },
+      {
+        path: 'subjects',
+        element : <Courses />
       }
     ]
   },

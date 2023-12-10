@@ -2,14 +2,26 @@ const express = require("express");
 const CurriculumDeveloperControllers = require("../controllers/CurriculumDeveloper");
 const router = express.Router();
 
-// GET Request
+//# GET Request
 router.get("/getAllSubjects", CurriculumDeveloperControllers.GetAllSubjects);
 router.get(
-  "/getResourceBySubject/:subject_id",
+  "/getAllSubjectsByDepartment/:department",
+  CurriculumDeveloperControllers.GetAllSubjectsByDepartment
+);
+router.get(
+  "/getDraftBySubjects/:subject_name",
+  CurriculumDeveloperControllers.GetDraftBySubjects
+);
+router.get(
+  "/getDraftByDepartment/:department",
+  CurriculumDeveloperControllers.GetDraftByDepartment
+);
+router.get(
+  "/getResourceBySubject/:name",
   CurriculumDeveloperControllers.GetResourceBySubject
 );
 
-// Post Request
+//# Post Request
 router.post(
   "/addPinnedResources",
   CurriculumDeveloperControllers.AddPinnedResources

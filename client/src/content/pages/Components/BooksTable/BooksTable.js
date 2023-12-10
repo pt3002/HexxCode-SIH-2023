@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
-import PropTypes from 'prop-types';
+import { useState } from "react";
+import { format } from "date-fns";
+import numeral from "numeral";
+import PropTypes from "prop-types";
 import {
   Tooltip,
   Divider,
@@ -22,45 +22,43 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
-} from '@mui/material';
+  CardHeader,
+} from "@mui/material";
 
-import Label from '../../../../components/Label';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import StarBorderTwoToneIcon from '@mui/icons-material/StarBorderTwoTone';
-import BulkActions from './BulkActions';
+import Label from "../../../../components/Label";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import StarBorderTwoToneIcon from "@mui/icons-material/StarBorderTwoTone";
+import BulkActions from "./BulkActions";
 
-const getStatusLabel = (bookstatus) => {
+const getRatingLabel = (bookRating) => {
   const map = {
-    good: {
-      text: 'Good',
-      color: 'error'
+    1: {
+      text: "Good",
+      color: "error",
     },
-    excellent: {
-      text: 'Excellent',
-      color: 'success'
+    2: {
+      text: "Great",
+      color: "warning",
     },
-    great: {
-      text: 'Great',
-      color: 'warning'
-    }
+    3: {
+      text: "Excellent",
+      color: "success",
+    },
   };
 
-  const { text, color } = map[bookstatus];
+  const { text, color } = map[bookRating];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (books, filters) => {
-  return books.filter((cryptoOrder) => {
+  return books.filter((book) => {
     let matches = true;
-
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.rating && book.rating != filters.rating) {
       matches = false;
     }
-
     return matches;
   });
 };
@@ -75,59 +73,50 @@ const BooksTable = ({ books }) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(5);
   const [filters, setFilters] = useState({
-    status: null
+    rating: null,
   });
 
-  const statusOptions = [
+  const ratingOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: "all",
+      name: "All",
     },
     {
-      id: 'excellent',
-      name: 'Excellent'
+      id: "1",
+      name: "Good",
     },
     {
-      id: 'great',
-      name: 'Great'
-    }
-    ,
+      id: "2",
+      name: "Great",
+    },
     {
-        id: 'good',
-        name: 'Good'
-      },
+      id: "3",
+      name: "Excellent",
+    },
   ];
 
-  const handleStatusChange = (e) => {
+  const handleRatingChange = (e) => {
     let value = null;
-
-    if (e.target.value !== 'all') {
+    if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      rating: value,
     }));
   };
 
   const handleSelectAllbooks = (event) => {
-    setSelectedbooks(
-      event.target.checked
-        ? books.map((cryptoOrder) => cryptoOrder.id)
-        : []
-    );
+    setSelectedbooks(event.target.checked ? books.map((book) => book.id) : []);
   };
 
-  const handleSelectOneCryptoOrder = (event, cryptoOrderId) => {
-    if (!selectedbooks.includes(cryptoOrderId)) {
-      setSelectedbooks((prevSelected) => [
-        ...prevSelected,
-        cryptoOrderId
-      ]);
+  const handleSelectOnebook = (event, bookId) => {
+    if (!selectedbooks.includes(bookId)) {
+      setSelectedbooks((prevSelected) => [...prevSelected, bookId]);
     } else {
       setSelectedbooks((prevSelected) =>
-        prevSelected.filter((id) => id !== cryptoOrderId)
+        prevSelected.filter((id) => id !== bookId)
       );
     }
   };
@@ -141,16 +130,10 @@ const BooksTable = ({ books }) => {
   };
 
   const filteredbooks = applyFilters(books, filters);
-  const paginatedbooks = applyPagination(
-    filteredbooks,
-    page,
-    limit
-  );
+  const paginatedbooks = applyPagination(filteredbooks, page, limit);
   const selectedSomebooks =
-    selectedbooks.length > 0 &&
-    selectedbooks.length < books.length;
-  const selectedAllbooks =
-    selectedbooks.length === books.length;
+    selectedbooks.length > 0 && selectedbooks.length < books.length;
+  const selectedAllbooks = selectedbooks.length === books.length;
   const theme = useTheme();
 
   return (
@@ -167,14 +150,13 @@ const BooksTable = ({ books }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Rating</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
+                  value={filters.rating || "all"}
+                  onChange={handleRatingChange}
+                  label="Rating"
+                  autoWidth>
+                  {ratingOptions.map((ratingOption) => (
+                    <MenuItem key={ratingOption.id} value={ratingOption.id}>
+                      {ratingOption.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -189,7 +171,6 @@ const BooksTable = ({ books }) => {
         <Table>
           <TableHead>
             <TableRow>
-            
               <TableCell>Book Name</TableCell>
               <TableCell>Author</TableCell>
               <TableCell align="right">Rating</TableCell>
@@ -197,28 +178,22 @@ const BooksTable = ({ books }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedbooks.map((cryptoOrder) => {
-              const isbookselected = selectedbooks.includes(
-                cryptoOrder.id
-              );
+            {paginatedbooks.map((book) => {
+              const isbookselected = selectedbooks.includes(book.id);
               return (
-                <TableRow
-                  hover
-                  key={cryptoOrder.id}
-                  selected={isbookselected}
-                >
+                <TableRow hover key={book.id} selected={isbookselected}>
                   <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
                       color="text.primary"
                       gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.orderDetails}
+                      noWrap>
+                      {book.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, 'MMMM dd yyyy')}
+                      {/* {format(book.orderDate, "MMMM dd yyyy")} */}
+                      {book.creation_time}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -227,39 +202,36 @@ const BooksTable = ({ books }) => {
                       fontWeight="bold"
                       color="text.primary"
                       gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.orderID}
+                      noWrap>
+                      {book.author}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
+                    {getRatingLabel(book.rating)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Rate Book" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': {
-                            background: theme.colors.warning.lighter
+                          "&:hover": {
+                            background: theme.colors.warning.lighter,
                           },
                           marginRight: 1,
-                          color: theme.colors.warning.dark
+                          color: theme.colors.warning.dark,
                         }}
                         color="inherit"
-                        size="small"
-                      >
+                        size="small">
                         <StarBorderTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Mark as Favorite" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
+                          "&:hover": { background: theme.colors.error.lighter },
+                          color: theme.palette.error.main,
                         }}
                         color="inherit"
-                        size="small"
-                      >
+                        size="small">
                         <FavoriteBorderRoundedIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
@@ -286,11 +258,11 @@ const BooksTable = ({ books }) => {
 };
 
 BooksTable.propTypes = {
-  books: PropTypes.array.isRequired
+  books: PropTypes.array.isRequired,
 };
 
 BooksTable.defaultProps = {
-  books: []
+  books: [],
 };
 
 export default BooksTable;

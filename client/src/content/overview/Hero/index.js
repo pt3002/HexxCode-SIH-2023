@@ -1,6 +1,13 @@
-import { Box, Button, Container, Grid, Typography, styled } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  styled,
+} from "@mui/material";
 
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
 const TypographyH1 = styled(Typography)(
   ({ theme }) => `
@@ -70,24 +77,22 @@ const JsAvatar = styled(Box)(
 
 function Hero() {
   return (
-    <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
+    <Container maxWidth="lg" sx={{ textAlign: "center" }}>
       <Grid
         spacing={{ xs: 6, md: 10 }}
         justifyContent="center"
         alignItems="center"
-        container
-      >
+        container>
         <Grid item md={10} lg={8} mx="auto">
           <LabelWrapper color="success">Version 2.0.0</LabelWrapper>
           <TypographyH1 sx={{ mb: 2 }} variant="h1">
-            Tokyo Free White React Javascript Admin Dashboard
+            Shiksha Niyojak
           </TypographyH1>
           <TypographyH2
             sx={{ lineHeight: 1.5, pb: 4 }}
             variant="h4"
             color="text.secondary"
-            fontWeight="normal"
-          >
+            fontWeight="normal">
             High performance React template built with lots of powerful
             Material-UI components across multiple product niches for fast &
             perfect apps development processes
@@ -96,8 +101,7 @@ function Hero() {
             component={RouterLink}
             to="/dashboards/crypto"
             size="large"
-            variant="contained"
-          >
+            variant="contained">
             Browse Live Preview
           </Button>
           <Button
@@ -107,8 +111,7 @@ function Hero() {
             rel="noopener"
             href="https://bloomui.com/product/tokyo-free-white-react-javascript-material-ui-admin-dashboard"
             size="large"
-            variant="text"
-          >
+            variant="text">
             Key Features
           </Button>
           <Grid container spacing={3} mt={5}>
@@ -141,8 +144,7 @@ function Hero() {
                   <b>Built with Javascript</b>
                 </Box>
                 <Typography component="span" variant="subtitle2">
-                  Tokyo Free React Admin Dashboard features a modern technology
-                  stack and is built with React + Javascript.
+                  Shiksha Niyojak
                 </Typography>
               </Typography>
             </Grid>

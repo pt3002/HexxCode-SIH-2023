@@ -18,7 +18,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2022 - Tokyo Free WHITE React Javascript Admin Dashboard
+            &copy; 2023 - Shiksha Niyojak Admin Dashboard
           </Typography>
         </Box>
         <Typography
