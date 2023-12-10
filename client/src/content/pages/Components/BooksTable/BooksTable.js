@@ -32,35 +32,33 @@ import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded
 import StarBorderTwoToneIcon from "@mui/icons-material/StarBorderTwoTone";
 import BulkActions from "./BulkActions";
 
-const getStatusLabel = (bookstatus) => {
+const getRatingLabel = (bookRating) => {
   const map = {
-    good: {
+    1: {
       text: "Good",
       color: "error",
     },
-    great: {
+    2: {
       text: "Great",
       color: "warning",
     },
-    excellent: {
+    3: {
       text: "Excellent",
       color: "success",
     },
   };
 
-  const { text, color } = map[bookstatus];
+  const { text, color } = map[bookRating];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (books, filters) => {
-  return books.filter((cryptoOrder) => {
+  return books.filter((book) => {
     let matches = true;
-
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.rating && book.rating != filters.rating) {
       matches = false;
     }
-
     return matches;
   });
 };
@@ -75,53 +73,51 @@ const BooksTable = ({ books }) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(5);
   const [filters, setFilters] = useState({
-    status: null,
+    rating: null,
   });
 
-  const statusOptions = [
+  const ratingOptions = [
     {
       id: "all",
       name: "All",
     },
     {
-      id: "excellent",
-      name: "Excellent",
+      id: "1",
+      name: "Good",
     },
     {
-      id: "great",
+      id: "2",
       name: "Great",
     },
     {
-      id: "good",
-      name: "Good",
+      id: "3",
+      name: "Excellent",
     },
   ];
 
-  const handleStatusChange = (e) => {
+  const handleRatingChange = (e) => {
     let value = null;
-
+    console.log("Selctionsssd", e.target.value);
     if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value,
+      rating: value,
     }));
   };
 
   const handleSelectAllbooks = (event) => {
-    setSelectedbooks(
-      event.target.checked ? books.map((cryptoOrder) => cryptoOrder.id) : []
-    );
+    setSelectedbooks(event.target.checked ? books.map((book) => book.id) : []);
   };
 
-  const handleSelectOneCryptoOrder = (event, cryptoOrderId) => {
-    if (!selectedbooks.includes(cryptoOrderId)) {
-      setSelectedbooks((prevSelected) => [...prevSelected, cryptoOrderId]);
+  const handleSelectOnebook = (event, bookId) => {
+    if (!selectedbooks.includes(bookId)) {
+      setSelectedbooks((prevSelected) => [...prevSelected, bookId]);
     } else {
       setSelectedbooks((prevSelected) =>
-        prevSelected.filter((id) => id !== cryptoOrderId)
+        prevSelected.filter((id) => id !== bookId)
       );
     }
   };
@@ -155,13 +151,13 @@ const BooksTable = ({ books }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Rating</InputLabel>
                 <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
+                  value={filters.rating || "all"}
+                  onChange={handleRatingChange}
+                  label="Rating"
                   autoWidth>
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
+                  {ratingOptions.map((ratingOption) => (
+                    <MenuItem key={ratingOption.id} value={ratingOption.id}>
+                      {ratingOption.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -183,10 +179,10 @@ const BooksTable = ({ books }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedbooks.map((cryptoOrder) => {
-              const isbookselected = selectedbooks.includes(cryptoOrder.id);
+            {paginatedbooks.map((book) => {
+              const isbookselected = selectedbooks.includes(book.id);
               return (
-                <TableRow hover key={cryptoOrder.id} selected={isbookselected}>
+                <TableRow hover key={book.id} selected={isbookselected}>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -194,10 +190,11 @@ const BooksTable = ({ books }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap>
-                      {cryptoOrder.orderDetails}
+                      {book.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(cryptoOrder.orderDate, "MMMM dd yyyy")}
+                      {/* {format(book.orderDate, "MMMM dd yyyy")} */}
+                      {book.creation_time}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -207,11 +204,11 @@ const BooksTable = ({ books }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap>
-                      {cryptoOrder.orderID}
+                      {book.author}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
+                    {getRatingLabel(book.rating)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Rate Book" arrow>
