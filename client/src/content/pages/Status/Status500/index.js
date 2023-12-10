@@ -130,7 +130,7 @@ function Status500() {
                     my: 2
                   }}
                 >
-                  Tokyo Free White React Javascript Admin Dashboard
+                  Shiksha Niyojak
                 </TypographyPrimary>
                 <TypographySecondary
                   variant="h4"
