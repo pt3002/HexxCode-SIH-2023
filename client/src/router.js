@@ -23,6 +23,7 @@ import NotifyEducators from './content/pages/AICTE/NotifyEducators';
 import AddGuidelines from './content/pages/AICTE/AddGuidelines';
 import RegisterEducator from './content/pages/ED/register-educator';
 import Courses from './content/pages/CD/courses';
+import Document from './content/pages/CD/document';
 
 const Loader = (Component) => (props) =>
   (
@@ -243,6 +244,10 @@ const routes = [
       {
         path: 'subjects',
         element : <Courses />
+      },
+      {
+        path : 'document',
+        element : <Document />
       }
     ]
   },

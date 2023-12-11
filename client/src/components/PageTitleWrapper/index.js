@@ -3,7 +3,7 @@ import { Box, Container, styled } from '@mui/material';
 
 const PageTitle = styled(Box)(
   ({ theme }) => `
-        padding: ${theme.spacing(4)};
+        padding: ${theme.spacing(2)};
 `
 );
 
