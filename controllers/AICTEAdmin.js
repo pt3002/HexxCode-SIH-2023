@@ -1,4 +1,4 @@
-const { AICTEAdminFeatures } = require("../classes/AICTEAdmin");
+const { AICTEAdminFeatures, Guidelines } = require("../classes/AICTEAdmin");
 
 exports.getAllDepartmentHeads = async (req, res, next) => {
   try {
@@ -96,3 +96,87 @@ exports.deleteDepartmentHead = async (req, res, next) => {
     console.log(error);
   }
 };
+
+exports.getAllGuidelines = async (req, res, next) => {
+  try {
+    let ans = await Guidelines.getAllGuidelines();
+    try {
+      let guidelines = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          title: ans[i].title,
+          description: ans[i].description,
+          mongo_file_id: ans[i].mongo_file_id,
+          creation_date: ans[i].creation_date,
+          last_modified_date: ans[i].last_modified_date,
+        };
+        guidelines.push(n);
+      }
+      res.send({ guidelines });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.addGuideline = async (req, res, next) => {
+  try {
+    let { id, title, description, mongo_file_id } = req.body;
+    let error_flag = false;
+
+    let a = await Guidelines.addGuideline(
+      id,
+      title,
+      description,
+      mongo_file_id
+    );
+    if (a == "error") {
+      error_flag = true;
+    }
+
+    if (error_flag) {
+      res.send({ error: "Error Occured while adding guideline" });
+    } else {
+      res.send({ message: "Guideline added successfully" });
+    }
+  } catch (error) {
+    res.send({ error: "Error Occured while adding guideline" });
+  }
+};
+
+exports.updateGuideline = async (req, res, next) => {
+  try {
+    let { id, title, mongo_file_id, last_modified_date } = req.body;
+    let error_flag = false;
+
+    let a = await Guidelines.updateGuideline(
+      id, title, mongo_file_id, last_modified_date
+    );
+    if (a == "error") {
+      error_flag = true;
+    }
+
+    if (error_flag) {
+      res.send({ error: "Error while updating Guideline" });
+    } else {
+      res.send({ message: "Guideline Updated Successfully" });
+    }
+  } catch (error) {
+    res.send({ error: "Error while updating Guideline" });
+  }
+};
+
+exports.deleteGuideline = async (req, res, next) => {
+  try {
+    let { id } = req.body;
+    await Guidelines.deleteGuideline(id);
+    res.send({ message: "Guideline deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

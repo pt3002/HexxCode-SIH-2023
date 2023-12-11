@@ -52,4 +52,53 @@ class AICTEAdminFeatures {
   }
 }
 
-module.exports = { AICTEAdminFeatures };
+class Guidelines{
+
+  static async getAllGuidelines() {
+    let sql = `Select * from guideline`;
+    const [guidelines, _] = await db.execute(sql);
+    return guidelines;
+  }
+
+  static async addGuideline(
+    id,
+    title,
+    description,
+    mongo_file_id
+  ) {
+    let sql = `INSERT INTO guideline (id, title, description, mongo_file_id) VALUES ("${id}","${title}","${description}","${mongo_file_id}");`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+
+  static async updateGuideline(
+    id,
+    title,
+    mongo_file_id,
+    last_modified_date
+  ) {
+    let sql = `UPDATE guideline SET title="${title}", mongo_file_id="${mongo_file_id}", last_modified_date="${last_modified_date}" where id = "${id}";`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+
+  static async deleteGuideline(id) {
+    let sql = `DELETE FROM guideline where id = "${id}";`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+}
+
+module.exports = { AICTEAdminFeatures, Guidelines };

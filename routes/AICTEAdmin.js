@@ -8,4 +8,10 @@ router.post("/addDepartmentHead", AICTEAdminControllers.addDepartmentHead);
 router.post("/updateDepartmentHead", AICTEAdminControllers.updateDepartmentHead);
 router.post("/deleteDepartmentHead", AICTEAdminControllers.deleteDepartmentHead);
 
+//Guidelines
+router.get("/getAllGuidelines", AICTEAdminControllers.getAllGuidelines);
+router.post("/addGuideline", AICTEAdminControllers.addGuideline);
+router.post("/updateGuideline", AICTEAdminControllers.updateGuideline);
+router.post("/deleteGuideline", AICTEAdminControllers.deleteGuideline);
+
 module.exports = router;
