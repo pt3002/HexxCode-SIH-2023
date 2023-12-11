@@ -1,8 +1,9 @@
-const { response } = require("express");
 const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
 } = require("../classes/curriculumDeveloper");
+
+const document = require("../models/document")
 
 exports.GetAllSubjects = async (req, res, next) => {
   try {
@@ -216,3 +217,18 @@ exports.AddPinnedSubjects = async (req, res, next) => {
     res.send({ error: "Cannot Add Subject" });
   }
 };
+
+// MONGO DB Requests
+exports.createDocument = async(req, res) => {
+  const {title, description} = req.body;
+  if(!(title, description)){
+    return res.send({error: "Input Fields Missing"})
+  }
+  const newDocument = new document({
+    title, description
+  })
+  newDocument.save().then(() => {
+    res.status(200).send({message : "Document Created Successfully"})
+  })
+  .catch((err) => res.status(400).json({error: err.message}))
+}
