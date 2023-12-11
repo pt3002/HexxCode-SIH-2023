@@ -1,6 +1,7 @@
 const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
+  Guidelines,
 } = require("../classes/curriculumDeveloper");
 
 const document = require("../models/document")
@@ -215,6 +216,31 @@ exports.AddPinnedSubjects = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.send({ error: "Cannot Add Subject" });
+  }
+};
+
+exports.getAllGuidelines = async (req, res, next) => {
+  try {
+    let ans = await Guidelines.getAllGuidelines();
+    try {
+      let guidelines = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          title: ans[i].title,
+          description: ans[i].description,
+          mongo_file_id: ans[i].mongo_file_id,
+          creation_date: ans[i].creation_date,
+          last_modified_date: ans[i].last_modified_date,
+        };
+        guidelines.push(n);
+      }
+      res.send({ guidelines });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
