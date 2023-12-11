@@ -9,10 +9,15 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 import Select from "@mui/material/Select";
-import { useNavigate } from "react-router";
+import { BACKEND_URL } from "../../../configKeys"
+const uuid = require("uuid").v4;
 
 export default function RegisterEducator() {
+  const navigate = useNavigate();
   const [stateVar, setStateVar] = React.useState({
     Data: {
       email: "",
@@ -103,6 +108,38 @@ export default function RegisterEducator() {
     });
     if (validate == true) {
       console.log("All data is correctly filled", Data);
+      // const initial_url = BACKEND_URL + "/Educator/EducatorRegister";
+      const initial_url = "http://localhost:5001/api/Educator/educatorRegister";
+      // let id = uuid();
+      // let email = Data.email;
+      // let name = Data.name
+      // let college = Data.college
+      // let university = Data.university
+      // let designation = Data.designation
+      // let password = Data.password
+      let body = {id:uuid(), email:Data.email, name:Data.name, university:Data.university, college:Data.college, designation:Data.designation, password:Data.password};
+      axios.post(initial_url, body).then(res => {
+        if(res.data.message === "User with same email already registered"){
+          Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+        else{
+          Swal.fire({
+            icon: "success",
+            title: "SUCCESS",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(navigate("/login"));
+        }}).catch((error) => {
+          console.log("Error Code: ", error);
+          navigate("/register-educator");
+        });
     } else {
       console.log(errors);
       alert("Please fill all data first");
