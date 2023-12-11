@@ -26,6 +26,7 @@ import Courses from './content/pages/CD/courses';
 import Document from './content/pages/CD/document';
 import ViewGuidelines from './content/pages/CD/ViewGuidelines';
 import ViewGuidelinesED from './content/pages/ED/ViewGuidelines';
+import CreateDocument from './content/pages/CD/createDocument';
 
 const Loader = (Component) => (props) =>
   (
@@ -254,6 +255,10 @@ const routes = [
       {
         path : 'viewGuidelines',
         element : <ViewGuidelines/>
+      },
+      {
+        path : 'createDocument',
+        element : <CreateDocument />
       }
     ]
   },
