@@ -24,11 +24,23 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { useNavigate } from 'react-router';
 import AppBar from '@mui/material/AppBar';
+import { useContext, useEffect } from 'react';
+import UserTokenContext from '../../../contexts/UserTokenContext';
+
 const steps = ['Requirements form'];
 
 function Requirements(){
   const [activeStep, setActiveStep] = React.useState(0);
   const navigate = useNavigate();
+
+  const userContext = useContext(UserTokenContext)
+  const {dict, checkToken} = userContext
+
+  React.useEffect(() => {
+    checkToken();
+  }, []);
+
+  console.log(dict)
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
