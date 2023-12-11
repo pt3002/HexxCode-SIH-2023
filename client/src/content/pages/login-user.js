@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid"; //1
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-import { Avatar, ButtonGroup,Box } from "@mui/material";
+import { Avatar, ButtonGroup, Box } from "@mui/material";
 import Footer from "../../components/Footer";
 
 const users = [
@@ -18,13 +18,14 @@ const users = [
 
 export default function CurriculumDeveloperLogin() {
   const [text, setUser] = React.useState("");
-  // const [type, setType] = React.useState(0);
 
   const [Data, setData] = React.useState({
     email: "",
     password: "",
     type: 0,
   });
+
+  const error={};
 
   const getUser = (ev) => {
     const { name, value } = ev.currentTarget;
@@ -62,8 +63,6 @@ export default function CurriculumDeveloperLogin() {
   };
 
   const validateUsertype = (type, email) => {
-    console.log(typeof type);
-    console.log(typeof Data.type);
     if (users.some((user) => user.email === email && user.type === type)) {
       return true;
     }
@@ -72,29 +71,52 @@ export default function CurriculumDeveloperLogin() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(users);
+    let errors = error;
     if (Data.type === 0) {
-      console.log("Select user");
+      error["type"] = "user not selected";
+    }
+    if (Data.email === "") {
+      errors["email"] = "All Details to be filled";
+    } else if (!validateEmail(Data.email)) {
+      errors["email"] = "Invalid email";
     } else {
-      if (validateEmail(Data.email)) {
-        if (!validateUsertype(Data.type, Data.email)) {
-          console.log("wrong user selected");
-        } else if (
-          users.some(
-            (user) =>
-              user.email === Data.email && user.password === Data.password
-          )
-        ) {
-          console.log("Logged in Successfullly : ", Data);
-        } else {
-          console.log("invalid credentials");
-        }
-      } else {
-        console.log("Invalid email.Please Try again.");
+      errors["email"] = "";
+    }
+    if (Data.password === "") {
+      errors["password"] = "All Details to be filled";
+    } else {
+      errors["password"] = "";
+    }
+
+    let validate = true;
+    Object.keys(errors).map((error) => {
+      if (errors[error] !== "") {
+        validate = false;
       }
+    });
+
+    if (validate) {
+        if (validateUsertype(Data.type, Data.email)) {
+          if (
+            users.some(
+              (user) =>
+                user.email === Data.email && user.password === Data.password
+            )
+          ) {
+            alert("logged in successfully");
+            console.log(Data);
+          } else {
+            alert("invalid credentials");
+          }
+        } else {
+          alert("wrong user selected");
+          errors["type"]="wrong user selected";
+        }
+    } else {
+      alert("Fill all details correctly");
+      console.log(errors,Data);
     }
   };
-
 
   return (
     <React.Fragment>
@@ -221,8 +243,6 @@ export default function CurriculumDeveloperLogin() {
               />
             </Grid>
 
-            
-
             <Grid align="center">
               {/* <Avatar sx={{width: 56, height: 56}} ><AccountCircleIcon /></Avatar> */}
               {text && (
@@ -266,7 +286,12 @@ export default function CurriculumDeveloperLogin() {
               color="inherit"
               align="right"
               noWrap
-              sx={{ mx: { xs: 'auto', md: 'auto' }, mt: 1, fontSize: 12 ,mr:1}}
+              sx={{
+                mx: { xs: "auto", md: "auto" },
+                mt: 1,
+                fontSize: 12,
+                mr: 1,
+              }}
             >
               <Link href="#" color="secondary">
                 Forgot Password?
@@ -277,15 +302,10 @@ export default function CurriculumDeveloperLogin() {
               {/* <Button type="submit"  variant="contained" sx={{width: 400, height: 46,bgcolor:'#ff865b'}} onClick={handleSubmit}>
                             Sign In
                         </Button> */}
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={handleSubmit}
-              >
+              <Button variant="contained" size="medium" onClick={handleSubmit}>
                 Sign In
               </Button>
             </Grid>
-            
 
             <Typography
               variant="h6"
