@@ -21,6 +21,11 @@ router.get(
   CurriculumDeveloperControllers.GetResourceBySubject
 );
 
+router.get(
+  "/getGuidelines",
+  CurriculumDeveloperControllers.getAllGuidelines
+)
+
 //# Post Request
 router.post(
   "/addPinnedResources",

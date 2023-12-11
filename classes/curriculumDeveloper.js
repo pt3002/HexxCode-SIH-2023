@@ -70,4 +70,13 @@ class curriculumDeveloperFeatures {
   }
 }
 
-module.exports = { curriculumDeveloperAuth, curriculumDeveloperFeatures };
+class Guidelines{
+
+  static async getAllGuidelines() {
+    let sql = `Select * from guideline`;
+    const [guidelines, _] = await db.execute(sql);
+    return guidelines;
+  }
+}
+
+module.exports = { curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines };

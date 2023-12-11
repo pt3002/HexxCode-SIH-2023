@@ -1,5 +1,5 @@
 // const { response } = require("express");
-const { EducatorLogin, EducatorFeatures } = require("../classes/Educator");
+const { EducatorLogin, EducatorFeatures, Guidelines } = require("../classes/Educator");
 
 exports.EducatorRegistration = async (req, res, next) => {
     try {
@@ -20,6 +20,31 @@ exports.EducatorRegistration = async (req, res, next) => {
         res.status(500).send({ error: "Internal Server Error" });
     }
 };
+
+exports.getAllGuidelines = async (req, res, next) => {
+    try {
+      let ans = await Guidelines.getAllGuidelines();
+      try {
+        let guidelines = [];
+        for (let i = 0; i < ans.length; i++) {
+          let n = {
+            id: ans[i].id,
+            title: ans[i].title,
+            description: ans[i].description,
+            mongo_file_id: ans[i].mongo_file_id,
+            creation_date: ans[i].creation_date,
+            last_modified_date: ans[i].last_modified_date,
+          };
+          guidelines.push(n);
+        }
+        res.send({ guidelines });
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 // const { jwtSecretKey } = require("../config/configKeys");
 // const jwt = require("jsonwebtoken");
