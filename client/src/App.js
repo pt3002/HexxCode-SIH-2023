@@ -5,13 +5,17 @@ import router from './router';
 
 import ThemeProvider from './theme/ThemeProvider';
 
+import UserTokenState from './contexts/UserTokenState';
+
 function App() {
   const content = useRoutes(router);
 
   return (
     <HelmetProvider>
         <ThemeProvider>
+          <UserTokenState>
             {content}
+          </UserTokenState>
         </ThemeProvider>
     </HelmetProvider>
   );

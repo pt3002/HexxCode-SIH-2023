@@ -262,6 +262,17 @@ function SidebarMenu() {
                   Past Curriculums
                 </Button>
               </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/ED/viewGuidelines"
+                  startIcon={<MmsTwoToneIcon />}
+                >
+                  View Guidelines
+                </Button>
+              </ListItem>
             </List>
           </SubMenuWrapper>
         </List>

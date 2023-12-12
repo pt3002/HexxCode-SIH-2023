@@ -21,6 +21,11 @@ router.get(
   CurriculumDeveloperControllers.GetResourceBySubject
 );
 
+router.get(
+  "/getGuidelines",
+  CurriculumDeveloperControllers.getAllGuidelines
+)
+
 //# Post Request
 router.post(
   "/addPinnedResources",
@@ -38,5 +43,6 @@ router.post(
 
 // MONGO Post requests
 router.post("/createDocument", CurriculumDeveloperControllers.createDocument)
+router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
 
 module.exports = router;
