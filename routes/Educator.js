@@ -3,7 +3,7 @@ const EducatorsControllers = require("../controllers/Educator");
 const router = express.Router();
 const { auth } = require("../middleware/auth")
 
-router.get("/getGuidelines", [auth, EducatorsControllers.getAllGuidelines]);
+router.get("/getGuidelines", EducatorsControllers.getAllGuidelines);
 
 router.post("/educatorLogin", EducatorsControllers.EducatorLogin);
 router.post("/educatorRegister", EducatorsControllers.EducatorRegistration);

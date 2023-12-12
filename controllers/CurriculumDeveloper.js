@@ -248,7 +248,7 @@ exports.getAllGuidelines = async (req, res, next) => {
 exports.createDocument = async(req, res) => {
   const {title, description} = req.body;
   if(!(title, description)){
-    return res.send({error: "Input Fields Missing"})
+    return res.status(400).send({error: "Input Fields Missing"})
   }
   const newDocument = new document({
     title, description
@@ -257,4 +257,13 @@ exports.createDocument = async(req, res) => {
     res.status(200).send({message : "Document Created Successfully"})
   })
   .catch((err) => res.status(400).json({error: err.message}))
+}
+
+exports.getAllDocuments = async(req, res) => {
+  document.find()
+  .lean()
+  .exec()
+  .then((documents) => {
+    res.status(200).send({documents})
+  })
 }

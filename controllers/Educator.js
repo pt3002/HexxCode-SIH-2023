@@ -52,8 +52,9 @@ exports.EducatorRegistration = async (req, res, next) => {
 };
 
 exports.getAllGuidelines = async (req, res, next) => {
-  if(req.userId && req.userRole == "Educator"){
-    console.log(req.userId, req.userRole, req.userName, req.email)
+  //later auth to be added here
+  if(true){
+    //console.log(req.userId, req.userRole, req.userName, req.email)
     try {
       let ans = await Guidelines.getAllGuidelines();
       try {

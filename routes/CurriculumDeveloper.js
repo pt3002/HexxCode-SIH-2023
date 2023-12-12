@@ -38,5 +38,6 @@ router.post(
 
 // MONGO Post requests
 router.post("/createDocument", CurriculumDeveloperControllers.createDocument)
+router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
 
 module.exports = router;
