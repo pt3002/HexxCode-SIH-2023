@@ -10,13 +10,15 @@ import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import { Avatar, ButtonGroup, Box } from "@mui/material";
 import Footer from "../../components/Footer";
-
-const users = [
-  { email: "jiaj21@gmail.com", password: "123", type: "1" },
-  { email: "jison@gmail.com", password: "jison", type: "3" },
-];
+import { backendURL } from "../../configKeys";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function CurriculumDeveloperLogin() {
+  console.log(backendURL);
+  const navigate = useNavigate();
+
   const [text, setUser] = React.useState("");
 
   const [Data, setData] = React.useState({
@@ -25,7 +27,7 @@ export default function CurriculumDeveloperLogin() {
     type: 0,
   });
 
-  const error={};
+  const error = {};
 
   const getUser = (ev) => {
     const { name, value } = ev.currentTarget;
@@ -62,11 +64,32 @@ export default function CurriculumDeveloperLogin() {
       );
   };
 
-  const validateUsertype = (type, email) => {
-    if (users.some((user) => user.email === email && user.type === type)) {
-      return true;
+  // const validateUsertype = (type, email) => {
+  //   if (users.some((user) => user.email === email && user.type === type)) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
+
+  const getUrlForUser = (type) => {
+    if (type === "1") {
+      return backendURL + "/CurriculumDeveloper/CurriculumDeveloperLogin";
+    } else if (type === "2") {
+      // return BACKEND_URL + "/Educator/EducatorLogin";
+      return backendURL + "/Educator/EducatorLogin";
+    } else {
+      return backendURL + "/AICTEAdmin/AICTEAdminLogin";
     }
-    return false;
+  };
+
+  const getPage = (type) => {
+    if (type === "1") {
+      return "/curriculumDeveloper";
+    } else if (type === "2") {
+      return "/ED";
+    } else {
+      return "/aicte";
+    }
   };
 
   const handleSubmit = (event) => {
@@ -96,25 +119,49 @@ export default function CurriculumDeveloperLogin() {
     });
 
     if (validate) {
-        if (validateUsertype(Data.type, Data.email)) {
+      console.log("All Details filled correctly.");
+      const initial_url = getUrlForUser(Data.type);
+      const navigate_page = getPage(Data.type);
+      console.log(initial_url);
+      let body = { email: Data.email, password: Data.password };
+      axios
+        .post(initial_url, body)
+        .then((res) => {
           if (
-            users.some(
-              (user) =>
-                user.email === Data.email && user.password === Data.password
-            )
+            res.data.message === "Wrong user selected or Invalid Credentials"
           ) {
-            alert("logged in successfully");
-            console.log(Data);
+            Swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          } else if (res.data.error === "Invalid Credentials") {
+            Swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: res.data.error,
+              showConfirmButton: false,
+              timer: 3000,
+            });
           } else {
-            alert("invalid credentials");
+            Swal.fire({
+              icon: "success",
+              title: "SUCCESS",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 3000,
+            }).then(navigate(navigate_page));
           }
-        } else {
-          alert("wrong user selected");
-          errors["type"]="wrong user selected";
-        }
+        })
+        .catch((error) => {
+          console.log("Error Code: ", error);
+          navigate("/login");
+        });
     } else {
-      alert("Fill all details correctly");
-      console.log(errors,Data);
+      console.log(errors);
+      alert("Please fill all data first");
     }
   };
 
@@ -229,6 +276,7 @@ export default function CurriculumDeveloperLogin() {
           <Paper
             align="center"
             variant="outlined"
+            elevation={8}
             sx={{
               my: { xs: 4, md: 2 },
               p: { xs: 2, md: 3 },

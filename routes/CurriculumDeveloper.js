@@ -35,6 +35,11 @@ router.post(
   "/addPinnedSubjects",
   CurriculumDeveloperControllers.AddPinnedSubjects
 );
+//login
+router.post(
+  "/CurriculumDeveloperLogin",
+  CurriculumDeveloperControllers.CurriculumDeveloperLogin
+);
 
 // MONGO Post requests
 router.post("/createDocument", CurriculumDeveloperControllers.createDocument)

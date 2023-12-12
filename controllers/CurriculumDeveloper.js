@@ -1,7 +1,9 @@
 const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
+  CurriculumDeveloperLogin,
   Guidelines,
+
 } = require("../classes/curriculumDeveloper");
 
 const document = require("../models/document")
@@ -219,6 +221,33 @@ exports.AddPinnedSubjects = async (req, res, next) => {
   }
 };
 
+
+exports.CurriculumDeveloperLogin=async(req,res)=>{
+  try{
+    let {email,password}=req.body;
+    let ans=await CurriculumDeveloperLogin.findCDByEmail(email);
+    console.log("ans...",ans);
+    if(ans.length===0){
+        res.send({message:"Wrong user selected or Invalid Credentials"});
+    }
+    else{
+        if(ans[0].password===password){
+            res.send({
+                message:"Login successful"
+            });
+        }
+        else{
+            res.send({error:"Invalid Credentials"});
+        }
+    }
+}
+catch(error){
+    res.status(500).send({ error: "Internal Server Error" });
+}
+};
+
+
+
 exports.getAllGuidelines = async (req, res, next) => {
   try {
     let ans = await Guidelines.getAllGuidelines();
@@ -244,6 +273,7 @@ exports.getAllGuidelines = async (req, res, next) => {
   }
 };
 
+
 // MONGO DB Requests
 exports.createDocument = async(req, res) => {
   const {title, description} = req.body;
@@ -267,3 +297,4 @@ exports.getAllDocuments = async(req, res) => {
     res.status(200).send({documents})
   })
 }
+
