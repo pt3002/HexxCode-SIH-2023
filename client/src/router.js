@@ -27,6 +27,7 @@ import Document from './content/pages/CD/document';
 import ViewGuidelines from './content/pages/CD/ViewGuidelines';
 import ViewGuidelinesED from './content/pages/ED/ViewGuidelines';
 import CreateDocument from './content/pages/CD/createDocument';
+import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculumDevelopers';
 
 const Loader = (Component) => (props) =>
   (
@@ -342,7 +343,11 @@ const routes = [
       },
       {
         path: 'addGuidelines',
-        element : <AddGuidelines />
+        element: <AddGuidelines />
+      },
+      {
+        path: 'approveCDs',
+        element : <ApproveCurriculumDevelopers />
       }
     ]
   },
