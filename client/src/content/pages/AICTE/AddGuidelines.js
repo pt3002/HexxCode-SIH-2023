@@ -104,6 +104,7 @@ export default function AddGuidelines() {
     } else {
       let data = new FormData();
       data.append("file", event.target.files[0], event.target.files[0].name);
+      console.log("Guidelines event", event)
       setfileData(data);
     }
   }

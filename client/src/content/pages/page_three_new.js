@@ -24,7 +24,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 
-
+import DocViewer from "./Components/DocViewer";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -48,12 +48,18 @@ import {
     TableContainer,
   } from "@material-ui/core";
 import { Search } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
+import Swal from "sweetalert2";
+import axios from "axios";
+import { backendURL } from '../../configKeys';
+const uuid = require("uuid").v4;
+
 // import Page1 from './page_one'
 // import Page2 from './page_two';
 // import Page3 from './page_three'
 
 
-const steps = ['Personal Information', 'Academic and Work Details', 'Other Details'];
+const steps = ['Personal Information', 'Other Details'];
 
 // function getStepContent(step) {
 //   switch (step) {
@@ -69,9 +75,50 @@ const steps = ['Personal Information', 'Academic and Work Details', 'Other Detai
 // }
 
 export default function Page3New() {
+  const location = useLocation();
+  const [fileData, setfileData] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const [Edit, setEdit] = React.useState(0);
+  const [newGuideline, setNewGuideline] = React.useState({
+    mongo_file_id: "",
+  });
+  const columns = [
+    {
+      field: "mongo_file_id",
+      headerName: "View",
+      width: 110,
+      renderCell: (params) => {
+        return (
+          <Button>
+            <DocViewer
+              filename={params.row.mongo_file_id}
+              contentType="application/pdf"
+            />
+          </Button>
+        );
+      },
+    },
+  ]
   const [activeStep, setActiveStep] = React.useState(2);
   const navigate = useNavigate();
-
+  const arr = [
+    { value: "Computer Engineering", label: "Computer Engineering" },
+    { value: "Electrical Engineering", label: "Electrical Engineering" },
+    { value: "Mechanical Engineering", label: "Mechanical Engineering" },
+    { value: "Civil Engineering", label: "Civil Engineering" },
+    { value: "Chemical Engineering", label: "Chemical Engineering" },
+    { value: "Electronics and Communication Engineering", label: "Electronics and Communication Engineering" },
+    { value: "Information Technology", label: "Information Technology" },
+    { value: "Aeronautical Engineering", label: "Aeronautical Engineering" },
+    { value: "Biotechnology", label: "Biotechnology" },
+    { value: "Automobile Engineering", label: "Automobile Engineering" },
+    { value: "Environmental Engineering", label: "Environmental Engineering" },
+    { value: "Instrumentation Engineering", label: "Instrumentation Engineering" },
+    { value: "Petroleum Engineering", label: "Petroleum Engineering" },
+    { value: "Metallurgical Engineering", label: "Metallurgical Engineering" },
+    { value: "Mining Engineering", label: "Mining Engineering" },
+  ];
+  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -81,15 +128,41 @@ export default function Page3New() {
   }
   const [stateVar, setStateVar] = React.useState({
     Data: {
-    currentJob: '',
-    research: '',
-    previousWork: '',
+    college: '',
+    department: '',
+    university: '',
     specializationDomain: '',
+    mongo_file_id: "",
     // password: '',
     // confirmPassword: '',
   },
   errors:{}
 });
+const handleClickOpen = () => {
+  setEdit(0);
+  setNewGuideline({
+    title: "",
+    description: "",
+    mongo_file_id: "",
+  });
+  setOpen(true);
+};
+
+const handleClose = () => {
+  // console.log(newDepartmentHead);
+  setOpen(false);
+};
+function fileUpload(event) {
+  if (event.target.files[0].type != "application/pdf") {
+    alert("Please upload PDF file");
+    return;
+  } else {
+    let data = new FormData();
+    data.append("file", event.target.files[0], event.target.files[0].name);
+    console.log("File Upload:",event)
+    setfileData(data);
+  }
+}
   const handleChange = ({target}) => {
     let errors = { ...stateVar.errors };
     let Data = { ...stateVar.Data };
@@ -103,6 +176,19 @@ export default function Page3New() {
     //   Data.name: value,
     // }));
   };
+  React.useEffect(() => {
+    // Access the data passed from Page1New
+    console.log("navigate location",location.state)
+    const { dataFromPage1 } = location.state || {};
+    if (dataFromPage1) {
+      setStateVar((prevState) => ({
+        ...prevState,
+        Data: { ...prevState.Data, ...dataFromPage1 },
+      }));
+    } else {
+      // Handle case where data is not available
+    }
+  }, [navigate.location]);
     const handleSubmit = () => {
         let { Data, errors } = stateVar;        
         if (Data.specializationDomain === "") {
@@ -110,15 +196,15 @@ export default function Page3New() {
         } else {
             errors["specializationDomain"] = "";
         }
-        if (Data.currentJob === "") {
-            errors["currentJob"] = "Current Job Domain cannot be empty";
+        if (Data.college === "") {
+            errors["college"] = "College Domain cannot be empty";
         } else {
-            errors["currentJob"] = "";
+            errors["college"] = "";
         }
-        if (Data.previousWork === "") {
-            errors["previousWork"] = "Previous Work cannot be empty";
+        if (Data.university === "") {
+            errors["university"] = "University cannot be empty";
         } else {
-            errors["previousWork"] = "";
+            errors["university"] = "";
         }
         // if (Data.password === "") {
         //     errors["password"] = "Password cannot be empty";
@@ -147,7 +233,51 @@ export default function Page3New() {
         });
         if (validate == true) {
             console.log("All data is correctly filled", Data)
-            handleNext();
+            let URL = backendURL + "/File/upload";
+      axios.post(URL, fileData).then(function (response) {
+        if (response && response.data && response.data.filename) {
+          console.log(response.data.filename);
+          let data = newGuideline;
+          data.mongo_file_id = response.data.filename;
+          setNewGuideline(data);
+
+          let body = {id:uuid(), 
+            email:Data.email, 
+            name:Data.name, 
+            contactNumber:Data.contactNumber, 
+            mongo_file_id: response.data.filename,
+            gender:Data.gender, 
+            college:Data.college, 
+            university:Data.university};
+            const initial_url = backendURL+"/CurriculumDeveloper/register";
+      
+            axios.post(initial_url, body).then(res => {
+              if(res.data.message === "User with same email already registered"){
+                Swal.fire({
+                  icon: "error",
+                  title: "ERROR",
+                  text: res.data.message,
+                  showConfirmButton: false,
+                  timer: 3000,
+                }).then(navigate("/register/page1"));
+              }
+              else{
+                Swal.fire({
+                  icon: "success",
+                  title: "SUCCESS",
+                  text: res.data.message,
+                  showConfirmButton: false,
+                  timer: 3000,
+                }).then(navigate("/login"));
+              }}).catch((error) => {
+                console.log("Error Code: ", error);
+                navigate("/login");
+              });
+        }}).catch((error) => {
+          console.log("Error Code: ", error);
+          navigate("/register/page1");
+        });
+          handleNext();
           } else {
             console.log(errors)
             alert("Please fill all data first");
@@ -219,17 +349,17 @@ export default function Page3New() {
         <Grid container spacing={3} marginBottom={5}>
             <Grid item xs={12}>
                 <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Current Job
+                        College
                 </InputLabel>
                 <TextareaAutosize
                     required
-                    id="currentJob"
-                    name="currentJob"
+                    id="college"
+                    name="college"
                     aria-label=""
-                    placeholder="Mention and describe about your current job"
+                    placeholder="Mention your college name"
                     minRows={1}
                     fullWidth
-                    value={stateVar.Data.currentJob}
+                    value={stateVar.Data.college}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -242,42 +372,37 @@ export default function Page3New() {
                     />
             </Grid>
             <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Research
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="research"
-                    name="research"
-                    aria-label=""
-                    placeholder="List your areas of expertise/ research"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.research}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
+            <TextField
+					label= "Department"
+					select
+					color="primary"
+					variant="outlined"
+					name="department"
+					fullWidth={true}
+					size="small"
+					value={stateVar.Data.department}
+					onChange={handleChange}
+				>
+					{arr.map((option) => (
+						<MenuItem key={option.value} value={option.value}>
+							{option.label}
+						</MenuItem>
+					))}
+				</TextField>
             </Grid>
             <Grid item xs={12}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Previous Work
+                        University
                 </InputLabel>
                 <TextareaAutosize
                     required
-                    id="previousWork"
-                    name="previousWork"
+                    id="university"
+                    name="university"
                     aria-label=""
-                    placeholder="Mention your previous work/ Experience in Curriculum Designing"
+                    placeholder="Mention your university"
                     minRows={1}
                     fullWidth
-                    value={stateVar.Data.previousWork}
+                    value={stateVar.Data.university}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -312,6 +437,16 @@ export default function Page3New() {
                         boxSizing: 'border-box', 
                     }}
                 />
+            </Grid>
+            <Grid sm item>
+              <Button fullWidth variant="outlined">
+                <input
+                  type="file"
+                  accept={".pdf"}
+                  onChange={(event) => fileUpload(event)}
+                  // style={{ color: "transparent" }}
+                />
+              </Button>
             </Grid>
             {/* <Grid item xs={12} sm={6}>
               <TextField

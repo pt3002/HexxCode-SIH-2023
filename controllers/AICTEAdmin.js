@@ -1,4 +1,4 @@
-const { AICTEAdminFeatures, Guidelines } = require("../classes/AICTEAdmin");
+const { AICTEAdminFeatures, Guidelines, CurriculumDevelopers } = require("../classes/AICTEAdmin");
 
 exports.getAllDepartmentHeads = async (req, res, next) => {
   try {
@@ -179,8 +179,72 @@ exports.deleteGuideline = async (req, res, next) => {
   }
 };
 
+
 exports.AICTEAdminLogin=async(req,res,next)=>{
   res.send("admin is working");
 }
 
 
+exports.getAvailableCurriculumDevelopers = async(req, res, next) => {
+  try{
+    let ans = await CurriculumDevelopers.getAllCD();
+    try{
+      let allCDs = [];
+      for(let i=0; i<ans.length; i++)
+      {
+        let cd = {
+          id: ans[i].id,
+          name: ans[i].name,
+          email: ans[i].email,
+          gender: ans[i].gender,
+          university: ans[i].university,
+          college: ans[i].college,
+          department: ans[i].department,
+          status: ans[i].status,
+          resume_file_id: ans[i].resume_file_id
+        };
+        allCDs.push(cd);
+      }
+      res.send({allCDs});
+    }
+    catch(error)
+    {
+      console.log(error);
+    }
+  }
+    catch(error)
+    {
+      console.log(error);
+    }
+}
+
+exports.changeCDStatus = async (req, res, next) => {
+  try {
+    let { id, status} = req.body;
+    let error_flag = false;
+
+    let a = await CurriculumDevelopers.changeStatus(
+      id, status
+    );
+    if (a == "error") {
+      error_flag = true;
+    }
+    if (error_flag) {
+      res.send({ error: "Error while changing Status" });
+    } else {
+      res.send({ message: "Status Changed Successfully" });
+    }
+  } catch (error) {
+    res.send({ error: "Error while changing Status" });
+  }
+};
+
+exports.deleteCD = async (req, res, next) => {
+  try {
+    let { id } = req.body;
+    await CurriculumDevelopers.deleteCD(id);
+    res.send({ message: "CD deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};

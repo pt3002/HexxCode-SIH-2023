@@ -7,8 +7,43 @@ class curriculumDeveloperAuth {
     return curriculumDevelopers;
   }
 }
+class CDLogin {
+  static async findCDByEmail(email) {
+    let sql = ` SELECT id, name, university, college from curriculum_developer where email = "${email}";`;
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
 
+  static async findCDById(id) {
+    let sql = `SELECT email, name, university, college, designation, password from organization_admin where admin_id = "${id}";`;
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
+}
 class curriculumDeveloperFeatures {
+  static async getAllUsers() {
+    let sql = `SELECT * FROM curriculum_developer;`;
+
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
+  static async insertCD(
+    id,
+    email,
+    name,
+    gender,
+    university,
+    college,
+    mongo_file_id
+  ) {
+    let sql = `INSERT INTO curriculum_developer(id, email, name, gender, university, college, resume_file_id) VALUES ("${id}","${email}","${name}","${gender}","${university}","${college}","${mongo_file_id}");`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return error.code
+    }
+  }
   static async getAllSubjects() {
     let sql = `SELECT * FROM subject`;
     const [result, _] = await db.execute(sql);
@@ -89,6 +124,7 @@ class Guidelines{
   }
 }
 
+
 class Requirements{
 
   static async getAllRequirements() {
@@ -98,4 +134,6 @@ class Requirements{
   }
 }
 
-module.exports = { curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin ,Requirements};
+
+module.exports = { CDLogin,curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin,Requirements };
+
