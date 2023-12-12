@@ -21,8 +21,11 @@ import axios from "axios"
 import {backendURL} from "../../../configKeys"
 import Swal from "sweetalert2";
 import DocumentsTable from "../Components/Table/DocumentsTable";
+import { useNavigate } from "react-router-dom";
 
 function CreateDocument() {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
 
   const [documents, setDocuments] = useState([])
