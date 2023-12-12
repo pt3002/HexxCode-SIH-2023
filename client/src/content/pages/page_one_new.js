@@ -41,19 +41,20 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from 'react-router';
 import {
-    Table,
-    TableBody,
-    TableHead,
-    TableRow,
-    TableContainer,
-  } from "@material-ui/core";
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableContainer,
+} from "@material-ui/core";
 import { Search } from '@mui/icons-material';
+const uuid = require("uuid").v4;
 // import Page1 from './page_one'
 // import Page2 from './page_two';
 // import Page3 from './page_three'
 
 
-const steps = ['Personal Information', 'Academic and Work Details', 'Other Details'];
+const steps = ['Personal Information', 'Other Details'];
 
 // function getStepContent(step) {
 //   switch (step) {
@@ -78,6 +79,7 @@ export default function Page1New() {
   const navigate = useNavigate();
   const [stateVar, setStateVar] = React.useState({
     Data: {
+    id:'',
     email: '',
     name: '',
     contactNumber: '',
@@ -138,7 +140,7 @@ export default function Page1New() {
         if (validate == true) {
             console.log("All data is correctly filled", Data)
             handleNext()
-            navigate("/register/page2")
+            navigate("/register/page3",{ state: { dataFromPage1: stateVar.Data } })
             
           } else {
             console.log(errors)
@@ -248,28 +250,23 @@ export default function Page1New() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-                {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    Gender
-                </InputLabel> */}
-                <Select
-                    label = "Gender"
-                    native
-                    inputProps={{
-                    name: 'gender',
-                    id: 'uncontrolled-native',
-                    }}
-                    onChange={handleChange}
-                    value={stateVar.Data.gender}
-                >
-                    {arr.map((choose) => (
-					<option key={choose.value} value={choose.value}>
-						{choose.label}
-					</option>
-				))}
-                </Select>
-            </FormControl>
-             
+            <TextField
+					label= "Gender"
+					select
+					color="primary"
+					variant="outlined"
+					name="gender"
+					size="small"
+          style={{width:"100px"}}
+					value={stateVar.Data.branch}
+					onChange={handleChange}
+				>
+					{arr.map((option) => (
+						<MenuItem key={option.value} value={option.value}>
+							{option.label}
+						</MenuItem>
+					))}
+				</TextField>
             </Grid>
             </Grid>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>

@@ -81,6 +81,7 @@ exports.getAllGuidelines = async (req, res, next) => {
   
 };
 
+
 exports.EducatorLogin = async (req, res, next) => {
   try {
     let { email, password } = req.body;
@@ -104,3 +105,4 @@ exports.EducatorLogin = async (req, res, next) => {
     console.log(error);
   }
 };
+

@@ -1,11 +1,28 @@
 const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
+  CurriculumDeveloperLogin,
   Guidelines,
+  CDLogin
+
 } = require("../classes/curriculumDeveloper");
 
 const document = require("../models/document")
-
+const generateToken = (user) => {
+  const token = jwt.sign(
+    {
+      id: user.id,
+      role: user.role,
+      name: user.name,
+      email: user.email,
+    },
+    jwtSecretKey
+  );
+  return {
+    success: true,
+    token: token,
+  };
+};
 exports.GetAllSubjects = async (req, res, next) => {
   try {
     let ans = await curriculumDeveloperFeatures.getAllSubjects();
@@ -30,7 +47,34 @@ exports.GetAllSubjects = async (req, res, next) => {
     res.send({ error: "Subjects Not Found" });
   }
 };
-
+exports.CDRegistration = async (req, res, next) => {
+  try {
+    console.log("body....", req.body);
+    const { id, email, name, gender, university, college, mongo_file_id} =
+      req.body;
+    let existingCD = await CDLogin.findCDByEmail(email);
+    console.log(req.body);
+    if (existingCD.length > 0) {
+      return res.send({ message: "User with same email already registered" });
+    }
+    await curriculumDeveloperFeatures.insertCD(
+      id,
+      email,
+      name,
+      gender,
+      university,
+      college,
+      mongo_file_id
+    );
+    console.log("hello",req.body);
+    res.send({
+      message: "Curriculum Developer registration successful",
+    });
+  } catch (error) {
+    // console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};
 exports.GetAllSubjectsByDepartment = async (req, res, next) => {
   const department = req.params && req.params.department;
   if (!department) {
@@ -219,6 +263,41 @@ exports.AddPinnedSubjects = async (req, res, next) => {
   }
 };
 
+
+exports.CurriculumDeveloperLogin=async(req,res)=>{
+  try{
+    let {email,password}=req.body;
+    let ans=await CurriculumDeveloperLogin.findCDByEmail(email);
+    console.log("ans...",ans);
+    if(ans.length===0){
+        res.send({message:"Wrong user selected or Invalid Credentials"});
+    }
+    else{
+        if(ans[0].password===password){
+          let user = {
+            id: ans[0]["id"],
+            role: "CurriculumDeveloper",
+            name: ans[0]["name"],
+            email: email,
+          };
+          const token = generateToken(user);
+          res.send({
+            message: "Login Successful",
+            token: token,
+          });
+        }
+        else{
+            res.send({error:"Invalid Credentials"});
+        }
+    }
+}
+catch(error){
+    res.status(500).send({ error: "Internal Server Error" });
+}
+};
+
+
+
 exports.getAllGuidelines = async (req, res, next) => {
   try {
     let ans = await Guidelines.getAllGuidelines();
@@ -244,6 +323,7 @@ exports.getAllGuidelines = async (req, res, next) => {
   }
 };
 
+
 // MONGO DB Requests
 exports.createDocument = async(req, res) => {
   const {title, description} = req.body;
@@ -267,3 +347,4 @@ exports.getAllDocuments = async(req, res) => {
     res.status(200).send({documents})
   })
 }
+

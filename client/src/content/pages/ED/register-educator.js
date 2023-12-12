@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import Select from "@mui/material/Select";
-import { BACKEND_URL } from "../../../configKeys"
+import { BACKEND_URL, backendURL } from "../../../configKeys"
 const uuid = require("uuid").v4;
 
 export default function RegisterEducator() {
@@ -109,7 +109,6 @@ export default function RegisterEducator() {
     if (validate == true) {
       console.log("All data is correctly filled", Data);
       // const initial_url = BACKEND_URL + "/Educator/EducatorRegister";
-      const initial_url = "http://localhost:5001/api/Educator/educatorRegister";
       // let id = uuid();
       // let email = Data.email;
       // let name = Data.name
@@ -117,6 +116,7 @@ export default function RegisterEducator() {
       // let university = Data.university
       // let designation = Data.designation
       // let password = Data.password
+      const initial_url = backendURL+"/Educator/educatorRegister";
       let body = {id:uuid(), email:Data.email, name:Data.name, university:Data.university, college:Data.college, designation:Data.designation, password:Data.password};
       axios.post(initial_url, body).then(res => {
         if(res.data.message === "User with same email already registered"){
@@ -164,9 +164,10 @@ export default function RegisterEducator() {
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       ></AppBar>
-      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
+          elevation={8}
           sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
         >
           <Typography
