@@ -39,4 +39,14 @@ class EducatorFeatures {
       }
     }
 }
-module.exports = {EducatorFeatures, EducatorLogin};
+
+class Guidelines{
+
+  static async getAllGuidelines() {
+    let sql = `Select * from guideline`;
+    const [guidelines, _] = await db.execute(sql);
+    return guidelines;
+  }
+}
+
+module.exports = {EducatorFeatures, EducatorLogin, Guidelines};

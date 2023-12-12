@@ -2,6 +2,8 @@ const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
   CurriculumDeveloperLogin,
+  Guidelines,
+
 } = require("../classes/curriculumDeveloper");
 
 const document = require("../models/document")
@@ -219,6 +221,7 @@ exports.AddPinnedSubjects = async (req, res, next) => {
   }
 };
 
+
 exports.CurriculumDeveloperLogin=async(req,res)=>{
   try{
     let {email,password}=req.body;
@@ -244,11 +247,38 @@ catch(error){
 };
 
 
+
+exports.getAllGuidelines = async (req, res, next) => {
+  try {
+    let ans = await Guidelines.getAllGuidelines();
+    try {
+      let guidelines = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          title: ans[i].title,
+          description: ans[i].description,
+          mongo_file_id: ans[i].mongo_file_id,
+          creation_date: ans[i].creation_date,
+          last_modified_date: ans[i].last_modified_date,
+        };
+        guidelines.push(n);
+      }
+      res.send({ guidelines });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 // MONGO DB Requests
 exports.createDocument = async(req, res) => {
   const {title, description} = req.body;
   if(!(title, description)){
-    return res.send({error: "Input Fields Missing"})
+    return res.status(400).send({error: "Input Fields Missing"})
   }
   const newDocument = new document({
     title, description
@@ -257,5 +287,14 @@ exports.createDocument = async(req, res) => {
     res.status(200).send({message : "Document Created Successfully"})
   })
   .catch((err) => res.status(400).json({error: err.message}))
-};
+}
+
+exports.getAllDocuments = async(req, res) => {
+  document.find()
+  .lean()
+  .exec()
+  .then((documents) => {
+    res.status(200).send({documents})
+  })
+}
 
