@@ -1,35 +1,29 @@
 import React from "react";
-import { Typography, Button, Grid, TextField, Box, TableCell } from "@mui/material";
+import { Typography, Button, Box, IconButton } from "@mui/material";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useState } from "react";
 import { backendURL } from "../../../configKeys";
 import DocViewer from "../Components/DocViewer";
-import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { fDate } from "../../../utils/formatTime";
 import Label from "../../../components/Label";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import CancelIcon from "@mui/icons-material/Cancel";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const getStatus = (status) => {
   const map = {
-    "A": {
+    A: {
       text: "Approved",
       color: "success",
     },
-    "R": {
+    R: {
       text: "Rejected",
       color: "error",
     },
-    H : {
+    P: {
       text: "Pending",
-      color: "black",
+      color: "warning",
     },
   };
 
@@ -39,21 +33,14 @@ const getStatus = (status) => {
 };
 
 export default function ApproveCurriculumDevelopers() {
-  const [open, setOpen] = React.useState(false);
-  const [approveFlag, setapproveFlag] = React.useState(2); //2-neither 1-aprove 0-reject
   const [rows, setRows] = useState([]);
   const [cd, setCD] = useState({
-        id: "",
-        status: "",
-        name: "",
-  })
-  
+    id: "",
+    status: "",
+    name: "",
+  });
+
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 10,
-    },
     {
       field: "name",
       headerName: "Name",
@@ -80,101 +67,184 @@ export default function ApproveCurriculumDevelopers() {
       width: 110,
     },
     {
+      field: "department",
+      headerName: "Department",
+      width: 110,
+    },
+    {
       field: "resume_file_id",
       headerName: "Resume",
-      width: 110
+      width: 110,
+      renderCell: (params) => {
+        return (
+          <>
+            {params.row.resume_file_id ? (
+              <IconButton>
+                <DocViewer
+                  filename={params.row.resume_file_id}
+                  contentType="application/pdf"
+                />
+              </IconButton>
+            ) : (
+              <>{"NA"}</>
+            )}
+          </>
+        );
+      },
     },
     {
       field: "status",
       headerName: "Status",
       width: 110,
       renderCell: (params) => getStatus(params.row.status),
-      
     },
     {
       field: "Action",
       headerName: "Action",
       type: "actions",
-      width: 200,
+      width: 150,
       renderCell: (params) => (
-        params.row.status === "H" ? (
-          <Box>
-              <DoneOutlineIcon onClick={() => {handleClickApprove(params,"A")}} style={{ color: "green" , margin: "2%" }} />
-              <CancelIcon onClick={() => {handleClickApprove(params,"R")}} style={{ color: "red" }}  />
-          </Box>
-        ) : (
+        <>
+          {params.row.status === "P" ? (
+            <>
+              <IconButton
+                variant="text"
+                onClick={() => {
+                  handleClickStatus(params, "A");
+                }}
+                style={{ color: "green" }}
+              >
+                <DoneOutlineIcon fontSize="small" />
+              </IconButton>
 
-            params.row.status==="A" ?
-            (
-                <Button>
-              <CancelIcon onClick={() => {handleClickApprove(params,"R")}} style={{ color: "red" }} />
-            </Button>
-            ) :
-            (
-                <Button>
-              <DoneOutlineIcon onClick={() => {handleClickApprove(params,"A")}} style={{ color: "green" }} />
-            </Button>
-            )
-        )
+              <IconButton
+                onClick={() => {
+                  handleClickStatus(params, "R");
+                }}
+                style={{ color: "red" }}
+              >
+                <CancelIcon fontSize="small" />
+              </IconButton>
+            </>
+          ) : params.row.status === "A" ? (
+            <IconButton
+              onClick={() => {
+                handleClickStatus(params, "R");
+              }}
+              style={{ color: "red" }}
+            >
+              <CancelIcon fontSize="small" />
+            </IconButton>
+          ) : (
+            <IconButton
+              onClick={() => {
+                handleClickStatus(params, "A");
+              }}
+              style={{ color: "green" }}
+            >
+              <DoneOutlineIcon fontSize="small" />
+            </IconButton>
+          )}
+          <IconButton
+            onClick={() => {
+              handleClickDelete(params);
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </>
       ),
     },
   ];
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClickStatus = (params, newStatus) => {
+    console.log(params.row.id);
+    let data = cd;
+    data.id = params.row.id;
+    data.status = newStatus;
+    data.name = params.row.name;
 
-  const handleClickApprove = (params, approveORreject) => {
-        console.log(params.row.id);
-        let data = cd;
-        data.id = params.row.id;
-        data.status = approveORreject;
-        data.name = params.row.name;
+    var text = "";
 
-        if(approveORreject==='A') setapproveFlag(1);
-        else if(approveORreject==='R') setapproveFlag(0);
-        else if(approveORreject==='H') setapproveFlag(2);
-
-        setCD(data);
-        setOpen(true);
-  };
-
-
-  const finalhandleApprove = () => {
-    console.log("Approving cd...");
-    let body = {
-        id : cd.id,
-        status: cd.status,
+    if (newStatus === "A") {
+      text = "Approve";
+    } else if (newStatus === "R") {
+      text = "Reject";
     }
 
-    axios.post(backendURL + "/AICTEAdmin/approveCD", body)
-    .then((res) =>
-    {
-        // console.log("LMAOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",res);
-        if (res.data.message) {
-            Swal.fire({
-              icon: "success",
-              title: "ACTION SUCCESSFUL",
-            //   text: "ACTION SUCCESSFUL",
-              showConfirmButton: false,
-              timer: 3000,
-            }).then((confirm) => {
-              if (confirm) {
-                window.location.reload();
-              }
-            });
-          } else if (res.data.error) {
-            Swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: res.data.error,
-              showConfirmButton: false,
-              timer: 3000,
-            });
+    Swal.fire({
+      icon: "warning",
+      title: "WARNING",
+      text: `Are you sure, do you want to ${text} ${params.row.name}?`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setCD(data);
+        finalhandleStatus();
+      }
+    });
+  };
+
+  const finalhandleStatus = () => {
+    let body = {
+      id: cd.id,
+      status: cd.status,
+    };
+
+    axios.post(backendURL + "/AICTEAdmin/changeCDStatus", body).then((res) => {
+      if (res.data.message) {
+        Swal.fire({
+          icon: "success",
+          title: "SUCCESS",
+          text: "Status Changed Successfully!",
+          showConfirmButton: false,
+          timer: 3000,
+        }).then((confirm) => {
+          if (confirm) {
+            window.location.reload();
           }
-    })
-    setOpen(false);
-  }
+        });
+      } else if (res.data.error) {
+        Swal.fire({
+          icon: "error",
+          title: "ERROR",
+          text: res.data.error,
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+    });
+  };
+
+  const handleClickDelete = (params) => {
+    Swal.fire({
+      icon: "warning",
+      title: "WARNING",
+      text: `Are you sure, do you want to delete application from ${params.row.name}?`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let body = { id: params.id };
+        axios.post(backendURL + "/AICTEAdmin/deleteCD", body).then((res) => {
+          Swal.fire({
+            icon: "success",
+            title: "SUCCESS",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          }).then((confirm) => {
+            if (confirm) {
+              window.location.reload();
+            }
+          });
+        });
+      }
+    });
+  };
 
   React.useEffect(() => {
     axios.get(backendURL + "/AICTEAdmin/getAvailableCDs").then((res) => {
@@ -186,17 +256,17 @@ export default function ApproveCurriculumDevelopers() {
   return (
     <>
       <Box sx={{ height: "50%" }}>
-      <Typography
-                    variant="h3"
-                    component="h3"
-                    sx={{ margin:"2%" }}
-                    gutterBottom> 
-                    Approve Curriculum Developers
-                    </Typography>
-           
-         
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{ margin: "2%" }}
+          gutterBottom
+        >
+          Approve Curriculum Developers
+        </Typography>
+
         <DataGrid
-          sx={{margin:"2%"}}
+          sx={{ margin: "2%" }}
           slots={{ toolbar: GridToolbar }}
           rows={rows}
           columns={columns}
@@ -216,34 +286,6 @@ export default function ApproveCurriculumDevelopers() {
           disableRowSelectionOnClick
         />
       </Box>
-
-      <Dialog open={open} onClose={handleClose}>
-      {
-                approveFlag===1 ?
-                (
-                    <DialogTitle>Approve Curriculum Developer {cd.name}</DialogTitle>
-                ) :
-                (
-                    <DialogTitle>Reject Curriculum Developer {cd.name}</DialogTitle>
-                )
-            } 
-        
-        <DialogContent>
-          
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-            {
-                approveFlag===1 ?
-                (
-                    <Button onClick={() => {finalhandleApprove()}}>Approve</Button>
-                ) :
-                (
-                    <Button onClick={() => {finalhandleApprove()}}>Reject</Button>
-                )
-            }
-        </DialogActions>
-      </Dialog>
     </>
   );
 }
