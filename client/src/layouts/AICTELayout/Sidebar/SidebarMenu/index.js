@@ -37,6 +37,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import NotificationAddIcon from '@mui/icons-material/NotificationAdd';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ClassIcon from '@mui/icons-material/Class';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -225,7 +226,7 @@ function SidebarMenu() {
                 </Button>
               </ListItem>
               
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -234,6 +235,17 @@ function SidebarMenu() {
                   startIcon={<ClassIcon />}
                 >
                   Add Department
+                </Button>
+              </ListItem> */}
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/aicte/approveCDs"
+                  startIcon={<CheckCircleOutlineIcon />}
+                >
+                  Approve Curriculum Developers
                 </Button>
               </ListItem>
 
@@ -248,7 +260,7 @@ function SidebarMenu() {
                   Appoint Department Heads
                 </Button>
               </ListItem>
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -258,8 +270,8 @@ function SidebarMenu() {
                 >
                   Notify Educators
                 </Button>
-              </ListItem>
-              <ListItem component="div">
+              </ListItem> */}
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -269,7 +281,7 @@ function SidebarMenu() {
                 >
                   Notify CDs
                 </Button>
-              </ListItem>
+              </ListItem> */}
               <ListItem component="div">
                 <Button
                   disableRipple
