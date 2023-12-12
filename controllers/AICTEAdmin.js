@@ -179,4 +179,8 @@ exports.deleteGuideline = async (req, res, next) => {
   }
 };
 
+exports.AICTEAdminLogin=async(req,res,next)=>{
+  res.send("admin is working");
+}
+
 

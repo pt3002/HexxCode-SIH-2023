@@ -60,3 +60,28 @@ exports.EducatorRegistration = async (req, res, next) => {
 //       console.log(error);
 //     }
 // };
+
+exports.EducatorLogin=async(req,res)=>{
+    // console.log("educator is working");
+    try{
+        let {email,password}=req.body;
+        let ans=await EducatorLogin.findEducatorByEmail(email);
+        if(ans.length===0){
+            res.send({message:"Wrong user selected or Invalid Credentials"});
+        }
+        else{
+            if(ans[0].password===password){
+                // let user={id:ans[0].id,role:"Educator"};
+                res.send({
+                    message:"Login successful"
+                });
+            }
+            else{
+                res.send({error:"Invalid Credentials"});
+            }
+        }
+    }
+    catch(error){
+        res.status(500).send({ error: "Internal Server Error" });
+    }
+}

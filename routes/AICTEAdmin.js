@@ -14,4 +14,7 @@ router.post("/addGuideline", AICTEAdminControllers.addGuideline);
 router.post("/updateGuideline", AICTEAdminControllers.updateGuideline);
 router.post("/deleteGuideline", AICTEAdminControllers.deleteGuideline);
 
+//login
+router.post("/AICTEAdminLogin",AICTEAdminControllers.AICTEAdminLogin);
+
 module.exports = router;
