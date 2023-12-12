@@ -52,7 +52,7 @@ exports.CDRegistration = async (req, res, next) => {
     console.log("body....", req.body);
     const { id, email, name, gender, university, college, mongo_file_id} =
       req.body;
-    let existingCD = CDLogin.findCDByEmail(email);
+    let existingCD = await CDLogin.findCDByEmail(email);
     console.log(req.body);
     if (existingCD.length > 0) {
       return res.send({ message: "User with same email already registered" });

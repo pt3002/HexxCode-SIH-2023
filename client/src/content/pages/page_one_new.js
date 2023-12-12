@@ -54,7 +54,7 @@ const uuid = require("uuid").v4;
 // import Page3 from './page_three'
 
 
-const steps = ['Personal Information', 'Academic and Work Details', 'Other Details'];
+const steps = ['Personal Information', 'Other Details'];
 
 // function getStepContent(step) {
 //   switch (step) {
@@ -250,28 +250,23 @@ export default function Page1New() {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-                {/* <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                    Gender
-                </InputLabel> */}
-                <Select
-                    label = "Gender"
-                    native
-                    inputProps={{
-                    name: 'gender',
-                    id: 'uncontrolled-native',
-                    }}
-                    onChange={handleChange}
-                    value={stateVar.Data.gender}
-                >
-                    {arr.map((choose) => (
-					<option key={choose.value} value={choose.value}>
-						{choose.label}
-					</option>
-				))}
-                </Select>
-            </FormControl>
-             
+            <TextField
+					label= "Gender"
+					select
+					color="primary"
+					variant="outlined"
+					name="gender"
+					size="small"
+          style={{width:"100px"}}
+					value={stateVar.Data.branch}
+					onChange={handleChange}
+				>
+					{arr.map((option) => (
+						<MenuItem key={option.value} value={option.value}>
+							{option.label}
+						</MenuItem>
+					))}
+				</TextField>
             </Grid>
             </Grid>
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', m: "5px"}}>

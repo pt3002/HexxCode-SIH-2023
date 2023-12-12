@@ -59,7 +59,7 @@ const uuid = require("uuid").v4;
 // import Page3 from './page_three'
 
 
-const steps = ['Personal Information', 'Academic and Work Details', 'Other Details'];
+const steps = ['Personal Information', 'Other Details'];
 
 // function getStepContent(step) {
 //   switch (step) {
@@ -101,7 +101,24 @@ export default function Page3New() {
   ]
   const [activeStep, setActiveStep] = React.useState(2);
   const navigate = useNavigate();
-
+  const arr = [
+    { value: "Computer Engineering", label: "Computer Engineering" },
+    { value: "Electrical Engineering", label: "Electrical Engineering" },
+    { value: "Mechanical Engineering", label: "Mechanical Engineering" },
+    { value: "Civil Engineering", label: "Civil Engineering" },
+    { value: "Chemical Engineering", label: "Chemical Engineering" },
+    { value: "Electronics and Communication Engineering", label: "Electronics and Communication Engineering" },
+    { value: "Information Technology", label: "Information Technology" },
+    { value: "Aeronautical Engineering", label: "Aeronautical Engineering" },
+    { value: "Biotechnology", label: "Biotechnology" },
+    { value: "Automobile Engineering", label: "Automobile Engineering" },
+    { value: "Environmental Engineering", label: "Environmental Engineering" },
+    { value: "Instrumentation Engineering", label: "Instrumentation Engineering" },
+    { value: "Petroleum Engineering", label: "Petroleum Engineering" },
+    { value: "Metallurgical Engineering", label: "Metallurgical Engineering" },
+    { value: "Mining Engineering", label: "Mining Engineering" },
+  ];
+  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -112,7 +129,7 @@ export default function Page3New() {
   const [stateVar, setStateVar] = React.useState({
     Data: {
     college: '',
-    research: '',
+    department: '',
     university: '',
     specializationDomain: '',
     mongo_file_id: "",
@@ -242,7 +259,7 @@ function fileUpload(event) {
                   text: res.data.message,
                   showConfirmButton: false,
                   timer: 3000,
-                });
+                }).then(navigate("/register/page1"));
               }
               else{
                 Swal.fire({
@@ -260,7 +277,7 @@ function fileUpload(event) {
           console.log("Error Code: ", error);
           navigate("/register/page1");
         });
-            handleNext();
+          handleNext();
           } else {
             console.log(errors)
             alert("Please fill all data first");
@@ -355,28 +372,23 @@ function fileUpload(event) {
                     />
             </Grid>
             <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Research
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="research"
-                    name="research"
-                    aria-label=""
-                    placeholder="List your areas of expertise/ research"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.research}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
+            <TextField
+					label= "Department"
+					select
+					color="primary"
+					variant="outlined"
+					name="department"
+					fullWidth={true}
+					size="small"
+					value={stateVar.Data.department}
+					onChange={handleChange}
+				>
+					{arr.map((option) => (
+						<MenuItem key={option.value} value={option.value}>
+							{option.label}
+						</MenuItem>
+					))}
+				</TextField>
             </Grid>
             <Grid item xs={12}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
