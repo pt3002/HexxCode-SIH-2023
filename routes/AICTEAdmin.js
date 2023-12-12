@@ -19,5 +19,6 @@ router.post("/AICTEAdminLogin",AICTEAdminControllers.AICTEAdminLogin);
 
 //CurriculumDevelopers
 router.get("/getAvailableCDs", AICTEAdminControllers.getAvailableCurriculumDevelopers);
-router.post("/approveCD", AICTEAdminControllers.approveCD )
+router.post("/changeCDStatus", AICTEAdminControllers.changeCDStatus)
+router.post("/deleteCD", AICTEAdminControllers.deleteCD)
 module.exports = router;

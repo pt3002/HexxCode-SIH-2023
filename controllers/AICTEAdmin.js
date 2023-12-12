@@ -199,10 +199,10 @@ exports.getAvailableCurriculumDevelopers = async(req, res, next) => {
           gender: ans[i].gender,
           university: ans[i].university,
           college: ans[i].college,
+          department: ans[i].department,
           status: ans[i].status,
           resume_file_id: ans[i].resume_file_id
         };
-        // console.log("CD HERE ==================>", cd);
         allCDs.push(cd);
       }
       res.send({allCDs});
@@ -218,23 +218,33 @@ exports.getAvailableCurriculumDevelopers = async(req, res, next) => {
     }
 }
 
-exports.approveCD = async (req, res, next) => {
+exports.changeCDStatus = async (req, res, next) => {
   try {
     let { id, status} = req.body;
     let error_flag = false;
 
-    let a = await CurriculumDevelopers.approveCD(
+    let a = await CurriculumDevelopers.changeStatus(
       id, status
     );
     if (a == "error") {
       error_flag = true;
     }
     if (error_flag) {
-      res.send({ error: "Error while approving CD" });
+      res.send({ error: "Error while changing Status" });
     } else {
-      res.send({ message: "Approved Successfully" });
+      res.send({ message: "Status Changed Successfully" });
     }
   } catch (error) {
-    res.send({ error: "Error while approving CD" });
+    res.send({ error: "Error while changing Status" });
+  }
+};
+
+exports.deleteCD = async (req, res, next) => {
+  try {
+    let { id } = req.body;
+    await CurriculumDevelopers.deleteCD(id);
+    res.send({ message: "CD deleted successfully" });
+  } catch (error) {
+    console.log(error);
   }
 };
