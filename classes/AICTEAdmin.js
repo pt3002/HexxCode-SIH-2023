@@ -101,4 +101,27 @@ class Guidelines{
   }
 }
 
-module.exports = { AICTEAdminFeatures, Guidelines };
+class CurriculumDevelopers{
+  static async getAllCD(){
+
+    // let sql = `select * from curriculum_developers`;
+    let sql = `select id,name,email,gender,university,college,status,resume_file_id from curriculum_developer`;
+    const [curriculumdevelopers, _] = await db.execute(sql);
+    return curriculumdevelopers;
+  }
+
+  static async approveCD(
+    id,
+    new_status
+  ) {
+    let sql = `update curriculum_developer set status="${new_status}" where id="${id}"`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+}
+
+module.exports = { AICTEAdminFeatures, Guidelines, CurriculumDevelopers };
