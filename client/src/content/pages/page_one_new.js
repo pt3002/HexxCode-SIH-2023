@@ -41,13 +41,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from 'react-router';
 import {
-    Table,
-    TableBody,
-    TableHead,
-    TableRow,
-    TableContainer,
-  } from "@material-ui/core";
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableContainer,
+} from "@material-ui/core";
 import { Search } from '@mui/icons-material';
+const uuid = require("uuid").v4;
 // import Page1 from './page_one'
 // import Page2 from './page_two';
 // import Page3 from './page_three'
@@ -78,6 +79,7 @@ export default function Page1New() {
   const navigate = useNavigate();
   const [stateVar, setStateVar] = React.useState({
     Data: {
+    id:'',
     email: '',
     name: '',
     contactNumber: '',
@@ -138,7 +140,7 @@ export default function Page1New() {
         if (validate == true) {
             console.log("All data is correctly filled", Data)
             handleNext()
-            navigate("/register/page2")
+            navigate("/register/page3",{ state: { dataFromPage1: stateVar.Data } })
             
           } else {
             console.log(errors)

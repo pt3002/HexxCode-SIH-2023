@@ -48,6 +48,12 @@ import {
     TableContainer,
   } from "@material-ui/core";
 import { Search } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom';
+import Swal from "sweetalert2";
+import axios from "axios";
+import { backendURL } from '../../configKeys';
+const uuid = require("uuid").v4;
+
 // import Page1 from './page_one'
 // import Page2 from './page_two';
 // import Page3 from './page_three'
@@ -69,6 +75,8 @@ const steps = ['Personal Information', 'Academic and Work Details', 'Other Detai
 // }
 
 export default function Page3New() {
+  const location = useLocation();
+
   const [activeStep, setActiveStep] = React.useState(2);
   const navigate = useNavigate();
 
@@ -81,9 +89,9 @@ export default function Page3New() {
   }
   const [stateVar, setStateVar] = React.useState({
     Data: {
-    currentJob: '',
+    college: '',
     research: '',
-    previousWork: '',
+    university: '',
     specializationDomain: '',
     // password: '',
     // confirmPassword: '',
@@ -103,6 +111,19 @@ export default function Page3New() {
     //   Data.name: value,
     // }));
   };
+  React.useEffect(() => {
+    // Access the data passed from Page1New
+    console.log("navigate location",location.state)
+    const { dataFromPage1 } = location.state || {};
+    if (dataFromPage1) {
+      setStateVar((prevState) => ({
+        ...prevState,
+        Data: { ...prevState.Data, ...dataFromPage1 },
+      }));
+    } else {
+      // Handle case where data is not available
+    }
+  }, [navigate.location]);
     const handleSubmit = () => {
         let { Data, errors } = stateVar;        
         if (Data.specializationDomain === "") {
@@ -110,15 +131,15 @@ export default function Page3New() {
         } else {
             errors["specializationDomain"] = "";
         }
-        if (Data.currentJob === "") {
-            errors["currentJob"] = "Current Job Domain cannot be empty";
+        if (Data.college === "") {
+            errors["college"] = "College Domain cannot be empty";
         } else {
-            errors["currentJob"] = "";
+            errors["college"] = "";
         }
-        if (Data.previousWork === "") {
-            errors["previousWork"] = "Previous Work cannot be empty";
+        if (Data.university === "") {
+            errors["university"] = "University cannot be empty";
         } else {
-            errors["previousWork"] = "";
+            errors["university"] = "";
         }
         // if (Data.password === "") {
         //     errors["password"] = "Password cannot be empty";
@@ -147,6 +168,30 @@ export default function Page3New() {
         });
         if (validate == true) {
             console.log("All data is correctly filled", Data)
+            const initial_url = backendURL+"/Educator/educatorRegister";
+      let body = {id:uuid(), email:Data.email, name:Data.name, contactNumber:Data.contactNumber, gender:Data.gender, college:Data.college, university:Data.university};
+      axios.post(initial_url, body).then(res => {
+        if(res.data.message === "User with same email already registered"){
+          Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+        else{
+          Swal.fire({
+            icon: "success",
+            title: "SUCCESS",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then(navigate("/login"));
+        }}).catch((error) => {
+          console.log("Error Code: ", error);
+          navigate("/register-educator");
+        });
             handleNext();
           } else {
             console.log(errors)
@@ -219,17 +264,17 @@ export default function Page3New() {
         <Grid container spacing={3} marginBottom={5}>
             <Grid item xs={12}>
                 <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Current Job
+                        College
                 </InputLabel>
                 <TextareaAutosize
                     required
-                    id="currentJob"
-                    name="currentJob"
+                    id="college"
+                    name="college"
                     aria-label=""
-                    placeholder="Mention and describe about your current job"
+                    placeholder="Mention your college name"
                     minRows={1}
                     fullWidth
-                    value={stateVar.Data.currentJob}
+                    value={stateVar.Data.college}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
@@ -267,17 +312,17 @@ export default function Page3New() {
             </Grid>
             <Grid item xs={12}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Previous Work
+                        University
                 </InputLabel>
                 <TextareaAutosize
                     required
-                    id="previousWork"
-                    name="previousWork"
+                    id="university"
+                    name="university"
                     aria-label=""
-                    placeholder="Mention your previous work/ Experience in Curriculum Designing"
+                    placeholder="Mention your university"
                     minRows={1}
                     fullWidth
-                    value={stateVar.Data.previousWork}
+                    value={stateVar.Data.university}
                     onChange={handleChange}
                     style={{
                         padding: '10px', 
