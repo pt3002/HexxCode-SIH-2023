@@ -256,7 +256,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/curriculumDeveloper/viewRequirements"
                   startIcon={<MmsTwoToneIcon />}
                 >
                   Requirements from Educators
