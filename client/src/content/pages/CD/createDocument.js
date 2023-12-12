@@ -8,6 +8,8 @@ import {
   Box,
   TextareaAutosize,
   InputLabel,
+  Container,
+  Card
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -18,6 +20,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"
 import {backendURL} from "../../../configKeys"
 import Swal from "sweetalert2";
+import DocumentsTable from "../Components/Table/DocumentsTable";
 
 function CreateDocument() {
   const [open, setOpen] = useState(false);
@@ -75,6 +78,10 @@ function CreateDocument() {
                     icon : "success",
                     title : "SUCCESS",
                     text : "Document Created Successfully"
+                }).then((confirm) => {
+                  if(confirm){
+                    window.location.reload()
+                  }
                 })
             }
         })
@@ -147,6 +154,11 @@ function CreateDocument() {
           <Button onClick={handleCreate}>Create</Button>
         </DialogActions>
       </Dialog>
+      <Container maxWidth = "lg">
+        <Card>
+          <DocumentsTable docs = {documents} />
+        </Card>
+      </Container>
     </>
   );
 }
