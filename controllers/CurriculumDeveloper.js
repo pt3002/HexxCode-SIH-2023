@@ -1,8 +1,12 @@
-const { response } = require("express");
 const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
+  CurriculumDeveloperLogin,
+  Guidelines,
+
 } = require("../classes/curriculumDeveloper");
+
+const document = require("../models/document")
 
 exports.GetAllSubjects = async (req, res, next) => {
   try {
@@ -216,3 +220,81 @@ exports.AddPinnedSubjects = async (req, res, next) => {
     res.send({ error: "Cannot Add Subject" });
   }
 };
+
+
+exports.CurriculumDeveloperLogin=async(req,res)=>{
+  try{
+    let {email,password}=req.body;
+    let ans=await CurriculumDeveloperLogin.findCDByEmail(email);
+    console.log("ans...",ans);
+    if(ans.length===0){
+        res.send({message:"Wrong user selected or Invalid Credentials"});
+    }
+    else{
+        if(ans[0].password===password){
+            res.send({
+                message:"Login successful"
+            });
+        }
+        else{
+            res.send({error:"Invalid Credentials"});
+        }
+    }
+}
+catch(error){
+    res.status(500).send({ error: "Internal Server Error" });
+}
+};
+
+
+
+exports.getAllGuidelines = async (req, res, next) => {
+  try {
+    let ans = await Guidelines.getAllGuidelines();
+    try {
+      let guidelines = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          title: ans[i].title,
+          description: ans[i].description,
+          mongo_file_id: ans[i].mongo_file_id,
+          creation_date: ans[i].creation_date,
+          last_modified_date: ans[i].last_modified_date,
+        };
+        guidelines.push(n);
+      }
+      res.send({ guidelines });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+// MONGO DB Requests
+exports.createDocument = async(req, res) => {
+  const {title, description} = req.body;
+  if(!(title, description)){
+    return res.status(400).send({error: "Input Fields Missing"})
+  }
+  const newDocument = new document({
+    title, description
+  })
+  newDocument.save().then(() => {
+    res.status(200).send({message : "Document Created Successfully"})
+  })
+  .catch((err) => res.status(400).json({error: err.message}))
+}
+
+exports.getAllDocuments = async(req, res) => {
+  document.find()
+  .lean()
+  .exec()
+  .then((documents) => {
+    res.status(200).send({documents})
+  })
+}
+

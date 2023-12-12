@@ -8,23 +8,26 @@ import Grid from "@mui/material/Grid"; //1
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
-import { Avatar, ButtonGroup,Box } from "@mui/material";
+import { Avatar, ButtonGroup, Box } from "@mui/material";
 import Footer from "../../components/Footer";
-
-const users = [
-  { email: "jiaj21@gmail.com", password: "123", type: "1" },
-  { email: "jison@gmail.com", password: "jison", type: "3" },
-];
+import { backendURL } from "../../configKeys";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function CurriculumDeveloperLogin() {
+  console.log(backendURL);
+  const navigate = useNavigate();
+
   const [text, setUser] = React.useState("");
-  // const [type, setType] = React.useState(0);
 
   const [Data, setData] = React.useState({
     email: "",
     password: "",
     type: 0,
   });
+
+  const error = {};
 
   const getUser = (ev) => {
     const { name, value } = ev.currentTarget;
@@ -61,40 +64,106 @@ export default function CurriculumDeveloperLogin() {
       );
   };
 
-  const validateUsertype = (type, email) => {
-    console.log(typeof type);
-    console.log(typeof Data.type);
-    if (users.some((user) => user.email === email && user.type === type)) {
-      return true;
+  // const validateUsertype = (type, email) => {
+  //   if (users.some((user) => user.email === email && user.type === type)) {
+  //     return true;
+  //   }
+  //   return false;
+  // };
+
+  const getUrlForUser = (type) => {
+    if (type === "1") {
+      return backendURL + "/CurriculumDeveloper/CurriculumDeveloperLogin";
+    } else if (type === "2") {
+      // return BACKEND_URL + "/Educator/EducatorLogin";
+      return backendURL + "/Educator/EducatorLogin";
+    } else {
+      return backendURL + "/AICTEAdmin/AICTEAdminLogin";
     }
-    return false;
+  };
+
+  const getPage = (type) => {
+    if (type === "1") {
+      return "/curriculumDeveloper";
+    } else if (type === "2") {
+      return "/ED";
+    } else {
+      return "/aicte";
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(users);
+    let errors = error;
     if (Data.type === 0) {
-      console.log("Select user");
+      error["type"] = "user not selected";
+    }
+    if (Data.email === "") {
+      errors["email"] = "All Details to be filled";
+    } else if (!validateEmail(Data.email)) {
+      errors["email"] = "Invalid email";
     } else {
-      if (validateEmail(Data.email)) {
-        if (!validateUsertype(Data.type, Data.email)) {
-          console.log("wrong user selected");
-        } else if (
-          users.some(
-            (user) =>
-              user.email === Data.email && user.password === Data.password
-          )
-        ) {
-          console.log("Logged in Successfullly : ", Data);
-        } else {
-          console.log("invalid credentials");
-        }
-      } else {
-        console.log("Invalid email.Please Try again.");
+      errors["email"] = "";
+    }
+    if (Data.password === "") {
+      errors["password"] = "All Details to be filled";
+    } else {
+      errors["password"] = "";
+    }
+
+    let validate = true;
+    Object.keys(errors).map((error) => {
+      if (errors[error] !== "") {
+        validate = false;
       }
+    });
+
+    if (validate) {
+      console.log("All Details filled correctly.");
+      const initial_url = getUrlForUser(Data.type);
+      const navigate_page = getPage(Data.type);
+      console.log(initial_url);
+      let body = { email: Data.email, password: Data.password };
+      axios
+        .post(initial_url, body)
+        .then((res) => {
+          if (
+            res.data.message === "Wrong user selected or Invalid Credentials"
+          ) {
+            Swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          } else if (res.data.error === "Invalid Credentials") {
+            Swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: res.data.error,
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          } else {
+            Swal.fire({
+              icon: "success",
+              title: "SUCCESS",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 3000,
+            }).then(navigate(navigate_page));
+          }
+        })
+        .catch((error) => {
+          console.log("Error Code: ", error);
+          navigate("/login");
+        });
+    } else {
+      console.log(errors);
+      alert("Please fill all data first");
     }
   };
-
 
   return (
     <React.Fragment>
@@ -207,6 +276,7 @@ export default function CurriculumDeveloperLogin() {
           <Paper
             align="center"
             variant="outlined"
+            elevation={8}
             sx={{
               my: { xs: 4, md: 2 },
               p: { xs: 2, md: 3 },
@@ -220,8 +290,6 @@ export default function CurriculumDeveloperLogin() {
                 height="70"
               />
             </Grid>
-
-            
 
             <Grid align="center">
               {/* <Avatar sx={{width: 56, height: 56}} ><AccountCircleIcon /></Avatar> */}
@@ -266,7 +334,12 @@ export default function CurriculumDeveloperLogin() {
               color="inherit"
               align="right"
               noWrap
-              sx={{ mx: { xs: 'auto', md: 'auto' }, mt: 1, fontSize: 12 ,mr:1}}
+              sx={{
+                mx: { xs: "auto", md: "auto" },
+                mt: 1,
+                fontSize: 12,
+                mr: 1,
+              }}
             >
               <Link href="#" color="secondary">
                 Forgot Password?
@@ -277,15 +350,10 @@ export default function CurriculumDeveloperLogin() {
               {/* <Button type="submit"  variant="contained" sx={{width: 400, height: 46,bgcolor:'#ff865b'}} onClick={handleSubmit}>
                             Sign In
                         </Button> */}
-              <Button
-                variant="contained"
-                size="medium"
-                onClick={handleSubmit}
-              >
+              <Button variant="contained" size="medium" onClick={handleSubmit}>
                 Sign In
               </Button>
             </Grid>
-            
 
             <Typography
               variant="h6"

@@ -164,9 +164,10 @@ export default function RegisterEducator() {
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       ></AppBar>
-      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper
           variant="outlined"
+          elevation={8}
           sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
         >
           <Typography
@@ -190,7 +191,7 @@ export default function RegisterEducator() {
             ></AppBar>
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
               <Grid container spacing={3} marginBottom={5}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="email"
@@ -203,7 +204,7 @@ export default function RegisterEducator() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="name"
@@ -287,7 +288,7 @@ export default function RegisterEducator() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="passwword"
@@ -300,7 +301,7 @@ export default function RegisterEducator() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                   <TextField
                     required
                     id="confirmPassword"

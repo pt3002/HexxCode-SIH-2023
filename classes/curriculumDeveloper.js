@@ -70,4 +70,23 @@ class curriculumDeveloperFeatures {
   }
 }
 
-module.exports = { curriculumDeveloperAuth, curriculumDeveloperFeatures };
+
+class CurriculumDeveloperLogin {
+  static async findCDByEmail(email) {
+    let sql = ` SELECT id, email , password FROM curriculum_developer where email = "${email}";`;
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
+}
+
+
+class Guidelines{
+
+  static async getAllGuidelines() {
+    let sql = `Select * from guideline`;
+    const [guidelines, _] = await db.execute(sql);
+    return guidelines;
+  }
+}
+
+module.exports = { curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin };

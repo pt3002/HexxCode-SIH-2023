@@ -6,5 +6,6 @@ module.exports = {
   password: process.env.PASSWORD,
   host: process.env.HOST,
   database: process.env.DATABASE,
-  mongoURI : process.env.MONGO_DB
+  mongoURI : process.env.MONGO_DB,
+  jwtSecretKey: process.env.JWT_SECRET
 };
