@@ -23,6 +23,7 @@ import {
   Typography,
   useTheme,
   CardHeader,
+  Stack
 } from "@mui/material";
 
 import Label from "../../../../components/Label";
@@ -35,6 +36,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import Edit from "@mui/icons-material/Edit";
 import DownloadIcon from '@mui/icons-material/Download';
 import RestoreIcon from '@mui/icons-material/Restore';
+import { useNavigate } from "react-router-dom";
+import DocumentHistorySideBar from "../DocumentHistorySideBar";
 
 const applyPagination = (docs, page, limit) => {
   return docs.slice(page * limit, page * limit + limit);
@@ -56,10 +59,44 @@ const DocumentsTable = ({ docs }) => {
 
   const theme = useTheme();
 
+  const [openFilter, setOpenFilter] = useState(false)
+  const [selectedDoc, setSelectedDoc] = useState({})
+
+  const navigate = useNavigate();
+
+  const handleEdit = (index) => {
+    // console.log(docs, index, docs[index])
+    navigate("/curriculumDeveloper/document", {
+      "state" : {
+        "doc" : docs[index]
+      }
+    })
+  }
+
+  const handleOpenFilter = (index) => {
+    setSelectedDoc(docs[index])
+    setOpenFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setSelectedDoc({})
+    setOpenFilter(false);
+  };
+
   return (
     <Card>
       <CardHeader action={<Box width={150}></Box>} title="All Documents" />
       <Divider />
+      <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" >
+          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+            <DocumentHistorySideBar
+              openFilter={openFilter}
+              onOpenFilter={handleOpenFilter}
+              onCloseFilter={handleCloseFilter}
+              doc = {selectedDoc}
+            />
+          </Stack>
+        </Stack>
       <TableContainer>
         <Table>
           <TableHead>
@@ -72,7 +109,7 @@ const DocumentsTable = ({ docs }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginateddocs.map((doc) => {
+            {paginateddocs.map((doc, index) => {
               return (
                 <TableRow hover key={doc._id}>
                   <TableCell>
@@ -140,6 +177,7 @@ const DocumentsTable = ({ docs }) => {
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() => handleEdit(index)}
                       >
                         <Edit fontSize="small" />
                       </IconButton>
@@ -170,6 +208,7 @@ const DocumentsTable = ({ docs }) => {
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() => handleOpenFilter(index)}
                       >
                         <RestoreIcon fontSize="small" />
                       </IconButton>
