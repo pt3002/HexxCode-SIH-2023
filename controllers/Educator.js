@@ -106,3 +106,19 @@ exports.EducatorLogin = async (req, res, next) => {
   }
 };
 
+exports.EducatorAuth = async (req, res, next) => {
+  if (req.userRole == "Educator") {
+    if (req.userRole === req.body.decodedRole) {
+      let ans = await EducatorLogin.findEducatorById(req.userId);
+      if (ans.length > 0) {
+        res.send({
+          message: "Token Validated",
+          id: ans[0]["id"],
+          role: "Educator",
+          name: ans[0]["name"],
+          email: ans[0]["email"],
+        });
+      }
+    }
+  }
+};

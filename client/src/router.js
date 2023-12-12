@@ -28,7 +28,8 @@ import ViewGuidelines from './content/pages/CD/ViewGuidelines';
 import ViewGuidelinesED from './content/pages/ED/ViewGuidelines';
 import CreateDocument from './content/pages/CD/createDocument';
 import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculumDevelopers';
-
+import EDviewcurri from './content/pages/ED/review';
+import TestComp from './content/pages/ED/ratepage';
 const Loader = (Component) => (props) =>
   (
     <Suspense fallback={<SuspenseLoader />}>
@@ -278,6 +279,14 @@ const routes = [
       {
         path : 'viewGuidelines',
         element : <ViewGuidelinesED />
+      },
+      {
+        path : 'review',
+        element : <EDviewcurri />
+      },
+      {
+        path : 'rate',
+        element : <TestComp />
       },
     ]
   },

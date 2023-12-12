@@ -152,7 +152,11 @@ export default function CurriculumDeveloperLogin() {
               text: res.data.message,
               showConfirmButton: false,
               timer: 3000,
-            }).then(navigate(navigate_page));
+            })
+            let token_dict = res.data.token;
+            console.log("Login page token: ",token_dict)
+            localStorage.setItem("shiksha-niyojak", token_dict.token);
+            navigate(navigate_page);
           }
         })
         .catch((error) => {
