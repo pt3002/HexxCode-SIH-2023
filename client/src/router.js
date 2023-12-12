@@ -259,7 +259,7 @@ const routes = [
       {
         path : 'createDocument',
         element : <CreateDocument />
-      }
+      },
     ]
   },
   {

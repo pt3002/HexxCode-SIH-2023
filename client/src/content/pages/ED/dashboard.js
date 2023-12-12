@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import PageHeader from '../../dashboards/Crypto/PageHeader';
 import { Container } from '@mui/material';
-import BooksTable from '../Components/BooksTable/BooksTable';
+import BooksTable from '../Components/Table/BooksTable';
 import { subDays } from 'date-fns';
 import { Card } from '@mui/material';
 

@@ -11,7 +11,7 @@ import {TextField} from "@material-ui/core";
 import PageHeader from '../../dashboards/Crypto/PageHeader';
 import { SelectChangeEvent } from "@material-ui/core/Select";
 import { Container } from '@mui/material';
-import BooksTable from '../Components/BooksTable/BooksTable';
+import BooksTable from '../Components/Table/BooksTable';
 import { subDays } from 'date-fns';
 import { Card } from '@mui/material';
 import Select from '@mui/material/Select';
