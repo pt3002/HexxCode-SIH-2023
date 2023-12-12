@@ -24,7 +24,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 
-
+import DocViewer from "./Components/DocViewer";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
@@ -76,7 +76,29 @@ const steps = ['Personal Information', 'Academic and Work Details', 'Other Detai
 
 export default function Page3New() {
   const location = useLocation();
-
+  const [fileData, setfileData] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const [Edit, setEdit] = React.useState(0);
+  const [newGuideline, setNewGuideline] = React.useState({
+    mongo_file_id: "",
+  });
+  const columns = [
+    {
+      field: "mongo_file_id",
+      headerName: "View",
+      width: 110,
+      renderCell: (params) => {
+        return (
+          <Button>
+            <DocViewer
+              filename={params.row.mongo_file_id}
+              contentType="application/pdf"
+            />
+          </Button>
+        );
+      },
+    },
+  ]
   const [activeStep, setActiveStep] = React.useState(2);
   const navigate = useNavigate();
 
@@ -93,11 +115,37 @@ export default function Page3New() {
     research: '',
     university: '',
     specializationDomain: '',
+    mongo_file_id: "",
     // password: '',
     // confirmPassword: '',
   },
   errors:{}
 });
+const handleClickOpen = () => {
+  setEdit(0);
+  setNewGuideline({
+    title: "",
+    description: "",
+    mongo_file_id: "",
+  });
+  setOpen(true);
+};
+
+const handleClose = () => {
+  // console.log(newDepartmentHead);
+  setOpen(false);
+};
+function fileUpload(event) {
+  if (event.target.files[0].type != "application/pdf") {
+    alert("Please upload PDF file");
+    return;
+  } else {
+    let data = new FormData();
+    data.append("file", event.target.files[0], event.target.files[0].name);
+    console.log("File Upload:",event)
+    setfileData(data);
+  }
+}
   const handleChange = ({target}) => {
     let errors = { ...stateVar.errors };
     let Data = { ...stateVar.Data };
@@ -168,29 +216,49 @@ export default function Page3New() {
         });
         if (validate == true) {
             console.log("All data is correctly filled", Data)
-            const initial_url = backendURL+"/Educator/educatorRegister";
-      let body = {id:uuid(), email:Data.email, name:Data.name, contactNumber:Data.contactNumber, gender:Data.gender, college:Data.college, university:Data.university};
-      axios.post(initial_url, body).then(res => {
-        if(res.data.message === "User with same email already registered"){
-          Swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: res.data.message,
-            showConfirmButton: false,
-            timer: 3000,
-          });
-        }
-        else{
-          Swal.fire({
-            icon: "success",
-            title: "SUCCESS",
-            text: res.data.message,
-            showConfirmButton: false,
-            timer: 3000,
-          }).then(navigate("/login"));
+            let URL = backendURL + "/File/upload";
+      axios.post(URL, fileData).then(function (response) {
+        if (response && response.data && response.data.filename) {
+          console.log(response.data.filename);
+          let data = newGuideline;
+          data.mongo_file_id = response.data.filename;
+          setNewGuideline(data);
+
+          let body = {id:uuid(), 
+            email:Data.email, 
+            name:Data.name, 
+            contactNumber:Data.contactNumber, 
+            mongo_file_id: response.data.filename,
+            gender:Data.gender, 
+            college:Data.college, 
+            university:Data.university};
+            const initial_url = backendURL+"/CurriculumDeveloper/register";
+      
+            axios.post(initial_url, body).then(res => {
+              if(res.data.message === "User with same email already registered"){
+                Swal.fire({
+                  icon: "error",
+                  title: "ERROR",
+                  text: res.data.message,
+                  showConfirmButton: false,
+                  timer: 3000,
+                });
+              }
+              else{
+                Swal.fire({
+                  icon: "success",
+                  title: "SUCCESS",
+                  text: res.data.message,
+                  showConfirmButton: false,
+                  timer: 3000,
+                }).then(navigate("/login"));
+              }}).catch((error) => {
+                console.log("Error Code: ", error);
+                navigate("/login");
+              });
         }}).catch((error) => {
           console.log("Error Code: ", error);
-          navigate("/register-educator");
+          navigate("/register/page1");
         });
             handleNext();
           } else {
@@ -357,6 +425,16 @@ export default function Page3New() {
                         boxSizing: 'border-box', 
                     }}
                 />
+            </Grid>
+            <Grid sm item>
+              <Button fullWidth variant="outlined">
+                <input
+                  type="file"
+                  accept={".pdf"}
+                  onChange={(event) => fileUpload(event)}
+                  // style={{ color: "transparent" }}
+                />
+              </Button>
             </Grid>
             {/* <Grid item xs={12} sm={6}>
               <TextField
