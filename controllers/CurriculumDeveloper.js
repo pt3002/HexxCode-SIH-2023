@@ -4,11 +4,11 @@ const {
   CurriculumDeveloperLogin,
   Guidelines,
   Requirements,
-  CDLogin
-
+  CDLogin,
 } = require("../classes/curriculumDeveloper");
 
-const document = require("../models/document")
+const document = require("../models/document");
+const save = require("../models/save");
 const generateToken = (user) => {
   const token = jwt.sign(
     {
@@ -51,7 +51,7 @@ exports.GetAllSubjects = async (req, res, next) => {
 exports.CDRegistration = async (req, res, next) => {
   try {
     console.log("body....", req.body);
-    const { id, email, name, gender, university, college, mongo_file_id} =
+    const { id, email, name, gender, university, college, mongo_file_id } =
       req.body;
     let existingCD = await CDLogin.findCDByEmail(email);
     console.log(req.body);
@@ -67,7 +67,7 @@ exports.CDRegistration = async (req, res, next) => {
       college,
       mongo_file_id
     );
-    console.log("hello",req.body);
+    console.log("hello", req.body);
     res.send({
       message: "Curriculum Developer registration successful",
     });
@@ -264,40 +264,34 @@ exports.AddPinnedSubjects = async (req, res, next) => {
   }
 };
 
-
-exports.CurriculumDeveloperLogin=async(req,res)=>{
-  try{
-    let {email,password}=req.body;
-    let ans=await CurriculumDeveloperLogin.findCDByEmail(email);
-    console.log("ans...",ans);
-    if(ans.length===0){
-        res.send({message:"Wrong user selected or Invalid Credentials"});
+exports.CurriculumDeveloperLogin = async (req, res) => {
+  try {
+    let { email, password } = req.body;
+    let ans = await CurriculumDeveloperLogin.findCDByEmail(email);
+    console.log("ans...", ans);
+    if (ans.length === 0) {
+      res.send({ message: "Wrong user selected or Invalid Credentials" });
+    } else {
+      if (ans[0].password === password) {
+        let user = {
+          id: ans[0]["id"],
+          role: "CurriculumDeveloper",
+          name: ans[0]["name"],
+          email: email,
+        };
+        const token = generateToken(user);
+        res.send({
+          message: "Login Successful",
+          token: token,
+        });
+      } else {
+        res.send({ error: "Invalid Credentials" });
+      }
     }
-    else{
-        if(ans[0].password===password){
-          let user = {
-            id: ans[0]["id"],
-            role: "CurriculumDeveloper",
-            name: ans[0]["name"],
-            email: email,
-          };
-          const token = generateToken(user);
-          res.send({
-            message: "Login Successful",
-            token: token,
-          });
-        }
-        else{
-            res.send({error:"Invalid Credentials"});
-        }
-    }
-}
-catch(error){
+  } catch (error) {
     res.status(500).send({ error: "Internal Server Error" });
-}
+  }
 };
-
-
 
 exports.getAllGuidelines = async (req, res, next) => {
   try {
@@ -323,6 +317,7 @@ exports.getAllGuidelines = async (req, res, next) => {
     console.log(error);
   }
 };
+
 
 exports.getAllRequirements=async(req,res,next)=>{
   try{
@@ -352,27 +347,115 @@ exports.getAllRequirements=async(req,res,next)=>{
 
 
 
+
 // MONGO DB Requests
-exports.createDocument = async(req, res) => {
-  const {title, description} = req.body;
-  if(!(title, description)){
-    return res.status(400).send({error: "Input Fields Missing"})
+exports.createDocument = async (req, res) => {
+  const { title, description } = req.body;
+  if (!(title, description)) {
+    return res.status(400).send({ error: "Input Fields Missing" });
   }
   const newDocument = new document({
-    title, description
+    title,
+    description,
+  });
+  newDocument
+    .save()
+    .then((resp) => {
+      let documentId = resp._id;
+      const newSave = new save({
+        documentId,
+      });
+
+      newSave.save().then((save_resp) => {
+        let previous_saveIds = resp.saveIds;
+        previous_saveIds.push(save_resp._id);
+        // updating saveId array
+        document.updateOne(
+          { _id: resp._id },
+          { $addToSet: { saveIds: previous_saveIds } },
+          function (err, result) {
+            if (err) {
+              res.send(err);
+            } else {
+              res
+                .status(200)
+                .send({ message: "Document Created Successfully" });
+            }
+          }
+        );
+      });
+    })
+    .catch((err) => res.status(400).json({ error: err.message }));
+};
+
+exports.addNewSave = async(req, res) => {
+  const {previous_saveIds, previousSaveId, documentId, body, commitMessage, commitType} = req.body;
+  const newSave = new save({
+    previousSaveId, documentId, body, commitMessage, commitType
   })
-  newDocument.save().then(() => {
-    res.status(200).send({message : "Document Created Successfully"})
+  newSave.save().then((save_resp) => {
+    previous_saveIds.push(save_resp._id)
+    // updating save id array
+    document.updateOne(
+      {
+        _id : documentId
+      },
+      {
+        $addToSet : {saveIds : previous_saveIds}
+      },
+      function(err,result){
+        if(err){
+          res.send(err)
+        }else{
+          res.status(200).send({message :"Document Saved Successfully"})
+        }
+      }
+    )
   })
-  .catch((err) => res.status(400).json({error: err.message}))
 }
 
-exports.getAllDocuments = async(req, res) => {
-  document.find()
-  .lean()
-  .exec()
-  .then((documents) => {
-    res.status(200).send({documents})
+// get body of last save of a particular document
+exports.GetLastSaveBody = async(req, res, next) => {
+  const documentId = req.params && req.params.documentId
+  if(!documentId){
+    return res.status(400).send({err: "Missing Document ID"})
+  }
+  document.findById(documentId).then((resp) => {
+    let last_save_id = resp.saveIds[resp.saveIds.length - 1]
+    save.findById(last_save_id).then((save_resp) => {
+      return res.status(200).send({body : save_resp.body})
+    })
   })
 }
 
+// get commit history
+exports.GetCommitsHistory = async(req, res, next) => {
+  const documentId = req.params && req.params.documentId
+  if(!(documentId)){
+    return res.status(400).send({err: "Missing Document ID"})
+  }
+  document.findById(documentId).then(async(resp) => {
+    let history = []
+    let saveIds = resp.saveIds
+    let c = 0
+    for(let i = 0; i < resp.saveIds.length; i++){
+      await save.findById(saveIds[i]).then((save_resp) => {
+        history.push(save_resp)
+        c += 1
+      })
+    }
+    if(c == resp.saveIds.length){
+      res.send({history})
+    }
+  })
+}
+
+exports.getAllDocuments = async (req, res) => {
+  document
+    .find()
+    .lean()
+    .exec()
+    .then((documents) => {
+      res.status(200).send({ documents });
+    });
+};

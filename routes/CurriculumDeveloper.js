@@ -47,5 +47,10 @@ router.post(
 router.post("/createDocument", CurriculumDeveloperControllers.createDocument)
 router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
 router.post("/register", CurriculumDeveloperControllers.CDRegistration);
+router.post("/newSave", CurriculumDeveloperControllers.addNewSave)
+
+// MONGO GET REQUESTS
+router.get("/lastSaveBody/:documentId", CurriculumDeveloperControllers.GetLastSaveBody)
+router.get("/commitHistory/:documentId", CurriculumDeveloperControllers.GetCommitsHistory)
 
 module.exports = router;
