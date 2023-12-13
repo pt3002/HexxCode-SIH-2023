@@ -4,11 +4,11 @@ const router = express.Router();
 const { auth } = require("../middleware/auth")
 
 router.get("/getGuidelines", EducatorsControllers.getAllGuidelines);
-router.get("/getEducatorRequirements", EducatorsControllers.getRequirements);
+router.get("/getEducatorRequirements", [auth,EducatorsControllers.getRequirements]);
 
 router.post("/educatorLogin", EducatorsControllers.EducatorLogin);
 router.post("/educatorRegister", EducatorsControllers.EducatorRegistration);
-router.post("/postRequirement", EducatorsControllers.EducatorRequirement);
+router.post("/postRequirement", [auth,EducatorsControllers.EducatorRequirement]);
 
 
 module.exports = router;
