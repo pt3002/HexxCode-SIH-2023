@@ -4,12 +4,13 @@ const bodyParser = require("body-parser");
 
 const connectMongoDB = require("./config/connectMongoDb");
 
-const {auth} = require("./middleware/auth")
+const { auth } = require("./middleware/auth");
 
 const AICTEAdminRouter = require("./routes/AICTEAdmin");
 const CurriculumDeveloperRouter = require("./routes/CurriculumDeveloper");
 const FilesRouter = require("./routes/File");
 const Educator = require("./routes/Educator");
+const Calendar = require("./routes/Calendar");
 
 const app = express();
 
@@ -26,18 +27,22 @@ app.use("/api/AICTEAdmin", AICTEAdminRouter);
 app.use("/api/Educator", Educator);
 app.use("/api/CurriculumDeveloper", CurriculumDeveloperRouter);
 app.use("/api/File", FilesRouter);
+app.use("/api/Calendar", Calendar);
 
-app.get("/api/auth", [auth, (req, res) => {
-  if(req.userId && req.userRole && req.userName && req.email){
-    let details = {
-      id: req.userId,
-      role : req.userRole,
-      name : req.userName,
-      email : req.email
+app.get("/api/auth", [
+  auth,
+  (req, res) => {
+    if (req.userId && req.userRole && req.userName && req.email) {
+      let details = {
+        id: req.userId,
+        role: req.userRole,
+        name: req.userName,
+        email: req.email,
+      };
+      res.send({ details });
     }
-    res.send({details})
-  }
-}])
+  },
+]);
 
 app.get("/api", (req, res) => {
   res.send("This is Shiksha Niyojak");
