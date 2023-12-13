@@ -3,9 +3,10 @@ import { Navigate } from 'react-router-dom';
 
 import SidebarLayout from './layouts/SidebarLayout';
 import BaseLayout from './layouts/BaseLayout';
-
+import DashboardDeptHead from './content/pages/DeptHead/dashboard';
 import SuspenseLoader from './components/SuspenseLoader';
 import CurriculumDeveloperLayout from './layouts/CurriculumDeveloperLayout';
+import DeptHeadLayout from './layouts/DeptHeadLayout';
 import EducatorLayout from './layouts/EDLayout';
 import Checkout from './content/pages/registerSteps';
 import Page1New from './content/pages/page_one_new';
@@ -13,7 +14,6 @@ import Page2New from './content/pages/page_two_new';
 import Page3New from './content/pages/page_three_new';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
-import Requirements from './content/pages/ED/requirements';
 import Dashboard from './content/pages/ED/dashboard';
 import AICTELayout from './layouts/AICTELayout'
 import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
@@ -103,7 +103,37 @@ const StatusMaintenance = Loader(
   lazy(() => import('./content/pages/Status/Maintenance'))
 );
 
-const routes = [
+let routes = []
+const role = localStorage.getItem("shiksha-niyojak-role");
+if(role == "Educator"){
+  routes = [{
+    path : 'ED',
+    element : <EducatorLayout />,
+    children : [
+      {
+        path : 'dashboard',
+        element : <Dashboard />
+      },
+      {
+        path : 'requirements',
+        element : <PostRequirements />
+      },
+      {
+        path : 'viewGuidelines',
+        element : <ViewGuidelinesED />
+      },
+      {
+        path : 'review',
+        element : <EDviewcurri />
+      },
+      {
+        path : 'rate',
+        element : <TestComp />
+      },
+    ]
+  },]
+}
+routes.push(
   {
     path: '',
     element: <BaseLayout />,
@@ -275,32 +305,6 @@ const routes = [
     ]
   },
   {
-    path : 'ED',
-    element : <EducatorLayout />,
-    children : [
-      {
-        path : 'dashboard',
-        element : <Dashboard />
-      },
-      {
-        path : 'requirements',
-        element : <PostRequirements />
-      },
-      {
-        path : 'viewGuidelines',
-        element : <ViewGuidelinesED />
-      },
-      {
-        path : 'review',
-        element : <EDviewcurri />
-      },
-      {
-        path : 'rate',
-        element : <TestComp />
-      },
-    ]
-  },
-  {
     path : '/register',
     element : <Checkout />,
     children : [
@@ -331,6 +335,16 @@ const routes = [
     element : <CurriculumDeveloperLogin />,
     children : [
       
+    ]
+  },
+  {
+    path : 'deptHead',
+    element : <DeptHeadLayout />,
+    children : [
+      {
+        path: 'overview',
+        element: <DashboardDeptHead />
+      },
     ]
   },
   {
@@ -370,6 +384,5 @@ const routes = [
       }
     ]
   },
-];
-
+);
 export default routes;

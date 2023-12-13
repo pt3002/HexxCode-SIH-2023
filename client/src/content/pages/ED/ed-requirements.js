@@ -21,8 +21,10 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useContext, useEffect } from 'react';
 import axios from "axios";
 import Swal from "sweetalert2";
+import UserTokenContext from '../../../contexts/UserTokenContext';
 
 const uuid = require("uuid").v4;
 
@@ -30,6 +32,8 @@ export default function PostRequirements() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [req, setReq] = React.useState([]);
+  const userContext = useContext(UserTokenContext)
+  const {dict, checkToken} = userContext
   const educatorId = "1d56470c-f488-4103-a285-86cc8592ec7b";
 
   const [Data, setData] = React.useState({
@@ -100,7 +104,11 @@ export default function PostRequirements() {
       };
 
       axios
-        .post(initial_url, body)
+        .post(initial_url, body, {
+          headers: {
+            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+          },
+        })
         .then((res) => {
           if (res.data.message === "This User Cannot Post Requirement") {
             Swal.fire({
@@ -117,7 +125,9 @@ export default function PostRequirements() {
               text: res.data.message,
               showConfirmButton: false,
               timer: 3000,
-            }).then(navigate("/ED/requirements"));
+            })
+            // console.log("UserTokenContext",UserTokenContext);
+            // console.log("dict",dict);
           }
         })
         .catch((error) => {
@@ -196,7 +206,11 @@ export default function PostRequirements() {
   };
 
   React.useEffect(() => {
-    axios.get(`${backendURL}/Educator/getEducatorRequirements`).then((res) => {
+    axios.get(`${backendURL}/Educator/getEducatorRequirements`,{
+      headers: {
+        "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+      },
+    }).then((res) => {
       setReq(res.data.requirements);
     });
   }, []);

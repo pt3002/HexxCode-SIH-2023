@@ -20,6 +20,7 @@ export default function CurriculumDeveloperLogin() {
   const navigate = useNavigate();
 
   const [text, setUser] = React.useState("");
+  const [link, setLink] = React.useState("");
 
   const [Data, setData] = React.useState({
     email: "",
@@ -34,9 +35,11 @@ export default function CurriculumDeveloperLogin() {
     if (value === "1") {
       // setType(1);
       setUser("Curriculum Developer");
+      setLink("/register/page1");
     } else if (value === "2") {
       // setType(2);
       setUser("Educator");
+      setLink("/register-educator");
     } else {
       // setType(3);
       setUser("AICTE Administrator");
@@ -154,8 +157,9 @@ export default function CurriculumDeveloperLogin() {
               timer: 3000,
             })
             let token_dict = res.data.token;
-            console.log("Login page token: ",token_dict)
             localStorage.setItem("shiksha-niyojak", token_dict.token);
+            localStorage.setItem("shiksha-niyojak-role",res.data.role);
+            console.log("Login ls ",localStorage)
             navigate(navigate_page);
           }
         })
@@ -367,7 +371,7 @@ export default function CurriculumDeveloperLogin() {
               sx={{ mx: { xs: 7, md: 6 }, mt: 2, fontSize: 12 }}
             >
               Don't have and account?
-              <Link href="/register" color="secondary">
+              <Link href={link} color="secondary">
                 Click to Regsiter
               </Link>
             </Typography>

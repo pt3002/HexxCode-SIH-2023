@@ -98,6 +98,7 @@ exports.EducatorLogin = async (req, res, next) => {
       res.send({
         message: "Login Successful",
         token: token,
+        role: "Educator",
       });
     } else {
       res.send({ error: "Invalid Credentials" });
@@ -158,9 +159,9 @@ exports.EducatorRequirement=async(req,res,next)=>{
 exports.getRequirements=async(req,res,next)=>{
   try{
     // let ed_id=req.params.educatorId.toString();
-    let ed_id="1d56470c-f488-4103-a285-86cc8592ec7b";
+    let ed_id= req.userId;
     console.log(ed_id,typeof(ed_id));
-    let ans=await Requirements.getEducatorRequirements("1d56470c-f488-4103-a285-86cc8592ec7b");
+    let ans=await Requirements.getEducatorRequirements(ed_id);
     try {
       let requirements = [];
       for (let i = 0; i < ans.length; i++) {
