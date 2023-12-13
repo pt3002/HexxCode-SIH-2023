@@ -247,7 +247,11 @@ function fileUpload(event) {
             mongo_file_id: response.data.filename,
             gender:Data.gender, 
             college:Data.college, 
-            university:Data.university};
+            university:Data.university,
+            password: Math.random().toString(36).substring(2, 7),
+
+          
+          };
             const initial_url = backendURL+"/CurriculumDeveloper/register";
       
             axios.post(initial_url, body).then(res => {

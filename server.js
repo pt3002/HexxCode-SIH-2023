@@ -11,6 +11,7 @@ const CurriculumDeveloperRouter = require("./routes/CurriculumDeveloper");
 const FilesRouter = require("./routes/File");
 const Educator = require("./routes/Educator");
 const Calendar = require("./routes/Calendar");
+const DeptHeads = require("./routes/DeptHeads");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/Educator", Educator);
 app.use("/api/CurriculumDeveloper", CurriculumDeveloperRouter);
 app.use("/api/File", FilesRouter);
 app.use("/api/Calendar", Calendar);
+app.use("/api/DeptHeads", DeptHeads);
 
 app.get("/api/auth", [
   auth,
