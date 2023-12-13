@@ -212,7 +212,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
+                  to="/curriculumDeveloper/calendar"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
                   Calendar
