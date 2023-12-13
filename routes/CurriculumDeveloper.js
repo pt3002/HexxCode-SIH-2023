@@ -25,6 +25,8 @@ router.get(
   "/getGuidelines",
   CurriculumDeveloperControllers.getAllGuidelines
 )
+router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
+
 
 //# Post Request
 router.post(

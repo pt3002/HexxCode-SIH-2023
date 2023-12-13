@@ -3,6 +3,7 @@ const {
   curriculumDeveloperFeatures,
   CurriculumDeveloperLogin,
   Guidelines,
+  Requirements,
   CDLogin,
 } = require("../classes/curriculumDeveloper");
 
@@ -316,6 +317,36 @@ exports.getAllGuidelines = async (req, res, next) => {
     console.log(error);
   }
 };
+
+
+exports.getAllRequirements=async(req,res,next)=>{
+  try{
+
+    let ans=await Requirements.getAllRequirements();
+    try {
+      let requirements = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          num:i+1,
+          id: ans[i].id,
+          department: ans[i].department,
+          subject: ans[i].subject,
+          requirement_text:ans[i].requirement_text,
+        };
+        requirements.push(n);
+      }
+      res.send({ requirements });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
