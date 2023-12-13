@@ -99,7 +99,6 @@ export default function PostRequirements() {
         id: uuid(),
         department: Data.department,
         subject: Data.subject,
-        educator_id: educatorId,
         requirement_text: Data.suggestions,
       };
 

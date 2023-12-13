@@ -126,7 +126,8 @@ exports.EducatorAuth = async (req, res, next) => {
 };
 exports.EducatorRequirement=async(req,res,next)=>{
   try{
-    let {id,department,subject,educator_id,requirement_text}=req.body;
+    let educator_id = req.userId;
+    let {id,department,subject,requirement_text}=req.body;
     let educator= await EducatorLogin.findEducatorById(educator_id);
     console.log("ans : ",educator);
     console.log("req.body...",req.body);
