@@ -9,7 +9,7 @@ class EducatorLogin {
   }
 
   static async findEducatorById(id) {
-    let sql = `SELECT email, name, university, college, designation, password from organization_admin where admin_id = "${id}";`;
+    let sql = `SELECT email, name, university, college, designation, password from educator where id = "${id}";`;
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
@@ -49,4 +49,29 @@ class Guidelines{
   }
 }
 
-module.exports = {EducatorFeatures, EducatorLogin, Guidelines};
+class Requirements{
+  static async insertEducatorRequirement(
+    id,
+    department,
+    subject,
+    educator_id,
+    requirement_text,
+  ) {
+    let sql = `INSERT INTO requirement (id, department, subject, educator_id,requirement_text) VALUES ("${id}","${department}","${subject}","${educator_id}","${requirement_text}");`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return error.code
+    }
+  }
+
+  static async getEducatorRequirements(id) {
+    console.log(id,typeof(id));
+    let sql = `Select * from requirement where educator_id= "${id}"`;
+    const [req, _] = await db.execute(sql);
+    return req;
+  }
+}
+
+module.exports = {EducatorFeatures, EducatorLogin, Guidelines,Requirements};

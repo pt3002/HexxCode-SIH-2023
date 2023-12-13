@@ -27,9 +27,13 @@ import Document from './content/pages/CD/document';
 import ViewGuidelines from './content/pages/CD/ViewGuidelines';
 import ViewGuidelinesED from './content/pages/ED/ViewGuidelines';
 import CreateDocument from './content/pages/CD/createDocument';
+import PostRequirements from './content/pages/ED/ed-requirements';
+import ViewRequirements from './content/pages/CD/view-requirements';
 import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculumDevelopers';
+
 import EDviewcurri from './content/pages/ED/review';
 import TestComp from './content/pages/ED/ratepage';
+
 const Loader = (Component) => (props) =>
   (
     <Suspense fallback={<SuspenseLoader />}>
@@ -262,6 +266,12 @@ const routes = [
         path : 'createDocument',
         element : <CreateDocument />
       },
+
+      {
+        path : 'viewRequirements',
+        element : <ViewRequirements />
+      }
+
     ]
   },
   {
@@ -274,7 +284,7 @@ const routes = [
       },
       {
         path : 'requirements',
-        element : <Requirements />
+        element : <PostRequirements />
       },
       {
         path : 'viewGuidelines',

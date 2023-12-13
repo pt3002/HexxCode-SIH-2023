@@ -124,4 +124,16 @@ class Guidelines{
   }
 }
 
-module.exports = { CDLogin,curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin };
+
+class Requirements{
+
+  static async getAllRequirements() {
+    let sql = `Select * from requirement`;
+    const [requirement, _] = await db.execute(sql);
+    return requirement;
+  }
+}
+
+
+module.exports = { CDLogin,curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin,Requirements };
+

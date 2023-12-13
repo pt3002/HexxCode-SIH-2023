@@ -4,6 +4,7 @@ const {
   EducatorLogin,
   EducatorFeatures,
   Guidelines,
+  Requirements,
 } = require("../classes/Educator");
 
 const generateToken = (user) => {
@@ -122,3 +123,61 @@ exports.EducatorAuth = async (req, res, next) => {
     }
   }
 };
+exports.EducatorRequirement=async(req,res,next)=>{
+  try{
+    let {id,department,subject,educator_id,requirement_text}=req.body;
+    let educator= await EducatorLogin.findEducatorById(educator_id);
+    console.log("ans : ",educator);
+    console.log("req.body...",req.body);
+    if(educator.length===0){
+      res.send({
+        message:"This User Cannot Post Requirement",
+      });
+    }
+    else{
+      await Requirements.insertEducatorRequirement(
+        id,
+        department,
+        subject,
+        educator_id,
+        requirement_text,
+      );
+      console.log(req.body);
+      res.send({
+        message: "Requirement Posted Successfully",
+      });
+    }
+  }
+  catch (error) {
+    console.log(error);
+  }
+  
+};
+
+//auth to be added
+exports.getRequirements=async(req,res,next)=>{
+  try{
+    // let ed_id=req.params.educatorId.toString();
+    let ed_id="1d56470c-f488-4103-a285-86cc8592ec7b";
+    console.log(ed_id,typeof(ed_id));
+    let ans=await Requirements.getEducatorRequirements("1d56470c-f488-4103-a285-86cc8592ec7b");
+    try {
+      let requirements = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          department: ans[i].department,
+          subject: ans[i].subject,
+          requirement_text:ans[i].requirement_text,
+        };
+        requirements.push(n);
+      }
+      res.send({ requirements });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
