@@ -15,7 +15,7 @@ class CDLogin {
   }
 
   static async findCDById(id) {
-    let sql = `SELECT email, name, university, college, designation, password from organization_admin where admin_id = "${id}";`;
+    let sql = `SELECT email, name, university, college from curriculum_developer where id = "${id}";`;
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
@@ -110,7 +110,7 @@ class curriculumDeveloperFeatures {
 
 class CurriculumDeveloperLogin {
   static async findCDByEmail(email) {
-    let sql = ` SELECT id, email , password FROM curriculum_developer where email = "${email}";`;
+    let sql = ` SELECT name, id, email , password FROM curriculum_developer where email = "${email}";`;
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
