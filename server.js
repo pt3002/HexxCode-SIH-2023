@@ -7,6 +7,7 @@ const connectMongoDB = require("./config/connectMongoDb");
 const { auth } = require("./middleware/auth");
 
 const AICTEAdminRouter = require("./routes/AICTEAdmin");
+const DeptHeadRouter = require("./routes/DeptHead");
 const CurriculumDeveloperRouter = require("./routes/CurriculumDeveloper");
 const FilesRouter = require("./routes/File");
 const Educator = require("./routes/Educator");
@@ -24,6 +25,7 @@ connectMongoDB();
 // Middleware
 app.use(express.json({ limit: "50mb" }));
 app.use("/api/AICTEAdmin", AICTEAdminRouter);
+app.use("/api/DeptHead", DeptHeadRouter);
 app.use("/api/Educator", Educator);
 app.use("/api/CurriculumDeveloper", CurriculumDeveloperRouter);
 app.use("/api/File", FilesRouter);

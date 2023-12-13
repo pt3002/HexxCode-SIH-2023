@@ -34,6 +34,7 @@ import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculum
 import EDviewcurri from './content/pages/ED/review';
 import TestComp from './content/pages/ED/ratepage';
 import Calendar from './content/pages/CD/calendar';
+import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
 
 const Loader = (Component) => (props) =>
   (
@@ -349,6 +350,10 @@ routes.push(
       {
         path: 'overview',
         element: <DashboardDeptHead />
+      },
+      {
+        path: 'createGroup',
+        element: <CreateGroup />
       },
     ]
   },
