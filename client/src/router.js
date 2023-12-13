@@ -31,6 +31,8 @@ import PostRequirements from './content/pages/ED/ed-requirements';
 import ViewRequirements from './content/pages/CD/view-requirements';
 import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculumDevelopers';
 
+import EDviewcurri from './content/pages/ED/review';
+import TestComp from './content/pages/ED/ratepage';
 
 const Loader = (Component) => (props) =>
   (
@@ -287,6 +289,14 @@ const routes = [
       {
         path : 'viewGuidelines',
         element : <ViewGuidelinesED />
+      },
+      {
+        path : 'review',
+        element : <EDviewcurri />
+      },
+      {
+        path : 'rate',
+        element : <TestComp />
       },
     ]
   },

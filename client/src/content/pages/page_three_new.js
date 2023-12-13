@@ -99,7 +99,7 @@ export default function Page3New() {
       },
     },
   ]
-  const [activeStep, setActiveStep] = React.useState(2);
+  const [activeStep, setActiveStep] = React.useState(1);
   const navigate = useNavigate();
   const arr = [
     { value: "Computer Engineering", label: "Computer Engineering" },
