@@ -212,28 +212,6 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
-                  startIcon={<BrightnessLowTwoToneIcon />}
-                >
-                  Calendar
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/curriculumDeveloper/subjects"
-                  startIcon={<MmsTwoToneIcon />}
-                >
-                  Resource Repository
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
                   to="/ED/requirements"
                   startIcon={<MmsTwoToneIcon />}
                 >
@@ -245,21 +223,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/ED/review"
                   startIcon={<MmsTwoToneIcon />}
                 >
-                  Discussion Forum
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
-                >
-                  Past Curriculums
+                  Review and Rate
                 </Button>
               </ListItem>
               <ListItem component="div">
