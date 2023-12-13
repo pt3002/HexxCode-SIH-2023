@@ -35,7 +35,7 @@ import { Fragment  } from "react";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { renderButton, renderInputSelect } from './Components/displayComponents';
 import dayjs from "dayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -450,7 +450,7 @@ const handleAddFormSubmit = (event) => {
                     id = "t5"
 				/>
                 
-				{<LocalizationProvider dateAdapter={AdapterDayjs}>
+				{/* {<LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={["DatePicker"]}>
                           {" "}
                           <DemoItem label="">
@@ -493,7 +493,7 @@ const handleAddFormSubmit = (event) => {
                             ></DatePicker>
                             </DemoItem>
                         </DemoContainer>
-            </LocalizationProvider>}
+            </LocalizationProvider>} */}
                 {/* <TextField
 					label="Nature of Work"
 					// color={color ? color : "primary"}

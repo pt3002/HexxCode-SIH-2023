@@ -1,0 +1,115 @@
+.diff-view {
+    background: white;
+    position: relative;
+}
+
+.diff-view p {
+    margin: 0;
+    font-weight: 3 00;
+}
+
+.diff-view li,
+.diff-view ul {
+    margin: 0;
+    border: none;
+    font-weight: 300;
+    box-sizing: border-box;
+}
+
+.diff-view ol {
+    padding: 20px;
+    margin: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.diff-view h3 {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    background: #F7F7F7;
+    color: #434343;
+    font-weight: 400;
+}
+
+.diff-view .delete {
+    background-color: #fdd;
+}
+
+.diff-view .insert {
+    background-color: #dfd;
+}
+
+
+.diff-view span {
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #666666;
+    font-weight: 400;
+    padding-left: 10px;
+}
+
+.diff-view strong {
+    color: #434343;
+    font-size: 24px;
+    font-weight: 400;
+    padding-right: 5px;
+}
+
+.diff-view h4 {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    padding-left: 15px;
+    height: 30px;
+    position: relative;
+    top: -10px;
+    color: #666666;
+    z-index: 1;
+}
+
+.revision-diff {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 0;
+}
+
+.revision-diff>ol {
+    max-height: 100%;
+    width: 100%;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.revision-diff li {
+    display: flex;
+    align-items: center;
+}
+
+.revision-diff .line-num {
+    width: 40px;
+}
+
+.revision-diff .content {
+    flex: 1;
+}
+
+.revision-diff p {
+    text-align: left;
+    padding: 5px;
+}
+
+.op-symbol {
+    width: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    font-weight: 400;
+}

@@ -12,7 +12,11 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText,Avatar,styled
+  ListItemText,
+  Avatar,
+  styled,
+  Button,
+  Box,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Close from "@mui/icons-material/Close";
@@ -21,15 +25,22 @@ import axios from "axios";
 import { backendURL } from "../../../configKeys";
 import LockTwoTone from "@mui/icons-material/LockTwoTone";
 import Text from "../../../components/Text";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import {fToNow} from "../../../utils/formatTime"
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { fToNow } from "../../../utils/formatTime";
+import diffSaves from "./Revisions/diffSaves";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import RevisionModal from "./Revisions/revisionModal";
 
 const AvatarWrapperError = styled(Avatar)(
-    ({ theme }) => `
+  ({ theme }) => `
         background-color: ${theme.colors.error.lighter};
         color:  ${theme.colors.error.main};
   `
-  );
+);
 
 DocumentHistorySideBar.propTypes = {
   openFilter: PropTypes.bool,
@@ -45,16 +56,28 @@ export default function DocumentHistorySideBar({
   doc,
 }) {
   const theme = useTheme();
-  const [commits, setCommits] = useState([])
-  useEffect(async() => {
-    if(doc && doc._id){
-        await axios.get(backendURL + "/curriculumDeveloper/commitHistory/" + doc._id).then((resp) => {
-            //console.log(resp.data)
-            setCommits(resp.data.history)
-        })
+  const [commits, setCommits] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const [rev, setRevs] = useState([])
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  useEffect(async () => {
+    if (doc && doc._id) {
+      await axios
+        .get(backendURL + "/curriculumDeveloper/commitHistory/" + doc._id)
+        .then((resp) => {
+          //console.log(resp.data)
+          setCommits(resp.data.history);
+        });
     }
-    
-  }, [doc])
+  }, [doc]);
   //console.log(openFilter, onOpenFilter, onCloseFilter, doc)
   return (
     <>
@@ -95,46 +118,75 @@ export default function DocumentHistorySideBar({
 
         <Divider />
         <Scrollbar>
-
-            {
-                commits.map((commit) => {
-                    //console.log(commit)
-                    return(
-                        <Card sx = {{m:2}}>
-                        <List disablePadding>
-                            <ListItem
-                            sx = {{py:2}}>
-                                <ListItemAvatar>
-                                    <AvatarWrapperError>
-                                        <LockTwoTone />
-                                    </AvatarWrapperError>
-                                </ListItemAvatar>
-                                <ListItemText
-                                primary = {<Text color = "black">Type : {commit.commitType}</Text>}
-                                primaryTypographyProps={{
-                                    variant: 'body1',
-                                    fontWeight: 'bold',
-                                    color: 'textPrimary',
-                                    gutterBottom: true,
-                                    noWrap: true
-                                  }}
-                                  secondary={<Text color="error">Message : {commit.commitMessage}</Text>}
-            secondaryTypographyProps={{ variant: 'body2', noWrap: true }}
-                                />
-                            </ListItem>
-                            <ListItemText
-                            secondary = {<Text color = "success"><AccessTimeIcon/> {fToNow(commit.createdAt)}</Text>}
-                            secondaryTypographyProps={{ variant: 'body3', noWrap: true }}
-                            />
-                        </List>
-                    </Card>
-                    )
+          {commits.map((commit, index) => {
+            //console.log(commit)
+            return (
+              <Card sx={{ m: 2 }}>
+                <List disablePadding>
+                  <ListItem sx={{ py: 2 }}>
+                    <ListItemAvatar>
+                      <AvatarWrapperError>
+                        <LockTwoTone />
+                      </AvatarWrapperError>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={
+                        <Text color="black">Type : {commit.commitType}</Text>
+                      }
+                      primaryTypographyProps={{
+                        variant: "body1",
+                        fontWeight: "bold",
+                        color: "textPrimary",
+                        gutterBottom: true,
+                        noWrap: true,
+                      }}
+                      secondary={
+                        <Text color="error">
+                          Message : {commit.commitMessage}
+                        </Text>
+                      }
+                      secondaryTypographyProps={{
+                        variant: "body2",
+                        noWrap: true,
+                      }}
+                    />
+                    {
+                      index > 0 && (
+                        <Button onClick={() => {setRevs(diffSaves(commits[index-1], commits[index])); handleClickOpen();}}>Compare with Past</Button>
+                      )
+                    }
                     
-                })
-            }
-
+                  </ListItem>
+                  <ListItemText
+                    secondary={
+                      <Text color="success">
+                        <AccessTimeIcon /> {fToNow(commit.createdAt)}
+                      </Text>
+                    }
+                    secondaryTypographyProps={{
+                      variant: "body3",
+                      noWrap: true,
+                    }}
+                  />
+                </List>
+              </Card>
+            );
+          })}
         </Scrollbar>
       </Drawer>
+
+      {/* Dialog to show version history */}
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>Version History since previous Save</DialogTitle>
+        <DialogContent>
+          <Box p={2}>
+            <RevisionModal rev = {rev} />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
