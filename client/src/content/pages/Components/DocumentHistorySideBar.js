@@ -160,7 +160,7 @@ export default function DocumentHistorySideBar({
                   <ListItemText
                     secondary={
                       <Text color="success">
-                        <AccessTimeIcon /> {fToNow(commit.createdAt)}
+                        <AccessTimeIcon /> {fToNow(commit.createdAt)} by {commit.cdname}
                       </Text>
                     }
                     secondaryTypographyProps={{
@@ -184,7 +184,7 @@ export default function DocumentHistorySideBar({
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
     </>
