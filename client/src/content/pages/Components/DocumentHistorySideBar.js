@@ -16,6 +16,7 @@ import {
   Avatar,
   styled,
   Button,
+  Box,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Close from "@mui/icons-material/Close";
@@ -27,6 +28,12 @@ import Text from "../../../components/Text";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { fToNow } from "../../../utils/formatTime";
 import diffSaves from "./Revisions/diffSaves";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import RevisionModal from "./Revisions/revisionModal";
 
 const AvatarWrapperError = styled(Avatar)(
   ({ theme }) => `
@@ -50,6 +57,17 @@ export default function DocumentHistorySideBar({
 }) {
   const theme = useTheme();
   const [commits, setCommits] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const [rev, setRevs] = useState([])
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   useEffect(async () => {
     if (doc && doc._id) {
       await axios
@@ -134,7 +152,7 @@ export default function DocumentHistorySideBar({
                     />
                     {
                       index > 0 && (
-                        <Button onClick={() => {diffSaves(commits[index-1], commits[index])}}>Compare with Past</Button>
+                        <Button onClick={() => {setRevs(diffSaves(commits[index-1], commits[index])); handleClickOpen();}}>Compare with Past</Button>
                       )
                     }
                     
@@ -156,6 +174,19 @@ export default function DocumentHistorySideBar({
           })}
         </Scrollbar>
       </Drawer>
+
+      {/* Dialog to show version history */}
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>Version History since previous Save</DialogTitle>
+        <DialogContent>
+          <Box p={2}>
+            <RevisionModal rev = {rev} />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

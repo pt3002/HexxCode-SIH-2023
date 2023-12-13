@@ -123,7 +123,6 @@ const diffSaves = (original, target) => {
     if (rev.diffInfo.some((edit) => edit.type !== "none")) {
       changedRevs.push(rev);
     }
-    console.log(changedRevs);
     return changedRevs;
   }
 };
