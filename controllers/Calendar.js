@@ -7,24 +7,8 @@ exports.getAllMeetings = async (req, res) => {
     return res.status(400).send({ err: " missing Group Id" });
   }
   try {
-    const meetings = await Calendar.find({ groupId: groupId }).exec;
-    let result = [];
-    meetings.forEach((meeting) => {
-      let n = {
-        //! Get Meeting Object ID
-        id: "1231",
-        title: meeting.title,
-        description: meeting.description,
-        location: meeting.location,
-        startTime: meeting.startTime,
-        endTime: meeting.endTime,
-        createdBy: meeting.createdBy,
-        createdAt: meeting.createdAt,
-        groupId: meeting.groupId,
-      };
-      result.push(n);
-    });
-    return res.json(result);
+    const meetings = await Calendar.find({ groupId: groupId }).exec();
+    return res.send(meetings);
   } catch (error) {
     console.log(error);
   }
@@ -38,7 +22,6 @@ exports.AddMeeting = async (req, res) => {
     startTime,
     endTime,
     createdBy,
-    createdAt,
     groupId,
   } = req.body;
   const newMeeting = new Calendar({
@@ -48,7 +31,6 @@ exports.AddMeeting = async (req, res) => {
     startTime: startTime,
     endTime: endTime,
     createdBy: createdBy,
-    createdAt: createdAt,
     groupId: groupId,
   });
   try {
@@ -58,5 +40,58 @@ exports.AddMeeting = async (req, res) => {
     console.log(error);
   }
 };
-exports.UpdateMeeting = async (req, res) => {};
-exports.DeleteMeeting = async (req, res) => {};
+
+exports.UpdateMeeting = async (req, res) => {
+  const {
+    id,
+    title,
+    description,
+    location,
+    startTime,
+    endTime,
+    createdBy,
+    groupId,
+  } = req.body;
+  try {
+    const meeting = await Calendar.findById(id).exec();
+    if (meeting) {
+      meeting.title = title;
+      meeting.description = description;
+      meeting.location = location;
+      meeting.startTime = startTime;
+      meeting.endTime = endTime;
+      meeting.createdBy = createdBy;
+      meeting.groupId = groupId;
+      await meeting
+        .save()
+        .then(() => {
+          return res.send({ message: "Updated Successfully" });
+        })
+        .catch((error) => {
+          console.log(error);
+          return res.send({ error: "Unable To Update" });
+        });
+    } else {
+      return res.send({ error: "No Meeting Found" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.DeleteMeeting = async (req, res) => {
+  let { id } = req.body;
+  try {
+    await Calendar.deleteOne({ _id: id })
+      .exec()
+      .then(() => {
+        return res.send({ message: "Deleted Successfully" });
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.send({ error: "Unable To Delete" });
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
