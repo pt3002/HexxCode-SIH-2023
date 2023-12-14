@@ -14,9 +14,9 @@ import AddCircleSharpIcon from "@mui/icons-material/AddCircleSharp";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
 
 import { backendURL } from "../../../configKeys";
 import { fDate } from "../../../utils/formatTime";
@@ -24,42 +24,36 @@ import axios from "axios";
 import Swal from "sweetalert2";
 const uuid = require("uuid").v4;
 
-const arr = [
-  {
-    id: "123",
-    branch: "comp",
-    date: "12/02.13",
-    requirements: "sjszjcjuxcbjscbxxh b",
-  },
-  {
-    id: "456",
-    branch: "comp",
-    date: "14/02.13",
-    requirements: "sjszjcjuxcbjscbxxh b",
-  },
-  {
-    id: "789",
-    branch: "comp",
-    date: "12/02.13",
-    requirements: "sjszjcjuxcbjscbxxh b",
-  },
-];
+
 export default function ViewRequirements() {
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = useState([]);
   const [id, setId] = useState(0);
-  const [req, setReq] = useState("");
+  const [req, setReq] = useState({
+    RowNum: "",
+    department: "",
+    educator_id: "",
+    id: "",
+    requirement_text: "",
+    subject: "",
+  });
 
   const columns = [
     {
-      field: "serial",
-      headerName: "Sr No",
+      field: "RowNum",
+      headerName: "Number",
+      width: 100,
+      editable: true,
+    },
+    {
+      field: "educator_id",
+      headerName: "Educator ID",
       width: 200,
       editable: true,
     },
     {
       field: "id",
-      headerName: "Educator ID",
+      headerName: "Requirement ID",
       width: 200,
       editable: true,
     },
@@ -78,19 +72,23 @@ export default function ViewRequirements() {
     {
       field: "Action",
       headerName: "Action",
-      width: 200,
+      width: 100,
       renderCell: (params) => (
         <>
           <Button
             variant="contained"
             size="small"
-            // onClick={() => {
-            //   handleClickOpen();
-            //   setId("123");
-            //   const req = findReqById(id);
-            //   console.log(req.requirements);
-            //   setReq(req.requirements);
-            // }}
+            onClick={() => {
+              handleClickOpen();
+              getReqText(params.id);
+              // setReq({
+              //   id:params.id,
+              //   department:params.department,
+              //   subject:params.subject,
+              //   req_text:getReqText(params.RowNum)
+
+              // });
+            }}
           >
             View
           </Button>
@@ -99,11 +97,7 @@ export default function ViewRequirements() {
     },
   ];
 
-  const findReqById = (id) => {
-    const findReq = arr.find((item) => item.id === id);
-    return findReq;
-  };
-
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -111,10 +105,28 @@ export default function ViewRequirements() {
     setOpen(false);
   };
 
-  React.useEffect(() => {
-    axios.get(backendURL + "/CurriculumDeveloper/getAllEducatorRequirements").then((res) => {
-      setRows(res.data.requirements);
+  const getReqText = (id) => {
+    const req_item = rows.find((item) => item.id === id);
+    // setReq(req_item);
+    console.log("req....", req_item);
+    setReq({
+      RowNum: req_item.RowNum,
+      department: req_item.department,
+      educator_id: req_item.educator_id,
+      id: req_item.id,
+      requirement_text: req_item.requirement_text,
+      subject: req_item.subject,
     });
+    console.log("req",req);
+  };
+
+  React.useEffect(() => {
+    axios
+      .get(backendURL + "/CurriculumDeveloper/getAllEducatorRequirements")
+      .then((res) => {
+        setRows(res.data.requirements);
+        console.log(rows);
+      });
     // setRows(arr);
   }, []);
 
@@ -149,6 +161,7 @@ export default function ViewRequirements() {
           slots={{ toolbar: GridToolbar }}
           rows={rows}
           columns={columns}
+          // getRowId= {(row) => row.code}
           //   onRowSelectionModelChange={(newRowSelectionModel) => {
           //     setSelectedHeads(newRowSelectionModel);
           //   }}
@@ -166,9 +179,25 @@ export default function ViewRequirements() {
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Requirement by {id}</DialogTitle>
+        <DialogTitle variant="h3" align="center">Requirement</DialogTitle>
         <DialogContent>
-          {req}
+        <Typography fontSize={18} gutterBottom sx={{ mb: 2 }}>
+            <strong>Educator Id : </strong> {req.educator_id}
+          </Typography>
+        <Typography fontSize={18} gutterBottom sx={{ mb: 2 }}>
+            <strong>Requirement Id : </strong> {req.id}
+          </Typography>
+        <Typography fontSize={18} gutterBottom sx={{ mb: 2 }}>
+            <strong>Department : </strong> {req.department}
+          </Typography>
+          <Typography fontSize={18} component="div" sx={{ mb: 2 }}>
+            <strong>Subject : </strong>
+            {req.subject}
+          </Typography>
+          <Typography fontSize={18} sx={{ mb: 1.5 }}>
+            <strong>Suggested Requirement : </strong>
+            <p>{req.requirement_text}</p>
+          </Typography>
         </DialogContent>
       </Dialog>
     </>

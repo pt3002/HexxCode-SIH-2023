@@ -72,6 +72,16 @@ class Requirements{
     const [req, _] = await db.execute(sql);
     return req;
   }
+
+  static async deleteRequirement(id) {
+    let sql = `DELETE FROM requirement where id = "${id}";`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
 }
 
 module.exports = {EducatorFeatures, EducatorLogin, Guidelines,Requirements};

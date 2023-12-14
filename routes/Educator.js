@@ -9,6 +9,8 @@ router.get("/getEducatorRequirements", [auth,EducatorsControllers.getRequirement
 router.post("/educatorLogin", EducatorsControllers.EducatorLogin);
 router.post("/educatorRegister", EducatorsControllers.EducatorRegistration);
 router.post("/postRequirement", [auth,EducatorsControllers.EducatorRequirement]);
+router.post("/deleteRequirement",EducatorsControllers.EducatorDeleteRequirement);
+
 
 
 module.exports = router;

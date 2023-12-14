@@ -223,10 +223,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/subjects"
+                  to="/deptHead/createGroup"
                   startIcon={<MmsTwoToneIcon />}
                 >
-                  Resource Repository
+                  Create Groups
                 </Button>
               </ListItem>
               <ListItem component="div">
