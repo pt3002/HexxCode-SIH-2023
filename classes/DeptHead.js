@@ -1,4 +1,11 @@
 const db = require("../config/connectSqlDb");
+class DeptHeadLogin {
+  static async findDeptHeadByEmail(email) {
+    let sql = ` SELECT id, email, password ,name from department_head where email = "${email}";`;
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
+}
 
 class Groups {
   static async addGroup(
@@ -26,14 +33,25 @@ class Groups {
     const [group, _] = await db.execute(sql);
     return group;
   }
-}
 
-class DeptHeadLogin {
-  static async findDeptHeadByEmail(email) {
-    let sql = ` SELECT id, email, password ,name from department_head where email = "${email}";`;
-    const [newPost, _] = await db.execute(sql);
-    return newPost;
+  static async getMembersNotInAnyGroup() {
+    let sql = `SELECT * FROM curriculum_developer WHERE group_id IS NULL`;
+    const [members, _] = await db.execute(sql);
+    return members;
   }
+
+  static async addMemberToGroup(member_id, group_id) {
+    let sql = `UPDATE curriculum_developer SET group_id="${group_id}" WHERE id="${member_id}"`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+  
 }
 
-module.exports = { Groups,DeptHeadLogin };
+
+module.exports = { Groups, DeptHeadLogin };
+

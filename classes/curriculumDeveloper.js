@@ -27,6 +27,12 @@ class curriculumDeveloperFeatures {
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
+
+  static async cdsAccToDept(department){
+    let sql = `SELECT * from curriculum_developer where department = '${department}' and status = 'A';`;
+    const [newPost, _] = await db.execute(sql)
+    return newPost
+  }
   static async insertCD(
     id,
     email,
@@ -129,8 +135,8 @@ class Guidelines{
 
 class Requirements{
 
-  static async getAllRequirements() {
-    let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,educator_id,department,subject,requirement_text,id FROM requirement;`;
+  static async getAllRequirements(userId) {
+    let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,educator_id,department,subject,requirement_text,id FROM requirement where department in (select department from curriculum_developer where id = ${userId});`;
     const [requirement, _] = await db.execute(sql);
     return requirement;
   }

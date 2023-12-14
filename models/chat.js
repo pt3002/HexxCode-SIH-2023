@@ -22,7 +22,7 @@ const chatSchema = new Schema(
     },
     isGroupChat: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now, required: true },
-    updatedAt: { type: Date, default: Date.now, required: true },
+    lastMessageTime: { type: Date, default: Date.now, required: true },
   },
   { timestamps: true }
 );

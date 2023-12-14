@@ -10,7 +10,12 @@ const messageSchema = new Schema(
     },
     text: { type: String, required: true },
     sender: { type: String, required: true },
-    receiver: { type: String, required: true },
+    receiver: { type: [
+      {
+        type: Schema.Types.String,
+      },
+    ],
+    required:true },
     sendTime: { type: Date, default: Date.now, required: true },
   },
   { timestamps: true }

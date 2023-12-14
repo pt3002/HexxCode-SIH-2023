@@ -14,7 +14,7 @@ import Page2New from './content/pages/page_two_new';
 import Page3New from './content/pages/page_three_new';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
-import Dashboard from './content/pages/ED/dashboard';
+import DashboardED from './content/pages/ED/dashboard';
 import AICTELayout from './layouts/AICTELayout'
 import AddDeptHeads from './content/pages/AICTE/AddDeptHeads';
 import AddDepartment from './content/pages/AICTE/AddDepartment';
@@ -37,6 +37,7 @@ import DiscussionForum from './content/pages/CD/discussionForum';
 import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
 import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
+import Chat from './content/pages/CD/chat';
 
 const Loader = (Component) => (props) =>
   (
@@ -117,7 +118,7 @@ if(role == "Educator"){
     children : [
       {
         path : 'dashboard',
-        element : <Dashboard />
+        element : <DashboardED />
       },
       {
         path : 'requirements',
