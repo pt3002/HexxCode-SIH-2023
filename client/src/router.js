@@ -34,6 +34,7 @@ import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculum
 import EDviewcurri from './content/pages/ED/review';
 import TestComp from './content/pages/ED/ratepage';
 import Calendar from './content/pages/CD/calendar';
+import DiscussionForum from './content/pages/CD/discussionForum';
 
 const Loader = (Component) => (props) =>
   (
@@ -300,6 +301,10 @@ routes.push(
       {
         path : 'calendar',
         element : <Calendar />
+      },
+      {
+        path : 'discussionForum',
+        element : <DiscussionForum />
       },
 
       {
