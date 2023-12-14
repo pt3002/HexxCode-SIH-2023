@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
-const documentSchema = new Schema(
+const chatSchema = new Schema(
   {
-    title: { type: String, required: true },
-    saveIds: {
+    messageIds: {
       type: [
         {
           type: Schema.Types.ObjectId,
@@ -13,15 +12,20 @@ const documentSchema = new Schema(
       default: [],
       required: true,
     },
-    description: {
-      type: String,
-      default: "",
+    userIds: {
+      type: [
+        {
+          type: Schema.Types.String,
+        },
+      ],
+      default: [],
     },
+    isGroupChat: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now, required: true },
     updatedAt: { type: Date, default: Date.now, required: true },
   },
   { timestamps: true }
 );
 
-const Document = model("document", documentSchema);
-module.exports = Document;
+const Chat = model("chat", chatSchema);
+module.exports = Chat;
