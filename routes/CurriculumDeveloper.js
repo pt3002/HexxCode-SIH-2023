@@ -26,7 +26,7 @@ router.get(
   CurriculumDeveloperControllers.getAllGuidelines
 )
 
-router.get("/getAllEducatorRequirements", [auth,CurriculumDeveloperControllers.getAllRequirements]);
+router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
 router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
 
 

@@ -14,6 +14,9 @@ import Footer from "../../components/Footer";
 import { backendURL } from "../../configKeys";
 import Swal from "sweetalert2";
 import axios from "axios";
+import UserTokenState from "../../contexts/UserTokenState";
+import UserTokenContext from "../../contexts/UserTokenContext";
+import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 export default function CurriculumDeveloperLogin() {
@@ -29,6 +32,8 @@ export default function CurriculumDeveloperLogin() {
   });
 
   const error = {};
+  const userContext = useContext(UserTokenContext)
+  const {dict, checkToken} = userContext;
 
   const getDropDown = () => {
     setDropDown(true);
@@ -95,7 +100,7 @@ export default function CurriculumDeveloperLogin() {
     } else if (type === "3") {
       return backendURL + "/AICTEAdmin/AICTEAdminLogin";
     }else {
-      return backendURL + "/DeptHeads/DeptHeadLogin";
+      return backendURL + "/DeptHead/DeptHeadLogin";
     }
   };
 
@@ -175,6 +180,7 @@ export default function CurriculumDeveloperLogin() {
             let token_dict = res.data.token;
             localStorage.setItem("shiksha-niyojak", token_dict.token);
             localStorage.setItem("shiksha-niyojak-role", res.data.role);
+            checkToken()
             console.log("Login ls ", localStorage);
             navigate(navigate_page);
           }

@@ -17,79 +17,99 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const uuid = require("uuid").v4;
-export default function ViewGuidelinesED() {
+export default function ViewGuidelines() {
   const [rows, setRows] = useState([]);
 
   const columns = [
     {
       field: "title",
       headerName: "Title",
-      width: 150,
+      flex: 1,
+      renderCell: (params) => (
+      <div
+        style={{
+            whiteSpace: "normal",
+            overflow: "hidden",
+          }}
+        >
+          {params.value}
+        </div>
+      ),
     },
     {
       field: "mongo_file_id",
       headerName: "View",
-      width: 110,
-      renderCell: (params) => {
-        return (
-          <Button>
-            <DocViewer
-              filename={params.row.mongo_file_id}
-              contentType="application/pdf"
-            />
-          </Button>
-        );
-      },
+      width: 120,
+      renderCell: (params) => (
+        <Button>
+          <DocViewer
+            filename={params.row.mongo_file_id}
+            contentType="application/pdf"
+          />
+        </Button>
+      ),
     },
     {
       field: "creation_date",
       headerName: "Creation Date",
-      width: 110,
-      renderCell: (params) => {
-        return fDate(params.row.creation_date);
-      },
+      width: 120,
+      renderCell: (params) => fDate(params.value),
     },
     {
       field: "last_modified_date",
       headerName: "Last Modified",
-      width: 110,
-      renderCell: (params) => {
-        return fDate(params.row.last_modified_date)
-          ? fDate(params.row.last_modified_date)
-          : "Not Modified";
-      },
+      width: 120,
+      renderCell: (params) =>
+        fDate(params.value) ? fDate(params.value) : "Not Modified",
     },
   ];
 
-
   React.useEffect(() => {
-    axios.get(backendURL + "/Educator/getGuidelines").then((res) => {
+    axios.get(backendURL + "/CurriculumDeveloper/getGuidelines").then((res) => {
       setRows(res.data.guidelines);
+      console.log("THERE");
     });
   }, []);
 
   return (
     <>
-      <Box sx={{ height: 400, width: "96%", margin: "2%" }}>
-      <Typography variant="h3" component="h3" sx={{margin: "2%" , marginBottom: "2%"}} gutterBottom>
-             View AICTE Guidelines
-            </Typography>
-        <DataGrid
-          sx={{margin: "2%" }}
-          slots={{ toolbar: GridToolbar }}
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          disableRowSelectionOnClick
-        />
+      <Grid
+        container
+        spacing={3}
+        alignItems="center"
+        justifyContent="center"
+        sx={{ marginBottom: "5%" }}
+      ></Grid>
+      <Box sx={{ width: "96%", margin: "2%" }}>
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{ margin: "2%", textAlign: "center" }}
+          gutterBottom
+        >
+          View AICTE Guidelines
+        </Typography>
       </Box>
+      <Grid item xs={12} md={12}>
+        <Box
+          sx={{
+            height: 400,
+            width: "94%",
+            margin: "2%", // Add margin to the DataGrid
+          }}
+        >
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pageSize={5}
+            rowHeight={60}
+            disableRowSelectionOnClick
+            components={{
+              Toolbar: GridToolbar,
+            }}
+          />
+        </Box>
+      </Grid>
     </>
   );
 }
