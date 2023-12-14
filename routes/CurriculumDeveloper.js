@@ -1,7 +1,7 @@
 const express = require("express");
 const CurriculumDeveloperControllers = require("../controllers/CurriculumDeveloper");
 const router = express.Router();
-
+const { auth } = require("../middleware/auth")
 //# GET Request
 router.get("/getAllSubjects", CurriculumDeveloperControllers.GetAllSubjects);
 router.get(
@@ -25,8 +25,10 @@ router.get(
   "/getGuidelines",
   CurriculumDeveloperControllers.getAllGuidelines
 )
-router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
+
+router.get("/getAllEducatorRequirements", [auth,CurriculumDeveloperControllers.getAllRequirements]);
 router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
+
 
 //# Post Request
 router.post(
