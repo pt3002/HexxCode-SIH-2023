@@ -9,6 +9,8 @@ const {
 
 const document = require("../models/document");
 const save = require("../models/save");
+const Chat = require("../models/chat")
+const Message = require("../models/message")
 const { jwtSecretKey } = require("../config/configKeys");
 const jwt = require("jsonwebtoken");
 
@@ -348,6 +350,15 @@ exports.getAllRequirements = async (req, res, next) => {
   }
 };
 
+exports.getAllCDsofDepartment = async(req, res) => {
+  const department = req.params && req.params.department;
+  if(!department){
+    return res.status(400).send({err: "Department is missing"})
+  }
+  let allCDsofDept = await curriculumDeveloperFeatures.cdsAccToDept(department)
+  res.status(200).send({allCDsofDept})
+}
+
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
   const { title, description, createdBy } = req.body;
@@ -490,3 +501,61 @@ exports.getAllDocuments = async (req, res) => {
       res.status(200).send({ complete });
     });
 };
+
+// start a new chat
+exports.addNewChat = async(req, res) => {
+  const{
+    userIds, isGroupChat
+  } = req.body;
+  const newChat = new Chat({
+    userIds : userIds.sort(), isGroupChat
+  })
+  Chat.find({userIds : userIds.sort()}).then((resp) => {
+    if(resp.length == 0) {
+      newChat.save().then(() => {
+        res.status(200).send({message : "Chat saved successfully"})
+      })
+    }
+    else{
+      res.status(200).send({message : "Chat already created"})
+    }
+  })
+  
+}
+
+// get all chats of a particular user
+exports.fetchChatsForUser = async(req, res) => {
+  const {userId} = req.body
+  Chat.find({userIds : {$elemMatch: { $eq: userId}}}).then((chats) => {
+    res.send({chats})
+  })
+}
+
+// adding a message
+exports.addNewMessage = async(req, res) => {
+  const{
+    chatId, text, sender, receiver, previousMessageIds
+  } = req.body
+  const newMessage = new Message({
+    chatId, text, sender, receiver
+  })
+  newMessage.save().then((save_resp) => {
+    previousMessageIds.push(save_resp._id)
+    Chat.updateOne(
+      {
+        _id : chatId,
+      },
+      {
+        $addToSet : {messageIds : previousMessageIds, lastMessageTime : save_resp.createdAt}
+      },
+      function(err, result){
+        if(err){
+          res.send(err);
+        }
+        else{
+          res.status(200).send({message : "Chat Added Successfully"})
+        }
+      }
+    )
+  })
+}

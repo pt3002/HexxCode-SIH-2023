@@ -26,7 +26,7 @@ router.get(
   CurriculumDeveloperControllers.getAllGuidelines
 )
 router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
-
+router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
 
 //# Post Request
 router.post(
@@ -48,9 +48,11 @@ router.post("/createDocument", CurriculumDeveloperControllers.createDocument)
 router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
 router.post("/register", CurriculumDeveloperControllers.CDRegistration);
 router.post("/newSave", CurriculumDeveloperControllers.addNewSave)
+router.post("/addNewChat", CurriculumDeveloperControllers.addNewChat)
 
 // MONGO GET REQUESTS
 router.get("/lastSaveBody/:documentId", CurriculumDeveloperControllers.GetLastSaveBody)
 router.get("/commitHistory/:documentId", CurriculumDeveloperControllers.GetCommitsHistory)
+router.get("/fetchChats", CurriculumDeveloperControllers.fetchChatsForUser)
 
 module.exports = router;
