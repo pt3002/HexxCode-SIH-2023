@@ -1,160 +1,106 @@
-import { Helmet } from 'react-helmet-async';
-import PageTitleWrapper from '../../../components/PageTitleWrapper';
-import PageHeader from '../../dashboards/Crypto/PageHeader';
-import { Container } from '@mui/material';
-import BooksTable from '../Components/Table/BooksTable';
-import { subDays } from 'date-fns';
-import { Card } from '@mui/material';
+import { Helmet } from "react-helmet-async";
+import { Typography, Button, Grid } from "@mui/material";
+import ChevronRightTwoToneIcon from "@mui/icons-material/ChevronRightTwoTone";
+import PageTitleWrapper from "../../../components/PageTitleWrapper";
+import Reviewcard from "../Components/Reviewcard";
+import axios from "axios";
+import React from "react";
+import { useState } from "react";
+import { backendURL } from "../../../configKeys";
 
-function Dashboard(){
-    const books = [
-        {
-          id: '1',
-          orderDetails: 'Fiat Deposit',
-          orderDate: new Date().getTime(),
-          status: 'excellent',
-          orderID: 'VUVX709ET7BY',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 34.4565,
-          amount: 56787,
-          cryptoCurrency: 'ETH',
-          currency: '$'
-        },
-        {
-          id: '2',
-          orderDetails: 'Fiat Deposit',
-          orderDate: subDays(new Date(), 1).getTime(),
-          status: 'excellent',
-          orderID: '23M3UOG65G8K',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 6.58454334,
-          amount: 8734587,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '3',
-          orderDetails: 'Fiat Deposit',
-          orderDate: subDays(new Date(), 5).getTime(),
-          status: 'good',
-          orderID: 'F6JHK65MS818',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 6.58454334,
-          amount: 8734587,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '4',
-          orderDetails: 'Fiat Deposit',
-          orderDate: subDays(new Date(), 55).getTime(),
-          status: 'excellent',
-          orderID: 'QJFAI7N84LGM',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 6.58454334,
-          amount: 8734587,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '5',
-          orderDetails: 'Fiat Deposit',
-          orderDate: subDays(new Date(), 56).getTime(),
-          status: 'good',
-          orderID: 'BO5KFSYGC0YW',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 6.58454334,
-          amount: 8734587,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '6',
-          orderDetails: 'Fiat Deposit',
-          orderDate: subDays(new Date(), 33).getTime(),
-          status: 'excellent',
-          orderID: '6RS606CBMKVQ',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 6.58454334,
-          amount: 8734587,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '7',
-          orderDetails: 'Fiat Deposit',
-          orderDate: new Date().getTime(),
-          status: 'good',
-          orderID: '479KUYHOBMJS',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 1212',
-          amountCrypto: 2.346546,
-          amount: 234234,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '8',
-          orderDetails: 'Paypal Withdraw',
-          orderDate: subDays(new Date(), 22).getTime(),
-          status: 'excellent',
-          orderID: 'W67CFZNT71KR',
-          sourceName: 'Paypal Account',
-          sourceDesc: '*** 1111',
-          amountCrypto: 3.345456,
-          amount: 34544,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '9',
-          orderDetails: 'Fiat Deposit',
-          orderDate: subDays(new Date(), 11).getTime(),
-          status: 'excellent',
-          orderID: '63GJ5DJFKS4H',
-          sourceName: 'Bank Account',
-          sourceDesc: '*** 2222',
-          amountCrypto: 1.4389567945,
-          amount: 123843,
-          cryptoCurrency: 'BTC',
-          currency: '$'
-        },
-        {
-          id: '10',
-          orderDetails: 'Wallet Transfer',
-          orderDate: subDays(new Date(), 123).getTime(),
-          status: 'great',
-          orderID: '17KRZHY8T05M',
-          sourceName: 'Wallet Transfer',
-          sourceDesc: "John's Cardano Wallet",
-          amountCrypto: 765.5695,
-          amount: 7567,
-          cryptoCurrency: 'ADA',
-          currency: '$'
-        }
-      ];
-    return(
-        <>
-        <Helmet>
-            <title>Subjects</title>
-        </Helmet>
-        <PageTitleWrapper>
-            <PageHeader />
-        </PageTitleWrapper>
-        <Container maxWidth = "lg">
-            <h1>Resources Page</h1>
-            <Card>
-                <BooksTable books = {books}/>
-            </Card>
-        </Container>
-        </>
-    )
+function DashboardED() {
+//   const [subjects, setSubjects] = useState([]);
+
+  const curriculumDeveloper = {
+    name: "Catherine Pike",
+    avatar: "/static/images/avatars/1.jpg",
+    department: "Computer Engineering",
+  };
+
+//   React.useEffect(() => {
+//     axios
+//       .get(
+//         backendURL +
+//           "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
+//           curriculumDeveloper.department
+//       )
+//       .then((res) => {
+//         // setSubjects(res.data.subjects);
+//         let array = res.data.subjects;
+//         let temp_subjects = [];
+//         for (let i = 0; i < array.length; i++) {
+//           let n = {
+//             id: array[i].subject_id,
+//             cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
+//             name: array[i].name,
+//             code: array[i].subject_code,
+//             cds: ["Mary", "Jack", "Ron"],
+//           };
+//           temp_subjects.push(n);
+//         }
+//         setSubjects(temp_subjects);
+//         console.log("Happp0", subjects);
+//       })
+//       .catch((error) => {
+//         console.log("Error Code: ", error);
+//       });
+//   });
+
+  const subjects = [
+    {
+      id: "1",
+      cover: "/static/images/placeholders/covers/0.jpg",
+      name: "Cryptography",
+      code: "CS-22001",
+      cds: ["Mary", "Jack", "Ron"],
+    },
+    {
+      id: "2",
+      cover: "/static/images/placeholders/covers/1.jpg",
+      name: "Compilers",
+      code: "CS-23001",
+      cds: ["Sony", "Rony", "Tony"],
+    },
+    {
+      id: "3",
+      cover: "/static/images/placeholders/covers/2.jpg",
+      name: "Cyber Security",
+      code: "CS-45600",
+      cds: ["Ritu", "Sita"],
+    },
+  ];
+
+  return (
+    <>
+      <PageTitleWrapper>
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid item>
+            <Typography variant="h3" component="h3" gutterBottom>
+              Curriculum for {curriculumDeveloper.department}
+            </Typography>
+            <Typography variant="subtitle2">
+              {curriculumDeveloper.name}, curriculum for different subjects is listed below:
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              sx={{ mt: { xs: 2, md: 0 } }}
+              variant="contained"
+              endIcon={<ChevronRightTwoToneIcon fontSize="small" />}>
+              View All Books
+            </Button>
+          </Grid>
+        </Grid>
+      </PageTitleWrapper>
+      <Grid container spacing={3}>
+        {subjects.map((subject) => (
+          <Grid key={subject.id} item xs={12} md={4} xl={3}>
+            <Reviewcard subject={subject} />
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
 }
 
-export default Dashboard;
+export default DashboardED;
