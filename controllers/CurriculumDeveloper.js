@@ -6,8 +6,6 @@ const {
   Requirements,
   CDLogin,
 } = require("../classes/curriculumDeveloper");
-const { jwtSecretKey } = require("../config/configKeys");
-const jwt = require("jsonwebtoken");
 
 const document = require("../models/document");
 const save = require("../models/save");
