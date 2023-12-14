@@ -104,7 +104,7 @@ export default function CurriculumDeveloperLogin() {
       return "/curriculumDeveloper";
     } else if (type === "2") {
       return "/ED";
-    } else if (type === "2"){
+    } else if (type === "3"){
       return "/aicte";
     }else{
       return "/deptHead";
