@@ -30,6 +30,18 @@ const generateToken = (user) => {
   };
 };
 
+exports.findCDName = async(req, res) => {
+  try{
+    let id = req.params && req.params.id
+    let ans = await CDLogin.findCDById(id)
+    res.send({name : ans[0]["name"]})
+  }
+  catch (error) {
+    console.log(error);
+    res.send({ error: "Error" });
+  }
+}
+
 exports.GetAllSubjects = async (req, res, next) => {
   try {
     let ans = await curriculumDeveloperFeatures.getAllSubjects();
@@ -525,8 +537,7 @@ exports.addNewChat = async(req, res) => {
 
 // get all chats of a particular user
 exports.fetchChatsForUser = async(req, res) => {
-  const {userId} = req.body
-  Chat.find({userIds : {$elemMatch: { $eq: userId}}}).then((chats) => {
+  Chat.find({userIds : {$elemMatch: { $eq: req.userId}}}).then((chats) => {
     res.send({chats})
   })
 }
@@ -546,7 +557,7 @@ exports.addNewMessage = async(req, res) => {
         _id : chatId,
       },
       {
-        $addToSet : {messageIds : previousMessageIds, lastMessageTime : save_resp.createdAt}
+        $addToSet : {messageIds : previousMessageIds, lastMessageTime : save_resp.createdAt, lastMessageText : text}
       },
       function(err, result){
         if(err){
