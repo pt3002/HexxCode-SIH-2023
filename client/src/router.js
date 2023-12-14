@@ -139,6 +139,50 @@ if(role == "Educator"){
     ]
   },]
 }
+
+if(role == "CurriculumDeveloper"){
+  routes = [{
+    path : 'curriculumDeveloper',
+    element : <CurriculumDeveloperLayout />,
+    children : [
+      {
+        path : 'books',
+        element : <SubjectsForResources />
+      },
+      {
+        path: 'subjects',
+        element : <Courses />
+      },
+      {
+        path : 'document',
+        element : <Document />
+      },
+      {
+        path : 'viewGuidelines',
+        element : <ViewGuidelines/>
+      },
+      {
+        path : 'createDocument',
+        element : <CreateDocument />
+      },
+      {
+        path : 'calendar',
+        element : <Calendar />
+      },
+      {
+        path : 'discussionForum',
+        element : <DiscussionForum />
+      },
+
+      {
+        path : 'viewRequirements',
+        element : <ViewRequirements />
+      }
+
+    ]
+  },]
+}
+
 routes.push(
   {
     path: '',
@@ -276,50 +320,6 @@ routes.push(
         path: 'forms',
         element: <Forms />
       }
-    ]
-  },
-  {
-    path : 'curriculumDeveloper',
-    element : <CurriculumDeveloperLayout />,
-    children : [
-      {
-        path : 'books',
-        element : <SubjectsForResources />
-      },
-      {
-        path: 'subjects',
-        element : <Courses />
-      },
-      {
-        path : 'document',
-        element : <Document />
-      },
-      {
-        path : 'viewGuidelines',
-        element : <ViewGuidelines/>
-      },
-      {
-        path : 'createDocument',
-        element : <CreateDocument />
-      },
-      {
-        path : 'calendar',
-        element : <Calendar />
-      },
-      {
-        path : 'discussionForum',
-        element : <DiscussionForum />
-      },
-      {
-        path : 'chat',
-        element : <Chat />
-      },
-
-      {
-        path : 'viewRequirements',
-        element : <ViewRequirements />
-      }
-
     ]
   },
   {
