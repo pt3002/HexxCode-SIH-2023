@@ -27,6 +27,12 @@ class curriculumDeveloperFeatures {
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
+
+  static async cdsAccToDept(department){
+    let sql = `SELECT * from curriculum_developer where department = '${department}' and status = 'A';`;
+    const [newPost, _] = await db.execute(sql)
+    return newPost
+  }
   static async insertCD(
     id,
     email,
