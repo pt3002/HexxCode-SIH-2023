@@ -35,9 +35,8 @@ export default function GroupInfo() {
   const [selectedCDs, setselectedCDs] = useState([]);
 
   const handleClickOpen = () => {
-    let body = { group_id: location.state.group_id };
     axios
-      .post(backendURL + "/DeptHead/getMembersNotInGivenGroup", body)
+      .get(backendURL + "/DeptHead/getMembersNotInAnyGroup")
       .then((res) => {
         setRows(res.data.members);
         setOpen(true);

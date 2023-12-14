@@ -7,7 +7,7 @@ router.post("/DeptHeadLogin",DeptHeadControllers.DeptHeadLogin);
 //Groups
 router.post("/getAllSubjectNamesByDepartment", DeptHeadControllers.getAllSubjectNamesByDepartment);
 router.post("/addGroup", DeptHeadControllers.addGroup);
-router.post("/getMembersNotInGivenGroup", DeptHeadControllers.getMembersNotInGivenGroup);
+router.get("/getMembersNotInAnyGroup", DeptHeadControllers.getMembersNotInAnyGroup);
 router.post("/addMembersToGroup", DeptHeadControllers.addMembersToGroup);
 
 

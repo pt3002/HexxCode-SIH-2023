@@ -34,8 +34,8 @@ class Groups {
     return group;
   }
 
-  static async getMembersNotInGivenGroup(group_id) {
-    let sql = `SELECT * FROM curriculum_developer WHERE group_id != "${group_id}" OR group_id IS NULL`;
+  static async getMembersNotInAnyGroup() {
+    let sql = `SELECT * FROM curriculum_developer WHERE group_id IS NULL`;
     const [members, _] = await db.execute(sql);
     return members;
   }

@@ -95,10 +95,9 @@ exports.addGroup = async (req, res, next) => {
   }
 };
 
-exports.getMembersNotInGivenGroup = async (req, res, next) => {
+exports.getMembersNotInAnyGroup = async (req, res, next) => {
   try {
-    let { group_id } = req.body;
-    let ans = await Groups.getMembersNotInGivenGroup(group_id);
+    let ans = await Groups.getMembersNotInAnyGroup();
     try {
       let members = [];
       for (let i = 0; i < ans.length; i++) {
