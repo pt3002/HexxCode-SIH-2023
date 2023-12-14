@@ -100,9 +100,7 @@ export default function ViewGroups() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [Edit, setEdit] = useState(0);
-  const [rows, setRows] = useState([]);
   const [groups, setGroups] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [add, setAdd] = useState(1); //add-1 view-0
   const [selectedGroup, setSelectedGroup] = useState(
     {
@@ -185,7 +183,7 @@ export default function ViewGroups() {
           pb: 3,
         }}
       >
-        <Typography variant="h3">VIEW GROUPS</Typography>
+        <Typography variant="h3" sx={{margin: '2%'}}>VIEW GROUPS</Typography>
         {/* <Button
           size="small"
           variant="outlined"
@@ -220,6 +218,15 @@ export default function ViewGroups() {
               <Card
                 sx={{
                   px: 1,
+                  backgroundColor: '#00ABBD',
+                  color: 'white',
+                  '&:hover': {
+                    textDecorationColor: 'white',
+                    // backgroundColor: '#00D7FF',
+                    backgroundColor: '#0097b3',
+                    
+                    boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+                  },
                 }}
                 onClick={()=>{navigate("/deptHead/viewGroupInfo",{
                   state: {
@@ -229,7 +236,6 @@ export default function ViewGroups() {
                 })}}
               >
                 <CardContent>
-                  {/* AvatarWrapper commented out for simplicity */}
                   <Typography variant="h5" noWrap>
                     SUBJECT: {item.subject_name}
                   </Typography>
@@ -238,7 +244,7 @@ export default function ViewGroups() {
                       pt: 3,
                     }}
                   >
-                    <Typography variant="subtitle2" noWrap>
+                    <Typography variant="subtitle2" noWrap sx={{color:'white'}}>
                       Created at: {item.creation_date}
                     </Typography>
                   </Box>

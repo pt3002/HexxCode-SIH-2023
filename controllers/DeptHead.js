@@ -1,3 +1,4 @@
+const { configDotenv } = require("dotenv");
 const { Groups, DeptHeadLogin } = require("../classes/DeptHead");
 const { jwtSecretKey } = require("../config/configKeys");
 const jwt = require("jsonwebtoken");
@@ -147,4 +148,62 @@ exports.addMembersToGroup = async (req, res, next) => {
       }
     
   
+};
+
+exports.deleteMembersFromGroup = async (req, res, next) => {
+  try {
+    console.log("req.body ====================>",req.body)
+    let { ids, group_id } = req.body;
+    let error_flag = false;
+    for (let i = 0; i < ids.length; i++) {
+      let member_id = ids[i];
+
+      let a = await Groups.deleteMemberFromGroup(
+        member_id,
+        group_id
+      );
+      if(a == "error"){
+        error_flag = true
+      }
+    }
+    if(error_flag){
+      res.send({error : "Error while deleting members from group"})
+    }
+    else{
+      res.send({ message: "Members deleted Successfully" });
+    }
+    
+  } catch (error) {
+    res.send({error : "Error while deleting members to group"})
+  }
+};
+
+exports.viewMembersOfGroup = async (req, res, next) => {
+  try {
+    let {group_id}  = req.body;
+    // console.log("GROUPID====================>>>>>>>>>", group_id);
+    // let ans = await Groups.viewGroupMembers("7616827f-71b0-4fe7-87bc-b70789a74c7a");
+    let ans = await Groups.viewGroupMembers(group_id);
+
+    console.log("=======================================================",ans);
+    try {
+      let members = [];
+      for (let i = 0; i < ans.length; i++) {
+        let cd = {
+          id: ans[i].id,
+          name: ans[i].name,
+          email: ans[i].email,
+          gender: ans[i].gender,
+          university: ans[i].university,
+          college: ans[i].college,
+        };
+        members.push(cd);
+      }
+      res.send({ members });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };

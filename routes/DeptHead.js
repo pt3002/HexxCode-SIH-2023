@@ -9,6 +9,7 @@ router.post("/getAllSubjectNamesByDepartment", DeptHeadControllers.getAllSubject
 router.post("/addGroup", DeptHeadControllers.addGroup);
 router.get("/getMembersNotInAnyGroup", DeptHeadControllers.getMembersNotInAnyGroup);
 router.post("/addMembersToGroup", DeptHeadControllers.addMembersToGroup);
-
+router.post("/viewGroupMembers", DeptHeadControllers.viewMembersOfGroup);
+router.post("/deleteMembersFromGroup", DeptHeadControllers.deleteMembersFromGroup);
 
 module.exports = router;

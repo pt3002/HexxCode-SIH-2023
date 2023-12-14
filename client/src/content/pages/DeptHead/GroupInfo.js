@@ -27,53 +27,16 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import axios from "axios";
 import { backendURL } from "../../../configKeys";
 import Swal from "sweetalert2";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+
 export default function GroupInfo() {
   //Note: We can use location.state.group_id to display CDs subject wise
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = useState([]);
   const [selectedCDs, setselectedCDs] = useState([]);
-
-  const handleClickOpen = () => {
-    axios
-      .get(backendURL + "/DeptHead/getMembersNotInAnyGroup")
-      .then((res) => {
-        setRows(res.data.members);
-        setOpen(true);
-      });
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleAddMembers = () => {
-    let body = { ids: selectedCDs, group_id: location.state.group_id };
-    setOpen(false)
-    axios.post(backendURL + "/DeptHead/addMembersToGroup", body).then((res) => {
-      if (res.data.message) {
-        Swal.fire({
-          icon: "success",
-          title: "SUCCESS",
-          text: res.data.message,
-          showConfirmButton: false,
-          timer: 3000,
-        }).then((confirm) => {
-          if (confirm) {
-            window.location.reload();
-          }
-        });
-      } else if (res.data.error) {
-        Swal.fire({
-          icon: "error",
-          title: "ERROR",
-          text: res.data.error,
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      }
-    });
-  };
+  const [selectedCDsforDeletion, setselectedCDsforDeletion] = useState([]);
+  const [membersData, setMembersData] = useState([]);
 
   const columns = [
     {
@@ -108,11 +71,140 @@ export default function GroupInfo() {
     },
   ];
 
+  const viewMemColumns = [
+    {
+      field: "name",
+      headerName: "Name",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "gender",
+      headerName: "Gender",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "university",
+      headerName: "University",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "college",
+      headerName: "College",
+      width: 110,
+      editable: true,
+    },
+    // {
+    //   field: "Action",
+    //   headerName: "ACTION",
+    //   // width: 110,
+    //   renderCell: (params) => (
+    //     <Button>
+    //       <RemoveCircleOutlineIcon
+    //         onClick={() => {
+    //           setselectedCDsforDeletion(params.id);
+    //           handleDeleteMembers();
+    //         }}
+    //       />
+    //     </Button>
+    //   ),
+    // },
+  ];
+
+  const handleClickOpen = () => {
+    axios.get(backendURL + "/DeptHead/getMembersNotInAnyGroup").then((res) => {
+      setRows(res.data.members);
+      setOpen(true);
+    });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAddMembers = () => {
+    let body = { ids: selectedCDs, group_id: location.state.group_id };
+    setOpen(false);
+    axios.post(backendURL + "/DeptHead/addMembersToGroup", body).then((res) => {
+      if (res.data.message) {
+        Swal.fire({
+          icon: "success",
+          title: "SUCCESS",
+          text: res.data.message,
+          showConfirmButton: false,
+          timer: 3000,
+        }).then((confirm) => {
+          if (confirm) {
+            window.location.reload();
+          }
+        });
+      } else if (res.data.error) {
+        Swal.fire({
+          icon: "error",
+          title: "ERROR",
+          text: res.data.error,
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
+    });
+  };
+
+  const handleDeleteMembers = () => {
+    let body = {
+      ids: selectedCDsforDeletion,
+      group_id: location.state.group_id,
+    };
+    setOpen(false);
+    axios
+      .post(backendURL + "/DeptHead/deleteMembersFromGroup", body)
+      .then((res) => {
+        if (res.data.message) {
+          Swal.fire({
+            icon: "success",
+            title: "SUCCESS",
+            text: res.data.message,
+            showConfirmButton: false,
+            timer: 3000,
+          }).then((confirm) => {
+            if (confirm) {
+              window.location.reload();
+            }
+          });
+        } else if (res.data.error) {
+          Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: res.data.error,
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+      });
+  };
+
+  React.useEffect(() => {
+    let body = { group_id: location.state.group_id };
+    axios.post(backendURL + "/DeptHead/viewGroupMembers", body).then((res) => {
+      setMembersData(res.data.members);
+      // console.log("MEMBERS=====>",res.data);
+    });
+    // console.log("in use",members);
+  }, []);
+
   return (
     <div>
       <Grid align="center" sx={{ m: 5 }}>
         <Typography component="h1" variant="h2" align="center">
-          Information for {location.state.subject_name}
+          Group for {location.state.subject_name}
         </Typography>
         <Button
           variant="contained"
@@ -159,6 +251,36 @@ export default function GroupInfo() {
           )}
         </DialogActions>
       </Dialog>
+
+      <DataGrid
+        slots={{ toolbar: GridToolbar }}
+        rows={membersData}
+        columns={viewMemColumns}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setselectedCDsforDeletion(newRowSelectionModel);
+          // console.log("CDs selected for Deletion =>", selectedCDsforDeletion);
+        }}
+        rowSelectionModel={selectedCDsforDeletion}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 5,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+        checkboxSelection
+        disableRowSelectionOnClick
+        sx={{ margin: "2%" }}
+      />
+      <Button
+        variant="contained"
+        sx={{ margin: "2%" }}
+        size="large"
+        onClick={handleDeleteMembers}
+      >
+        Delete selected members
+      </Button>
     </div>
   );
 }
