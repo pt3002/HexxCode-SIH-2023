@@ -50,6 +50,7 @@ exports.DeptHeadLogin = async (req, res) => {
     }
   };
 
+
 exports.getAllSubjectNamesByDepartment = async (req, res, next) => {
   try {
     let { department } = req.body;
@@ -94,6 +95,7 @@ exports.addGroup = async (req, res, next) => {
     res.send({ error: "Error while adding group" });
   }
 };
+
 
 exports.getMembersNotInAnyGroup = async (req, res, next) => {
   try {
