@@ -53,10 +53,15 @@ exports.EducatorRegistration = async (req, res, next) => {
 };
 
 exports.getAllGuidelines = async (req, res, next) => {
-  //later auth to be added here
   if(true){
-    //console.log(req.userId, req.userRole, req.userName, req.email)
     try {
+      let ed_id= req.userId;
+      let educator= await EducatorLogin.findEducatorById(ed_id);
+    if(educator.length===0){
+      res.send({
+        message:"This User Cannot View Guidelines",
+      });
+    }else{
       let ans = await Guidelines.getAllGuidelines();
       try {
         let guidelines = [];
@@ -75,6 +80,7 @@ exports.getAllGuidelines = async (req, res, next) => {
       } catch (error) {
         console.log(error);
       }
+    }
     } catch (error) {
       console.log(error);
     }
@@ -187,23 +193,25 @@ exports.getRequirements=async(req,res,next)=>{
 
 exports.EducatorDeleteRequirement = async (req, res, next) => {
   try {
-    // let educator_id = req.userId;
+    let educator_id = req.userId;
+    console.log(educator_id);
     let { ids } = req.body;
-    // console.log(ids);
-    // let educator= await EducatorLogin.findEducatorById(educator_id);
-    // if(educator.length===0){
-    //   res.send({
-    //     message:"This User Cannot Delete Requirement",
-    //   });
-    // }
-    // else{
+    console.log("id...",ids);
+    console.log(ids);
+    let educator= await EducatorLogin.findEducatorById(educator_id);
+    if(educator.length===0){
+      res.send({
+        message:"This User Cannot Delete Requirement",
+      });
+    }
+    else{
     for (let index = 0; index < ids.length; index++) {
       let id = ids[index];
       await Requirements.deleteRequirement(id);
       console.log("deleted");
     }
     res.send({ message: "Requirements deleted successfully" });
-  // }
+  }
   } catch (error) {
     console.log(error);
   }

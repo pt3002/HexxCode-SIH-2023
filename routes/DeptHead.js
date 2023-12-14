@@ -6,4 +6,5 @@ const DeptHeadControllers = require("../controllers/DeptHead");
 router.post("/getAllSubjectNamesByDepartment", DeptHeadControllers.getAllSubjectNamesByDepartment);
 router.post("/addGroup", DeptHeadControllers.addGroup);
 
+
 module.exports = router;

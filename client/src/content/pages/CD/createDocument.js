@@ -49,7 +49,11 @@ function CreateDocument() {
 
     if(dict){
       checkToken()
-      axios.get(backendURL + "/curriculumDeveloper/getDocuments").then((res) => {
+      axios.get(backendURL + "/curriculumDeveloper/getDocuments", {
+        headers: {
+          "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+        },
+      }).then((res) => {
         if(res.status == 200){
             setDocuments(res.data.complete)
         }
@@ -88,7 +92,11 @@ function CreateDocument() {
             "description" : stateVar.data.description,
             "createdBy" : dict.id
         }
-        axios.post(backendURL + "/curriculumDeveloper/createDocument", body).then((res) => {
+        axios.post(backendURL + "/curriculumDeveloper/createDocument", body, {
+          headers: {
+            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+          },
+        }).then((res) => {
             if(res["status"] == 200){
                 handleClose()
                 Swal.fire({

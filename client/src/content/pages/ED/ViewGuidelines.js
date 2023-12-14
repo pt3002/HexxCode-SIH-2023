@@ -63,7 +63,12 @@ export default function ViewGuidelinesED() {
 
 
   React.useEffect(() => {
-    axios.get(backendURL + "/Educator/getGuidelines").then((res) => {
+    axios.get(backendURL + "/Educator/getGuidelines", {
+      headers: {
+        "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+      }
+    }
+      ,).then((res) => {
       setRows(res.data.guidelines);
     });
   }, []);
