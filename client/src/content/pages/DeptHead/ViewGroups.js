@@ -32,6 +32,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { backendURL } from "../../../configKeys";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
       margin: ${theme.spacing(2, 0, 1, -0.5)};
@@ -96,6 +97,7 @@ const CardAddAction = styled(Card)(
 const uuid = require("uuid").v4;
 
 export default function ViewGroups() {
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [Edit, setEdit] = useState(0);
   const [rows, setRows] = useState([]);
@@ -219,7 +221,12 @@ export default function ViewGroups() {
                 sx={{
                   px: 1,
                 }}
-                onClick={() => viewGroup(item)}
+                onClick={()=>{navigate("/deptHead/viewGroupInfo",{
+                  state: {
+                    group_id: item.id,
+                    subject_name: item.subject_name
+                  },
+                })}}
               >
                 <CardContent>
                   {/* AvatarWrapper commented out for simplicity */}

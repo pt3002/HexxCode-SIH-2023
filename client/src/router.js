@@ -36,6 +36,7 @@ import Calendar from './content/pages/CD/calendar';
 import DiscussionForum from './content/pages/CD/discussionForum';
 import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
 import ViewGroups from './content/pages/DeptHead/ViewGroups';
+import GroupInfo from './content/pages/DeptHead/GroupInfo';
 
 const Loader = (Component) => (props) =>
   (
@@ -364,6 +365,10 @@ routes.push(
       {
         path: 'viewGroups',
         element: <ViewGroups />
+      },
+      {
+        path: 'viewGroupInfo',
+        element: <GroupInfo />
       },
     ]
   },
