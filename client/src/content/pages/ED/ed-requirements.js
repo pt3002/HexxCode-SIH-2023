@@ -125,19 +125,23 @@ export default function PostRequirements() {
       if (result.isConfirmed) {
         let body = { ids: requirement_ids };
         axios
-          .post(backendURL + "/Educator/deleteRequirement", body)
+          .post(backendURL + "/Educator/deleteRequirement", body, {
+            headers: {
+              "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+            }
+            },)
           .then((res) => {
-            // if (
-            //   res.data.message === "This User Cannot Delete Requirement"
-            // ) {
-            //   Swal.fire({
-            //     icon: "error",
-            //     title: "ERROR",
-            //     text: res.data.message,
-            //     showConfirmButton: false,
-            //     timer: 3000,
-            //   });
-            // }else{
+            if (
+              res.data.message === "This User Cannot Delete Requirement"
+            ) {
+              Swal.fire({
+                icon: "error",
+                title: "ERROR",
+                text: res.data.message,
+                showConfirmButton: false,
+                timer: 3000,
+              });
+            }else{
             Swal.fire({
               icon: "success",
               title: "SUCCESS",
@@ -149,7 +153,7 @@ export default function PostRequirements() {
                 window.location.reload();
               }
             });
-          // }
+          }
           });
       }
     });
@@ -305,6 +309,25 @@ export default function PostRequirements() {
       >
         Post New Requirement
       </Button>
+
+      {selectedRequirements.length ? (
+          <Grid container spacing={2}>
+            <Grid item>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleClickDelete(selectedRequirements);
+                }}
+                // sx={{ backgroundColor: "green" }}
+              >
+                Delete Requirements
+                <DeleteIcon />
+              </Button>
+            </Grid>
+          </Grid>
+        ) : (
+          <> </>
+        )}
 
       {/* <Box sx={{ height: 400, width: "96%", margin: "2%" }}>{card}</Box> */}
       <Box sx={{ height: 400, width: "96%", margin: "2%" }}>

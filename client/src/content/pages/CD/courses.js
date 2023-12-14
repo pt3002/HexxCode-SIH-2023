@@ -22,7 +22,11 @@ function Courses() {
       .get(
         backendURL +
           "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
-          curriculumDeveloper.department
+          curriculumDeveloper.department, {
+            headers: {
+              "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+            },
+          }
       )
       .then((res) => {
         // setSubjects(res.data.subjects);
@@ -39,7 +43,7 @@ function Courses() {
           temp_subjects.push(n);
         }
         setSubjects(temp_subjects);
-        console.log("Happp0", subjects);
+        // console.log("Happp0", subjects);
       })
       .catch((error) => {
         console.log("Error Code: ", error);

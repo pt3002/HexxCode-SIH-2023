@@ -12,4 +12,5 @@ router.post("/addMembersToGroup", DeptHeadControllers.addMembersToGroup);
 router.post("/viewGroupMembers", DeptHeadControllers.viewMembersOfGroup);
 router.post("/deleteMembersFromGroup", DeptHeadControllers.deleteMembersFromGroup);
 
+
 module.exports = router;

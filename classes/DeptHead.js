@@ -71,4 +71,6 @@ class Groups {
   
 }
 
+
 module.exports = { Groups, DeptHeadLogin };
+
