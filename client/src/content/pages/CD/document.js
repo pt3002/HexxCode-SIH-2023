@@ -1,5 +1,5 @@
 import { Box, IconButton, Tooltip, Grid, Typography, Button, MenuItem } from "@mui/material";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ArrowBackTwoToneIcon from "@mui/icons-material/ArrowBackTwoTone";
 import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
 import PageTitleWrapper from "../../../components/PageTitleWrapper";
@@ -18,8 +18,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 export default function Document() {
+
+    const userContext = useContext(UserTokenContext)
+    const {dict, checkToken} = userContext
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -42,12 +47,16 @@ export default function Document() {
         setDocsDesc(value)
     }
     useEffect(() => {
-      axios.get(backendURL + "/curriculumDeveloper/lastSaveBody/" + documentId).then((resp) => {
-        if(resp.status == 200){
-          setDocsDesc(resp.data.body)
-          setInitialDocDesc(resp.data.body)
-        }
-      })
+      if(dict){
+        checkToken()
+        axios.get(backendURL + "/curriculumDeveloper/lastSaveBody/" + documentId).then((resp) => {
+          if(resp.status == 200){
+            setDocsDesc(resp.data.body)
+            setInitialDocDesc(resp.data.body)
+          }
+        })
+      }
+      
     }, [])
 
     const handleClickOpen = () => {
@@ -78,11 +87,13 @@ export default function Document() {
                   documentId : location.state.doc._id, 
                   body: docsDesc, 
                   commitMessage: stateVar.data.commitMessage,
-                  commitType : stateVar.data.commitType
+                  commitType : stateVar.data.commitType,
+                  createdBy : dict.id
           }
       axios.post(backendURL + "/curriculumDeveloper/newSave", body).then((resp) => {
         if(resp.status == 200){
           handleClose()
+          setInitialDocDesc(docsDesc)
           Swal.fire({
             icon : "success",
             title : "SUCCESS",

@@ -9,6 +9,9 @@ const {
 
 const document = require("../models/document");
 const save = require("../models/save");
+const { jwtSecretKey } = require("../config/configKeys");
+const jwt = require("jsonwebtoken");
+
 const generateToken = (user) => {
   const token = jwt.sign(
     {
@@ -24,6 +27,7 @@ const generateToken = (user) => {
     token: token,
   };
 };
+
 exports.GetAllSubjects = async (req, res, next) => {
   try {
     let ans = await curriculumDeveloperFeatures.getAllSubjects();
@@ -51,7 +55,7 @@ exports.GetAllSubjects = async (req, res, next) => {
 exports.CDRegistration = async (req, res, next) => {
   try {
     console.log("body....", req.body);
-    const { id, email, name, gender, university, college, mongo_file_id } =
+    const { id, email, name, gender, university, college, mongo_file_id,password } =
       req.body;
     let existingCD = await CDLogin.findCDByEmail(email);
     console.log(req.body);
@@ -65,7 +69,8 @@ exports.CDRegistration = async (req, res, next) => {
       gender,
       university,
       college,
-      mongo_file_id
+      mongo_file_id,
+      password
     );
     console.log("hello", req.body);
     res.send({
@@ -268,7 +273,6 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
   try {
     let { email, password } = req.body;
     let ans = await CurriculumDeveloperLogin.findCDByEmail(email);
-    console.log("ans...", ans);
     if (ans.length === 0) {
       res.send({ message: "Wrong user selected or Invalid Credentials" });
     } else {
@@ -319,19 +323,19 @@ exports.getAllGuidelines = async (req, res, next) => {
 };
 
 
-exports.getAllRequirements=async(req,res,next)=>{
-  try{
-
-    let ans=await Requirements.getAllRequirements();
+exports.getAllRequirements = async (req, res, next) => {
+  try {
+    let ans = await Requirements.getAllRequirements();
     try {
       let requirements = [];
       for (let i = 0; i < ans.length; i++) {
         let n = {
-          num:i+1,
+          RowNum:ans[i].RowNum,
           id: ans[i].id,
+          educator_id: ans[i].educator_id,
           department: ans[i].department,
           subject: ans[i].subject,
-          requirement_text:ans[i].requirement_text,
+          requirement_text: ans[i].requirement_text,
         };
         requirements.push(n);
       }
@@ -339,18 +343,14 @@ exports.getAllRequirements=async(req,res,next)=>{
     } catch (error) {
       console.log(error);
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error);
   }
-}
-
-
-
+};
 
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, createdBy } = req.body;
   if (!(title, description)) {
     return res.status(400).send({ error: "Input Fields Missing" });
   }
@@ -364,6 +364,7 @@ exports.createDocument = async (req, res) => {
       let documentId = resp._id;
       const newSave = new save({
         documentId,
+        createdBy,
       });
 
       newSave.save().then((save_resp) => {
@@ -388,74 +389,104 @@ exports.createDocument = async (req, res) => {
     .catch((err) => res.status(400).json({ error: err.message }));
 };
 
-exports.addNewSave = async(req, res) => {
-  const {previous_saveIds, previousSaveId, documentId, body, commitMessage, commitType} = req.body;
+exports.addNewSave = async (req, res) => {
+  const {
+    previous_saveIds,
+    previousSaveId,
+    documentId,
+    body,
+    commitMessage,
+    commitType,
+    createdBy,
+  } = req.body;
   const newSave = new save({
-    previousSaveId, documentId, body, commitMessage, commitType
-  })
+    previousSaveId,
+    documentId,
+    body,
+    commitMessage,
+    commitType,
+    createdBy,
+  });
   newSave.save().then((save_resp) => {
-    previous_saveIds.push(save_resp._id)
+    previous_saveIds.push(save_resp._id);
     // updating save id array
     document.updateOne(
       {
-        _id : documentId
+        _id: documentId,
       },
       {
-        $addToSet : {saveIds : previous_saveIds}
+        $addToSet: { saveIds: previous_saveIds },
       },
-      function(err,result){
-        if(err){
-          res.send(err)
-        }else{
-          res.status(200).send({message :"Document Saved Successfully"})
+      function (err, result) {
+        if (err) {
+          res.send(err);
+        } else {
+          res.status(200).send({ message: "Document Saved Successfully" });
         }
       }
-    )
-  })
-}
+    );
+  });
+};
 
 // get body of last save of a particular document
-exports.GetLastSaveBody = async(req, res, next) => {
-  const documentId = req.params && req.params.documentId
-  if(!documentId){
-    return res.status(400).send({err: "Missing Document ID"})
+exports.GetLastSaveBody = async (req, res, next) => {
+  const documentId = req.params && req.params.documentId;
+  if (!documentId) {
+    return res.status(400).send({ err: "Missing Document ID" });
   }
   document.findById(documentId).then((resp) => {
-    let last_save_id = resp.saveIds[resp.saveIds.length - 1]
+    let last_save_id = resp.saveIds[resp.saveIds.length - 1];
     save.findById(last_save_id).then((save_resp) => {
-      return res.status(200).send({body : save_resp.body})
-    })
-  })
-}
+      return res.status(200).send({ body: save_resp.body });
+    });
+  });
+};
 
 // get commit history
-exports.GetCommitsHistory = async(req, res, next) => {
-  const documentId = req.params && req.params.documentId
-  if(!(documentId)){
-    return res.status(400).send({err: "Missing Document ID"})
+exports.GetCommitsHistory = async (req, res, next) => {
+  const documentId = req.params && req.params.documentId;
+  if (!documentId) {
+    return res.status(400).send({ err: "Missing Document ID" });
   }
-  document.findById(documentId).then(async(resp) => {
-    let history = []
-    let saveIds = resp.saveIds
-    let c = 0
-    for(let i = 0; i < resp.saveIds.length; i++){
-      await save.findById(saveIds[i]).then((save_resp) => {
-        history.push(save_resp)
-        c += 1
-      })
+  document.findById(documentId).then(async (resp) => {
+    let history = [];
+    let saveIds = resp.saveIds;
+    let c = 0;
+    for (let i = 0; i < resp.saveIds.length; i++) {
+      await save.findById(saveIds[i]).then(async (save_resp) => {
+        let cd = await CDLogin.findCDById(save_resp["createdBy"]);
+        let save_new = {cdname : cd[0]["name"], ...save_resp["_doc"]}
+        history.push(save_new);
+        c += 1;
+      });
     }
-    if(c == resp.saveIds.length){
-      res.send({history})
+    if (c == resp.saveIds.length) {
+      res.send({ history });
     }
-  })
-}
+  });
+};
 
 exports.getAllDocuments = async (req, res) => {
   document
     .find()
     .lean()
     .exec()
-    .then((documents) => {
-      res.status(200).send({ documents });
+    .then(async(documents) => {
+      let complete = []
+      for(let i = 0; i < documents.length; i++){
+        let save_creation_id = documents[i].saveIds[0]
+        let last_modified_save_creation_id = documents[i].saveIds[documents[i].saveIds.length - 1]
+        await save.findById(save_creation_id).then(async(save_resp) => {
+          let cd1, cd2, final
+          cd1 = await CDLogin.findCDById(save_resp["createdBy"])
+          await save.findById(last_modified_save_creation_id).then(async(save_resp2) => {
+            cd2 = await CDLogin.findCDById(save_resp2["createdBy"]);
+            final = {creationCD : cd1[0]["name"], lastModifiedCD : cd2[0]["name"], ...documents[i]}
+            complete.push(final)
+          })
+        })
+      }
+      //console.log(complete)
+      res.status(200).send({ complete });
     });
 };

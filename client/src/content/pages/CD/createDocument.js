@@ -16,14 +16,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useContext} from "react";
 import axios from "axios"
 import {backendURL} from "../../../configKeys"
 import Swal from "sweetalert2";
 import DocumentsTable from "../Components/Table/DocumentsTable";
 import { useNavigate } from "react-router-dom";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 function CreateDocument() {
+
+  const userContext = useContext(UserTokenContext)
+  const {dict, checkToken} = userContext
+
+
+
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
@@ -39,12 +46,18 @@ function CreateDocument() {
   });
 
   useEffect(() => {
-    axios.get(backendURL + "/curriculumDeveloper/getDocuments").then((res) => {
+
+    if(dict){
+      checkToken()
+      axios.get(backendURL + "/curriculumDeveloper/getDocuments").then((res) => {
         if(res.status == 200){
-            setDocuments(res.data.documents)
+            setDocuments(res.data.complete)
         }
     })
+    }
+    
   }, []);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -72,7 +85,8 @@ function CreateDocument() {
     if(stateVar.data.title && stateVar.data.description){
         let body = {
             "title" : stateVar.data.title,
-            "description" : stateVar.data.description
+            "description" : stateVar.data.description,
+            "createdBy" : dict.id
         }
         axios.post(backendURL + "/curriculumDeveloper/createDocument", body).then((res) => {
             if(res["status"] == 200){

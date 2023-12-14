@@ -30,10 +30,13 @@ import CreateDocument from './content/pages/CD/createDocument';
 import PostRequirements from './content/pages/ED/ed-requirements';
 import ViewRequirements from './content/pages/CD/view-requirements';
 import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculumDevelopers';
-
 import EDviewcurri from './content/pages/ED/review';
 import TestComp from './content/pages/ED/ratepage';
 import Calendar from './content/pages/CD/calendar';
+import DiscussionForum from './content/pages/CD/discussionForum';
+import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
+import ViewGroups from './content/pages/DeptHead/ViewGroups';
+import GroupInfo from './content/pages/DeptHead/GroupInfo';
 
 const Loader = (Component) => (props) =>
   (
@@ -106,6 +109,7 @@ const StatusMaintenance = Loader(
 
 let routes = []
 const role = localStorage.getItem("shiksha-niyojak-role");
+console.log("role...",role);
 if(role == "Educator"){
   routes = [{
     path : 'ED',
@@ -301,6 +305,10 @@ routes.push(
         path : 'calendar',
         element : <Calendar />
       },
+      {
+        path : 'discussionForum',
+        element : <DiscussionForum />
+      },
 
       {
         path : 'viewRequirements',
@@ -349,6 +357,18 @@ routes.push(
       {
         path: 'overview',
         element: <DashboardDeptHead />
+      },
+      {
+        path: 'createGroup',
+        element: <CreateGroup />
+      },
+      {
+        path: 'viewGroups',
+        element: <ViewGroups />
+      },
+      {
+        path: 'viewGroupInfo',
+        element: <GroupInfo />
       },
     ]
   },

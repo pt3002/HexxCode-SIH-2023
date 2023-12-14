@@ -131,7 +131,7 @@ const DocumentsTable = ({ docs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {"CD Name"}
+                      {doc.creationCD}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {/* {format(book.orderDate, "MMMM dd yyyy")} */}
@@ -146,7 +146,7 @@ const DocumentsTable = ({ docs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {"CD Name"}
+                      {doc.lastModifiedCD}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       {/* {format(book.orderDate, "MMMM dd yyyy")} */}

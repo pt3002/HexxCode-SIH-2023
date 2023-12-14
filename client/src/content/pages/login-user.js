@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import { Avatar, ButtonGroup, Box } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 import Footer from "../../components/Footer";
 import { backendURL } from "../../configKeys";
 import Swal from "sweetalert2";
@@ -16,12 +17,11 @@ import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 
 export default function CurriculumDeveloperLogin() {
-  console.log(backendURL);
   const navigate = useNavigate();
-
-  const [text, setUser] = React.useState("");
+  const [user, setUser] = React.useState("");
   const [link, setLink] = React.useState("");
-
+  const [notHead, setNotHead] = React.useState(true);
+  const [dropDown, setDropDown] = React.useState(false);
   const [Data, setData] = React.useState({
     email: "",
     password: "",
@@ -30,25 +30,40 @@ export default function CurriculumDeveloperLogin() {
 
   const error = {};
 
+  const getDropDown = () => {
+    setDropDown(true);
+    setUser("");
+  };
+  
   const getUser = (ev) => {
     const { name, value } = ev.currentTarget;
+    
+    setNotHead(true);
     if (value === "1") {
-      // setType(1);
       setUser("Curriculum Developer");
-      setLink("/register/page1");
+      setLink("/register/page1"); 
+      setNotHead(true);     
     } else if (value === "2") {
-      // setType(2);
       setUser("Educator");
       setLink("/register-educator");
-    } else {
-      // setType(3);
+      setDropDown(false);
+      setNotHead(true);
+    } else if (value === "3") {
+      setDropDown(false);
       setUser("AICTE Administrator");
+      setNotHead(true);
+    } else {
+      setLink("");
+      setUser("Deptartment Head");
+      setNotHead(false);
+
     }
     setData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    console.log(text);
+   
+    
   };
 
   const handleLogin = (ev) => {
@@ -57,6 +72,9 @@ export default function CurriculumDeveloperLogin() {
       ...prevData,
       [name]: value,
     }));
+    if (value === "1" || value === "4") {
+      getUser({ currentTarget: { name, value } });
+    }
   };
 
   const validateEmail = (email) => {
@@ -67,21 +85,17 @@ export default function CurriculumDeveloperLogin() {
       );
   };
 
-  // const validateUsertype = (type, email) => {
-  //   if (users.some((user) => user.email === email && user.type === type)) {
-  //     return true;
-  //   }
-  //   return false;
-  // };
+  
 
   const getUrlForUser = (type) => {
     if (type === "1") {
       return backendURL + "/CurriculumDeveloper/CurriculumDeveloperLogin";
     } else if (type === "2") {
-      // return BACKEND_URL + "/Educator/EducatorLogin";
       return backendURL + "/Educator/EducatorLogin";
-    } else {
+    } else if (type === "3") {
       return backendURL + "/AICTEAdmin/AICTEAdminLogin";
+    }else {
+      return backendURL + "/DeptHeads/DeptHeadLogin";
     }
   };
 
@@ -90,8 +104,10 @@ export default function CurriculumDeveloperLogin() {
       return "/curriculumDeveloper";
     } else if (type === "2") {
       return "/ED";
-    } else {
+    } else if (type === "2"){
       return "/aicte";
+    }else{
+      return "/deptHead";
     }
   };
 
@@ -155,11 +171,11 @@ export default function CurriculumDeveloperLogin() {
               text: res.data.message,
               showConfirmButton: false,
               timer: 3000,
-            })
+            });
             let token_dict = res.data.token;
             localStorage.setItem("shiksha-niyojak", token_dict.token);
-            localStorage.setItem("shiksha-niyojak-role",res.data.role);
-            console.log("Login ls ",localStorage)
+            localStorage.setItem("shiksha-niyojak-role", res.data.role);
+            console.log("Login ls ", localStorage);
             navigate(navigate_page);
           }
         })
@@ -172,6 +188,11 @@ export default function CurriculumDeveloperLogin() {
       alert("Please fill all data first");
     }
   };
+
+  const role_arr = [
+    { value: "1", label: "Cirriculum Developer" },
+    { value: "4", label: "Department Head" },
+  ];
 
   return (
     <React.Fragment>
@@ -232,9 +253,7 @@ export default function CurriculumDeveloperLogin() {
           >
             <Button
               variant="text"
-              onClick={getUser}
-              name="type"
-              value="1"
+              onClick={getDropDown}
               sx={{ flexDirection: "column", alignItems: "center" }}
             >
               <Avatar
@@ -301,16 +320,37 @@ export default function CurriculumDeveloperLogin() {
 
             <Grid align="center">
               {/* <Avatar sx={{width: 56, height: 56}} ><AccountCircleIcon /></Avatar> */}
-              {text && (
+              {user && (
                 <Typography variant="h2" align="center">
-                  {text}
+                  {user}
                 </Typography>
               )}
               <Typography variant="h2" align="center" sx={{ marginTop: 1 }}>
                 Sign In
               </Typography>
             </Grid>
-
+            {dropDown && (
+              <Grid item xs={12} sm={6} sx={{ mt: 1 }}>
+                <TextField
+                  label="Select Role"
+                  select
+                  color="primary"
+                  variant="outlined"
+                  name="type"
+                  value={Data.type}
+                  // fullWidth={true}
+                  size="small"
+                  onChange={handleLogin}
+                  sx={{ width: 400, height: 56 }}
+                >
+                  {role_arr.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+            )}
             <Grid align="center" item xs={12} sm={6} sx={{ mt: 1 }}>
               <TextField
                 required
@@ -363,18 +403,20 @@ export default function CurriculumDeveloperLogin() {
               </Button>
             </Grid>
 
-            <Typography
-              variant="h6"
-              color="inherit"
-              align="center"
-              noWrap
-              sx={{ mx: { xs: 7, md: 6 }, mt: 2, fontSize: 12 }}
-            >
-              Don't have and account?
-              <Link href={link} color="secondary">
-                Click to Regsiter
-              </Link>
-            </Typography>
+            {notHead && (
+              <Typography
+                variant="h6"
+                color="inherit"
+                align="center"
+                noWrap
+                sx={{ mx: { xs: 7, md: 6 }, mt: 2, fontSize: 12 }}
+              >
+                Don't have an account?
+                <Link href={link} color="secondary">
+                  Click to Register
+                </Link>
+              </Typography>
+            )}
           </Paper>
         </Container>
         <Footer />

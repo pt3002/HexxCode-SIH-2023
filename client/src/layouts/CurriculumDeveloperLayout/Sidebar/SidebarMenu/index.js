@@ -245,7 +245,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/curriculumDeveloper/discussionForum"
                   startIcon={<MmsTwoToneIcon />}
                 >
                   Discussion Forum

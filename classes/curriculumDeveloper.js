@@ -15,7 +15,7 @@ class CDLogin {
   }
 
   static async findCDById(id) {
-    let sql = `SELECT email, name, university, college, designation, password from organization_admin where admin_id = "${id}";`;
+    let sql = `SELECT email, name, university, college from curriculum_developer where id = "${id}";`;
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
@@ -34,11 +34,13 @@ class curriculumDeveloperFeatures {
     gender,
     university,
     college,
-    mongo_file_id
+    mongo_file_id,
+    password
   ) {
-    let sql = `INSERT INTO curriculum_developer(id, email, name, gender, university, college, resume_file_id) VALUES ("${id}","${email}","${name}","${gender}","${university}","${college}","${mongo_file_id}");`;
+    let sql = `INSERT INTO curriculum_developer(id, email, name, gender, university, college, resume_file_id,password) VALUES ("${id}","${email}","${name}","${gender}","${university}","${college}","${mongo_file_id}","${password}");`;
     try {
       await db.execute(sql);
+      console.log("reflected in table");
     } catch (error) {
       console.log(error)
       return error.code
@@ -108,7 +110,7 @@ class curriculumDeveloperFeatures {
 
 class CurriculumDeveloperLogin {
   static async findCDByEmail(email) {
-    let sql = ` SELECT id, email , password FROM curriculum_developer where email = "${email}";`;
+    let sql = ` SELECT name, id, email , password FROM curriculum_developer where email = "${email}";`;
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
@@ -128,7 +130,7 @@ class Guidelines{
 class Requirements{
 
   static async getAllRequirements() {
-    let sql = `Select * from requirement`;
+    let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,educator_id,department,subject,requirement_text,id FROM requirement;`;
     const [requirement, _] = await db.execute(sql);
     return requirement;
   }

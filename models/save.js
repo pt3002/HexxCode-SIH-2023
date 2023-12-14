@@ -12,6 +12,7 @@ const SaveSchema = new Schema({
         ref : "documents",
         required : true
     },
+    createdBy : {type: String, required : true},
     createdAt: { type: Date, default: Date.now, required: true },
     body: { type: String, default: "Start Developing...", required: true },
     commitMessage : {type: String, default : "Initial Version", required:true},

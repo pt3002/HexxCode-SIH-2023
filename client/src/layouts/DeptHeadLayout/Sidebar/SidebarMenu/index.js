@@ -218,15 +218,26 @@ function SidebarMenu() {
                   Calendar
                 </Button>
               </ListItem>
+              {/* <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/deptHead/createGroup"
+                  startIcon={<MmsTwoToneIcon />}
+                >
+                  Create Groups
+                </Button>
+              </ListItem> */}
               <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/subjects"
+                  to="/deptHead/viewGroups"
                   startIcon={<MmsTwoToneIcon />}
                 >
-                  Resource Repository
+                  View Groups
                 </Button>
               </ListItem>
               <ListItem component="div">
