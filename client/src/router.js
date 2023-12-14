@@ -37,6 +37,7 @@ import DiscussionForum from './content/pages/CD/discussionForum';
 import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
 import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
+import Chat from './content/pages/CD/chat';
 
 const Loader = (Component) => (props) =>
   (
@@ -308,6 +309,10 @@ routes.push(
       {
         path : 'discussionForum',
         element : <DiscussionForum />
+      },
+      {
+        path : 'chat',
+        element : <Chat />
       },
 
       {

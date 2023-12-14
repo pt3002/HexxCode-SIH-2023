@@ -284,6 +284,17 @@ function SidebarMenu() {
                   View Guidelines
                 </Button>
               </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/CurriculumDeveloper/Chat"
+                  startIcon={<MmsTwoToneIcon />}
+                >
+                  Chat
+                </Button>
+              </ListItem>
             </List>
           </SubMenuWrapper>
         </List>
