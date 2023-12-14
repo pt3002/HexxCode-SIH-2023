@@ -20,6 +20,12 @@ class Groups {
     const [subjects, _] = await db.execute(sql);
     return subjects;
   }
+
+  static async getGroup(group_id) {
+    let sql = `SELECT * FROM curriculum_developer WHERE group_id = "${group_id}"`;
+    const [group, _] = await db.execute(sql);
+    return group;
+  }
 }
 
 module.exports = { Groups };

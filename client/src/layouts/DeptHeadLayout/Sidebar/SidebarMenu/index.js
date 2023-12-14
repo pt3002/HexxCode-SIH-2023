@@ -218,7 +218,7 @@ function SidebarMenu() {
                   Calendar
                 </Button>
               </ListItem>
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -227,6 +227,17 @@ function SidebarMenu() {
                   startIcon={<MmsTwoToneIcon />}
                 >
                   Create Groups
+                </Button>
+              </ListItem> */}
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/deptHead/viewGroups"
+                  startIcon={<MmsTwoToneIcon />}
+                >
+                  View Groups
                 </Button>
               </ListItem>
               <ListItem component="div">

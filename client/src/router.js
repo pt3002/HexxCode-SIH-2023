@@ -35,6 +35,7 @@ import TestComp from './content/pages/ED/ratepage';
 import Calendar from './content/pages/CD/calendar';
 import DiscussionForum from './content/pages/CD/discussionForum';
 import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
+import ViewGroups from './content/pages/DeptHead/ViewGroups';
 
 const Loader = (Component) => (props) =>
   (
@@ -359,6 +360,10 @@ routes.push(
       {
         path: 'createGroup',
         element: <CreateGroup />
+      },
+      {
+        path: 'viewGroups',
+        element: <ViewGroups />
       },
     ]
   },
