@@ -325,7 +325,7 @@ exports.getAllGuidelines = async (req, res, next) => {
 
 exports.getAllRequirements = async (req, res, next) => {
   try {
-    let ans = await Requirements.getAllRequirements();
+    let ans = await Requirements.getAllRequirements(req.userId);
     try {
       let requirements = [];
       for (let i = 0; i < ans.length; i++) {
@@ -490,3 +490,4 @@ exports.getAllDocuments = async (req, res) => {
       res.status(200).send({ complete });
     });
 };
+

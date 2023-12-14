@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
+
 
 import {
   Avatar,
@@ -67,6 +68,9 @@ function HeaderUserbox() {
 
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+
 
   const handleOpen = () => {
     setOpen(true);
@@ -74,6 +78,11 @@ function HeaderUserbox() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSignOut = () => {
+    localStorage.removeItem("shiksha-niyojak");
+    navigate('/login');
   };
 
   return (
@@ -115,11 +124,7 @@ function HeaderUserbox() {
           </UserBoxText>
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
-        <List sx={{ p: 1 }} component="nav">
-          <ListItem button to="/management/profile/details" component={NavLink}>
-            <AccountBoxTwoToneIcon fontSize="small" />
-            <ListItemText primary="My Profile" />
-          </ListItem>
+        {/* <List sx={{ p: 1 }} component="nav">
           <ListItem button to="/dashboards/messenger" component={NavLink}>
             <InboxTwoToneIcon fontSize="small" />
             <ListItemText primary="Messenger" />
@@ -132,10 +137,10 @@ function HeaderUserbox() {
             <AccountTreeTwoToneIcon fontSize="small" />
             <ListItemText primary="Account Settings" />
           </ListItem>
-        </List>
+        </List> */}
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={handleSignOut}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Sign out
           </Button>
