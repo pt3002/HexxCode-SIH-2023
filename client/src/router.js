@@ -30,7 +30,6 @@ import CreateDocument from './content/pages/CD/createDocument';
 import PostRequirements from './content/pages/ED/ed-requirements';
 import ViewRequirements from './content/pages/CD/view-requirements';
 import ApproveCurriculumDevelopers from './content/pages/AICTE/ApproveCurriculumDevelopers';
-
 import EDviewcurri from './content/pages/ED/review';
 import TestComp from './content/pages/ED/ratepage';
 import Calendar from './content/pages/CD/calendar';
@@ -107,6 +106,7 @@ const StatusMaintenance = Loader(
 
 let routes = []
 const role = localStorage.getItem("shiksha-niyojak-role");
+console.log("role...",role);
 if(role == "Educator"){
   routes = [{
     path : 'ED',

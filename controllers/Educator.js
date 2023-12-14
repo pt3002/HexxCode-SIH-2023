@@ -87,6 +87,7 @@ exports.EducatorLogin = async (req, res, next) => {
   try {
     let { email, password } = req.body;
     let ans = await EducatorLogin.findEducatorByEmail(email);
+    console.log("ans..",ans);
     if (ans[0].password === password) {
       let user = {
         id: ans[0]["id"],
@@ -94,7 +95,9 @@ exports.EducatorLogin = async (req, res, next) => {
         name: ans[0]["name"],
         email: email,
       };
+      console.log("user ..",user);
       const token = generateToken(user);
+      console.log("token...",token);
       res.send({
         message: "Login Successful",
         token: token,
@@ -129,8 +132,6 @@ exports.EducatorRequirement=async(req,res,next)=>{
     let educator_id = req.userId;
     let {id,department,subject,requirement_text}=req.body;
     let educator= await EducatorLogin.findEducatorById(educator_id);
-    console.log("ans : ",educator);
-    console.log("req.body...",req.body);
     if(educator.length===0){
       res.send({
         message:"This User Cannot Post Requirement",
@@ -183,3 +184,27 @@ exports.getRequirements=async(req,res,next)=>{
     console.log(error);
   }
 }
+
+exports.EducatorDeleteRequirement = async (req, res, next) => {
+  try {
+    // let educator_id = req.userId;
+    let { ids } = req.body;
+    // console.log(ids);
+    // let educator= await EducatorLogin.findEducatorById(educator_id);
+    // if(educator.length===0){
+    //   res.send({
+    //     message:"This User Cannot Delete Requirement",
+    //   });
+    // }
+    // else{
+    for (let index = 0; index < ids.length; index++) {
+      let id = ids[index];
+      await Requirements.deleteRequirement(id);
+      console.log("deleted");
+    }
+    res.send({ message: "Requirements deleted successfully" });
+  // }
+  } catch (error) {
+    console.log(error);
+  }
+};

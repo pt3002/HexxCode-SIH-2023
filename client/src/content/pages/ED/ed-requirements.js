@@ -20,21 +20,22 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import DeleteIcon from "@mui/icons-material/Delete";
+
 import { Navigate, useNavigate } from "react-router-dom";
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import UserTokenContext from '../../../contexts/UserTokenContext';
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 const uuid = require("uuid").v4;
 
 export default function PostRequirements() {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const [req, setReq] = React.useState([]);
-  const userContext = useContext(UserTokenContext)
-  const {dict, checkToken} = userContext
-  const educatorId = "1d56470c-f488-4103-a285-86cc8592ec7b";
+  const [rows, setRows] = useState([]);
+  const userContext = useContext(UserTokenContext);
+  const [selectedRequirements, setSelectedRequirements] = useState([]);
 
   const [Data, setData] = React.useState({
     department: "",
@@ -43,6 +44,51 @@ export default function PostRequirements() {
   });
 
   const [errors, setErrors] = React.useState({});
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "Requirement Id",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "subject",
+      headerName: "Subject",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "requirement_text",
+      headerName: "Requirement Posted",
+      width: 320,
+      editable: true,
+    },
+    
+   
+    {
+      field: "Action",
+      headerName: "Action",
+      width: 130,
+      renderCell: (params) => (
+        <>
+          <Button
+            onClick={() => {
+              handleClickDelete([params.id]);
+            }}
+          >
+            <DeleteIcon />
+          </Button>
+        </>
+      ),
+    },
+  ];
 
   const handleChange = (ev) => {
     const { name, value } = ev.target;
@@ -67,13 +113,56 @@ export default function PostRequirements() {
     setOpen(false);
   };
 
+  const handleClickDelete = (requirement_ids) => {
+    Swal.fire({
+      icon: "warning",
+      title: "WARNING",
+      text: `Are you sure, do you want to delete these requirements?`,
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonColor: "#d33",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let body = { ids: requirement_ids };
+        axios
+          .post(backendURL + "/Educator/deleteRequirement", body)
+          .then((res) => {
+            // if (
+            //   res.data.message === "This User Cannot Delete Requirement"
+            // ) {
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: "ERROR",
+            //     text: res.data.message,
+            //     showConfirmButton: false,
+            //     timer: 3000,
+            //   });
+            // }else{
+            Swal.fire({
+              icon: "success",
+              title: "SUCCESS",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 1500,
+            }).then((confirm) => {
+              if (confirm) {
+                window.location.reload();
+              }
+            });
+          // }
+          });
+      }
+    });
+  };
+
+
   const handlePostRequirement = (event) => {
     event.preventDefault();
     // let Data = Data;
-    if (Data.branch === "") {
-      errors["branch"] = "Branch cannot be empty";
+    if (Data.department === "") {
+      errors["department"] = "DepartMent cannot be empty";
     } else {
-      errors["branch"] = "";
+      errors["department"] = "";
     }
     if (Data.subject === "") {
       errors["subject"] = "Subject cannot be empty";
@@ -124,14 +213,17 @@ export default function PostRequirements() {
               text: res.data.message,
               showConfirmButton: false,
               timer: 3000,
-            })
+            }).then((confirm) => {
+              if (confirm) {
+                window.location.reload();
+              }
+            });
             // console.log("UserTokenContext",UserTokenContext);
             // console.log("dict",dict);
           }
         })
         .catch((error) => {
           console.log("Error Code: ", error);
-          navigate("/ED/requirements");
         });
       handleClose();
     } else {
@@ -141,25 +233,6 @@ export default function PostRequirements() {
     }
   };
 
-  const card = req.map((item) => (
-    <React.Fragment>
-      <Card variant="outlined" sx={{ mb: 4 }}>
-        <CardContent>
-          <Typography fontSize={18} gutterBottom sx={{ mb: 2 }}>
-            <strong>Department : </strong> {item.department}
-          </Typography>
-          <Typography fontSize={18} component="div" sx={{ mb: 2 }}>
-            <strong>Subject : </strong>
-            {item.subject}
-          </Typography>
-          <Typography fontSize={18} sx={{ mb: 1.5 }}>
-            <strong>Suggested Requirement : </strong>
-            <p>{item.requirement_text}</p>
-          </Typography>
-        </CardContent>
-      </Card>
-    </React.Fragment>
-  ));
 
   const arr = [
     { value: "Computer Engineering", label: "Computer Engineering" },
@@ -205,13 +278,17 @@ export default function PostRequirements() {
   };
 
   React.useEffect(() => {
-    axios.get(`${backendURL}/Educator/getEducatorRequirements`,{
-      headers: {
-        "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-      },
-    }).then((res) => {
-      setReq(res.data.requirements);
-    });
+    axios
+      .get(`${backendURL}/Educator/getEducatorRequirements`, {
+        headers: {
+          "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+        },
+      })
+      .then((res) => {
+        // console.log("res : ",res.data.requirements);
+        setRows(res.data.requirements);
+        console.log(rows);
+      });
   }, []);
 
   return (
@@ -229,8 +306,28 @@ export default function PostRequirements() {
         Post New Requirement
       </Button>
 
-      <Box sx={{ height: 400, width: "96%", margin: "2%" }}>{card}</Box>
-
+      {/* <Box sx={{ height: 400, width: "96%", margin: "2%" }}>{card}</Box> */}
+      <Box sx={{ height: 400, width: "96%", margin: "2%" }}>
+      <DataGrid
+          slots={{ toolbar: GridToolbar }}
+          rows={rows}
+          columns={columns}
+          onRowSelectionModelChange={(newRowSelectionModel) => {
+            setSelectedRequirements(newRowSelectionModel);
+          }}
+          rowSelectionModel={selectedRequirements}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Post New Requirement</DialogTitle>
         <DialogContent>
@@ -279,7 +376,7 @@ export default function PostRequirements() {
                     </MenuItem>
                   ))
                 ) : (
-                  <MenuItem value="">Select a branch first</MenuItem>
+                  <MenuItem value="">Select department first</MenuItem>
                 )}
               </TextField>
             </Grid>

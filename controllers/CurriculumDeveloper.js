@@ -6,6 +6,8 @@ const {
   Requirements,
   CDLogin,
 } = require("../classes/curriculumDeveloper");
+const { jwtSecretKey } = require("../config/configKeys");
+const jwt = require("jsonwebtoken");
 
 const document = require("../models/document");
 const save = require("../models/save");
@@ -55,7 +57,7 @@ exports.GetAllSubjects = async (req, res, next) => {
 exports.CDRegistration = async (req, res, next) => {
   try {
     console.log("body....", req.body);
-    const { id, email, name, gender, university, college, mongo_file_id } =
+    const { id, email, name, gender, university, college, mongo_file_id,password } =
       req.body;
     let existingCD = await CDLogin.findCDByEmail(email);
     console.log(req.body);
@@ -69,7 +71,8 @@ exports.CDRegistration = async (req, res, next) => {
       gender,
       university,
       college,
-      mongo_file_id
+      mongo_file_id,
+      password
     );
     console.log("hello", req.body);
     res.send({
@@ -321,6 +324,7 @@ exports.getAllGuidelines = async (req, res, next) => {
   }
 };
 
+
 exports.getAllRequirements = async (req, res, next) => {
   try {
     let ans = await Requirements.getAllRequirements();
@@ -328,8 +332,9 @@ exports.getAllRequirements = async (req, res, next) => {
       let requirements = [];
       for (let i = 0; i < ans.length; i++) {
         let n = {
-          num: i + 1,
+          RowNum:ans[i].RowNum,
           id: ans[i].id,
+          educator_id: ans[i].educator_id,
           department: ans[i].department,
           subject: ans[i].subject,
           requirement_text: ans[i].requirement_text,
