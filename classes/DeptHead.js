@@ -62,10 +62,7 @@ class Groups {
 
   static async viewGroupMembers(group_id) {
     let sql = `select * from curriculum_developer where group_id="${group_id}"`;
-    // let sql = `select * from curriculum_developer where group_id="1125b80a-7ae6-4911-8c43-b53e3fc66cc8"`;
-
     const [members, _] = await db.execute(sql);
-    console.log("SQL",members);
     return members;
   }
   

@@ -195,9 +195,7 @@ export default function GroupInfo() {
     let body = { group_id: location.state.group_id };
     axios.post(backendURL + "/DeptHead/viewGroupMembers", body).then((res) => {
       setMembersData(res.data.members);
-      // console.log("MEMBERS=====>",res.data);
     });
-    // console.log("in use",members);
   }, []);
 
   return (
@@ -258,7 +256,6 @@ export default function GroupInfo() {
         columns={viewMemColumns}
         onRowSelectionModelChange={(newRowSelectionModel) => {
           setselectedCDsforDeletion(newRowSelectionModel);
-          // console.log("CDs selected for Deletion =>", selectedCDsforDeletion);
         }}
         rowSelectionModel={selectedCDsforDeletion}
         initialState={{

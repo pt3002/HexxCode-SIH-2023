@@ -183,11 +183,8 @@ exports.deleteMembersFromGroup = async (req, res, next) => {
 exports.viewMembersOfGroup = async (req, res, next) => {
   try {
     let {group_id}  = req.body;
-    // console.log("GROUPID====================>>>>>>>>>", group_id);
-    // let ans = await Groups.viewGroupMembers("7616827f-71b0-4fe7-87bc-b70789a74c7a");
     let ans = await Groups.viewGroupMembers(group_id);
 
-    console.log("=======================================================",ans);
     try {
       let members = [];
       for (let i = 0; i < ans.length; i++) {
