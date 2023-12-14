@@ -49,7 +49,11 @@ export default function Document() {
     useEffect(() => {
       if(dict){
         checkToken()
-        axios.get(backendURL + "/curriculumDeveloper/lastSaveBody/" + documentId).then((resp) => {
+        axios.get(backendURL + "/curriculumDeveloper/lastSaveBody/" + documentId, {
+          headers: {
+            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+          },
+        }).then((resp) => {
           if(resp.status == 200){
             setDocsDesc(resp.data.body)
             setInitialDocDesc(resp.data.body)
@@ -90,7 +94,11 @@ export default function Document() {
                   commitType : stateVar.data.commitType,
                   createdBy : dict.id
           }
-      axios.post(backendURL + "/curriculumDeveloper/newSave", body).then((resp) => {
+      axios.post(backendURL + "/curriculumDeveloper/newSave", body, {
+        headers: {
+          "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+        },
+      }).then((resp) => {
         if(resp.status == 200){
           handleClose()
           setInitialDocDesc(docsDesc)

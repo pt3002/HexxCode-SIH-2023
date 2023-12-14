@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -29,6 +29,8 @@ import CheckTwoToneIcon from "@mui/icons-material/CheckTwoTone";
 import AlarmTwoToneIcon from "@mui/icons-material/AlarmTwoTone";
 import { Link as RouterLink } from "react-router-dom";
 import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
+import axios from "axios";
+import { backendURL } from "../../../../configKeys";
 
 //$ Group Chat
 //# Subject Name
@@ -108,7 +110,8 @@ const TabsContainerWrapper = styled(Box)(
   `
 );
 
-function SidebarContent() {
+function SidebarContent(props) {
+
   const user = {
     name: "Catherine Pike",
     avatar: "/static/images/avatars/1.jpg",
@@ -237,72 +240,6 @@ function SidebarContent() {
               />
               <Label color="primary">
                 <b>2</b>
-              </Label>
-            </ListItemWrapper>
-            <ListItemWrapper>
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatars/2.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                sx={{
-                  mr: 1,
-                }}
-                primaryTypographyProps={{
-                  color: "textPrimary",
-                  variant: "h5",
-                  noWrap: true,
-                }}
-                secondaryTypographyProps={{
-                  color: "textSecondary",
-                  noWrap: true,
-                }}
-                primary="Kierra Herwitz"
-                secondary="Hi! Did you manage to send me those documents"
-              />
-            </ListItemWrapper>
-            <ListItemWrapper>
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatars/3.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                sx={{
-                  mr: 1,
-                }}
-                primaryTypographyProps={{
-                  color: "textPrimary",
-                  variant: "h5",
-                  noWrap: true,
-                }}
-                secondaryTypographyProps={{
-                  color: "textSecondary",
-                  noWrap: true,
-                }}
-                primary="Craig Vaccaro"
-                secondary="Ola, I still haven't received the program schedule"
-              />
-            </ListItemWrapper>
-            <ListItemWrapper>
-              <ListItemAvatar>
-                <Avatar src="/static/images/avatars/4.jpg" />
-              </ListItemAvatar>
-              <ListItemText
-                sx={{
-                  mr: 1,
-                }}
-                primaryTypographyProps={{
-                  color: "textPrimary",
-                  variant: "h5",
-                  noWrap: true,
-                }}
-                secondaryTypographyProps={{
-                  color: "textSecondary",
-                  noWrap: true,
-                }}
-                primary="Adison Press"
-                secondary="I recently did some buying on Amazon and now I'm stuck"
-              />
-              <Label color="primary">
-                <b>8</b>
               </Label>
             </ListItemWrapper>
           </List>

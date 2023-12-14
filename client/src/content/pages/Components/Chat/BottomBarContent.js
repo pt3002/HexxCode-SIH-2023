@@ -12,6 +12,8 @@ import {
   } from '@mui/material';
   import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
   import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
+  import { useState } from 'react';
+  import axios from 'axios';
   
   const MessageInputWrapper = styled(InputBase)(
     ({ theme }) => `
@@ -27,6 +29,15 @@ import {
   
   function BottomBarContent() {
     const theme = useTheme();
+    const [message, setMessage] = useState("")
+
+    const handleChangeMessage = ({target}) => {
+      setMessage(target.value)
+    }
+
+    const handleSend = () => {
+      
+    }
   
     const user = {
       name: 'Catherine Pike',
@@ -52,10 +63,11 @@ import {
             autoFocus
             placeholder="Write your message here..."
             fullWidth
+            onChange={handleChangeMessage}
           />
         </Box>
         <Box>
-          <Button startIcon={<SendTwoToneIcon />} variant="contained">
+          <Button startIcon={<SendTwoToneIcon />} variant="contained" onClick={handleSend}>
             Send
           </Button>
         </Box>

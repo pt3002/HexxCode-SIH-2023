@@ -10,6 +10,12 @@ import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 
 import Scrollbar from "../../../components/Scrollbar";
 
+import axios from "axios";
+import { useEffect, useContext } from "react";
+import { backendURL } from "../../../configKeys";
+
+import UserTokenContext from "../../../contexts/UserTokenContext";
+
 import {
     Box,
     styled,
@@ -76,10 +82,43 @@ import {
   function Chat() {
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [chats, setChats] = useState([])
   
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
     };
+
+    const userContext = useContext(UserTokenContext)
+    const {dict, checkToken} = userContext
+
+    useEffect(() => {
+      checkToken()
+      // getting all chats for a particular user
+      axios.get(backendURL + "/curriculumDeveloper/fetchChats", {
+        "headers" : {
+          "shiksha-niyojak" : localStorage.getItem("shiksha-niyojak")
+        }
+      }).then((resp) => {
+        //console.log(resp)
+        let c = resp.data.chats
+        for(let i = 0 ; i<c.length; i++){
+          if(c[i]["isGroupChat"] == false){
+            // get name of user from backend
+            if(c[i]["userIds"][0] != dict.id){
+              axios.get(backendURL + "/curriculumDeveloper/getCDName/" + c[i]["userIds"][0]).then((resp_cdname) => {
+                c[i]["chatName"] = resp_cdname.data.name
+              })
+            }
+            else{
+              axios.get(backendURL + "/curriculumDeveloper/getCDName/" + c[i]["userIds"][1]).then((resp_cdname) => {
+                c[i]["chatName"] = resp_cdname.data.name
+              })
+            }
+          }
+        }
+        setChats(c)
+      })
+    }, [])
   
     return (
       <>
@@ -106,7 +145,7 @@ import {
             }}
           >
             <Scrollbar>
-              <SidebarContent />
+              <SidebarContent chats = {chats}/>
             </Scrollbar>
           </Sidebar>
           <ChatWindow>

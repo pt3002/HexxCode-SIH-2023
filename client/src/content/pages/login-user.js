@@ -25,6 +25,7 @@ export default function CurriculumDeveloperLogin() {
   const [link, setLink] = React.useState("");
   const [notHead, setNotHead] = React.useState(true);
   const [dropDown, setDropDown] = React.useState(false);
+  const [clicked, setClicked] = React.useState(null);
   const [Data, setData] = React.useState({
     email: "",
     password: "",
@@ -38,37 +39,37 @@ export default function CurriculumDeveloperLogin() {
   const getDropDown = () => {
     setDropDown(true);
     setUser("");
+    setClicked("cd")
   };
-  
+
   const getUser = (ev) => {
     const { name, value } = ev.currentTarget;
-    
+
     setNotHead(true);
     if (value === "1") {
       setUser("Curriculum Developer");
-      setLink("/register/page1"); 
-      setNotHead(true);     
+      setLink("/register/page1");
+      setNotHead(true);
     } else if (value === "2") {
       setUser("Educator");
       setLink("/register-educator");
       setDropDown(false);
       setNotHead(true);
+      setClicked("ed")
     } else if (value === "3") {
       setDropDown(false);
       setUser("AICTE Administrator");
       setNotHead(true);
+      setClicked("ad")
     } else {
       setLink("");
       setUser("Deptartment Head");
       setNotHead(false);
-
     }
     setData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-   
-    
   };
 
   const handleLogin = (ev) => {
@@ -90,8 +91,6 @@ export default function CurriculumDeveloperLogin() {
       );
   };
 
-  
-
   const getUrlForUser = (type) => {
     if (type === "1") {
       return backendURL + "/CurriculumDeveloper/CurriculumDeveloperLogin";
@@ -111,7 +110,7 @@ export default function CurriculumDeveloperLogin() {
       return "/ED";
     } else if (type === "3"){
       return "/aicte";
-    }else{
+    } else {
       return "/deptHead";
     }
   };
@@ -250,6 +249,7 @@ export default function CurriculumDeveloperLogin() {
           </Grid>
 
           <Grid
+            container
             align="center"
             sx={{
               display: "flex",
@@ -257,53 +257,78 @@ export default function CurriculumDeveloperLogin() {
               p: { xs: 2, md: 2 },
             }}
           >
-            <Button
-              variant="text"
-              onClick={getDropDown}
-              sx={{ flexDirection: "column", alignItems: "center" }}
-            >
-              <Avatar
-                sx={{ width: 50, height: 50, mr: 1 }}
-                alt="Curriculum Developer"
-                src="./static/images/avatars/cd2.png"
-              />
-              <Typography variant="caption" align="center">
-                Curriculum Developer
-              </Typography>
-            </Button>
-            <Button
-              variant="text"
-              onClick={getUser}
-              name="type"
-              value="2"
-              sx={{ flexDirection: "column", alignItems: "center" }}
-            >
-              <Avatar
-                sx={{ width: 50, height: 50, mr: 1 }}
-                alt="Educator"
-                src="./static/images/avatars/edu.jpg"
-              />
+            <Grid item xs={12} md={4}>
+              <Button
+                variant="text"
+                clicked
+                onClick={getDropDown}
+                sx={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: clicked === 'cd' ? '#e0e6e8' : 'transparent',
+                }}
+              >
+                <Avatar
+                  sx={{ width: 50, height: 50, mr: 1 }}
+                  alt="Curriculum Developer"
+                  src="./static/images/avatars/cd2.png"
+                />
+                <Typography variant="caption" align="center">
+                  Curriculum Developer
+                </Typography>
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Button
+                variant="text"
+                onClick={getUser}
+                name="type"
+                value="2"
+                sx={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: clicked === 'ed' ? '#e0e6e8' : 'transparent',
+                }}
+              >
+                <Avatar
+                  sx={{ width: 50, height: 50, mr: 1 }}
+                  alt="Educator"
+                  src="./static/images/avatars/edu.jpg"
+                />
 
-              <Typography variant="caption" align="center">
-                Educator
-              </Typography>
-            </Button>
-            <Button
-              variant="text"
-              onClick={getUser}
-              name="type"
-              value="3"
-              sx={{ flexDirection: "column", alignItems: "center" }}
-            >
-              <Avatar
-                sx={{ width: 50, height: 50, mr: 1 }}
-                alt="AICTE Administrator"
-                src="./static/images/avatars/admin1.png"
-              />
-              <Typography variant="caption" align="center">
-                AICTE Administrator
-              </Typography>
-            </Button>
+                <Typography variant="caption" align="center">
+                  Educator
+                </Typography>
+              </Button>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Button
+                variant="text"
+                onClick={getUser}
+                name="type"
+                value="3"
+                sx={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: clicked === 'ad' ? '#e0e6e8' : 'transparent',
+                }}
+              >
+                <Avatar
+                  sx={{ width: 50, height: 50, mr: 1 }}
+                  alt="AICTE Administrator"
+                  src="./static/images/avatars/admin1.png"
+                />
+                <Typography variant="caption" align="center">
+                  AICTE Administrator
+                </Typography>
+              </Button>
+            </Grid>
           </Grid>
 
           <Paper

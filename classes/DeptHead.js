@@ -49,7 +49,25 @@ class Groups {
       return "error";
     }
   }
+
+  static async deleteMemberFromGroup(member_id) {
+    let sql = `UPDATE curriculum_developer SET group_id=NULL WHERE id="${member_id}"`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+
+  static async viewGroupMembers(group_id) {
+    let sql = `select * from curriculum_developer where group_id="${group_id}"`;
+    const [members, _] = await db.execute(sql);
+    return members;
+  }
   
 }
 
+
 module.exports = { Groups, DeptHeadLogin };
+

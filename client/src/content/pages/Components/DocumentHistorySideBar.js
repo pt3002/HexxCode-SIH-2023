@@ -71,7 +71,11 @@ export default function DocumentHistorySideBar({
   useEffect(async () => {
     if (doc && doc._id) {
       await axios
-        .get(backendURL + "/curriculumDeveloper/commitHistory/" + doc._id)
+        .get(backendURL + "/curriculumDeveloper/commitHistory/" + doc._id, {
+          headers: {
+            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+          },
+        })
         .then((resp) => {
           //console.log(resp.data)
           setCommits(resp.data.history);
