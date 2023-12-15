@@ -134,4 +134,18 @@ class CurriculumDevelopers{
   }
 }
 
-module.exports = { AICTEAdminFeatures, Guidelines, CurriculumDevelopers };
+class AdminChart{
+  static async getCDApplicationCountUniversityWise() {
+    let sql = `select university, count(university) as no_of_applications from sih.curriculum_developer group by university;`;
+    const [applications, _] = await db.execute(sql);
+    return applications;
+  }
+
+  static async getCDApplicationCountGenderWise() {
+    let sql = `select gender, count(gender) as no_of_applications from sih.curriculum_developer group by gender;`;
+    const [applications, _] = await db.execute(sql);
+    return applications;
+  }
+}
+
+module.exports = { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart };
