@@ -7,8 +7,18 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { backendURL } from "../../../configKeys";
-
+import ImageSlider from '../../../components/Dashboard/Carousel'
 function DashboardED() {
+  const slides = [
+    { url: "http://localhost:3000/static/images/placeholders/covers/0.jpg", title: "beach" },
+    { url: "http://localhost:3000/static/images/placeholders/covers/1.jpg", title: "boat" },
+    { url: "http://localhost:3000/static/images/placeholders/covers/2.jpg", title: "forest" },
+  ];
+  const containerStyles = {
+    width: "500px",
+    height: "280px",
+    margin: "0 auto",
+  };
 //   const [subjects, setSubjects] = useState([]);
 
   const curriculumDeveloper = {
@@ -72,24 +82,28 @@ function DashboardED() {
 
   return (
     <>
+
       <PageTitleWrapper>
+        <div style={containerStyles}>
+          <ImageSlider slides={slides} />
+        </div>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
+          {/* <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
               Curriculum for {curriculumDeveloper.department}
             </Typography>
             <Typography variant="subtitle2">
               {curriculumDeveloper.name}, curriculum for different subjects is listed below:
             </Typography>
-          </Grid>
-          <Grid item>
+          </Grid> */}
+          {/* <Grid item>
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
               endIcon={<ChevronRightTwoToneIcon fontSize="small" />}>
               View All Books
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageTitleWrapper>
       <Grid container spacing={3}>
