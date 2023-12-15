@@ -48,13 +48,13 @@ export default function GroupInfo() {
     {
       field: "email",
       headerName: "Email",
-      width: 150,
+      width: 180,
       editable: true,
     },
     {
       field: "gender",
       headerName: "Gender",
-      width: 150,
+      width: 120,
       editable: true,
     },
     {
@@ -200,21 +200,35 @@ export default function GroupInfo() {
 
   return (
     <div>
-      <Grid align="center" sx={{ m: 5 }}>
-        <Typography component="h1" variant="h2" align="center">
+      <Grid align="center" sx={{ margin: "2%" }}>
+        <Typography component="h1" variant="h2" align="left" sx={{ margin: "1%" }} >
           Group for {location.state.subject_name}
         </Typography>
-        <Button
-          variant="contained"
-          sx={{ margin: "2%" }}
-          size="large"
-          onClick={() => {
-            handleClickOpen();
-          }}
-          startIcon={<PersonAddIcon />}
-        >
-          Add Members to Group
-        </Button>
+        <Grid style={{display:'flex', flexDirection:'row'}}>
+          <Button
+            variant="contained"
+            sx={{ margin: "1%" }}
+            size="large"
+            onClick={() => {
+              handleClickOpen();
+            }}
+            startIcon={<PersonAddIcon />}
+          >
+            Add Members to Group
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ margin: "1%" }}
+            size="large"
+            onClick={handleDeleteMembers}
+            style={{
+              display: selectedCDsforDeletion.length ? "block" : "none",
+            }}
+            // startIcon={<RemoveCircleOutlineIcon/>}
+          >
+            Delete selected members
+          </Button>
+        </Grid>
       </Grid>
 
       <Dialog fullScreen open={open} onClose={handleClose}>
@@ -268,16 +282,8 @@ export default function GroupInfo() {
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
-        sx={{ margin: "2%" }}
+        sx={{ marginLeft: "2%" }}
       />
-      <Button
-        variant="contained"
-        sx={{ margin: "2%" }}
-        size="large"
-        onClick={handleDeleteMembers}
-      >
-        Delete selected members
-      </Button>
     </div>
   );
 }

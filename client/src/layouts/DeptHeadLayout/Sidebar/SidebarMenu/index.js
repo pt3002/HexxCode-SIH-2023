@@ -31,6 +31,13 @@ import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwo
 import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import GroupsIcon from '@mui/icons-material/Groups';
+import ForumIcon from '@mui/icons-material/Forum';
+import ArticleIcon from '@mui/icons-material/Article';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import HistoryIcon from '@mui/icons-material/History';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -213,7 +220,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/dashboards/crypto"
-                  startIcon={<BrightnessLowTwoToneIcon />}
+                  startIcon={<InsertInvitationIcon />}
                 >
                   Calendar
                 </Button>
@@ -235,7 +242,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/deptHead/viewGroups"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<GroupsIcon />}
                 >
                   View Groups
                 </Button>
@@ -246,7 +253,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper/createDocument"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<AutoFixHighIcon />}
                 >
                   Curriculum Development Tool
                 </Button>
@@ -257,7 +264,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<ForumIcon />}
                 >
                   Discussion Forum
                 </Button>
@@ -268,7 +275,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper/viewRequirements"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<ArticleIcon />}
                 >
                   Requirements from Educators
                 </Button>
@@ -279,7 +286,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/dashboards/messenger"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<HistoryIcon />}
                 >
                   Past Curriculums
                 </Button>
@@ -290,7 +297,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/CurriculumDeveloper/viewGuidelines"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<WysiwygIcon />}
                 >
                   View Guidelines
                 </Button>

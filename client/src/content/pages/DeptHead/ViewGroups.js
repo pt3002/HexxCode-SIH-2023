@@ -224,6 +224,7 @@ export default function ViewGroups() {
                     textDecorationColor: 'white',
                     // backgroundColor: '#00D7FF',
                     backgroundColor: '#0097b3',
+                    cursor:'pointer',
                     
                     boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
                   },
