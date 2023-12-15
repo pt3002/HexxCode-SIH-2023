@@ -23,7 +23,7 @@ class Groups {
   }
 
   static async getAllSubjectNamesByDepartment(department) {
-    let sql = `SELECT * FROM subject_group WHERE department = "${department}"`;
+    let sql = `SELECT * FROM subject_group WHERE department = "${department}" ORDER BY creation_date DESC`;
     const [subjects, _] = await db.execute(sql);
     return subjects;
   }
