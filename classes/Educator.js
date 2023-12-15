@@ -68,7 +68,7 @@ class Requirements{
 
   static async getEducatorRequirements(id) {
     console.log(id,typeof(id));
-    let sql = `Select * from requirement where educator_id= "${id}"`;
+    let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,id,department,subject,requirement_text FROM requirement where educator_id="${id}"`;
     const [req, _] = await db.execute(sql);
     return req;
   }

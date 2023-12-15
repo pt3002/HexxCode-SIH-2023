@@ -31,6 +31,9 @@ import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwo
 import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import BookIcon from '@mui/icons-material/Book';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -213,7 +216,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/ED/requirements"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<PostAddIcon/>}
                 >
                   Requirements
                 </Button>
@@ -224,7 +227,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/ED/review"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<ReviewsIcon/>}
                 >
                   Review and Rate
                 </Button>
@@ -235,7 +238,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/ED/viewGuidelines"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<BookIcon />}
                 >
                   View Guidelines
                 </Button>
