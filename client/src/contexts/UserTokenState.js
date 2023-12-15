@@ -19,6 +19,7 @@ const UserTokenState = (props) => {
         }).then((res) => {
             setDict(res.data["details"])
         })
+        console.log(dict)
         
     }
 
