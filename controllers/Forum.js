@@ -4,8 +4,9 @@ const Tag = require("../models/tag");
 
 exports.GetAllPost = async (req, res, next) => {
   // let all_posts = await Post.find().populate("tags").exec();
-  let all_posts = await Post.find().exec();
-  res.send(all_posts);
+  await Post.find().populate("tags").then((all_posts) => {
+    res.send({all_posts})
+  });
 };
 
 exports.GetPostById = async (req, res, next) => {

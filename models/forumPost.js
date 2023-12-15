@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
-const { tagSchema } = require("./tag");
+const Tag  = require("./tag");
 
 const forumPostSchema = new Schema({
   title: { type: String, required: true },
@@ -11,7 +11,7 @@ const forumPostSchema = new Schema({
       },
     ],
     default: [],
-    ref: "tags",
+    ref: Tag,
     required: true,
   },
   description: { type: String, required: true },
