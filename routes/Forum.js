@@ -7,6 +7,8 @@ router.get("/getAllPost", ForumControllers.GetAllPost);
 router.get("/getPostById/:id", ForumControllers.GetPostById);
 router.post("/addPost", ForumControllers.AddPost);
 router.post("/addLike", ForumControllers.AddLike);
+router.get("/getTrending", ForumControllers.GetTrending);
+router.get("/getUnanswered", ForumControllers.GetUnanswered);
 
 //# Tag
 router.get("/getTags", ForumControllers.GetTags);

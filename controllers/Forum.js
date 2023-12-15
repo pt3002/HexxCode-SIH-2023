@@ -79,6 +79,38 @@ exports.AddLike = async (req, res, next) => {
   res.send(post_new);
 };
 
+exports.GetTrending = async (req, res, next) => {
+  try {
+    await Post.find()
+      .populate("tags")
+      .sort({ views: -1 })
+      .then((all_posts) => {
+        res.send({ all_posts });
+      });
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Unable To Fetch" });
+  }
+};
+
+exports.GetUnanswered = async (req, res, next) => {
+  try {
+    let all_post = await Post.find().populate("tags");
+    let unanswered_post = [];
+    for (let i = 0; i < all_post.length; i++) {
+      let post_id = all_post[i]._id;
+      const reply = await Reply.findOne({ post: post_id }).exec();
+      if (!reply) {
+        unanswered_post.push(all_post[i]);
+      }
+    }
+    res.send(unanswered_post);
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Unable To Fetch" });
+  }
+};
+
 exports.GetTags = async (req, res, next) => {
   try {
     const tags = await Tag.find().exec();
