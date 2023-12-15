@@ -3,10 +3,16 @@ const Reply = require("../models/forumReply");
 const Tag = require("../models/tag");
 
 exports.GetAllPost = async (req, res, next) => {
-  // let all_posts = await Post.find().populate("tags").exec();
-  await Post.find().populate("tags").then((all_posts) => {
-    res.send({all_posts})
-  });
+  try {
+    await Post.find()
+      .populate("tags")
+      .then((all_posts) => {
+        res.send({ all_posts });
+      });
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Unable To Fetch" });
+  }
 };
 
 exports.GetPostById = async (req, res, next) => {
@@ -93,5 +99,44 @@ exports.AddTags = async (req, res, next) => {
     res.send({ message: "Tag Created Successfully" });
   } catch (error) {
     console.log("err", error);
+  }
+};
+
+exports.AddReply = async (req, res, next) => {
+  const { id, comment, author } = req.body;
+  try {
+    const post = await Post.findById(id).exec();
+  } catch (ex) {
+    return res
+      .status(400)
+      .send({ error: "The Post with given ID doesn't exists!" });
+  }
+  const reply = new Reply({
+    post: id,
+    comment: comment,
+    author: author,
+  });
+  try {
+    await reply.save();
+    const reply_populated = await Reply.find({ _id: reply._id })
+      .populate("post")
+      .exec();
+    res.send(reply_populated);
+  } catch (ex) {
+    console.log("error: ", ex);
+    res.send({ error: "Unable To Reply" });
+  }
+};
+
+exports.GetReply = async (req, res, next) => {
+  const id = req.params && req.params.id;
+  if (!id) {
+    return res.status(400).send({ err: " Missing Id" });
+  }
+  try {
+    const replies = await Reply.find({ post: id }).exec();
+    res.send(replies);
+  } catch (ex) {
+    return res.status(400).send("The Post with given ID doesn't exists!");
   }
 };
