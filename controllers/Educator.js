@@ -169,12 +169,14 @@ exports.getRequirements=async(req,res,next)=>{
   try{
     // let ed_id=req.params.educatorId.toString();
     let ed_id= req.userId;
-    console.log(ed_id,typeof(ed_id));
+    // console.log(ed_id,typeof(ed_id));
     let ans=await Requirements.getEducatorRequirements(ed_id);
+    console.log(ans);
     try {
       let requirements = [];
       for (let i = 0; i < ans.length; i++) {
         let n = {
+          RowNum:ans[i].RowNum,
           id: ans[i].id,
           department: ans[i].department,
           subject: ans[i].subject,
