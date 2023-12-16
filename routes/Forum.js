@@ -13,6 +13,7 @@ router.get("/getUnanswered", ForumControllers.GetUnanswered);
 //# Tag
 router.get("/getTags", ForumControllers.GetTags);
 router.post("/addTag", ForumControllers.AddTags);
+router.post("/postaccordingToTag", ForumControllers.getPostsAccordingToTags)
 
 //# Reply
 router.post("/addReply", ForumControllers.AddReply);

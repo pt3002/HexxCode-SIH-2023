@@ -65,7 +65,7 @@ function UnansweredPage() {
   useEffect(() => {
     checkToken()
     axios.get(backendURL + "/Forum/getUnanswered").then((res) => {
-        setPosts(res.data.all_posts)
+        setPosts(res.data)
     })
   }, [])
 
