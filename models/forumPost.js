@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 const Tag  = require("./tag");
+const ForumReply = require("./forumReply")
 
 const forumPostSchema = new Schema({
   title: { type: String, required: true },
@@ -21,6 +22,16 @@ const forumPostSchema = new Schema({
   upvotes: { type: [String], default: [] },
   views: { type: Number, default: 1, min: 1 },
   time: { type: Date, default: Date.now, required: true },
+  replies : {
+    type: [
+      {
+        type: Schema.Types.ObjectId,
+      }
+    ],
+    default : [],
+    ref : ForumReply,
+  }
+  
 });
 
 const ForumPost = model("forumPost", forumPostSchema);

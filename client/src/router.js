@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { useContext } from 'react';
 import UserTokenContext from './contexts/UserTokenContext';
@@ -114,8 +114,11 @@ const DynamicRoutes = () =>{
 
   const userContext = useContext(UserTokenContext)
   const {dict, checkToken} = userContext;  
-  console.log("dict...",dict)
-  let all_routes = [    {
+    
+  useEffect(() => {
+    checkToken()
+  }, [])
+  let   all_routes = [    {
     path: '',
     element: <BaseLayout />,
     children: [

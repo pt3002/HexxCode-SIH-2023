@@ -10,6 +10,8 @@ import { Helmet } from 'react-helmet-async';
 import PageTitle from '../../../components/PageTitle';
 import { CardContent } from '@material-ui/core';
 import PostPage from './postPage';
+import TrendingPage from './trendingPage';
+import UnansweredPage from './unanswered';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -96,13 +98,13 @@ export default function DiscussionForum() {
         <PostPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+        <TrendingPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         Item Three
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        Item Four
+        <UnansweredPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
         Item Five

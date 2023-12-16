@@ -2,10 +2,12 @@ const Post = require("../models/forumPost");
 const Reply = require("../models/forumReply");
 const Tag = require("../models/tag");
 
+// Done
 exports.GetAllPost = async (req, res, next) => {
   try {
     await Post.find()
       .populate("tags")
+      .sort({ time: -1 })
       .then((all_posts) => {
         res.send({ all_posts });
       });
@@ -79,6 +81,7 @@ exports.AddLike = async (req, res, next) => {
   res.send(post_new);
 };
 
+// Done
 exports.GetTrending = async (req, res, next) => {
   try {
     await Post.find()
@@ -134,8 +137,9 @@ exports.AddTags = async (req, res, next) => {
   }
 };
 
+// done
 exports.AddReply = async (req, res, next) => {
-  const { id, comment, author } = req.body;
+  const { id, comment, author, previousReplies } = req.body;
   try {
     const post = await Post.findById(id).exec();
   } catch (ex) {
@@ -149,11 +153,27 @@ exports.AddReply = async (req, res, next) => {
     author: author,
   });
   try {
-    await reply.save();
-    const reply_populated = await Reply.find({ _id: reply._id })
-      .populate("post")
-      .exec();
-    res.send(reply_populated);
+    await reply.save().then((resp) => {
+      
+      previousReplies.push(resp._id)
+      console.log(previousReplies)
+      Post.updateOne(
+        {_id : id},
+        {$addToSet : {replies : previousReplies}},
+        function(err, result){
+          if(err){
+            res.send(err)
+          }
+          else{
+            res.status(200).send({message : "Reply Added"})
+          }
+        }
+      )
+    });
+    // const reply_populated = await Reply.find({ _id: reply._id })
+    //   .populate("post")
+    //   .exec();
+    // res.send(reply_populated);
   } catch (ex) {
     console.log("error: ", ex);
     res.send({ error: "Unable To Reply" });
