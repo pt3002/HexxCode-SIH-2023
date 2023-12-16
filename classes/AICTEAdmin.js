@@ -73,8 +73,8 @@ class Guidelines{
       try {
         if (id.length > 0) {
           let creation_time = moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss');
-          let users = await db.execute("SELECT id FROM educator UNION SELECT id FROM curriculum_developer;")
-          console.log(users[0]);
+          let users = await db.execute("SELECT id FROM educator UNION SELECT id FROM curriculum_developer UNION SELECT id FROM department_head;")
+          console.log(users);
           for (let i = 0; i < users[0].length; i++) {
             let user_id = users[0][i].id;
             let sql2 = `INSERT INTO notifications (guideline_id, title, description, user_id, creation_time) VALUES ('${id}','${title}','${mongo_file_id}','${user_id}','${creation_time}');`;
