@@ -94,7 +94,10 @@ const ImageSlider = ({ slides, interval = 3000 }) => {
       <div style={dotsContainerStyles}>
         {slides.map((slide, slideIndex) => (
           <div
-            style={dotStyle}
+            style={{
+              ...dotStyle,
+              color: slideIndex === currentIndex ? "blue" : "black",
+            }}
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
           >
