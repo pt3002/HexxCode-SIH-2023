@@ -25,6 +25,8 @@ export default function ViewGuidelines() {
       field: "title",
       headerName: "Title",
       flex: 1,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
       <div
         style={{
@@ -40,6 +42,9 @@ export default function ViewGuidelines() {
       field: "mongo_file_id",
       headerName: "View",
       width: 120,
+      // flex: 2,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
         <Button>
           <DocViewer
@@ -53,12 +58,18 @@ export default function ViewGuidelines() {
       field: "creation_date",
       headerName: "Creation Date",
       width: 120,
+      // flex: 1,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => fDate(params.value),
     },
     {
       field: "last_modified_date",
       headerName: "Last Modified",
       width: 120,
+      // flex: 1,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) =>
         fDate(params.value) ? fDate(params.value) : "Not Modified",
     },

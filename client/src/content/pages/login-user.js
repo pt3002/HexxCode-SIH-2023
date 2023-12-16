@@ -36,10 +36,16 @@ export default function CurriculumDeveloperLogin() {
   const userContext = useContext(UserTokenContext)
   const {dict, checkToken} = userContext;
 
+  console.log(Data);
+
   const getDropDown = () => {
     setDropDown(true);
-    setUser("");
+    setUser("Curriculum Developer");
     setClicked("cd")
+    setData((prevData) => ({
+      ...prevData,
+      type: "1",
+    }));
   };
 
   const getUser = (ev) => {
@@ -195,7 +201,7 @@ export default function CurriculumDeveloperLogin() {
   };
 
   const role_arr = [
-    { value: "1", label: "Cirriculum Developer" },
+    { value: "1", label: "Curriculum Developer" },
     { value: "4", label: "Department Head" },
   ];
 
@@ -237,6 +243,7 @@ export default function CurriculumDeveloperLogin() {
           justifyContent: "center",
         }}
       >
+        
         <Container
           align="center"
           component="main"
@@ -250,6 +257,7 @@ export default function CurriculumDeveloperLogin() {
 
           <Grid
             container
+            spacing={2}
             align="center"
             sx={{
               display: "flex",
@@ -368,17 +376,23 @@ export default function CurriculumDeveloperLogin() {
                   color="primary"
                   variant="outlined"
                   name="type"
-                  value={Data.type}
+                  value={Data.type || "1"}
                   // fullWidth={true}
                   size="small"
                   onChange={handleLogin}
                   sx={{ width: 400, height: 56 }}
                 >
-                  {role_arr.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                  {/* {role_arr.map((option) => (
+                    <MenuItem key={option.value} value={option.value} defaultValue={option.value === 'Curriculum Developer' ? 'Curriculum Developer' : "Curriculum Developer"}>
                       {option.label}
                     </MenuItem>
-                  ))}
+                  ))} */}
+                   <MenuItem key="1" value="1" selected >
+                      Curriculum Developer
+                    </MenuItem>
+                   <MenuItem key="4" value="4">
+                      Department Head
+                    </MenuItem>
                 </TextField>
               </Grid>
             )}
@@ -452,6 +466,7 @@ export default function CurriculumDeveloperLogin() {
         </Container>
         <Footer />
       </div>
+     
 
       {/* </Box> */}
     </React.Fragment>

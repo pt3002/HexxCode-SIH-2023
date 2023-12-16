@@ -47,35 +47,69 @@ export default function PostRequirements() {
 
   const columns = [
     {
-      field: "id",
-      headerName: "Requirement Id",
-      width: 200,
+      field: "RowNum",
+      headerName: "Sr No",
+      width: 130,
       editable: true,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "department",
       headerName: "Department",
-      width: 110,
+      width: 200,
+      // flex: 1,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => (
+        <div
+          style={{
+            whiteSpace: "normal",
+            overflow: "hidden",
+          }}
+        >
+          {params.value}
+        </div>
+      ),
       editable: true,
     },
     {
       field: "subject",
       headerName: "Subject",
-      width: 110,
+      width: 200,
       editable: true,
+      // flex: 1,
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "requirement_text",
       headerName: "Requirement Posted",
-      width: 320,
-      editable: true,
+      width: 500,
+      headerAlign: "center",
+      align: "center",
+      // editable: true,
+      flex: 1,
+      renderCell: (params) => (
+        <div
+          style={{
+            whiteSpace: "normal",
+            overflow: "hidden",
+          }}
+        >
+          {params.value}
+        </div>
+      ),
     },
-    
-   
+
     {
       field: "Action",
       headerName: "Action",
-      width: 130,
+      width: 80,
+      flex: 1,
+      headerAlign: "center",
+      align: "center",
       renderCell: (params) => (
         <>
           <Button
@@ -128,12 +162,10 @@ export default function PostRequirements() {
           .post(backendURL + "/Educator/deleteRequirement", body, {
             headers: {
               "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-            }
-            },)
+            },
+          })
           .then((res) => {
-            if (
-              res.data.message === "This User Cannot Delete Requirement"
-            ) {
+            if (res.data.message === "This User Cannot Delete Requirement") {
               Swal.fire({
                 icon: "error",
                 title: "ERROR",
@@ -141,24 +173,23 @@ export default function PostRequirements() {
                 showConfirmButton: false,
                 timer: 3000,
               });
-            }else{
-            Swal.fire({
-              icon: "success",
-              title: "SUCCESS",
-              text: res.data.message,
-              showConfirmButton: false,
-              timer: 1500,
-            }).then((confirm) => {
-              if (confirm) {
-                window.location.reload();
-              }
-            });
-          }
+            } else {
+              Swal.fire({
+                icon: "success",
+                title: "SUCCESS",
+                text: res.data.message,
+                showConfirmButton: false,
+                timer: 1500,
+              }).then((confirm) => {
+                if (confirm) {
+                  window.location.reload();
+                }
+              });
+            }
           });
       }
     });
   };
-
 
   const handlePostRequirement = (event) => {
     event.preventDefault();
@@ -237,7 +268,6 @@ export default function PostRequirements() {
     }
   };
 
-
   const arr = [
     { value: "Computer Engineering", label: "Computer Engineering" },
     { value: "ENTC", label: "ENTC" },
@@ -311,30 +341,30 @@ export default function PostRequirements() {
       </Button>
 
       {selectedRequirements.length ? (
-          <Grid container spacing={2}>
-            <Grid item>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  handleClickDelete(selectedRequirements);
-                }}
-                // sx={{ backgroundColor: "green" }}
-              >
-                Delete Requirements
-                <DeleteIcon />
-              </Button>
-            </Grid>
+        <Grid container spacing={2} justify="center">
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={() => {
+                handleClickDelete(selectedRequirements);
+              }}
+              // sx={{ backgroundColor: "green" }}
+            >
+              Delete Requirements
+              <DeleteIcon />
+            </Button>
           </Grid>
-        ) : (
-          <> </>
-        )}
+        </Grid>
+      ) : (
+        <> </>
+      )}
 
-      {/* <Box sx={{ height: 400, width: "96%", margin: "2%" }}>{card}</Box> */}
       <Box sx={{ height: 400, width: "96%", margin: "2%" }}>
-      <DataGrid
+        <DataGrid
           slots={{ toolbar: GridToolbar }}
           rows={rows}
           columns={columns}
+          rowHeight={60}
           onRowSelectionModelChange={(newRowSelectionModel) => {
             setSelectedRequirements(newRowSelectionModel);
           }}
@@ -349,6 +379,7 @@ export default function PostRequirements() {
           pageSizeOptions={[5]}
           checkboxSelection
           disableRowSelectionOnClick
+          justifyItems="center"
         />
       </Box>
       <Dialog open={open} onClose={handleClose}>
