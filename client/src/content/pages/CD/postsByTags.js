@@ -8,6 +8,9 @@ import { autocompleteClasses } from "@mui/material/Autocomplete";
 import { useAutocomplete } from "@mui/base/useAutocomplete";
 import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
+import { Grid, Button } from "@mui/material";
+import AddTwoToneIcon from "@mui/icons-material/AddTwoTone";
+import SearchIcon from '@mui/icons-material/Search';
 
 const Label = styled("label")`
   padding: 0 0 4px;
@@ -71,7 +74,7 @@ Tag.propTypes = {
 };
 
 const StyledTag = styled(Tag)(
-    ({ theme }) => `
+  ({ theme }) => `
       display: flex;
       align-items: center;
       height: 24px;
@@ -80,7 +83,9 @@ const StyledTag = styled(Tag)(
       background-color: ${
         theme.palette.mode === "dark" ? "rgba(255,255,255,0.08)" : "#fafafa"
       };
-      border: 1px solid ${theme.palette.mode === "dark" ? "#303030" : "#e8e8e8"};
+      border: 1px solid ${
+        theme.palette.mode === "dark" ? "#303030" : "#e8e8e8"
+      };
       border-radius: 2px;
       box-sizing: content-box;
       padding: 0 4px 0 10px;
@@ -106,10 +111,10 @@ const StyledTag = styled(Tag)(
         padding: 4px;
       }
     `
-  );
-  
-  const Listbox = styled("ul")(
-    ({ theme }) => `
+);
+
+const Listbox = styled("ul")(
+  ({ theme }) => `
       width: 300px;
       margin: 2px 0 0;
       padding: 0;
@@ -157,71 +162,94 @@ const StyledTag = styled(Tag)(
         }
       }
     `
-  );
+);
 
 function GetPostsByTags() {
-    const userContext = useContext(UserTokenContext);
+  const userContext = useContext(UserTokenContext);
   const { dict, checkToken } = userContext;
   const [tags, setTags] = useState([]);
-    useEffect(() => {
-        checkToken()
-        axios.get(backendURL + "/Forum/getTags").then((res) => {
-            setTags(res.data)
-        })
-    }, [])
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+    checkToken();
+    axios.get(backendURL + "/Forum/getTags").then((res) => {
+      setTags(res.data);
+    });
+  }, []);
 
-    const {
-        getRootProps,
-        getInputLabelProps,
-        getInputProps,
-        getTagProps,
-        getListboxProps,
-        getOptionProps,
-        groupedOptions,
-        value,
-        focused,
-        setAnchorEl,
-      } = useAutocomplete({
-        id: "customized-hook-demo",
-        defaultValue: [],
-        multiple: true,
-        options: tags,
-        getOptionLabel: (option) => option.name,
-      });
+  const handleSearch = () => {
+    let tagIds = []
+    for(let i = 0; i < value.length ; i ++){
+      tagIds.push(value[i]._id)
+    }
+    let body = {tagIds : tagIds}
+    axios.post(backendURL + "/Forum/postaccordingToTag", body).then((res) => {
+      setPosts(res.data.all_posts)
+    })
+  }
+  console.log(posts)
+  const {
+    getRootProps,
+    getInputLabelProps,
+    getInputProps,
+    getTagProps,
+    getListboxProps,
+    getOptionProps,
+    groupedOptions,
+    value,
+    focused,
+    setAnchorEl,
+  } = useAutocomplete({
+    id: "customized-hook-demo",
+    defaultValue: [],
+    multiple: true,
+    options: tags,
+    getOptionLabel: (option) => option.name,
+  });
 
-    return(
-        <>
-         {tags && (
-                <>
-                  <div {...getRootProps()}>
-                    <Label {...getInputLabelProps()}>Click here to Add Tags</Label>
-                    <InputWrapper
-                      ref={setAnchorEl}
-                      className={focused ? "focused" : ""}
-                    >
-                      {value.map((option, index) => (
-                        <StyledTag
-                          label={option.name}
-                          {...getTagProps({ index })}
-                        />
-                      ))}
-                      <input {...getInputProps()} />
-                    </InputWrapper>
-                  </div>
-                  {groupedOptions.length > 0 ? (
-                    <Listbox {...getListboxProps()}>
-                      {groupedOptions.map((option, index) => (
-                        <li {...getOptionProps({ option, index })}>
-                          <span>{option.name}</span>
-                          <CheckIcon fontSize="small" />
-                        </li>
-                      ))}
-                    </Listbox>
-                  ) : null}
-                </>
-              )}
-        </>
-    )
+  return (
+    <>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid sx = {{mt:2}}>
+        {tags && (
+          <>
+            <div {...getRootProps()}>
+              <Label {...getInputLabelProps()}>Click here to Add Tags</Label>
+              <InputWrapper
+                ref={setAnchorEl}
+                className={focused ? "focused" : ""}
+              >
+                {value.map((option, index) => (
+                  <StyledTag label={option.name} {...getTagProps({ index })} />
+                ))}
+                <input {...getInputProps()} />
+              </InputWrapper>
+            </div>
+            {groupedOptions.length > 0 ? (
+              <Listbox {...getListboxProps()}>
+                {groupedOptions.map((option, index) => (
+                  <li {...getOptionProps({ option, index })}>
+                    <span>{option.name}</span>
+                    <CheckIcon fontSize="small" />
+                  </li>
+                ))}
+              </Listbox>
+            ) : null}
+          </>
+        )}
+        </Grid>
+      </Grid>
+      <Grid sx = {{mt:2}} container justifyContent="center" alignItems="center">
+        <Button
+        sx={{ mt: { xs: 2, md: 0 } }}
+        variant="contained"
+        startIcon={<SearchIcon fontSize="small" />}
+        onClick = {handleSearch}
+      >
+        Search Posts
+      </Button>
+        </Grid>
+    </>
+  );
 }
 
-export default GetPostsByTags
+export default GetPostsByTags;

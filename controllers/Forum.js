@@ -144,9 +144,17 @@ exports.getPostsAccordingToTags = async(req, res, next) => {
   const {tagIds} = req.body
   try{
     const all_posts = []
+    const post_ids = []
     for(let i = 0 ; i < tagIds.length ; i++){
-      await Post.find({tags : {$elemMatch : {$eq : tagIds[0]}} }).then((postForTag) => {
-        all_posts.push(postForTag)
+      await Post.find({tags : {$elemMatch : {$eq : tagIds[i]}} }).then((postForTag) => {
+        for(let j = 0; j < postForTag.length;j++){
+          if(post_ids.indexOf(String(postForTag[j]._id)) == -1){
+            all_posts.push(postForTag[j])
+            post_ids.push(String(postForTag[j]._id))
+          }   
+          
+        }
+        
       })
     }
     res.send({all_posts})
