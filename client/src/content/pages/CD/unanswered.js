@@ -12,7 +12,6 @@ import {
   Stack,
   CardActions,
   Paper,
-  TextareaAutosize,
 } from "@mui/material";
 
 import { ArrowForwardTwoTone } from "@mui/icons-material";
@@ -25,12 +24,6 @@ import { useTheme } from "@mui/material";
 import axios from "axios"
 import { backendURL } from "../../../configKeys";
 import {fToNow} from "../../../utils/formatTime"
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Swal from "sweetalert2";
 
 import "./style.css";
 
@@ -60,11 +53,7 @@ const CardActionsWrapper = styled(CardActions)(
   `
 );
 
-function PostPage() {
-  const addresses = {
-    delivery: 12,
-    shipping: 8,
-  };
+function UnansweredPage() {
 
   const theme = useTheme();
 
@@ -73,51 +62,14 @@ function PostPage() {
 
   const [posts, setPosts] = useState([])
 
-  const [open, setOpen] = useState(false);
-
-  const [reply, setReply] = useState("")
-
-  const [currentIndex, setCurrentIndex] = useState(0)
-
   useEffect(() => {
     checkToken()
-    axios.get(backendURL + "/Forum/getAllPost").then((res) => {
+    axios.get(backendURL + "/Forum/getUnanswered").then((res) => {
         setPosts(res.data.all_posts)
     })
   }, [])
 
-  const handleClickOpen = (index) => {
-    setCurrentIndex(index)
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOnChangeData = ({ target }) => {
-    setReply(target.value)
-  };
-
-  const handleAddReply = () => {
-    //console.log(post._id, reply, dict.name, post.replies)
-    console.log(currentIndex)
-    let post = posts[currentIndex]
-    let body = {
-      id : post._id, comment : reply, author : dict.name, previousReplies : post.replies
-    }
-    axios.post(backendURL + "/Forum/addReply", body).then((res) => {
-      handleClose()
-      
-      window.location.reload()
-      // Swal.fire({
-      //   icon : "success",
-      //   title : "SUCCESS",
-      //   text : "Reply added Successfully",
-      //   timer : 1500
-      // })
-    })
-  }
+  console.log(posts)
 
   return (
     <>
@@ -191,7 +143,6 @@ function PostPage() {
                       startIcon={<CommentTwoToneIcon />}
                       variant="outlined"
                       sx={{ mx: 2 }}
-                      onClick = {() => handleClickOpen(index)}
                     >
                       Reply
                     </Button>
@@ -205,47 +156,12 @@ function PostPage() {
                       <Text color="black">
                         <b>{post.upvotes.length}</b>
                       </Text>{" "}
-                      upvotes •{" "}
-                      <Text color = "black">
-                        <b>{post.replies.length}</b>
-                      </Text>{" "}
-                      replies
+                      upvotes
                     </Typography>
                   </Box>
                 </CardActionsWrapper>
               </Card>
             </Grid>
-            <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Replying on {post.title}</DialogTitle>
-        <DialogContent>
-          <Box p={2}>
-            <Grid item xs={12} sx = {{mt : 2}}>
-              <TextareaAutosize
-                required
-                id="description"
-                name="description"
-                label="Add your Reply*"
-                placeholder="Reply ..."
-                minRows={5}
-                fullWidth
-                style={{
-                  padding: "10px",
-                  fontSize: "16px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  width: "100%",
-                  boxSizing: "border-box",
-                }}
-                onChange={handleOnChangeData}
-              />
-            </Grid>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleAddReply} variant = "contained">Add Reply</Button>
-        </DialogActions>
-      </Dialog>
           </Grid>
            )
         })
@@ -257,4 +173,4 @@ function PostPage() {
   );
 }
 
-export default PostPage;
+export default UnansweredPage;
