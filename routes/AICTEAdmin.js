@@ -21,4 +21,9 @@ router.post("/AICTEAdminLogin",AICTEAdminControllers.AICTEAdminLogin);
 router.get("/getAvailableCDs", AICTEAdminControllers.getAvailableCurriculumDevelopers);
 router.post("/changeCDStatus", AICTEAdminControllers.changeCDStatus)
 router.post("/deleteCD", AICTEAdminControllers.deleteCD)
+
+//Charts
+router.get("/getCDApplicationCountUniversityWise", AICTEAdminControllers.getCDApplicationCountUniversityWise);
+router.get("/getCDApplicationCountGenderWise", AICTEAdminControllers.getCDApplicationCountGenderWise);
+
 module.exports = router;

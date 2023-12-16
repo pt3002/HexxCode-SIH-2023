@@ -9,6 +9,7 @@ import PageTitleWrapper from '../../../components/PageTitleWrapper';
 import { Helmet } from 'react-helmet-async';
 import PageTitle from '../../../components/PageTitle';
 import { CardContent } from '@material-ui/core';
+import PostPage from './postPage';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -92,7 +93,7 @@ export default function DiscussionForum() {
     </Container>
 
     <CustomTabPanel value={value} index={0}>
-        Item One
+        <PostPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Item Two
@@ -104,7 +105,7 @@ export default function DiscussionForum() {
         Item Four
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        Item Four
+        Item Five
       </CustomTabPanel>
     </>
     

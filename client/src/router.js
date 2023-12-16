@@ -39,6 +39,7 @@ import { CreateGroup } from './content/pages/DeptHead/CreateGroup';
 import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
 import Chat from './content/pages/CD/chat';
+import AdminChart from './content/pages/AICTE/AdminChart';
 
 const Loader = (Component) => (props) =>
   (
@@ -319,6 +320,10 @@ const DynamicRoutes = () =>{
       {
         path: 'approveCDs',
         element : <ApproveCurriculumDevelopers />
+      },
+      {
+        path: 'adminChart',
+        element : <AdminChart />
       }
     ]
   }]

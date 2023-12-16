@@ -1,4 +1,4 @@
-const { AICTEAdminFeatures, Guidelines, CurriculumDevelopers } = require("../classes/AICTEAdmin");
+const { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart } = require("../classes/AICTEAdmin");
 
 exports.getAllDepartmentHeads = async (req, res, next) => {
   try {
@@ -244,6 +244,48 @@ exports.deleteCD = async (req, res, next) => {
     let { id } = req.body;
     await CurriculumDevelopers.deleteCD(id);
     res.send({ message: "CD deleted successfully" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getCDApplicationCountUniversityWise = async (req, res, next) => {
+  try {
+    let ans = await AdminChart.getCDApplicationCountUniversityWise();
+    try {
+      let applications = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          university: ans[i].university,
+          no_of_applications: ans[i].no_of_applications
+        };
+        applications.push(n);
+      }
+      res.send({ applications });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getCDApplicationCountGenderWise = async (req, res, next) => {
+  try {
+    let ans = await AdminChart.getCDApplicationCountGenderWise();
+    try {
+      let applications = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          gender: ans[i].gender,
+          no_of_applications: ans[i].no_of_applications
+        };
+        applications.push(n);
+      }
+      res.send({ applications });
+    } catch (error) {
+      console.log(error);
+    }
   } catch (error) {
     console.log(error);
   }
