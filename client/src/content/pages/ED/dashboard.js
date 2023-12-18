@@ -5,10 +5,13 @@ import PageTitleWrapper from "../../../components/PageTitleWrapper";
 import Reviewcard from "../Components/Reviewcard";
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { backendURL } from "../../../configKeys";
 import ImageSlider from '../../../components/Dashboard/Carousel'
+import UserTokenContext from "../../../contexts/UserTokenContext";
 function DashboardED() {
+  const EDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = EDContext;
   const slides = [
     { url: "http://localhost:3000/static/images/placeholders/covers/0.jpg", title: "beach" },
     { url: "http://localhost:3000/static/images/placeholders/covers/1.jpg", title: "boat" },
@@ -79,6 +82,9 @@ function DashboardED() {
       cds: ["Ritu", "Sita"],
     },
   ];
+  React.useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <>

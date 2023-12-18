@@ -330,9 +330,8 @@ const DynamicRoutes = () =>{
       }
     ]
   }]
-  
-  console.log("role2...",dict.role);
-  if(dict.role === "Educator"){
+  const role = localStorage.getItem("shiksha-niyojak-role");
+  if(role == "Educator"){
     all_routes.push({
       path : 'ED',
       element : <EducatorLayout />,
@@ -359,7 +358,7 @@ const DynamicRoutes = () =>{
         },
       ]
     })
-  }else if(dict.role == "DepartmentHead"){
+  }else if(role == "DepartmentHead"){
     all_routes.push(
     {
       path : 'deptHead',
@@ -391,7 +390,7 @@ const DynamicRoutes = () =>{
         },
       ]
     })
-  }else if(dict.role == "CurriculumDeveloper"){
+  }else if(role == "CurriculumDeveloper"){
     all_routes.push(
       {
         path : 'curriculumDeveloper',

@@ -33,6 +33,8 @@ import { backendURL } from "../../../configKeys";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
       margin: ${theme.spacing(2, 0, 1, -0.5)};
@@ -97,6 +99,8 @@ const CardAddAction = styled(Card)(
 const uuid = require("uuid").v4;
 
 export default function ViewGroups() {
+  const DeptHeadContext = useContext(UserTokenContext);
+  const {dict, checkToken} = DeptHeadContext;
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [Edit, setEdit] = useState(0);
@@ -115,7 +119,9 @@ export default function ViewGroups() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  React.useEffect(() => {
+    checkToken();
+  }, []);
   const [newGroup, setNewGroup] = useState({
     department: "CSE",
     subject_name: "",
@@ -136,7 +142,11 @@ export default function ViewGroups() {
     };
 
     axios
-      .post(backendURL + "/DeptHead/addGroup", body)
+      .post(backendURL + "/DeptHead/addGroup", body, {
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
+      })
       .then((res) => {
         if (res.data.message) {
           Swal.fire({
@@ -166,13 +176,19 @@ export default function ViewGroups() {
 
 
   React.useEffect(() => {
-    let body = { department: newGroup.department };
+    if(dict.token){
+      let body = { department: newGroup.department };
     axios
-      .post(backendURL + "/DeptHead/getAllSubjectNamesByDepartment", body)
+      .post(backendURL + "/DeptHead/getAllSubjectNamesByDepartment", body, {
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
+      })
       .then((res) => {
         setGroups(res.data.subjects);
       });
-  }, []);
+    }
+  }, [dict.token]);
   return (
     <>
       <Box
