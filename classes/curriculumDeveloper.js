@@ -142,6 +142,27 @@ class Requirements{
   }
 }
 
+class CurriculumDeveloperNotification {
+  static async getNotificationsByCDId(user_id) {
+    let sql = `SELECT * FROM notifications WHERE user_id = "${user_id}" ORDER BY creation_time Desc;`;
+    try {
+      const [notifications, _] = await db.execute(sql);
+      console.log(user_id);
+      return notifications;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  static async setNotificationSeen(user_id) {
+    console.log(user_id)
+    let sql = `UPDATE notifications SET isUnread = 0 WHERE user_id = "${user_id}";`;
+    await db.execute(sql);
+  }
+  static async deleteNotification(user_id, guideline_id) {
+    let sql = `DELETE FROM notifications WHERE user_id = "${user_id}" AND guideline_id = "${guideline_id}";`;
+    await db.execute(sql);
+  }
+}
 
-module.exports = { CDLogin,curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin,Requirements };
+module.exports = { CDLogin,curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin,Requirements, CurriculumDeveloperNotification };
 

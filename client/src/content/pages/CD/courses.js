@@ -7,48 +7,55 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { backendURL } from "../../../configKeys";
-
+import { useContext, useEffect } from "react";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 function Courses() {
   const [subjects, setSubjects] = useState([]);
+  const CDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = CDContext;
 
   const curriculumDeveloper = {
     name: "Catherine Pike",
     avatar: "/static/images/avatars/1.jpg",
     department: "Computer",
   };
-
   React.useEffect(() => {
-    axios
-      .get(
-        backendURL +
-          "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
-          curriculumDeveloper.department, {
-            headers: {
-              "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-            },
+    checkToken();
+  }, []);
+  React.useEffect(() => {
+    if(dict.token){
+      axios
+        .get(
+          backendURL +
+            "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
+            curriculumDeveloper.department, {
+              headers: {
+                "shiksha-niyojak": dict.token,
+              },
+            }
+        )
+        .then((res) => {
+          // setSubjects(res.data.subjects);
+          let array = res.data.subjects;
+          let temp_subjects = [];
+          for (let i = 0; i < array.length; i++) {
+            let n = {
+              id: array[i].subject_id,
+              cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
+              name: array[i].name,
+              code: array[i].subject_code,
+              cds: ["Mary", "Jack", "Ron"],
+            };
+            temp_subjects.push(n);
           }
-      )
-      .then((res) => {
-        // setSubjects(res.data.subjects);
-        let array = res.data.subjects;
-        let temp_subjects = [];
-        for (let i = 0; i < array.length; i++) {
-          let n = {
-            id: array[i].subject_id,
-            cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
-            name: array[i].name,
-            code: array[i].subject_code,
-            cds: ["Mary", "Jack", "Ron"],
-          };
-          temp_subjects.push(n);
-        }
-        setSubjects(temp_subjects);
-        // console.log("Happp0", subjects);
-      })
-      .catch((error) => {
-        console.log("Error Code: ", error);
-      });
-  });
+          setSubjects(temp_subjects);
+          // console.log("Happp0", subjects);
+        })
+        .catch((error) => {
+          console.log("Error Code: ", error);
+        });
+    }
+  },[dict.token]);
 
   // const subjects = [
   //   {

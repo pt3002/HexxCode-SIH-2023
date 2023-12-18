@@ -28,9 +28,13 @@ import axios from "axios";
 import { backendURL } from "../../../configKeys";
 import Swal from "sweetalert2";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { useContext, useEffect } from "react";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 export default function GroupInfo() {
   //Note: We can use location.state.group_id to display CDs subject wise
+  const DeptHeadContext = useContext(UserTokenContext);
+  const {dict, checkToken} = DeptHeadContext;
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = useState([]);
@@ -118,9 +122,15 @@ export default function GroupInfo() {
     //   ),
     // },
   ];
-
+  React.useEffect(() => {
+    checkToken();
+  }, []);
   const handleClickOpen = () => {
-    axios.get(backendURL + "/DeptHead/getMembersNotInAnyGroup").then((res) => {
+    axios.get(backendURL + "/DeptHead/getMembersNotInAnyGroup", {
+      headers: {
+        "shiksha-niyojak": dict.token
+      }
+    }).then((res) => {
       setRows(res.data.members);
       setOpen(true);
     });
@@ -133,7 +143,11 @@ export default function GroupInfo() {
   const handleAddMembers = () => {
     let body = { ids: selectedCDs, group_id: location.state.group_id };
     setOpen(false);
-    axios.post(backendURL + "/DeptHead/addMembersToGroup", body).then((res) => {
+    axios.post(backendURL + "/DeptHead/addMembersToGroup", body, {
+      headers: {
+        "shiksha-niyojak": dict.token
+      }
+    }).then((res) => {
       if (res.data.message) {
         Swal.fire({
           icon: "success",
@@ -165,7 +179,11 @@ export default function GroupInfo() {
     };
     setOpen(false);
     axios
-      .post(backendURL + "/DeptHead/deleteMembersFromGroup", body)
+      .post(backendURL + "/DeptHead/deleteMembersFromGroup", body, {
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
+      })
       .then((res) => {
         if (res.data.message) {
           Swal.fire({
@@ -192,11 +210,17 @@ export default function GroupInfo() {
   };
 
   React.useEffect(() => {
-    let body = { group_id: location.state.group_id };
-    axios.post(backendURL + "/DeptHead/viewGroupMembers", body).then((res) => {
-      setMembersData(res.data.members);
-    });
-  }, []);
+    if(dict.token){
+      let body = { group_id: location.state.group_id };
+      axios.post(backendURL + "/DeptHead/viewGroupMembers", body, {
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
+      }).then((res) => {
+        setMembersData(res.data.members);
+      });
+    }
+  }, [dict.token]);
 
   return (
     <div>

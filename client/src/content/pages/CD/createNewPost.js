@@ -190,8 +190,11 @@ function CreateNewPost() {
 
   useEffect(() => {
     checkToken();
-    // get all tags
-    axios.get(backendURL + "/Forum/getTags").then((res) => {
+    axios.get(backendURL + "/Forum/getTags",{
+      headers: {
+        "shiksha-niyojak": dict.token
+      }
+    }).then((res) => {
       setTags(res.data);
     });
   }, []);
@@ -244,7 +247,11 @@ function CreateNewPost() {
         description : postDescription, 
         author : dict.name
     }
-    axios.post(backendURL + "/Forum/addPost", body).then((res) => {
+    axios.post(backendURL + "/Forum/addPost", body,{
+      headers: {
+        "shiksha-niyojak": dict.token
+      }
+    }).then((res) => {
         if(res.status == 200){
             handleClose()
             Swal.fire({

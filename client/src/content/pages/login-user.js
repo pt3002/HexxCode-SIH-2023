@@ -157,6 +157,7 @@ export default function CurriculumDeveloperLogin() {
       const navigate_page = getPage(Data.type);
       console.log(initial_url);
       let body = { email: Data.email, password: Data.password };
+      localStorage.clear();
       axios
         .post(initial_url, body)
         .then((res) => {
@@ -189,7 +190,6 @@ export default function CurriculumDeveloperLogin() {
             let token_dict = res.data.token;
             localStorage.setItem("shiksha-niyojak", token_dict.token);
             localStorage.setItem("shiksha-niyojak-role", res.data.role);
-            checkToken()
             console.log("Login ls ", localStorage);
             navigate(navigate_page);
           }

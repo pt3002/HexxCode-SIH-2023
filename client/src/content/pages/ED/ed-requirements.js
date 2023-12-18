@@ -31,12 +31,16 @@ import UserTokenContext from "../../../contexts/UserTokenContext";
 const uuid = require("uuid").v4;
 
 export default function PostRequirements() {
+  const EDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = EDContext;
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = useState([]);
-  const userContext = useContext(UserTokenContext);
   const [selectedRequirements, setSelectedRequirements] = useState([]);
-
+  React.useEffect(() => {
+    checkToken();
+  }, []);
+  console.log(dict);
   const [Data, setData] = React.useState({
     department: "",
     subject: "",
@@ -146,7 +150,6 @@ export default function PostRequirements() {
     // console.log(newDepartmentHead);
     setOpen(false);
   };
-
   const handleClickDelete = (requirement_ids) => {
     Swal.fire({
       icon: "warning",
@@ -161,7 +164,7 @@ export default function PostRequirements() {
         axios
           .post(backendURL + "/Educator/deleteRequirement", body, {
             headers: {
-              "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+              "shiksha-niyojak": dict.token,
             },
           })
           .then((res) => {
@@ -229,7 +232,7 @@ export default function PostRequirements() {
       axios
         .post(initial_url, body, {
           headers: {
-            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+            "shiksha-niyojak": dict.token,
           },
         })
         .then((res) => {
@@ -312,18 +315,20 @@ export default function PostRequirements() {
   };
 
   React.useEffect(() => {
-    axios
-      .get(`${backendURL}/Educator/getEducatorRequirements`, {
-        headers: {
-          "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-        },
-      })
-      .then((res) => {
-        // console.log("res : ",res.data.requirements);
-        setRows(res.data.requirements);
-        console.log(rows);
-      });
-  }, []);
+    if(dict.token){
+      axios
+        .get(`${backendURL}/Educator/getEducatorRequirements`, {
+          headers: {
+            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+          },
+        })
+        .then((res) => {
+          // console.log("res : ",res.data.requirements);
+          setRows(res.data.requirements);
+          console.log(rows);
+        });
+    }
+  }, [dict.token]);
 
   return (
     <>

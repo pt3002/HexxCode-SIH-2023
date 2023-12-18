@@ -15,9 +15,16 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fDate } from "../../../utils/formatTime";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useContext, useEffect } from "react";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 const uuid = require("uuid").v4;
 export default function ViewGuidelines() {
+  const EDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = EDContext;
+  React.useEffect(() => {
+    checkToken();
+  }, []);
   const [rows, setRows] = useState([]);
 
   const columns = [
@@ -76,17 +83,18 @@ export default function ViewGuidelines() {
   ];
 
   React.useEffect(() => {
-
-    axios.get(backendURL + "/Educator/getGuidelines", {
-      headers: {
-        "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+    if(dict.token){
+      axios.get(backendURL + "/Educator/getGuidelines", {
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
       }
+        ,).then((res) => {
+        setRows(res.data.guidelines);
+        console.log("THERE");
+      });
     }
-      ,).then((res) => {
-      setRows(res.data.guidelines);
-      console.log("THERE");
-    });
-  }, []);
+  }, [dict.token]);
 
   return (
     <>
