@@ -87,6 +87,7 @@ class Requirements{
 class Feedback{
   static async insertEducatorFeedback(
     id,
+    subject_id,
     educator_id,
     quality_content,
     utility_content,
@@ -95,7 +96,7 @@ class Feedback{
     evaluation,
     feedback_message
   ) {
-    let sql = `INSERT INTO feedback (id,educator_id,quality_content,utility_content, affectiveness,goals,evaluation,feedback_message) VALUES ("${id}","${educator_id}","${quality_content}","${utility_content}","${affectiveness}","${goals}","${evaluation}","${feedback_message}")`;
+    let sql = `INSERT INTO feedback (id,subject_id,educator_id,quality_content,utility_content, affectiveness,goals,evaluation,feedback_message) VALUES ("${id}","${subject_id}","${educator_id}","${quality_content}","${utility_content}","${affectiveness}","${goals}","${evaluation}","${feedback_message}")`;
     try {
       await db.execute(sql);
     } catch (error) {

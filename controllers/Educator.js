@@ -223,7 +223,7 @@ exports.EducatorDeleteRequirement = async (req, res, next) => {
 exports.EducatorPostFeedback=async(req,res,next)=>{
   try{
     let educator_id = req.userId;
-    let {id,quality_content,utility_content,affectiveness,goals,evaluation,feedback_message}=req.body;
+    let {id,subject_id,quality_content,utility_content,affectiveness,goals,evaluation,feedback_message}=req.body;
     let educator= await EducatorLogin.findEducatorById(educator_id);
     if(educator.length===0){
       res.send({
@@ -233,6 +233,7 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
     else{
       await Feedback.insertEducatorFeedback(
         id,
+        subject_id,
         educator_id,
         quality_content,
         utility_content,
