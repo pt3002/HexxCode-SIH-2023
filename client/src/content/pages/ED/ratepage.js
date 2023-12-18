@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useContext, useEffect } from "react";
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
 } from "@mui/material";
 import Rating from "@material-ui/lab/Rating";
 import { withStyles } from "@material-ui/core/styles";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 const styles = {
   bg: {
@@ -73,11 +75,15 @@ const TestComp = (props) => {
   const [feedbackVal3, setFeedbackVal3] = useState(3);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [err, setErr] = useState(false);
+  const EDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = EDContext;
 
   const handleOnChangeData = ({ target }) => {
     setFeedbackMessage(target.value);
   };
-
+  React.useEffect(() => {
+    checkToken();
+  }, []);
   const handleFeedback = async () => {
     // TODO: Check the Empty fields and Rating Should not be empty
     let l = [feedbackVal1, feedbackVal2, feedbackVal3, feedbackMessage];

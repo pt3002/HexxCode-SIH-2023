@@ -14,8 +14,12 @@ import TrendingPage from './trendingPage';
 import UnansweredPage from './unanswered';
 import CreateNewPost from './createNewPost';
 import GetPostsByTags from './postsByTags';
+import UserTokenContext from "../../../contexts/UserTokenContext";
+import { useContext, useEffect, useState } from "react";
 
 function CustomTabPanel(props) {
+  const CDContext = useContext(UserTokenContext);
+  const { dict, checkToken } = CDContext;
   const { children, value, index, ...other } = props;
 
   return (

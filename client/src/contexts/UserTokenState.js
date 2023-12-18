@@ -17,7 +17,11 @@ const UserTokenState = (props) => {
                 "shiksha-niyojak" : token
             }
         }).then((res) => {
-            setDict(res.data["details"])
+            const state = {
+                details:res.data["details"],
+                token: token
+            }
+            setDict(state)
         })
         console.log(dict)
         

@@ -1,4 +1,5 @@
 const db = require("../config/connectSqlDb");
+const moment = require("moment-timezone");
 
 class AICTEAdminFeatures {
   static async getAllDepartmentHeads() {
@@ -69,6 +70,20 @@ class Guidelines{
     let sql = `INSERT INTO guideline (id, title, description, mongo_file_id) VALUES ("${id}","${title}","${description}","${mongo_file_id}");`;
     try {
       await db.execute(sql);
+      try {
+        if (id.length > 0) {
+          let creation_time = moment().tz("Asia/Kolkata").format('YYYY-MM-DD HH:mm:ss');
+          let users = await db.execute("SELECT id FROM educator UNION SELECT id FROM curriculum_developer UNION SELECT id FROM department_head;")
+          console.log(users);
+          for (let i = 0; i < users[0].length; i++) {
+            let user_id = users[0][i].id;
+            let sql2 = `INSERT INTO notifications (guideline_id, title, description, user_id, creation_time) VALUES ('${id}','${title}','${mongo_file_id}','${user_id}','${creation_time}');`;
+            await db.execute(sql2);
+          }
+        }
+      } catch (error) {
+        console.log("error...",error);
+      }
     } catch (error) {
       console.log(error)
       return "error";
@@ -84,6 +99,13 @@ class Guidelines{
     let sql = `UPDATE guideline SET title="${title}", mongo_file_id="${mongo_file_id}", last_modified_date="${last_modified_date}" where id = "${id}";`;
     try {
       await db.execute(sql);
+      try {
+        let isUnread = 1;
+        let sql2 = `UPDATE notifications SET title = "${title}", description = "${mongo_file_id}", isUnread = "${isUnread}" where guideline_id = "${id}";`;
+        await db.execute(sql2);
+      } catch (error) {
+        console.log("error...",error);
+      }
     } catch (error) {
       console.log(error)
       return "error";
@@ -94,6 +116,13 @@ class Guidelines{
     let sql = `DELETE FROM guideline where id = "${id}";`;
     try {
       await db.execute(sql);
+      try {
+        let sql2 = `DELETE FROM notifications WHERE guideline_id="${id}"`;
+        await db.execute(sql2);
+         
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       console.log(error)
       return "error";
