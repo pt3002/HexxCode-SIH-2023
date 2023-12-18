@@ -5,6 +5,7 @@ const {
   EducatorFeatures,
   Guidelines,
   Requirements,
+  Feedback,
 } = require("../classes/Educator");
 
 const generateToken = (user) => {
@@ -215,6 +216,37 @@ exports.EducatorDeleteRequirement = async (req, res, next) => {
     res.send({ message: "Requirements deleted successfully" });
   }
   } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.EducatorPostFeedback=async(req,res,next)=>{
+  try{
+    let educator_id = req.userId;
+    let {id,quality_content,utility_content,affectiveness,goals,evaluation,feedback_message}=req.body;
+    let educator= await EducatorLogin.findEducatorById(educator_id);
+    if(educator.length===0){
+      res.send({
+        message:"This User Cannot Post Feedback",
+      });
+    }
+    else{
+      await Feedback.insertEducatorFeedback(
+        id,
+        educator_id,
+        quality_content,
+        utility_content,
+        affectiveness,
+        goals,
+        evaluation,
+        feedback_message
+      );
+      res.send({
+        message: "Feedback Saved Successfully",
+      });
+    }
+  }
+  catch (error) {
     console.log(error);
   }
 };

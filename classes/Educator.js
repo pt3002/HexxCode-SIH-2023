@@ -84,4 +84,25 @@ class Requirements{
   }
 }
 
-module.exports = {EducatorFeatures, EducatorLogin, Guidelines,Requirements};
+class Feedback{
+  static async insertEducatorFeedback(
+    id,
+    educator_id,
+    quality_content,
+    utility_content,
+    affectiveness,
+    goals,
+    evaluation,
+    feedback_message
+  ) {
+    let sql = `INSERT INTO feedback (id,educator_id,quality_content,utility_content, affectiveness,goals,evaluation,feedback_message) VALUES ("${id}","${educator_id}","${quality_content}","${utility_content}","${affectiveness}","${goals}","${evaluation}","${feedback_message}")`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return error.code
+    }
+  }
+}
+
+module.exports = {EducatorFeatures, EducatorLogin, Guidelines,Requirements,Feedback};

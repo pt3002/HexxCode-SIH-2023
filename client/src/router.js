@@ -40,6 +40,7 @@ import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
 import Chat from './content/pages/CD/chat';
 import AdminChart from './content/pages/AICTE/AdminChart';
+import EducatorFeedback from './content/pages/ED/feedback-page';
 
 const Loader = (Component) => (props) =>
   (
@@ -355,7 +356,7 @@ const DynamicRoutes = () =>{
         },
         {
           path : 'rate',
-          element : <TestComp />
+          element : <EducatorFeedback />
         },
       ]
     })
