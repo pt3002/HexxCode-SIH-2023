@@ -18,6 +18,10 @@ import UserTokenState from "../../contexts/UserTokenState";
 import UserTokenContext from "../../contexts/UserTokenContext";
 import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import bg from "../../theme/bg.jpg";
+import GroupsIcon from '@mui/icons-material/Groups';
+import SchoolIcon from '@mui/icons-material/School';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 export default function CurriculumDeveloperLogin() {
   const navigate = useNavigate();
@@ -225,6 +229,13 @@ export default function CurriculumDeveloperLogin() {
     minHeight: '100vh',
     backgroundColor: '#767676',
   }}> */}
+
+{/* backgroundImage: `url(${background})`,
+            height: "100vh",
+            marginTop: "-70px",
+            fontSize: "50px",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat", */}
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -241,6 +252,8 @@ export default function CurriculumDeveloperLogin() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          backgroundImage: `url(${bg})`, 
+          backgroundSize: "cover",
         }}
       >
         
@@ -249,11 +262,11 @@ export default function CurriculumDeveloperLogin() {
           component="main"
           sx={{ nt: 3, mb: 2, width: 500, position: "relative", top: "3px" }}
         >
-          <Grid align="center" sx={{ mt: 2.5 }}>
-            <Typography component="h1" variant="h2" align="center">
+          {/* <Grid align="center" sx={{ mt: 2.5 }}>
+            <Typography component="h1" variant="h2" align="center" sx={{color: "white"}}>
               Select User
             </Typography>
-          </Grid>
+          </Grid> */}
 
           <Grid
             container
@@ -275,15 +288,16 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'cd' ? '#e0e6e8' : 'transparent',
+                  backgroundColor: clicked === 'cd' ? '#02263C' : 'transparent',
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 50, height: 50, mr: 1 }}
                   alt="Curriculum Developer"
                   src="./static/images/avatars/cd2.png"
-                />
-                <Typography variant="caption" align="center">
+                /> */}
+                <GroupsIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
+                <Typography variant="caption" align="center" style={{color:"white"}}>
                   Curriculum Developer
                 </Typography>
               </Button>
@@ -299,16 +313,16 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'ed' ? '#e0e6e8' : 'transparent',
+                  backgroundColor: clicked === 'ed' ? '#02263C' : 'transparent',
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 50, height: 50, mr: 1 }}
                   alt="Educator"
                   src="./static/images/avatars/edu.jpg"
-                />
-
-                <Typography variant="caption" align="center">
+                /> */}
+                <SchoolIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
+                <Typography variant="caption" align="center" style={{color:"white"}}>
                   Educator
                 </Typography>
               </Button>
@@ -324,15 +338,17 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'ad' ? '#e0e6e8' : 'transparent',
+                  backgroundColor: clicked === 'ad' ? '#02263C' : 'transparent',
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 50, height: 50, mr: 1 }}
                   alt="AICTE Administrator"
                   src="./static/images/avatars/admin1.png"
-                />
-                <Typography variant="caption" align="center">
+                  style={{color:"white"}}
+                /> */}
+                <AdminPanelSettingsIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
+                <Typography variant="caption" align="center" style={{color:"white"}}>
                   AICTE Administrator
                 </Typography>
               </Button>
