@@ -7,17 +7,17 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Rating from "@material-ui/lab/Rating";
-import TextField from "@mui/material/TextField";
+import TextField from '@mui/material/TextField';
 import { withStyles } from "@material-ui/core/styles";
 import {
-  Button,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from "@mui/material";
+    Button,
+    Grid,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+  } from "@mui/material";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { backendURL } from "../../../configKeys";
@@ -28,41 +28,41 @@ const uuid = require("uuid").v4;
 export default function EducatorFeedback() {
   const navigate = useNavigate();
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [feedback, setFeedback] = useState({
-    criteria1: {
-      c1: 3,
-      c2: 3,
-      c3: 3,
-      c4: 3,
-      c5: 3,
+  const [feedback,setFeedback]=useState({
+    criteria1:{
+      c1:3,
+      c2:3,
+      c3:3,
+      c4:3,
+      c5:3,
     },
-    criteria2: {
-      c1: 3,
-      c2: 3,
-      c3: 3,
-      c4: 3,
-      c5: 3,
+    criteria2:{
+      c1:3,
+      c2:3,
+      c3:3,
+      c4:3,
+      c5:3,
     },
-    criteria3: {
-      c1: 3,
-      c2: 3,
-      c3: 3,
-      c4: 3,
-      c5: 3,
+    criteria3:{
+      c1:3,
+      c2:3,
+      c3:3,
+      c4:3,
+      c5:3,
     },
-    criteria4: {
-      c1: 3,
-      c2: 3,
-      c3: 3,
-      c4: 3,
-      c5: 3,
+    criteria4:{
+      c1:3,
+      c2:3,
+      c3:3,
+      c4:3,
+      c5:3,
     },
-    criteria5: {
-      c1: 3,
-      c2: 3,
-      c3: 3,
-      c4: 3,
-      c5: 3,
+    criteria5:{
+      c1:3,
+      c2:3,
+      c3:3,
+      c4:3,
+      c5:3,
     },
   });
   // const [error,setError]=useState([]);
@@ -72,29 +72,30 @@ export default function EducatorFeedback() {
     setFeedbackMessage(target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (feedbackMessage === "") {
-      alert("please fill the feedback message as well");
-    } else {
-      let crt1 = `${feedback["criteria1"].c1}#${feedback["criteria1"].c2}#${feedback["criteria1"].c3}#${feedback["criteria1"].c4}#${feedback["criteria1"].c5}#`;
-      let crt2 = `${feedback["criteria2"].c1}#${feedback["criteria2"].c2}#${feedback["criteria2"].c3}#${feedback["criteria2"].c4}#${feedback["criteria2"].c5}#`;
-      let crt3 = `${feedback["criteria3"].c1}#${feedback["criteria3"].c2}#${feedback["criteria3"].c3}#${feedback["criteria3"].c4}#${feedback["criteria3"].c5}#`;
-      let crt4 = `${feedback["criteria4"].c1}#${feedback["criteria4"].c2}#${feedback["criteria4"].c3}#${feedback["criteria4"].c4}#${feedback["criteria4"].c5}#`;
-      let crt5 = `${feedback["criteria5"].c1}#${feedback["criteria5"].c2}#${feedback["criteria5"].c3}#${feedback["criteria5"].c4}#${feedback["criteria5"].c5}#`;
-
-      const url = backendURL + "/Educator/postFeedback";
-      let body = {
-        id: uuid(),
-        subject_id: Math.ceil(Math.random() * 4),
-        quality_content: crt1,
-        utility_content: crt2,
-        affectiveness: crt3,
-        goals: crt4,
-        evaluation: crt5,
-        feedback_message: feedbackMessage,
-      };
-      axiosF
+const handleSubmit=(event)=>{
+  event.preventDefault();
+  if(feedbackMessage===""){
+    alert("please fill the feedback message as well");
+  }
+  else{
+    let crt1=`${feedback["criteria1"].c1}#${feedback["criteria1"].c2}#${feedback["criteria1"].c3}#${feedback["criteria1"].c4}#${feedback["criteria1"].c5}#`;
+    let crt2=`${feedback["criteria2"].c1}#${feedback["criteria2"].c2}#${feedback["criteria2"].c3}#${feedback["criteria2"].c4}#${feedback["criteria2"].c5}#`;
+    let crt3=`${feedback["criteria3"].c1}#${feedback["criteria3"].c2}#${feedback["criteria3"].c3}#${feedback["criteria3"].c4}#${feedback["criteria3"].c5}#`;
+    let crt4=`${feedback["criteria4"].c1}#${feedback["criteria4"].c2}#${feedback["criteria4"].c3}#${feedback["criteria4"].c4}#${feedback["criteria4"].c5}#`;
+    let crt5=`${feedback["criteria5"].c1}#${feedback["criteria5"].c2}#${feedback["criteria5"].c3}#${feedback["criteria5"].c4}#${feedback["criteria5"].c5}#`;
+    
+    const url=backendURL+"/Educator/postFeedback";
+    let body = {
+      id: uuid(),
+      subject_id:Math.ceil(Math.random()*4),
+      quality_content: crt1,
+      utility_content: crt2,
+      affectiveness: crt3,
+      goals: crt4,
+      evaluation: crt5,
+      feedback_message: feedbackMessage,
+    };
+    axios
         .post(url, body, {
           headers: {
             "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
@@ -124,10 +125,11 @@ export default function EducatorFeedback() {
         .catch((error) => {
           console.log("Error Code: ", error);
         });
-    }
-  };
+    
+  }
+}
 
-  console.log("feedback...", feedback);
+console.log("feedback...",feedback);
 
   const arr = [
     {
@@ -179,9 +181,10 @@ export default function EducatorFeedback() {
 
   const StyledRating = withStyles({
     iconEmpty: {
-      color: "grey",
+        color:"grey",
     },
   })(Rating);
+
 
   return (
     <>
@@ -216,12 +219,14 @@ export default function EducatorFeedback() {
               </AccordionSummary>
               <AccordionDetails>
                 <Grid container alignItems="center" justifyContent="center">
-                  <TableContainer>
+                  <TableContainer >
                     <Table>
                       <TableBody>
                         <TableRow size="small">
                           <TableCell>
-                            <Typography>{criteria.c1}</Typography>
+                            <Typography >
+                              {criteria.c1}
+                            </Typography>
                           </TableCell>
                           <TableCell>
                             <Box
@@ -237,8 +242,7 @@ export default function EducatorFeedback() {
                                 size="small"
                                 onChange={(event, newValue) => {
                                   console.log(event);
-                                  const [criterionId, property] =
-                                    event.target.name.split("-");
+                                  const [criterionId, property] = event.target.name.split('-');
                                   setFeedback((prevFeedback) => ({
                                     ...prevFeedback,
                                     [criterionId]: {
@@ -253,7 +257,9 @@ export default function EducatorFeedback() {
                         </TableRow>
                         <TableRow>
                           <TableCell>
-                            <Typography>{criteria.c2}</Typography>
+                            <Typography>
+                              {criteria.c2}
+                            </Typography>
                           </TableCell>
                           <TableCell>
                             <Box
@@ -268,8 +274,7 @@ export default function EducatorFeedback() {
                                 size="small"
                                 onChange={(event, newValue) => {
                                   console.log(criteria.id);
-                                  const [criterionId, property] =
-                                    event.target.name.split("-");
+                                  const [criterionId, property] = event.target.name.split('-');
                                   setFeedback((prevFeedback) => ({
                                     ...prevFeedback,
                                     [criterionId]: {
@@ -283,8 +288,10 @@ export default function EducatorFeedback() {
                           </TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell>
-                            <Typography>{criteria.c3}</Typography>
+                          <TableCell> 
+                            <Typography>
+                             {criteria.c3}
+                            </Typography>
                           </TableCell>
                           <TableCell>
                             <Box
@@ -299,8 +306,7 @@ export default function EducatorFeedback() {
                                 size="small"
                                 onChange={(event, newValue) => {
                                   console.log(feedback[criteria.id]);
-                                  const [criterionId, property] =
-                                    event.target.name.split("-");
+                                  const [criterionId, property] = event.target.name.split('-');
                                   setFeedback((prevFeedback) => ({
                                     ...prevFeedback,
                                     [criterionId]: {
@@ -314,8 +320,10 @@ export default function EducatorFeedback() {
                           </TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell>
-                            <Typography>{criteria.c4}</Typography>
+                          <TableCell> 
+                            <Typography>
+                             {criteria.c4}
+                            </Typography>
                           </TableCell>
                           <TableCell>
                             <Box
@@ -330,8 +338,7 @@ export default function EducatorFeedback() {
                                 size="small"
                                 onChange={(event, newValue) => {
                                   console.log(event);
-                                  const [criterionId, property] =
-                                    event.target.name.split("-");
+                                  const [criterionId, property] = event.target.name.split('-');
                                   setFeedback((prevFeedback) => ({
                                     ...prevFeedback,
                                     [criterionId]: {
@@ -345,8 +352,10 @@ export default function EducatorFeedback() {
                           </TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell>
-                            <Typography>{criteria.c5}</Typography>
+                          <TableCell> 
+                            <Typography>
+                             {criteria.c5}
+                            </Typography>
                           </TableCell>
                           <TableCell>
                             <Box
@@ -361,8 +370,7 @@ export default function EducatorFeedback() {
                                 size="small"
                                 onChange={(event, newValue) => {
                                   console.log(event);
-                                  const [criterionId, property] =
-                                    event.target.name.split("-");
+                                  const [criterionId, property] = event.target.name.split('-');
                                   setFeedback((prevFeedback) => ({
                                     ...prevFeedback,
                                     [criterionId]: {
@@ -381,21 +389,22 @@ export default function EducatorFeedback() {
                 </Grid>
               </AccordionDetails>
             </Accordion>
-          ))}
-
+          ))
+          }
+         
           <TextField
-            name="feedback_message"
-            fullWidth
-            multiline
-            required
-            rows={5}
-            id="feedback_message"
-            label="Feedback"
-            value={feedbackMessage}
-            placeholder="Feel free to give your feedback on the curriculum"
-            onChange={handleOnChangeData}
-            mb={2}
-          />
+          name="feedback_message"
+          fullWidth
+          multiline
+          required
+          rows={5}
+          id="feedback_message"
+          label="Feedback"
+          value={feedbackMessage}
+          placeholder="Feel free to give your feedback on the curriculum"
+          onChange={handleOnChangeData}
+          mb={2}
+        />
         </Box>
         <Grid container justifyContent="center" alignItems="center" mt={2}>
           <Grid item sx={{ display: "flex", justifyContent: "center" }}>

@@ -5,6 +5,7 @@ const { auth } = require("../middleware/auth")
 
 router.get("/getGuidelines",[auth, EducatorsControllers.getAllGuidelines]);
 router.get("/getEducatorRequirements", [auth,EducatorsControllers.getRequirements]);
+router.get("/getCurriculum", EducatorsControllers.getCurriculum);
 
 router.post("/educatorLogin", EducatorsControllers.EducatorLogin);
 router.post("/educatorRegister", EducatorsControllers.EducatorRegistration);

@@ -251,3 +251,23 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
     console.log(error);
   }
 };
+
+exports.getCurriculum=async(req,res,next)=>{
+  try{
+      let curriculum = [];
+      let ans=await EducatorFeatures.getAllCurriculum();
+      console.log(ans);
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          department: ans[i].department,
+        };
+        curriculum.push(n);
+      }
+      res.send({ curriculum });
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+

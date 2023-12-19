@@ -38,6 +38,12 @@ class EducatorFeatures {
         return error.code
       }
     }
+
+    static async getAllCurriculum(){
+      let sql = `SELECT * FROM curriculum;`;
+      const [newPost, _] = await db.execute(sql);
+      return newPost;
+    }
 }
 
 class Guidelines{

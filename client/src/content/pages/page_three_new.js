@@ -11,11 +11,8 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-
-
-
-
-
+import Avatar from "@mui/material/Avatar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { nanoid } from "nanoid";
@@ -23,6 +20,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import Footer from "../../components/Footer";
+import bg_pic from "../../components/images/bg.jpg";
+import profile_pic from "../../components/images/profile.webp";
+
+
 
 import DocViewer from "./Components/DocViewer";
 import Select from '@mui/material/Select';
@@ -293,6 +295,24 @@ function fileUpload(event) {
 
   return (
     <React.Fragment>
+       <Box
+  sx={{
+    backgroundImage: `url(${bg_pic})`,
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    backgroundColor: '#767676',
+  }}>
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -305,7 +325,23 @@ function fileUpload(event) {
       >
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, opacity:0.9 }}>
+        <Grid
+            container
+            spacing={2}
+            align="center"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              p: { xs: 2, md: 2 },
+            }}
+          >
+            <Avatar
+                  sx={{ width: 60, height: 60, mr: 1 }}
+                  alt="CD"
+                  src={profile_pic}
+                />
+          </Grid>
           <Typography
             component="h1"
             variant="h4"
@@ -498,7 +534,10 @@ function fileUpload(event) {
     
           )}
         </Paper>
+        
       </Container>
+      <Footer/>
+      </Box>
     </React.Fragment>
   );
 }
