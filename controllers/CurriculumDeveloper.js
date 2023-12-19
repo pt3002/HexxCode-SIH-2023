@@ -730,3 +730,31 @@ exports.deleteNotification = async (req, res, next) => {
     res.status(500).send({ error: "Internal server error" });
   }
 };
+
+
+exports.GetSubjectsBySemester = async (req, res, next) => {
+  try {
+    let sem = req.body.semester;
+
+    let ans = await curriculumDeveloperFeatures.getSubBySem(sem);
+      try {
+        let subjects = [];
+        for (let i = 0; i < ans.length; i++) {
+          let n = {
+            subject_id: ans[i].subject_id,
+            name: ans[i].name,
+            department: ans[i].department,
+            list_resource_id: ans[i].list_resource_id,
+            subject_code: ans[i].subject_code,
+          };
+          subjects.push(n);
+        }
+        res.send({ subjects });
+      } catch (error) {
+        console.log(error);
+      }
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Subjects Not Found" });
+  }
+};
