@@ -194,7 +194,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/curriculumDeveloper/dashboard"
                   startIcon={<DesignServicesTwoToneIcon />}
                 >
                   Dashboard
