@@ -5,11 +5,8 @@ const {
   EducatorFeatures,
   Guidelines,
   Requirements,
-<<<<<<< HEAD
   Feedback,
-=======
   EducatorNotification,
->>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
 } = require("../classes/Educator");
 
 const generateToken = (user) => {
@@ -227,7 +224,7 @@ exports.EducatorDeleteRequirement = async (req, res, next) => {
 exports.EducatorPostFeedback=async(req,res,next)=>{
   try{
     let educator_id = req.userId;
-    let {id,subject_id,quality_content,utility_content,affectiveness,goals,evaluation,feedback_message}=req.body;
+    let {id,department,quality_content,utility_content,affectiveness,goals,evaluation,feedback_message}=req.body;
     let educator= await EducatorLogin.findEducatorById(educator_id);
     if(educator.length===0){
       res.send({
@@ -235,9 +232,19 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
       });
     }
     else{
+      const dept = req.params && req.params.id;
+      console.log("dept..",dept);
+      let present_feedback=await Feedback.findFeedback(educator_id,dept);
+      console.log("if present...",present_feedback);
+      console.log("length...",present_feedback.length);
+      if(present_feedback.length !== 0){
+        res.send({
+          message:"You can only post one Feedback per Curriculum"
+        })
+      }else{
       await Feedback.insertEducatorFeedback(
         id,
-        subject_id,
+        department,
         educator_id,
         quality_content,
         utility_content,
@@ -250,20 +257,23 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
         message: "Feedback Saved Successfully",
       });
     }
-  }
-  catch (error) {
-exports.getNotificationsByUserId = async (req, res, next) => {
-  try {
-    let user_id = req.userId;
-    let notifications = await EducatorNotification.getNotificationsByEducatorId(
-      user_id
-    );
-    res.send({ notifications });
-    //console.log(notifications);
-  } catch (error) {
+  }}catch (error) {
     console.log(error);
   }
 };
+ 
+exports.getNotificationsByUserId = async (req, res, next) => {
+      try {
+        let user_id = req.userId;
+        let notifications = await EducatorNotification.getNotificationsByEducatorId(
+          user_id
+        );
+        res.send({ notifications });
+        //console.log(notifications);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 exports.setNotificationSeen = async (req, res, next) => {
   try {
     let { user_id, user_token } = req.body;
@@ -275,7 +285,6 @@ exports.setNotificationSeen = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
 exports.getCurriculum=async(req,res,next)=>{
   try{
       let curriculum = [];
@@ -288,6 +297,7 @@ exports.getCurriculum=async(req,res,next)=>{
         };
         curriculum.push(n);
       }
+      console.log(curriculum);
       res.send({ curriculum });
   }
   catch (error) {
@@ -295,7 +305,6 @@ exports.getCurriculum=async(req,res,next)=>{
   }
 }
 
-=======
 exports.deleteNotification = async (req, res, next) => {
   try {
     const { user_id, guideline_id } = req.body;
@@ -305,5 +314,5 @@ exports.deleteNotification = async (req, res, next) => {
     console.error(error);
     res.status(500).send({ error: "Internal server error" });
   }
-};
->>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
+}
+  

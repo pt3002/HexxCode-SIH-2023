@@ -9,6 +9,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Rating from "@material-ui/lab/Rating";
 import TextField from '@mui/material/TextField';
 import { withStyles } from "@material-ui/core/styles";
+import { useParams } from "react-router-dom";
 import {
     Button,
     Grid,
@@ -27,6 +28,8 @@ const uuid = require("uuid").v4;
 
 export default function EducatorFeedback() {
   const navigate = useNavigate();
+  const {id}=useParams();
+  console.log(id);
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedback,setFeedback]=useState({
     criteria1:{
@@ -84,10 +87,10 @@ const handleSubmit=(event)=>{
     let crt4=`${feedback["criteria4"].c1}#${feedback["criteria4"].c2}#${feedback["criteria4"].c3}#${feedback["criteria4"].c4}#${feedback["criteria4"].c5}#`;
     let crt5=`${feedback["criteria5"].c1}#${feedback["criteria5"].c2}#${feedback["criteria5"].c3}#${feedback["criteria5"].c4}#${feedback["criteria5"].c5}#`;
     
-    const url=backendURL+"/Educator/postFeedback";
+    const url=backendURL+"/Educator/postFeedback/"+`${id}`;
     let body = {
       id: uuid(),
-      subject_id:Math.ceil(Math.random()*4),
+      department:"Computer Engineering",
       quality_content: crt1,
       utility_content: crt2,
       affectiveness: crt3,
@@ -103,6 +106,15 @@ const handleSubmit=(event)=>{
         })
         .then((res) => {
           if (res.data.message === "This User Cannot Post Feedback") {
+            Swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: res.data.message,
+              showConfirmButton: false,
+              timer: 3000,
+            });
+          } 
+          else if (res.data.message === "You can only post one Feedback per Curriculum") {
             Swal.fire({
               icon: "error",
               title: "ERROR",

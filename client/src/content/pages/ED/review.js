@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { Typography, Button, Grid } from "@mui/material";
 import ChevronRightTwoToneIcon from "@mui/icons-material/ChevronRightTwoTone";
 import PageTitleWrapper from "../../../components/PageTitleWrapper";
-import Reviewcard from "../Components/Reviewcard";
+import CurriculumCard from "../Components/CurriculumCard";
 import axios from "axios";
 import React from "react";
 import { useContext, useEffect } from "react";
@@ -67,25 +67,25 @@ function EDviewcurri() {
 
   const sub = [
     {
-      id: curriculums[0].id,
+      id: "1234",
       cover: "/static/images/placeholders/covers/0.jpg",
-      name: "Cryptography",
-      department: curriculums[0].department,
-      cds: ["Mary", "Jack", "Ron"],
+      // name: "Cryptography",
+      department: "Computer Engineering",
+      // cds: ["Mary", "Jack", "Ron"],
     },
     {
-      id: curriculums[1].id,
+      id: "4567",
       cover: "/static/images/placeholders/covers/1.jpg",
-      name: "Compilers",
-      department: curriculums[1].department,
-      cds: ["Sony", "Rony", "Tony"],
+      // name: "Compilers",
+      department:"Electrical Engineering",
+      // cds: ["Sony", "Rony", "Tony"],
     },
     {
-      id: curriculums[2].id,
+      id: "76890",
       cover: "/static/images/placeholders/covers/2.jpg",
-      name: "Cyber Security",
-      department: curriculums[2].department,
-      cds: ["Ritu", "Sita"],
+      // name: "Cyber Security",
+      department: "Mechanical Engineering",
+      // cds: ["Ritu", "Sita"],
     },
   ];
 
@@ -95,11 +95,7 @@ function EDviewcurri() {
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-              Curriculum for {curriculumDeveloper.department}
-            </Typography>
-            <Typography variant="subtitle2">
-              {curriculumDeveloper.name}, curriculum for different subjects is
-              listed below:
+              Curriculums by AICTE
             </Typography>
           </Grid>
           <Grid item>
@@ -116,7 +112,7 @@ function EDviewcurri() {
       <Grid container spacing={3}>
         {sub.map((subject) => (
           <Grid key={subject.id} item xs={12} md={4} xl={3}>
-            <Reviewcard subject={subject} />
+            <CurriculumCard subject={subject} />
           </Grid>
         ))}
       </Grid>
