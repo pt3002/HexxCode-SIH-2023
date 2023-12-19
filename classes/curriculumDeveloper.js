@@ -117,6 +117,12 @@ class curriculumDeveloperFeatures {
     const [result, _] = await db.execute(sql);
     return result;
   }
+
+  static async getBookBySub(subject_id) {
+    let sql = `select * from resource where subject_id="${subject_id}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
 }
 
 

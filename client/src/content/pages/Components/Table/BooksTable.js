@@ -46,6 +46,10 @@ const getRatingLabel = (bookRating) => {
       text: "Excellent",
       color: "success",
     },
+    4: {
+      text: "Excellent.................",
+      color: "success",
+    },
   };
 
   const { text, color } = map[bookRating];
