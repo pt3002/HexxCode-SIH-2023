@@ -188,7 +188,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/overview"
+                  to="/CurriculumDeveloper"
                   startIcon={<DesignServicesTwoToneIcon />}
                 >
                   Dashboard
@@ -212,9 +212,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/calendar"
+                  to="/CurriculumDeveloper"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
+                {/* /curriculumDeveloper/calendar */}
                   Calendar
                 </Button>
               </ListItem>
@@ -223,9 +224,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/subjects"
+                  to="/CurriculumDeveloper"
                   startIcon={<MmsTwoToneIcon />}
                 >
+                {/* /curriculumDeveloper/subjects */}
                   Resource Repository
                 </Button>
               </ListItem>
@@ -234,9 +236,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/createDocument"
+                  to="/CurriculumDeveloper"
                   startIcon={<MmsTwoToneIcon />}
                 >
+                {/* /curriculumDeveloper/createDocument */}
                   Curriculum Development Tool
                 </Button>
               </ListItem>
@@ -245,9 +248,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/discussionForum"
+                  to="/CurriculumDeveloper"
                   startIcon={<MmsTwoToneIcon />}
                 >
+                {/* /curriculumDeveloper/discussionForum */}
                   Discussion Forum
                 </Button>
               </ListItem>
@@ -256,13 +260,14 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/viewRequirements"
+                  to="/CurriculumDeveloper"
                   startIcon={<MmsTwoToneIcon />}
                 >
+                {/* /curriculumDeveloper/viewRequirements */}
                   Requirements from Educators
                 </Button>
               </ListItem>
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -272,15 +277,16 @@ function SidebarMenu() {
                 >
                   Past Curriculums
                 </Button>
-              </ListItem>
+              </ListItem> */}
               <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper/viewGuidelines"
+                  to="/CurriculumDeveloper"
                   startIcon={<MmsTwoToneIcon />}
                 >
+                {/* /CurriculumDeveloper/viewGuidelines */}
                   View Guidelines
                 </Button>
               </ListItem>
@@ -289,9 +295,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper/Chat"
+                  to="/CurriculumDeveloper"
                   startIcon={<MmsTwoToneIcon />}
                 >
+                {/* /CurriculumDeveloper/Chat */}
                   Chat
                 </Button>
               </ListItem>

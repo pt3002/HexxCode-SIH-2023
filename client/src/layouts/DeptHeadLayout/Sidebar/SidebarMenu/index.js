@@ -195,9 +195,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/deptHead/overview"
+                  to="/CurriculumDeveloper"
                   startIcon={<DesignServicesTwoToneIcon />}
                 >
+                {/* /overview */}
                   Dashboard
                 </Button>
               </ListItem>
@@ -219,9 +220,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/calendar"
+                  to="/curriculumDeveloper"
                   startIcon={<InsertInvitationIcon />}
                 >
+                {/* /calendar */}
                   Calendar
                 </Button>
               </ListItem>
@@ -241,9 +243,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/deptHead/viewGroups"
+                  to="/CurriculumDeveloper"
                   startIcon={<GroupsIcon />}
                 >
+                {/* /DeptHead/viewGroups */}
                   View Groups
                 </Button>
               </ListItem>
@@ -252,9 +255,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/createDocument"
+                  to="/curriculumDeveloper"
                   startIcon={<AutoFixHighIcon />}
                 >
+                {/* /createDocument */}
                   Curriculum Development Tool
                 </Button>
               </ListItem>
@@ -263,9 +267,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/discussionForum"
+                  to="/curriculumDeveloper"
                   startIcon={<ForumIcon />}
                 >
+                {/* /discussionForum */}
                   Discussion Forum
                 </Button>
               </ListItem>
@@ -274,9 +279,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/DeptHead/viewRequirements"
+                  to="/CurriculumDeveloper"
                   startIcon={<ArticleIcon />}
                 >
+                {/* /DeptHead/viewRequirements */}
                   Requirements from Educators
                 </Button>
               </ListItem>
@@ -285,9 +291,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/DeptHead/viewGuidelines"
+                  to="/CurriculumDeveloper"
                   startIcon={<WysiwygIcon />}
                 >
+                {/* /DeptHead/viewGuidelines */}
                   View Guidelines
                 </Button>
               </ListItem>
