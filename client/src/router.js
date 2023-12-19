@@ -376,7 +376,7 @@ const DynamicRoutes = () =>{
           element : <EDviewcurri />
         },
         {
-          path : 'rate',
+          path : 'rate/:id',
           element : <EducatorFeedback />
         },
       ]
