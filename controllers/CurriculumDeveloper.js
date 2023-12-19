@@ -796,3 +796,31 @@ exports.GetSubjectsBySemester = async (req, res, next) => {
     res.send({ error: "Subjects Not Found" });
   }
 };
+
+
+exports.GetBooksBySubject = async (req, res, next) => {
+  try {
+    let subject_id = req.body.subject_id;
+
+    let ans = await curriculumDeveloperFeatures.getBookBySub(subject_id);
+      try {
+        let books = [];
+        for (let i = 0; i < ans.length; i++) {
+          let n = {
+            id: ans[i].id,
+            name: ans[i].name,
+            author: ans[i].author,
+            rating: ans[i].rating,
+            creation_time: ans[i].creation_time,
+          };
+          books.push(n);
+        }
+        res.send({ books });
+      } catch (error) {
+        console.log(error);
+      }
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Books Not Found" });
+  }
+};

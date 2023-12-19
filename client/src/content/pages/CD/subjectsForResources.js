@@ -117,7 +117,6 @@ function SubjectsForResources() {
     {
       subject_id: location.state.subject_id,
     };
-      console.log("body", body);
     axios
       .post(backendURL + "/CurriculumDeveloper/getBooksBySubjects",
         body,
@@ -127,9 +126,9 @@ function SubjectsForResources() {
         },
       })
       .then((res) => {
-        console.log("BOOKS==============================>",res.data);
+        // console.log("BOOKS==============================>",res.data);
         let array = res.data.books;
-        console.log("array===",array.length);
+        // console.log("array===",array.length);
         let temp_resources = [];
         for (let i = 0; i < array.length; i++) {
           let n = {
@@ -144,10 +143,10 @@ function SubjectsForResources() {
           temp_resources.push(n);
         }
         setBooks(temp_resources);
-        console.log("setted books========>", books);
+        // console.log("setted books========>", books);
       })
       .catch((error) => {
-        console.log("Error Code: ", error);
+        // console.log("Error Code: ", error);
       });
   });
 

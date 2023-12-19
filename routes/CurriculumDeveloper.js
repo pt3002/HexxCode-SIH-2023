@@ -33,6 +33,7 @@ router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
 router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
+router.post("/getBooksBySubjects", CurriculumDeveloperControllers.GetBooksBySubject);
 
 //# Post Request
 router.post(
