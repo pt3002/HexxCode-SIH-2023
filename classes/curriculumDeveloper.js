@@ -21,9 +21,14 @@ class CDLogin {
   }
 }
 class curriculumDeveloperFeatures {
+  static async profileDevelopment(id) {
+    let sql = `SELECT * from curriculum_developer where id = "${id}"`;
+    console.log(sql)
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
   static async getAllUsers() {
     let sql = `SELECT * FROM curriculum_developer;`;
-
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }

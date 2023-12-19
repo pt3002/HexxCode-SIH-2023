@@ -30,6 +30,11 @@ const generateToken = (user) => {
     token: token,
   };
 };
+exports.profileDevelopment = async(req, res) => {
+  let  { id }= req.body
+  let ans = await curriculumDeveloperFeatures.profileDevelopment(id)
+  res.send({ans})
+}
 
 exports.findCDName = async(req, res) => {
   try{

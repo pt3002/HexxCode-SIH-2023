@@ -30,6 +30,7 @@ export default function EducatorFeedback() {
   const navigate = useNavigate();
   const {id}=useParams();
   console.log(id);
+  // const [dept,setDept]=useState("");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [feedback,setFeedback]=useState({
     criteria1:{
@@ -86,11 +87,22 @@ const handleSubmit=(event)=>{
     let crt3=`${feedback["criteria3"].c1}#${feedback["criteria3"].c2}#${feedback["criteria3"].c3}#${feedback["criteria3"].c4}#${feedback["criteria3"].c5}#`;
     let crt4=`${feedback["criteria4"].c1}#${feedback["criteria4"].c2}#${feedback["criteria4"].c3}#${feedback["criteria4"].c4}#${feedback["criteria4"].c5}#`;
     let crt5=`${feedback["criteria5"].c1}#${feedback["criteria5"].c2}#${feedback["criteria5"].c3}#${feedback["criteria5"].c4}#${feedback["criteria5"].c5}#`;
+    console.log(typeof(id));
     
+    let dept="";
+    if(id==="1234"){
+      dept ="Computer Engineering";
+    }
+    else if(id==="4567"){
+      dept="Electrical Engineering";
+    }else{
+      dept="Mechanical Engineering";
+    }
+    console.log("department...",dept);
     const url=backendURL+"/Educator/postFeedback/"+`${id}`;
     let body = {
       id: uuid(),
-      department:"Computer Engineering",
+      department:dept,
       quality_content: crt1,
       utility_content: crt2,
       affectiveness: crt3,
