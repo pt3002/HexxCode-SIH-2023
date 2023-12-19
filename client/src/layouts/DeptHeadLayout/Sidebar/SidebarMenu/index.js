@@ -291,7 +291,18 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/dashboards/messenger"
+                  startIcon={<HistoryIcon />}
+                >
+                  Past Curriculums
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/deptHead/viewGuidelines"
                   startIcon={<WysiwygIcon />}
                 >
                 {/* /DeptHead/viewGuidelines */}

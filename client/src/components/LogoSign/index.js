@@ -5,6 +5,8 @@ import {
   tooltipClasses,
   styled,
   useTheme,
+  Typography,
+  Grid,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -98,8 +100,11 @@ function Logo() {
 
   return (
     <TooltipWrapper title=" Shiksha Niyojak" arrow>
-      <LogoWrapper to="/overview">
-        <Badge
+      <LogoWrapper
+        to="/overview"
+        style={{ display: "flex", flexDirection: "row" }}
+      >
+        {/* <Badge
           sx={{
             ".MuiBadge-badge": {
               fontSize: theme.typography.pxToRem(11),
@@ -109,13 +114,54 @@ function Logo() {
           }}
           overlap="circular"
           color="success"
-          badgeContent="2.0">
-          <LogoSignWrapper>
+          badgeContent="2.0"
+          > */}
+        {/* <LogoSignWrapper>
             <LogoSign>
               <LogoSignInner />
             </LogoSign>
-          </LogoSignWrapper>
-        </Badge>
+          </LogoSignWrapper> */}
+
+        {/* <Grid> */}
+        <img
+          src="Shiksha.png"
+          style={{
+            width: "120%",
+            height: "140%",
+            margin: "15%",
+          }}
+        />
+        {/* <Typography variant="h2" style={{color:"white", margin:"15%"}}> Shiksha Niyojak</Typography> */}
+        <Grid
+          align="left"
+          sx={{
+            margin: "2%",
+            display: "flex",
+            flexDirection: "column",
+            width: "50%",
+          }}
+        >
+          <Typography variant="h3" style={{ color: "white", margin: "2%" }}>
+            शिक्षा नियोजक
+          </Typography>
+          <Typography variant="h4" style={{ color: "white", margin: "2%" }}>
+            Shiksha Niyojak
+          </Typography>
+        </Grid>
+
+        <img
+          src="./static/images/logo/aicte.jpg"
+          alt="aicte"
+          style={{
+            width: "120%",
+            height: "140%",
+            margin: "15%",
+            marginLeft: "150%" 
+          }}
+        />
+        {/* </Grid> */}
+
+        {/* </Badge> */}
       </LogoWrapper>
     </TooltipWrapper>
   );
