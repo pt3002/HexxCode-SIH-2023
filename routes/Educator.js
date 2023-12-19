@@ -13,7 +13,7 @@ router.post("/educatorLogin", EducatorsControllers.EducatorLogin);
 router.post("/educatorRegister", EducatorsControllers.EducatorRegistration);
 router.post("/postRequirement", [auth,EducatorsControllers.EducatorRequirement]);
 router.post("/deleteRequirement",[auth,EducatorsControllers.EducatorDeleteRequirement]);
-router.post("/postFeedback",[auth,EducatorsControllers.EducatorPostFeedback]);
+router.post("/postFeedback/:id",[auth,EducatorsControllers.EducatorPostFeedback]);
 
 
 
