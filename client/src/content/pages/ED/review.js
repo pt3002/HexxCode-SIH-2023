@@ -68,21 +68,21 @@ function EDviewcurri() {
   const sub = [
     {
       id: "1234",
-      cover: "/static/images/placeholders/covers/0.jpg",
+      cover: "/static/images/placeholders/covers/tech-img.jpg",
       // name: "Cryptography",
       department: "Computer Engineering",
       // cds: ["Mary", "Jack", "Ron"],
     },
     {
       id: "4567",
-      cover: "/static/images/placeholders/covers/1.jpg",
+      cover: "/static/images/placeholders/covers/tech-img.jpg",
       // name: "Compilers",
       department:"Electrical Engineering",
       // cds: ["Sony", "Rony", "Tony"],
     },
     {
       id: "76890",
-      cover: "/static/images/placeholders/covers/2.jpg",
+      cover: "/static/images/placeholders/covers/tech-img.jpg",
       // name: "Cyber Security",
       department: "Mechanical Engineering",
       // cds: ["Ritu", "Sita"],
