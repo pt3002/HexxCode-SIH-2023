@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import MenuItem from '@mui/material/MenuItem';
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -26,6 +27,23 @@ export default function AddDepartmentHeads() {
   const [Delete, setDelete] = useState(null);
   const [deptHeadID, setdeptHeadID] = useState(0);
   const [selectedHeads, setSelectedHeads] = useState([]);
+  const arr = [
+    { value: "Computer Engineering", label: "Computer Engineering" },
+    { value: "Electrical Engineering", label: "Electrical Engineering" },
+    { value: "Mechanical Engineering", label: "Mechanical Engineering" },
+    { value: "Civil Engineering", label: "Civil Engineering" },
+    { value: "Chemical Engineering", label: "Chemical Engineering" },
+    { value: "Electronics and Communication Engineering", label: "Electronics and Communication Engineering" },
+    { value: "Information Technology", label: "Information Technology" },
+    { value: "Aeronautical Engineering", label: "Aeronautical Engineering" },
+    { value: "Biotechnology", label: "Biotechnology" },
+    { value: "Automobile Engineering", label: "Automobile Engineering" },
+    { value: "Environmental Engineering", label: "Environmental Engineering" },
+    { value: "Instrumentation Engineering", label: "Instrumentation Engineering" },
+    { value: "Petroleum Engineering", label: "Petroleum Engineering" },
+    { value: "Metallurgical Engineering", label: "Metallurgical Engineering" },
+    { value: "Mining Engineering", label: "Mining Engineering" },
+  ];
   const [newDepartmentHead, setNewDepartmentHead] = useState({
     deptHead_id: "",
     deptHead_name: "",
@@ -392,6 +410,27 @@ export default function AddDepartmentHeads() {
             }}
           />
           <TextField
+					label= "Department"
+					select
+          id = "department"
+					color="primary"
+					variant="outlined"
+					name="department"
+					fullWidth={true}
+					size="small"
+					value={newDepartmentHead.department_department}
+					onChange={({target}) => {
+    let Data = { ...newDepartmentHead };
+    Data[target.name] = target.value;
+  }}
+				>
+					{arr.map((option) => (
+						<MenuItem key={option.value} value={option.value}>
+							{option.label}
+						</MenuItem>
+					))}
+				</TextField>
+          {/* <TextField
             autoFocus
             margin="dense"
             id="department"
@@ -406,7 +445,7 @@ export default function AddDepartmentHeads() {
                 deptHead_department: e.target.value,
               });
             }}
-          />
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

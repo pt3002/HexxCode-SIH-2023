@@ -1,5 +1,5 @@
 const { configDotenv } = require("dotenv");
-const { Groups, DeptHeadLogin, DeptHeadNotification} = require("../classes/DeptHead");
+const { Groups, DeptHeadLogin, DeptHeadNotification, Guidelines} = require("../classes/DeptHead");
 const { jwtSecretKey } = require("../config/configKeys");
 const jwt = require("jsonwebtoken");
 
@@ -51,7 +51,31 @@ exports.DeptHeadLogin = async (req, res) => {
     }
   };
 
-
+  exports.getAllGuidelines = async (req, res, next) => {
+    try {
+      let ans = await Guidelines.getAllGuidelines();
+      try {
+        let guidelines = [];
+        for (let i = 0; i < ans.length; i++) {
+          let n = {
+            id: ans[i].id,
+            title: ans[i].title,
+            description: ans[i].description,
+            mongo_file_id: ans[i].mongo_file_id,
+            creation_date: ans[i].creation_date,
+            last_modified_date: ans[i].last_modified_date,
+          };
+          guidelines.push(n);
+        }
+        res.send({ guidelines });
+      } catch (error) {
+        console.log(error);
+      }
+  
+    } catch (error) {
+      console.log(error);
+    }
+  };
 exports.getAllSubjectNamesByDepartment = async (req, res, next) => {
   try {
     let { department } = req.body;

@@ -329,7 +329,13 @@ const DynamicRoutes = () =>{
         element : <AdminChart />
       }
     ]
-  }]
+  },{
+    path : 'curriculumDeveloper',
+    element : <DeptHeadLayout />,
+    children : [{
+      path : 'discussionForum',
+      element : <DiscussionForum />
+    },]}]
   const role = localStorage.getItem("shiksha-niyojak-role");
   if(role == "Educator"){
     all_routes.push({
@@ -419,10 +425,6 @@ const DynamicRoutes = () =>{
           {
             path : 'calendar',
             element : <Calendar />
-          },
-          {
-            path : 'discussionForum',
-            element : <DiscussionForum />
           },
           {
             path : 'chat',

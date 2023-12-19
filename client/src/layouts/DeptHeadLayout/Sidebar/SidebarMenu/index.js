@@ -219,7 +219,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
+                  to="/curriculumDeveloper/calendar"
                   startIcon={<InsertInvitationIcon />}
                 >
                   Calendar
@@ -263,7 +263,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/curriculumDeveloper/discussionForum"
                   startIcon={<ForumIcon />}
                 >
                   Discussion Forum
@@ -274,7 +274,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/viewRequirements"
+                  to="/DeptHead/viewRequirements"
                   startIcon={<ArticleIcon />}
                 >
                   Requirements from Educators
@@ -285,18 +285,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
-                  startIcon={<HistoryIcon />}
-                >
-                  Past Curriculums
-                </Button>
-              </ListItem>
-              <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/CurriculumDeveloper/viewGuidelines"
+                  to="/DeptHead/viewGuidelines"
                   startIcon={<WysiwygIcon />}
                 >
                   View Guidelines
