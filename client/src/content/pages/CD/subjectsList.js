@@ -7,9 +7,10 @@ import axios from "axios";
 import { autocompleteClasses } from "@mui/material/Autocomplete";
 import { useAutocomplete } from "@mui/base/useAutocomplete";
 import { styled } from "@mui/material/styles";
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button, Typography, Container, Card } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import SearchIcon from '@mui/icons-material/Search';
+import DocumentsTable from "../Components/Table/DocumentsTable";
 
 const Label = styled("label")`
   padding: 0 0 4px;
@@ -170,6 +171,7 @@ function GetSubjectsList() {
   const { dict, checkToken } = userContext;
   const [tags, setTags] = useState([]);
   const [subjectName, setSubjectName] = useState("")
+  const [documents, setDocuments] = useState([])
   console.log(subjectName)
   useEffect(() => {
     checkToken();
@@ -179,8 +181,26 @@ function GetSubjectsList() {
     }).then((res) => {
         setSubjectName(res.data.subject_name)
     })
+
+    axios.get(backendURL + "/curriculumDeveloper/allSubjects").then((res) => {
+        setTags(res.data.subjects)
+    })
     // getting all subjects here
 }, []);
+
+// get documents of that particular subject
+const getDocumentsForEditAccess = () => {
+    let body = {
+        subject_name : value[0]["subject_name"]
+    }
+    axios.post(backendURL + "/curriculumDeveloper/getAllDocumentsForEditAccess", body, {
+        "headers" : {
+            "shiksha-niyojak" : localStorage.getItem("shiksha-niyojak")
+        }
+    }).then((res) => {
+        setDocuments(res.data.complete)
+    })
+}
 
   const getMySubject = () => {
     console.log(dict.details)
@@ -202,12 +222,12 @@ function GetSubjectsList() {
     defaultValue: [],
     multiple: true,
     options: tags,
-    getOptionLabel: (option) => option.name,
+    getOptionLabel: (option) => option.subject_name,
   });
 
   return (
     <>
-    <Grid sx = {{mt : 2, mb:2}} container justifyContent="center" alignItems="center">
+    {/* <Grid sx = {{mt : 2, mb:2}} container justifyContent="center" alignItems="center">
         <Button
         sx={{ mt: { xs: 2, md: 0 } }}
         variant="contained"
@@ -216,7 +236,7 @@ function GetSubjectsList() {
       >
         Show My Curriculums
       </Button>
-        </Grid>
+        </Grid> */}
       <Grid container justifyContent="center" alignItems="center">
         <Grid sx={{ mt: 2 }}>
           {tags && (
@@ -231,7 +251,7 @@ function GetSubjectsList() {
                 >
                   {value.map((option, index) => (
                     <StyledTag
-                      label={option.name}
+                      label={option.subject_name}
                       {...getTagProps({ index })}
                     />
                   ))}
@@ -242,7 +262,7 @@ function GetSubjectsList() {
                 <Listbox {...getListboxProps()}>
                   {groupedOptions.map((option, index) => (
                     <li {...getOptionProps({ option, index })}>
-                      <span>{option.name}</span>
+                      <span>{option.subject_name}</span>
                       <CheckIcon fontSize="small" />
                     </li>
                   ))}
@@ -253,11 +273,35 @@ function GetSubjectsList() {
         </Grid>
       </Grid>
 
-      <Grid container justifyContent="center" alignItems="center">
+      {/* <Grid container justifyContent="center" alignItems="center">
       <Typography variant="h3"  gutterBottom sx = {{mt : 2}}>
               Subject Name : {subjectName}
             </Typography>
+      </Grid> */}
+
+      <Grid sx = {{mt : 2, mb:2}} container justifyContent="center" alignItems="center">
+      <Button
+        sx={{ mt: { xs: 2, md: 0 } }}
+        variant="contained"
+        startIcon={<SearchIcon fontSize="small" />}
+        onClick = {getDocumentsForEditAccess}
+      >
+        Search Curriculum
+      </Button>
       </Grid>
+
+{
+    documents.length > 0 ? (
+        <Container maxWidth = "lg">
+        <Card>
+            <DocumentsTable docs = {documents} access = {false}/>
+        </Card>
+      </Container>
+    ) : (
+        <></>
+    )
+}
+      
 
       
     </>

@@ -38,6 +38,12 @@ class EducatorFeatures {
         return error.code
       }
     }
+
+    static async getAllCurriculum(){
+      let sql = `SELECT * FROM curriculum;`;
+      const [newPost, _] = await db.execute(sql);
+      return newPost;
+    }
 }
 
 class Guidelines{
@@ -84,6 +90,29 @@ class Requirements{
   }
 }
 
+class Feedback{
+  static async insertEducatorFeedback(
+    id,
+    subject_id,
+    educator_id,
+    quality_content,
+    utility_content,
+    affectiveness,
+    goals,
+    evaluation,
+    feedback_message
+  ) {
+    let sql = `INSERT INTO feedback (id,subject_id,educator_id,quality_content,utility_content, affectiveness,goals,evaluation,feedback_message) VALUES ("${id}","${subject_id}","${educator_id}","${quality_content}","${utility_content}","${affectiveness}","${goals}","${evaluation}","${feedback_message}")`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return error.code
+    }
+  }
+}
+
+module.exports = {EducatorFeatures, EducatorLogin, Guidelines,Requirements,Feedback};
 class EducatorNotification {
   static async getNotificationsByEducatorId(user_id) {
     let sql = `SELECT * FROM notifications WHERE user_id = "${user_id}" ORDER BY creation_time Desc;`;

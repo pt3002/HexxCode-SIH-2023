@@ -679,6 +679,50 @@ exports.getAllDocuments = async (req, res) => {
   }
 };
 
+exports.getAllDocumentsForEditAccess = async (req, res) => {
+  let cd_id = req.userId;
+  let cd = await CDLogin.findCDById(cd_id);
+  let { subject_name }= req.body
+  // console.log(cd);
+  if (cd.length === 0) {
+    res.send({
+      message: "This User is not Authorised",
+    });
+  } else {
+    document
+      .find()
+      .then(async (documents) => {
+        let complete = [];
+        for (let i = 0; i < documents.length; i++) {
+          console.log(documents[i])
+          if(documents[i]['subjectName'] == subject_name){
+            let save_creation_id = documents[i].saveIds[0];
+          let last_modified_save_creation_id =
+            documents[i].saveIds[documents[i].saveIds.length - 1];
+          await save.findById(save_creation_id).then(async (save_resp) => {
+            let cd1, cd2, final;
+            cd1 = await CDLogin.findCDById(save_resp["createdBy"]);
+            await save
+              .findById(last_modified_save_creation_id)
+              .then(async (save_resp2) => {
+                cd2 = await CDLogin.findCDById(save_resp2["createdBy"]);
+                final = {
+                  creationCD: cd1[0]["name"],
+                  lastModifiedCD: cd2[0]["name"],
+                  ...documents[i],
+                };
+                complete.push(final._doc);
+              });
+          });
+          }
+          
+        }
+        //console.log(complete)
+        res.status(200).send({ complete });
+      });
+  }
+};
+
 
 exports.addNewChat = async(req, res) => {
   const{
@@ -797,6 +841,15 @@ exports.GetSubjectsBySemester = async (req, res, next) => {
   }
 };
 
+exports.getAllSubjects = async(req, res, next) => {
+  try{
+    let subjects = await curriculumDeveloperFeatures.getAllSubjectNames()
+    res.send({subjects})
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
 
 exports.GetBooksBySubject = async (req, res, next) => {
   try {

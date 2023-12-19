@@ -37,13 +37,14 @@ import Edit from "@mui/icons-material/Edit";
 import DownloadIcon from '@mui/icons-material/Download';
 import RestoreIcon from '@mui/icons-material/Restore';
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import DocumentHistorySideBar from "../DocumentHistorySideBar";
 
 const applyPagination = (docs, page, limit) => {
   return docs.slice(page * limit, page * limit + limit);
 };
 
-const DocumentsTable = ({ docs }) => {
+const DocumentsTable = ({ docs, access}) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(5);
 
@@ -68,7 +69,8 @@ const DocumentsTable = ({ docs }) => {
     // console.log(docs, index, docs[index])
     navigate("/curriculumDeveloper/document", {
       "state" : {
-        "doc" : docs[index]
+        "doc" : docs[index],
+        "access" : access
       }
     })
   }
@@ -166,7 +168,26 @@ const DocumentsTable = ({ docs }) => {
                     
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title="Edit Document" arrow>
+                    {
+                      access == false ? (
+                        <Tooltip title="View Document" arrow>
+                      <IconButton
+                        sx={{
+                          "&:hover": {
+                            background: theme.colors.alpha.black[10],
+                          },
+                          marginRight: 1,
+                          color: theme.colors.primary.main,
+                        }}
+                        color="inherit"
+                        size="small"
+                        onClick={() => handleEdit(index)}
+                      >
+                        <VisibilityIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                      ) : (
+                        <Tooltip title="Edit Document" arrow>
                       <IconButton
                         sx={{
                           "&:hover": {
@@ -182,6 +203,9 @@ const DocumentsTable = ({ docs }) => {
                         <Edit fontSize="small" />
                       </IconButton>
                     </Tooltip>
+                      )
+                    }
+                    
                     <Tooltip title="Download Document" arrow>
                       <IconButton
                         sx={{

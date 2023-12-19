@@ -192,7 +192,7 @@ const TestComp = (props) => {
               sx={{ marginRight: 2 }}
               component="span"
               onClick={handleFeedback}
-              style={styles.lightButton}
+              // style={styles.lightButton}
             >
               Submit Feedback
             </Button>

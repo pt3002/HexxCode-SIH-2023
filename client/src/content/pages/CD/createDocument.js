@@ -181,7 +181,7 @@ function CreateDocument() {
       </Dialog>
       <Container maxWidth = "lg">
         <Card>
-          <DocumentsTable docs = {documents} />
+          <DocumentsTable docs = {documents} access = {true}/>
         </Card>
       </Container>
     </>

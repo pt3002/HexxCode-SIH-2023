@@ -11,11 +11,8 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-
-
-
-
-
+import Avatar from "@mui/material/Avatar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { nanoid } from "nanoid";
@@ -23,6 +20,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import Footer from "../../components/Footer";
+import bg_pic from "../../components/images/bg.jpg";
+import profile_pic from "../../components/images/profile.webp";
+
+
 
 import DocViewer from "./Components/DocViewer";
 import Select from '@mui/material/Select';
@@ -58,8 +60,7 @@ const uuid = require("uuid").v4;
 // import Page3 from './page_three'
 
 
-const steps = ['Personal Information', 'Other Details'];
-
+const steps = ["Personal Information", "Other Details", "Upload Resume"];
 // function getStepContent(step) {
 //   switch (step) {
 //     case 0:
@@ -100,23 +101,6 @@ export default function Page3New() {
   ]
   const [activeStep, setActiveStep] = React.useState(1);
   const navigate = useNavigate();
-  const arr = [
-    { value: "Computer Engineering", label: "Computer Engineering" },
-    { value: "Electrical Engineering", label: "Electrical Engineering" },
-    { value: "Mechanical Engineering", label: "Mechanical Engineering" },
-    { value: "Civil Engineering", label: "Civil Engineering" },
-    { value: "Chemical Engineering", label: "Chemical Engineering" },
-    { value: "Electronics and Communication Engineering", label: "Electronics and Communication Engineering" },
-    { value: "Information Technology", label: "Information Technology" },
-    { value: "Aeronautical Engineering", label: "Aeronautical Engineering" },
-    { value: "Biotechnology", label: "Biotechnology" },
-    { value: "Automobile Engineering", label: "Automobile Engineering" },
-    { value: "Environmental Engineering", label: "Environmental Engineering" },
-    { value: "Instrumentation Engineering", label: "Instrumentation Engineering" },
-    { value: "Petroleum Engineering", label: "Petroleum Engineering" },
-    { value: "Metallurgical Engineering", label: "Metallurgical Engineering" },
-    { value: "Mining Engineering", label: "Mining Engineering" },
-  ];
   
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -127,10 +111,10 @@ export default function Page3New() {
   }
   const [stateVar, setStateVar] = React.useState({
     Data: {
-    college: '',
-    department: '',
-    university: '',
-    specializationDomain: '',
+    // college: '',
+    // department: '',
+    // university: '',
+    // specializationDomain: '',
     mongo_file_id: "",
     // password: '',
     // confirmPassword: '',
@@ -158,31 +142,34 @@ function fileUpload(event) {
   } else {
     let data = new FormData();
     data.append("file", event.target.files[0], event.target.files[0].name);
+    console.log("data...",data);
     console.log("File Upload:",event)
+    console.log("beforefiledata...",fileData);
     setfileData(data);
+    console.log("afterfiledata...",fileData);
   }
 }
-  const handleChange = ({target}) => {
-    let errors = { ...stateVar.errors };
-    let Data = { ...stateVar.Data };
-    Data[target.name] = target.value;
-    console.log(target.name, target.value)
-    setStateVar({ Data: Data, errors: errors });
+  // const handleChange = ({target}) => {
+  //   let errors = { ...stateVar.errors };
+  //   let Data = { ...stateVar.Data };
+  //   Data[target.name] = target.value;
+  //   console.log(target.name, target.value)
+  //   setStateVar({ Data: Data, errors: errors });
     // const { name, value } = e.target;
     // //console.log(name, value)
     // setStateVar((prevData) => ({
     //   ...prevData,
     //   Data.name: value,
     // }));
-  };
+  // };
   React.useEffect(() => {
     // Access the data passed from Page1New
     console.log("navigate location",location.state)
-    const { dataFromPage1 } = location.state || {};
-    if (dataFromPage1) {
+    const { dataFromPage2 } = location.state || {};
+    if (dataFromPage2) {
       setStateVar((prevState) => ({
         ...prevState,
-        Data: { ...prevState.Data, ...dataFromPage1 },
+        Data: { ...prevState.Data, ...dataFromPage2 },
       }));
     } else {
       // Handle case where data is not available
@@ -190,55 +177,23 @@ function fileUpload(event) {
   }, [navigate.location]);
     const handleSubmit = () => {
         let { Data, errors } = stateVar;        
-        if (Data.specializationDomain === "") {
-            errors["specializationDomain"] = "Specialization Domain cannot be empty";
-        } else {
-            errors["specializationDomain"] = "";
-        }
-        if (Data.college === "") {
-            errors["college"] = "College Domain cannot be empty";
-        } else {
-            errors["college"] = "";
-        }
-        if (Data.university === "") {
-            errors["university"] = "University cannot be empty";
-        } else {
-            errors["university"] = "";
-        }
-        // if (Data.password === "") {
-        //     errors["password"] = "Password cannot be empty";
-        // } else {
-        //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        //     if (!passwordRegex.test(Data.password)) {
-        //         errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
-        //     } else {
-        //         errors["password"] = "";
-        //     }
-        // }
-    
-        // if (Data.confirmPassword === "") {
-        //     errors["confirmPassword"] = "Confirm Password cannot be empty";
-        // } else if (Data.password !== Data.confirmPassword) {
-        //     errors["confirmPassword"] = "Passwords do not match";
-        // } else {
-        //     errors["confirmPassword"] = "";
-        // }
-        let validate = true;
 
-        Object.keys(errors).map((error) => {
-          if (errors[error] !== "") {
-            validate = false;
-          }
-        });
-        if (validate == true) {
+        // Object.keys(errors).map((error) => {
+        //   if (errors[error] !== "") {
+        //     validate = false;
+        //   }
+        // });
+        // let validate = true;
+        if (fileData) {
             console.log("All data is correctly filled", Data)
             let URL = backendURL + "/File/upload";
       axios.post(URL, fileData).then(function (response) {
         if (response && response.data && response.data.filename) {
-          console.log(response.data.filename);
+          console.log("filename...",response.data.filename);
           let data = newGuideline;
           data.mongo_file_id = response.data.filename;
           setNewGuideline(data);
+          // console.log(response.data.filename)
 
           let body = {id:uuid(), 
             email:Data.email, 
@@ -278,7 +233,7 @@ function fileUpload(event) {
               });
         }}).catch((error) => {
           console.log("Error Code: ", error);
-          navigate("/register/page1");
+          // navigate("/register/page1");
         });
           handleNext();
           } else {
@@ -293,6 +248,24 @@ function fileUpload(event) {
 
   return (
     <React.Fragment>
+       <Box
+  sx={{
+    backgroundImage: `url(${bg_pic})`,
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    backgroundColor: '#767676',
+  }}>
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -305,7 +278,23 @@ function fileUpload(event) {
       >
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, opacity:0.9 }}>
+        <Grid
+            container
+            spacing={2}
+            align="center"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              p: { xs: 2, md: 2 },
+            }}
+          >
+            <Avatar
+                  sx={{ width: 60, height: 60, mr: 1 }}
+                  alt="CD"
+                  src={profile_pic}
+                />
+          </Grid>
           <Typography
             component="h1"
             variant="h4"
@@ -350,97 +339,7 @@ function fileUpload(event) {
       </AppBar>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
         <Grid container spacing={3} marginBottom={5}>
-            <Grid item xs={12}>
-                <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        College
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="college"
-                    name="college"
-                    aria-label=""
-                    placeholder="Mention your college name"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.college}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                    />
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-					label= "Department"
-					select
-					color="primary"
-					variant="outlined"
-					name="department"
-					fullWidth={true}
-					size="small"
-					value={stateVar.Data.department}
-					onChange={handleChange}
-				>
-					{arr.map((option) => (
-						<MenuItem key={option.value} value={option.value}>
-							{option.label}
-						</MenuItem>
-					))}
-				</TextField>
-            </Grid>
-            <Grid item xs={12}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        University
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="university"
-                    name="university"
-                    aria-label=""
-                    placeholder="Mention your university"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.university}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
-            <Grid item xs={12}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                        Specialization
-                </InputLabel>
-                <TextareaAutosize
-                    required
-                    id="specializationDomain"
-                    name="specializationDomain"
-                    aria-label=""
-                    placeholder="Mention your domain of specialization"
-                    minRows={1}
-                    fullWidth
-                    value={stateVar.Data.specializationDomain}
-                    onChange={handleChange}
-                    style={{
-                        padding: '10px', 
-                        fontSize: '16px', 
-                        border: '1px solid #ccc', 
-                        borderRadius: '5px', 
-                        width: '100%',
-                        boxSizing: 'border-box', 
-                    }}
-                />
-            </Grid>
+           
             <Grid sm item>
               <Button fullWidth variant="outlined">
                 <input
@@ -490,7 +389,7 @@ function fileUpload(event) {
                   onClick={handleSubmit}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                  {activeStep === steps.length - 1 ? 'Register' : 'Next'}
+                  Register
                 </Button>
               </Box>
       </Container>
@@ -498,7 +397,10 @@ function fileUpload(event) {
     
           )}
         </Paper>
+        
       </Container>
+      <Footer/>
+      </Box>
     </React.Fragment>
   );
 }

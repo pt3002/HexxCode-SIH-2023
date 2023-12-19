@@ -5,12 +5,44 @@ const Tag = require("../models/tag");
 // Done
 exports.GetAllPost = async (req, res, next) => {
   try {
-    await Post.find()
+    const user = req.params && req.params.user;
+    if (!user) {
+      return res.status(400).send({ err: " missing User" });
+    }
+    let ans_posts = await Post.find()
       .populate("tags")
       .sort({ time: -1 })
-      .then((all_posts) => {
-        res.send({ all_posts });
-      });
+      .exec();
+    // let all_posts = ans_posts;
+    let all_posts = [];
+    for (let i = 0; i < ans_posts.length; i++) {
+      let liked = false;
+      let upvotes_array = ans_posts[i].upvotes;
+      // console.log(
+      //   i,
+      //   ans_posts[i].title,
+      //   upvotes_array.includes(user),
+      //   upvotes_array,
+      //   user
+      // );
+      if (upvotes_array.includes(user)) {
+        liked = true;
+      }
+      let n = {
+        title: ans_posts[i].title,
+        isLiked: liked,
+        tags: ans_posts[i].tags,
+        upvotes: ans_posts[i].upvotes,
+        views: ans_posts[i].views,
+        replies: ans_posts[i].replies,
+        _id: ans_posts[i]._id,
+        description: ans_posts[i].description,
+        author: ans_posts[i].author,
+        time: ans_posts[i].time,
+      };
+      all_posts.push(n);
+    }
+    res.send({ all_posts: all_posts });
   } catch (error) {
     console.log(error);
     res.send({ error: "Unable To Fetch" });
@@ -140,29 +172,28 @@ exports.AddTags = async (req, res, next) => {
   }
 };
 
-exports.getPostsAccordingToTags = async(req, res, next) => {
-  const {tagIds} = req.body
-  try{
-    const all_posts = []
-    const post_ids = []
-    for(let i = 0 ; i < tagIds.length ; i++){
-      await Post.find({tags : {$elemMatch : {$eq : tagIds[i]}} }).then((postForTag) => {
-        for(let j = 0; j < postForTag.length;j++){
-          if(post_ids.indexOf(String(postForTag[j]._id)) == -1){
-            all_posts.push(postForTag[j])
-            post_ids.push(String(postForTag[j]._id))
-          }   
-          
+exports.getPostsAccordingToTags = async (req, res, next) => {
+  const { tagIds } = req.body;
+  try {
+    const all_posts = [];
+    const post_ids = [];
+    for (let i = 0; i < tagIds.length; i++) {
+      await Post.find({ tags: { $elemMatch: { $eq: tagIds[i] } } }).then(
+        (postForTag) => {
+          for (let j = 0; j < postForTag.length; j++) {
+            if (post_ids.indexOf(String(postForTag[j]._id)) == -1) {
+              all_posts.push(postForTag[j]);
+              post_ids.push(String(postForTag[j]._id));
+            }
+          }
         }
-        
-      })
+      );
     }
-    res.send({all_posts})
+    res.send({ all_posts });
+  } catch (error) {
+    console.log("err", error);
   }
-  catch(error) {
-    console.log("err", error)
-  }
-}
+};
 
 // done
 exports.AddReply = async (req, res, next) => {
@@ -181,21 +212,19 @@ exports.AddReply = async (req, res, next) => {
   });
   try {
     await reply.save().then((resp) => {
-      
-      previousReplies.push(resp._id)
-      console.log(previousReplies)
+      previousReplies.push(resp._id);
+      console.log(previousReplies);
       Post.updateOne(
-        {_id : id},
-        {$addToSet : {replies : previousReplies}},
-        function(err, result){
-          if(err){
-            res.send(err)
-          }
-          else{
-            res.status(200).send({message : "Reply Added"})
+        { _id: id },
+        { $addToSet: { replies: previousReplies } },
+        function (err, result) {
+          if (err) {
+            res.send(err);
+          } else {
+            res.status(200).send({ message: "Reply Added" });
           }
         }
-      )
+      );
     });
     // const reply_populated = await Reply.find({ _id: reply._id })
     //   .populate("post")
