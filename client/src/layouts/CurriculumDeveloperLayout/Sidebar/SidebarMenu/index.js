@@ -212,7 +212,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/curriculumDeveloper/calendar"
                   startIcon={<BrightnessLowTwoToneIcon />}
                 >
                 {/* /curriculumDeveloper/calendar */}
@@ -224,7 +224,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/curriculumDeveloper/subjects"
                   startIcon={<MmsTwoToneIcon />}
                 >
                 {/* /curriculumDeveloper/subjects */}
@@ -236,7 +236,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/curriculumDeveloper/createDocument"
                   startIcon={<MmsTwoToneIcon />}
                 >
                 {/* /curriculumDeveloper/createDocument */}
@@ -248,7 +248,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/curriculumDeveloper/discussionForum"
                   startIcon={<MmsTwoToneIcon />}
                 >
                 {/* /curriculumDeveloper/discussionForum */}
@@ -260,7 +260,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/curriculumDeveloper/viewRequirements"
                   startIcon={<MmsTwoToneIcon />}
                 >
                 {/* /curriculumDeveloper/viewRequirements */}
@@ -283,7 +283,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/CurriculumDeveloper/viewGuidelines"
                   startIcon={<MmsTwoToneIcon />}
                 >
                 {/* /CurriculumDeveloper/viewGuidelines */}
@@ -295,7 +295,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/CurriculumDeveloper/Chat"
                   startIcon={<MmsTwoToneIcon />}
                 >
                 {/* /CurriculumDeveloper/Chat */}
