@@ -56,7 +56,7 @@ const uuid = require("uuid").v4;
 // import Page2 from './page_two';
 // import Page3 from './page_three'
 
-const steps = ['Personal Information', 'Other Details'];
+const steps = ['Personal Information', 'Other Details','Upload Resume'];
 // function getStepContent(step) {
 //   switch (step) {
 //     case 0:
@@ -84,7 +84,7 @@ export default function Page1New() {
       email: "",
       name: "",
       contactNumber: "",
-      gender: "",
+      gender: "male",
     },
     errors: {},
   });
@@ -142,7 +142,7 @@ export default function Page1New() {
     if (validate == true) {
       console.log("All data is correctly filled", Data);
       handleNext();
-      navigate("/register/page3", { state: { dataFromPage1: stateVar.Data } });
+      navigate("/register/page2", { state: { dataFromPage1: stateVar.Data } });
     } else {
       console.log(errors);
       alert("Please fill all data first");

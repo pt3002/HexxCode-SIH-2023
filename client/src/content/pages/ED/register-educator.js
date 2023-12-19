@@ -12,8 +12,11 @@ import FormControl from "@mui/material/FormControl";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
-// import bg_pic from "../../components/images/bg.jpg";
-// import profile_pic from "../../components/images/profile.webp";
+import bg_pic from "../../../components/images/bg.jpg";
+import Avatar from "@mui/material/Avatar";
+
+import Footer from "../../../components/Footer";
+import profile_pic from "../../../components/images/profile.webp";
 import Select from "@mui/material/Select";
 import { BACKEND_URL, backendURL } from "../../../configKeys"
 const uuid = require("uuid").v4;
@@ -156,6 +159,24 @@ export default function RegisterEducator() {
 
   return (
     <React.Fragment>
+       <Box
+  sx={{
+    backgroundImage:`url(${bg_pic})`,
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'cover',
+    minHeight: '100vh',
+    backgroundColor: '#767676',
+  }}>
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -166,12 +187,32 @@ export default function RegisterEducator() {
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       ></AppBar>
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+      <Container component="main" maxWidth="sm" sx={{mb:10,mt:18}}>
         <Paper
           variant="outlined"
           elevation={8}
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+          // sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 },mt: }}
+          sx={{mt:8,mb:5}}
         >
+          <Grid
+            container
+            spacing={2}
+            align="center"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              p: { xs: 2, md: 2 },
+            }}
+          >
+            {/* <Avatar sx={{ width: 60, height: 60, mr: 1 }} alt="CD">
+              <AccountCircleIcon />
+            </Avatar> */}
+             <Avatar
+                  sx={{ width: 60, height: 60, mr: 1 }}
+                  alt="CD"
+                  src={profile_pic}
+                />
+          </Grid>
           <Typography
             component="h1"
             variant="h4"
@@ -332,6 +373,8 @@ export default function RegisterEducator() {
           </React.Fragment>
         </Paper>
       </Container>
+     <Footer/> 
+      </Box>
     </React.Fragment>
   );
 }
