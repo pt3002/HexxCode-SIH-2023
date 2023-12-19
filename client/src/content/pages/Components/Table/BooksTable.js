@@ -35,14 +35,18 @@ import BulkActions from "./BulkActions";
 const getRatingLabel = (bookRating) => {
   const map = {
     1: {
-      text: "Good",
+      text: "Average",
       color: "error",
     },
     2: {
-      text: "Great",
+      text: "Good",
       color: "warning",
     },
     3: {
+      text: "Great",
+      color: "success",
+    },
+    4: {
       text: "Excellent",
       color: "success",
     },

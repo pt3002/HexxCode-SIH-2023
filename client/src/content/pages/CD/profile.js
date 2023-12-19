@@ -16,8 +16,10 @@ import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import MoreHorizTwoToneIcon from '@mui/icons-material/MoreHorizTwoTone';
 import { Directions } from '@mui/icons-material';
-import UserTokenContext from '../../../../contexts/UserTokenContext';
+import UserTokenContext from '../../../contexts/UserTokenContext';
 import { useContext, useEffect, useState } from "react";
+import axios from 'axios';
+import { backendURL } from '../../../configKeys';
 
 const Input = styled('input')({
   display: 'none'
@@ -87,7 +89,7 @@ const user = {
   coverImg: '/static/images/placeholders/covers/5.jpg',
   avatar: '/static/images/avatars/4.jpg',
   description:
-    "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage",
+    "",
   jobtitle: 'Web Developer',
   location: 'Barcelona, Spain',
   followers: '465'
@@ -96,88 +98,60 @@ const user = {
 const ProfileCover = () => {
   const userContext = useContext(UserTokenContext)
     const { dict, checkToken } = userContext;
-
+    const [userData, setUserData] = useState([])
     useEffect(() => {
       checkToken()
-      console.log(dict)
+      
   }, [])
+
+  useEffect(() => {
+    let body = {
+        id : dict.details.id
+      }
+      axios.post(backendURL + "/curriculumDeveloper/profile", body).then((res) => {
+        setUserData(res.data.ans[0])
+      })
+  }, [dict])
+
+  console.log(userData)
+
   return (
     <>
-      <Box display="flex" mb={3}>
+    {
+        dict && (
+            <>
+      <Box display="flex" m={3}>
         <Box>
           <Typography variant="h3" component="h3" gutterBottom>
-            Welcome {}
+            Welcome {dict.details.name} !
           </Typography>
           <Typography variant="subtitle2">
-            This is a profile page. Easy to modify, always blazing fast
+            Shiksha Niyojak an Easy to Use Curriculum Development and Management Tool
           </Typography>
         </Box>
       </Box>
-      <CardCover>
-        <CardMedia image={user.coverImg} />
-        <CardCoverAction>
-          <Input accept="image/*" id="change-cover" multiple type="file" />
-          <label htmlFor="change-cover">
-            <Button
-              startIcon={<UploadTwoToneIcon />}
-              variant="contained"
-              component="span"
-            >
-              Change cover
-            </Button>
-          </label>
-        </CardCoverAction>
-      </CardCover>
-      <AvatarWrapper>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
-        <ButtonUploadWrapper>
-          <Input
-            accept="image/*"
-            id="icon-button-file"
-            name="icon-button-file"
-            type="file"
-          />
-          <label htmlFor="icon-button-file">
-            <IconButton component="span" color="primary">
-              <UploadTwoToneIcon />
-            </IconButton>
-          </label>
-        </ButtonUploadWrapper>
-      </AvatarWrapper>
+      <Card sx ={{m:2}}>
       <Box py={2} pl={2} mb={3}>
-        <Typography gutterBottom variant="h4">
-          {user.name}
+        <Typography gutterBottom variant="h4" sx = {{mb:3}}>
+          {dict.details.name}
         </Typography>
         <Typography variant="subtitle2">{user.description}</Typography>
-        <Typography sx={{ py: 2 }} variant="subtitle2" color="text.primary">
-          {user.jobtitle} | {user.location} | {user.followers} followers
+        <Typography sx={{ m:0.5 }} variant="subtitle2" color="text.primary">
+          College : {userData.college}
         </Typography>
-        <Box
-          display={{ xs: 'block', md: 'flex' }}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <Box>
-            <Button size="small" variant="contained">
-              Follow
-            </Button>
-            <Button size="small" sx={{ mx: 1 }} variant="outlined">
-              View website
-            </Button>
-            <IconButton color="primary" sx={{ p: 0.5 }}>
-              <MoreHorizTwoToneIcon />
-            </IconButton>
-          </Box>
-          <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            size="small"
-            variant="text"
-            endIcon={<ArrowForwardTwoToneIcon />}
-          >
-            See all {user.followers} connections
-          </Button>
-        </Box>
+        <Typography sx={{ m:0.5 }} variant="subtitle2" color="text.primary">
+          Department : {userData.department}
+        </Typography>
+        <Typography sx={{ m:0.5 }} variant="subtitle2" color="text.primary">
+          Registered Email : {userData.email}
+        </Typography>
+
       </Box>
+      </Card>
+      
+      </>
+      )
+    }
     </>
   );
 };

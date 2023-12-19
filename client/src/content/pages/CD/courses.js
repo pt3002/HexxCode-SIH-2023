@@ -24,7 +24,7 @@ function Courses() {
   const curriculumDeveloper = {
     name: "Catherine Pike",
     avatar: "/static/images/avatars/1.jpg",
-    department: "Computer",
+    department: "Computer Engineering",
   };
 
   const handleClickSem = (event) => {
@@ -61,7 +61,7 @@ function Courses() {
           for (let i = 0; i < array.length; i++) {
             let n = {
               id: array[i].subject_id,
-              cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
+              cover: "/static/images/placeholders/covers/tech-img.jpg",
               name: array[i].name,
               code: array[i].subject_code,
               cds: ["Mary", "Jack", "Ron"],
@@ -153,7 +153,7 @@ function Courses() {
       <Grid container spacing={3}>
         {subjects.map((subject) => (
           <Grid key={subject.id} item xs={12} md={4} xl={3}>
-            <SubjectCard subject={subject} />
+            <SubjectCard subject={subject}/>
           </Grid>
         ))}
       </Grid>

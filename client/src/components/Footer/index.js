@@ -17,13 +17,14 @@ function Footer() {
         justifyContent="space-between"
       >
         <Box>
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" sx={{color:"grey"}}>
             &copy; 2023 - Shiksha Niyojak Admin Dashboard
           </Typography>
         </Box>
         <Typography
           sx={{
-            pt: { xs: 2, md: 0 }
+            pt: { xs: 2, md: 0 },
+            color:"grey"
           }}
           variant="subtitle1"
         >
@@ -32,6 +33,7 @@ function Footer() {
             href="https://bloomui.com"
             target="_blank"
             rel="noopener noreferrer"
+            sx={{color:"grey"}}
           >
             BloomUI.com
           </Link>

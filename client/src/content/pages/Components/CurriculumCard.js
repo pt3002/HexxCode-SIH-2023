@@ -21,23 +21,38 @@ const StyledSubjectImg = styled("img")({
   objectFit: "cover",
 });
 
-SubjectCard.propTypes = {
+CurriculumCard.propTypes = {
   subject: PropTypes.object,
 };
 
-export default function SubjectCard({ subject }) {
-  const { id, cover, name, code, cds} = subject;
+export default function CurriculumCard({ subject }) {
+  const { id,cover, department } = subject;
 
   const theme = useTheme();
 
   const navigate = useNavigate();
 
-  const renderCurriculumDevelopers = cds.map(({ name }) => (
-    <Tooltip key={name} title={name} placeholder="bottom">
-      
-    </Tooltip>
-  ));
+//   const renderCurriculumDevelopers = cds.map(({ name }) => (
+//     <Tooltip key={name} title={name} placeholder="bottom">
+//       <Avatar
+//         src="/static/images/avatars/2.jpg"
+//         alt={name}
+//         size="xs"
+//         sx={{
+//           border: `10 solid ${theme.colors.alpha.trueWhite[100]}`,
+//           cursor: "pointer",
+//           position: "relative",
+//           ml: -1.25,
 
+//           "&:hover, &:focus": {
+//             zIndex: "10",
+//           },
+//         }}
+//       />
+//     </Tooltip>
+//   ));
+
+  console.log(id);
   return (
     <Card sx={{ height: "100%", m: 1 }}>
       <Box sx={{ position: "relative" }}>
@@ -53,16 +68,16 @@ export default function SubjectCard({ subject }) {
           }}>
           Pinned
         </Label>
-        <StyledSubjectImg alt={name} src={cover} />
+        <StyledSubjectImg alt="cover" src={cover} />
       </Box>
 
-      <Stack spacing={1} sx={{ px: 1, pt: 0.5 }}>
+      {/* <Stack spacing={1} sx={{ px: 1, pt: 0.5 }}>
         <Link color="inherit" underline="hover">
           <Typography variant="subtitle2" noWrap>
             {name}
           </Typography>
         </Link>
-      </Stack>
+      </Stack> */}
 
       <Stack
         direction="row"
@@ -71,7 +86,7 @@ export default function SubjectCard({ subject }) {
         sx={{ px: 1 }}>
         <Typography variant="subtitle1">
           <Typography component="span" variant="body1">
-            Subject Code : {code}
+            Department : {department}
           </Typography>
           {/* &nbsp;
             {fCurrency(price)} */}
@@ -82,15 +97,10 @@ export default function SubjectCard({ subject }) {
         <Button
           variant="outlined"
           sx={{ margin: 1 }}
-          onClick={() => navigate("/curriculumDeveloper/books", {
-            state: {
-              subject_id: id,
-            },
-            
-          })}>
-          View Books
+          onClick={() => navigate(`/ED/rate/${id}`)}>
+          Rate and review
         </Button>
-        <Box display="flex">{renderCurriculumDevelopers}</Box>
+        {/* <Box display="flex">{renderCurriculumDevelopers}</Box> */}
       </Box>
     </Card>
   );

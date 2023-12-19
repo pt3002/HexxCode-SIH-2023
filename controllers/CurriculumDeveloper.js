@@ -30,6 +30,11 @@ const generateToken = (user) => {
     token: token,
   };
 };
+exports.profileDevelopment = async(req, res) => {
+  let  { id }= req.body
+  let ans = await curriculumDeveloperFeatures.profileDevelopment(id)
+  res.send({ans})
+}
 
 exports.findCDName = async(req, res) => {
   try{
@@ -448,6 +453,9 @@ exports.getAllGuidelines = async (req, res, next) => {
 
 exports.getAllRequirements = async (req, res, next) => {
   try {
+    // console.log("requirements.....",req.details)
+    // console.log("requirements.....",req)
+    console.log("Requirements...",req.userId)
     let ans = await Requirements.getAllRequirements(req.userId);
     try {
       let requirements = [];
@@ -638,7 +646,54 @@ exports.getAllDocuments = async (req, res) => {
   let cd = await CDLogin.findCDById(cd_id);
   // get subject name
   let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
-  let subject_name = ans[0]["subject_name"]
+  if(ans.length > 0){
+    let subject_name = ans[0]["subject_name"]
+  // console.log(cd);
+  if (cd.length === 0) {
+    res.send({
+      message: "This User is not Authorised",
+    });
+  } else {
+    document
+      .find()
+      .then(async (documents) => {
+        let complete = [];
+        for (let i = 0; i < documents.length; i++) {
+          console.log(documents[i])
+          if(documents[i]['subjectName'] == subject_name){
+            let save_creation_id = documents[i].saveIds[0];
+          let last_modified_save_creation_id =
+            documents[i].saveIds[documents[i].saveIds.length - 1];
+          await save.findById(save_creation_id).then(async (save_resp) => {
+            let cd1, cd2, final;
+            cd1 = await CDLogin.findCDById(save_resp["createdBy"]);
+            await save
+              .findById(last_modified_save_creation_id)
+              .then(async (save_resp2) => {
+                cd2 = await CDLogin.findCDById(save_resp2["createdBy"]);
+                final = {
+                  creationCD: cd1[0]["name"],
+                  lastModifiedCD: cd2[0]["name"],
+                  ...documents[i],
+                };
+                complete.push(final._doc);
+              });
+          });
+          }
+          
+        }
+        //console.log(complete)
+        res.status(200).send({ complete });
+      });
+  }
+  }
+  
+};
+
+exports.getAllDocumentsForEditAccess = async (req, res) => {
+  let cd_id = req.userId;
+  let cd = await CDLogin.findCDById(cd_id);
+  let { subject_name }= req.body
   // console.log(cd);
   if (cd.length === 0) {
     res.send({
@@ -794,5 +849,42 @@ exports.GetSubjectsBySemester = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.send({ error: "Subjects Not Found" });
+  }
+};
+
+exports.getAllSubjects = async(req, res, next) => {
+  try{
+    let subjects = await curriculumDeveloperFeatures.getAllSubjectNames()
+    res.send({subjects})
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+exports.GetBooksBySubject = async (req, res, next) => {
+  try {
+    let subject_id = req.body.subject_id;
+
+    let ans = await curriculumDeveloperFeatures.getBookBySub(subject_id);
+      try {
+        let books = [];
+        for (let i = 0; i < ans.length; i++) {
+          let n = {
+            id: ans[i].id,
+            name: ans[i].name,
+            author: ans[i].author,
+            rating: ans[i].rating,
+            creation_time: ans[i].creation_time,
+          };
+          books.push(n);
+        }
+        res.send({ books });
+      } catch (error) {
+        console.log(error);
+      }
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Books Not Found" });
   }
 };

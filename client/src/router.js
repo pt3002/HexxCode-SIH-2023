@@ -41,8 +41,13 @@ import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
 import Chat from './content/pages/CD/chat';
 import AdminChart from './content/pages/AICTE/AdminChart';
+
+import EducatorFeedback from './content/pages/ED/feedback-page';
+
 import FeedbackChart from './content/pages/AICTE/FeedbackChart';
 import GetSubjectsList from './content/pages/CD/subjectsList';
+import CDDashboard from './content/pages/CD/dashboard';
+
 
 const Loader = (Component) => (props) =>
   (
@@ -338,13 +343,17 @@ const DynamicRoutes = () =>{
         element : <FeedbackChart />
       }
     ]
-  },{
-    path : 'curriculumDeveloper',
-    element : <DeptHeadLayout />,
-    children : [{
-      path : 'discussionForum',
-      element : <DiscussionForum />
-    },]}]
+  },
+  
+  // {
+  //   path : 'curriculumDeveloper',
+  //   element : <DeptHeadLayout />,
+  //   children : [{
+  //     path : 'discussionForum',
+  //     element : <DiscussionForum />
+  //   },]}
+  
+  ]
   if(role == "Educator"){
     all_routes.push({
       path : 'ED',
@@ -367,8 +376,8 @@ const DynamicRoutes = () =>{
           element : <EDviewcurri />
         },
         {
-          path : 'rate',
-          element : <TestComp />
+          path : 'rate/:id',
+          element : <EducatorFeedback />
         },
       ]
     })
@@ -411,6 +420,10 @@ const DynamicRoutes = () =>{
         element : <CurriculumDeveloperLayout />,
         children : [
           {
+            path : 'dashboard',
+            element : <CDDashboard />
+          },
+          {
             path : 'books',
             element : <SubjectsForResources />
           },
@@ -435,6 +448,7 @@ const DynamicRoutes = () =>{
             element : <GetSubjectsList />
           },
           {
+
             path : 'calendar',
             element : <Calendar />
           },
@@ -446,6 +460,10 @@ const DynamicRoutes = () =>{
           {
             path : 'viewRequirements',
             element : <ViewRequirements />
+          },
+          {
+                 path : 'discussionForum',
+              element : <DiscussionForum />
           }
     
         ]

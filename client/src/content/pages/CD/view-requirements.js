@@ -14,7 +14,11 @@ export default function ViewRequirements() {
 
   React.useEffect(() => {
     axios
-      .get(backendURL + "/CurriculumDeveloper/getAllEducatorRequirements")
+      .get(backendURL + "/CurriculumDeveloper/getAllEducatorRequirements",{
+        headers:{
+          "shiksha-niyojak":localStorage.getItem("shiksha-niyojak")
+        }
+      })
       .then((res) => {
         setRows(res.data.requirements);
       });
