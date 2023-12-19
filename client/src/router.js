@@ -342,13 +342,17 @@ const DynamicRoutes = () =>{
         element : <FeedbackChart />
       }
     ]
-  },{
-    path : 'curriculumDeveloper',
-    element : <DeptHeadLayout />,
-    children : [{
-      path : 'discussionForum',
-      element : <DiscussionForum />
-    },]}]
+  },
+  
+  // {
+  //   path : 'curriculumDeveloper',
+  //   element : <DeptHeadLayout />,
+  //   children : [{
+  //     path : 'discussionForum',
+  //     element : <DiscussionForum />
+  //   },]}
+  
+  ]
   if(role == "Educator"){
     all_routes.push({
       path : 'ED',
@@ -451,6 +455,10 @@ const DynamicRoutes = () =>{
           {
             path : 'viewRequirements',
             element : <ViewRequirements />
+          },
+          {
+                 path : 'discussionForum',
+              element : <DiscussionForum />
           }
     
         ]

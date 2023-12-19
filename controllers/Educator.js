@@ -5,11 +5,8 @@ const {
   EducatorFeatures,
   Guidelines,
   Requirements,
-<<<<<<< HEAD
   Feedback,
-=======
   EducatorNotification,
->>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
 } = require("../classes/Educator");
 
 const generateToken = (user) => {
@@ -252,6 +249,10 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
     }
   }
   catch (error) {
+    console.log(error);
+  }
+};
+
 exports.getNotificationsByUserId = async (req, res, next) => {
   try {
     let user_id = req.userId;
@@ -275,7 +276,6 @@ exports.setNotificationSeen = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
 exports.getCurriculum=async(req,res,next)=>{
   try{
       let curriculum = [];
@@ -295,7 +295,6 @@ exports.getCurriculum=async(req,res,next)=>{
   }
 }
 
-=======
 exports.deleteNotification = async (req, res, next) => {
   try {
     const { user_id, guideline_id } = req.body;
@@ -305,5 +304,4 @@ exports.deleteNotification = async (req, res, next) => {
     console.error(error);
     res.status(500).send({ error: "Internal server error" });
   }
-};
->>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
+}

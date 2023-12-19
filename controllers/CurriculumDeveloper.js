@@ -638,7 +638,8 @@ exports.getAllDocuments = async (req, res) => {
   let cd = await CDLogin.findCDById(cd_id);
   // get subject name
   let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
-  let subject_name = ans[0]["subject_name"]
+  if(ans.length > 0){
+    let subject_name = ans[0]["subject_name"]
   // console.log(cd);
   if (cd.length === 0) {
     res.send({
@@ -677,6 +678,8 @@ exports.getAllDocuments = async (req, res) => {
         res.status(200).send({ complete });
       });
   }
+  }
+  
 };
 
 exports.getAllDocumentsForEditAccess = async (req, res) => {
