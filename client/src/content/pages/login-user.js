@@ -180,18 +180,33 @@ export default function CurriculumDeveloperLogin() {
               timer: 3000,
             });
           } else {
-            Swal.fire({
-              icon: "success",
-              title: "SUCCESS",
-              text: res.data.message,
-              showConfirmButton: false,
-              timer: 3000,
-            });
-            let token_dict = res.data.token;
-            localStorage.setItem("shiksha-niyojak", token_dict.token);
-            localStorage.setItem("shiksha-niyojak-role", res.data.role);
-            console.log("Login ls ", localStorage);
-            navigate(navigate_page);
+            if(res.data.role == "CurriculumDeveloper"){
+              Swal.fire({
+                icon: "info",
+                title: "INFO",
+                text: res.data.message,
+                showConfirmButton: false,
+                timer: 3000,
+              });
+              navigate("/otpscript", {
+                state: {
+                  body: body
+                }
+              })
+            }else{
+              Swal.fire({
+                icon: "success",
+                title: "SUCCESS",
+                text: res.data.message,
+                showConfirmButton: false,
+                timer: 3000,
+              });
+              let token_dict = res.data.token;
+              localStorage.setItem("shiksha-niyojak", token_dict.token);
+              localStorage.setItem("shiksha-niyojak-role", res.data.role);
+              console.log("Login ls ", localStorage);
+              navigate(navigate_page);
+            }           
           }
         })
         .catch((error) => {
