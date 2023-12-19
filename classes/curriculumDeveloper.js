@@ -111,6 +111,31 @@ class curriculumDeveloperFeatures {
     const [result, _] = await db.execute(sql);
     return result;
   }
+
+  // getting group of cd
+  static async getSubjectName(id){
+    let sql = `SELECT subject_name from subject_group where id = (SELECT group_id from curriculum_developer where id = "${id}");`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
+
+  static async getSubBySem(sem) {
+    let sql = `select * from subject where semester="${sem}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
+
+  static async getAllSubjectNames(){
+    let sql = `select * from subject_group;`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
+  
+  static async getBookBySub(subject_id) {
+    let sql = `select * from resource where subject_id="${subject_id}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
 }
 
 

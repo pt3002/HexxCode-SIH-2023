@@ -3,7 +3,7 @@ const ForumControllers = require("../controllers/Forum");
 const router = express.Router();
 
 //# Post
-router.get("/getAllPost", ForumControllers.GetAllPost);
+router.get("/getAllPost/:user", ForumControllers.GetAllPost);
 router.get("/getPostById/:id", ForumControllers.GetPostById);
 router.post("/addPost", ForumControllers.AddPost);
 router.post("/addLike", ForumControllers.AddLike);
@@ -13,7 +13,7 @@ router.get("/getUnanswered", ForumControllers.GetUnanswered);
 //# Tag
 router.get("/getTags", ForumControllers.GetTags);
 router.post("/addTag", ForumControllers.AddTags);
-router.post("/postaccordingToTag", ForumControllers.getPostsAccordingToTags)
+router.post("/postaccordingToTag", ForumControllers.getPostsAccordingToTags);
 
 //# Reply
 router.post("/addReply", ForumControllers.AddReply);

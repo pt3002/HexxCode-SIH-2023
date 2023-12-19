@@ -177,4 +177,13 @@ class AdminChart{
   }
 }
 
-module.exports = { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart };
+class FeedbackChart{
+  static async getFeedbackDataDepartmentWise(department) {
+    let sql = `SELECT quality_content, utility_content, affectiveness, goals, evaluation FROM feedback WHERE department="${department}";`;
+    const [feedbacks, _] = await db.execute(sql);
+    return feedbacks;
+  }
+}
+
+
+module.exports = { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart, FeedbackChart };

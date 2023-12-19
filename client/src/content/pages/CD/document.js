@@ -92,7 +92,7 @@ export default function Document() {
                   body: docsDesc, 
                   commitMessage: stateVar.data.commitMessage,
                   commitType : stateVar.data.commitType,
-                  createdBy : dict.id
+                  createdBy : dict.details.id
           }
       axios.post(backendURL + "/curriculumDeveloper/newSave", body, {
         headers: {

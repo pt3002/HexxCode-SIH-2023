@@ -241,11 +241,12 @@ function CreateNewPost() {
     for(let i = 0; i<value.length; i++){
         selectedTagIds.push(value[i]._id)
     }
+    console.log(dict);
     let body = {
         title : postTitle, 
         tags : selectedTagIds, 
         description : postDescription, 
-        author : dict.name
+        author : dict.details.name
     }
     axios.post(backendURL + "/Forum/addPost", body,{
       headers: {
