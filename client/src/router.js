@@ -13,6 +13,7 @@ import Checkout from './content/pages/registerSteps';
 import Page1New from './content/pages/page_one_new';
 import Page2New from './content/pages/page_two_new';
 import Page3New from './content/pages/page_three_new';
+import { OtpScript } from './content/pages/otpscript';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
 import DashboardED from './content/pages/ED/dashboard';
@@ -281,6 +282,13 @@ const DynamicRoutes = () =>{
   {
     path : 'login',
     element : <CurriculumDeveloperLogin />,
+    children : [
+      
+    ]
+  },
+  {
+    path : 'otpscript',
+    element : <OtpScript />,
     children : [
       
     ]

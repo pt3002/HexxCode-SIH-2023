@@ -48,6 +48,10 @@ router.post(
   "/CurriculumDeveloperLogin",
   CurriculumDeveloperControllers.CurriculumDeveloperLogin
 );
+router.post(
+  "/checkAndLogin",
+  CurriculumDeveloperControllers.getOTPEmailCheck
+);
 
 // MONGO Post requests
 router.post("/createDocument",[auth, CurriculumDeveloperControllers.createDocument])

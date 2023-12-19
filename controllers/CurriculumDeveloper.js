@@ -383,7 +383,7 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
         console.log(user);
         const token = generateToken(user);
         res.send({
-          message: "Login Successful",
+          message: "OTP sent",
           token: token,
           role: "CurriculumDeveloper",
         });
@@ -395,7 +395,31 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
-
+exports.getOTPEmailCheck = async (req, res) => {
+  const { email, password } = req.body;
+  let ans = await CurriculumDeveloperLogin.findCDByEmail(email);
+   if (ans.length === 0) {
+      res.send({ message: "Wrong user selected or Register First" });
+    } else {
+      if (ans[0].password === password) {
+        let user = {
+          id: ans[0]["id"],
+          role: "CurriculumDeveloper",
+          name: ans[0]["name"],
+          email: email,
+        };
+        console.log(user);
+        const token = generateToken(user);
+        res.send({
+          message: "Login Successfully",
+          token: token,
+          role: "CurriculumDeveloper",
+        });
+      } else {
+        res.send({ error: "Invalid Credentials" });
+      }
+    }
+};
 exports.getAllGuidelines = async (req, res, next) => {
   try {
     let ans = await Guidelines.getAllGuidelines();
