@@ -18,6 +18,10 @@ import UserTokenState from "../../contexts/UserTokenState";
 import UserTokenContext from "../../contexts/UserTokenContext";
 import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import bg from "../../theme/bg.jpg";
+import GroupsIcon from '@mui/icons-material/Groups';
+import SchoolIcon from '@mui/icons-material/School';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 export default function CurriculumDeveloperLogin() {
   const navigate = useNavigate();
@@ -207,24 +211,6 @@ export default function CurriculumDeveloperLogin() {
 
   return (
     <React.Fragment>
-      {/* <Box
-  sx={{
-    backgroundImage: 'url(./static/images/bg.jpg)',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '0px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    backgroundSize: 'cover',
-    minHeight: '100vh',
-    backgroundColor: '#767676',
-  }}> */}
       <CssBaseline />
       <AppBar
         position="absolute"
@@ -241,6 +227,8 @@ export default function CurriculumDeveloperLogin() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          backgroundImage: `url(${bg})`, 
+          backgroundSize: "cover",
         }}
       >
         
@@ -249,11 +237,11 @@ export default function CurriculumDeveloperLogin() {
           component="main"
           sx={{ nt: 3, mb: 2, width: 500, position: "relative", top: "3px" }}
         >
-          <Grid align="center" sx={{ mt: 2.5 }}>
-            <Typography component="h1" variant="h2" align="center">
+          {/* <Grid align="center" sx={{ mt: 2.5 }}>
+            <Typography component="h1" variant="h2" align="center" sx={{color: "white"}}>
               Select User
             </Typography>
-          </Grid>
+          </Grid> */}
 
           <Grid
             container
@@ -275,15 +263,16 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'cd' ? '#e0e6e8' : 'transparent',
+                  backgroundColor: clicked === 'cd' ? '#02263C' : 'transparent',
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 50, height: 50, mr: 1 }}
                   alt="Curriculum Developer"
                   src="./static/images/avatars/cd2.png"
-                />
-                <Typography variant="caption" align="center">
+                /> */}
+                <GroupsIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
+                <Typography variant="caption" align="center" style={{color:"white"}}>
                   Curriculum Developer
                 </Typography>
               </Button>
@@ -299,16 +288,16 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'ed' ? '#e0e6e8' : 'transparent',
+                  backgroundColor: clicked === 'ed' ? '#02263C' : 'transparent',
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 50, height: 50, mr: 1 }}
                   alt="Educator"
                   src="./static/images/avatars/edu.jpg"
-                />
-
-                <Typography variant="caption" align="center">
+                /> */}
+                <SchoolIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
+                <Typography variant="caption" align="center" style={{color:"white"}}>
                   Educator
                 </Typography>
               </Button>
@@ -324,15 +313,17 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'ad' ? '#e0e6e8' : 'transparent',
+                  backgroundColor: clicked === 'ad' ? '#02263C' : 'transparent',
                 }}
               >
-                <Avatar
+                {/* <Avatar
                   sx={{ width: 50, height: 50, mr: 1 }}
                   alt="AICTE Administrator"
                   src="./static/images/avatars/admin1.png"
-                />
-                <Typography variant="caption" align="center">
+                  style={{color:"white"}}
+                /> */}
+                <AdminPanelSettingsIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
+                <Typography variant="caption" align="center" style={{color:"white"}}>
                   AICTE Administrator
                 </Typography>
               </Button>
@@ -349,11 +340,24 @@ export default function CurriculumDeveloperLogin() {
               borderRadius: 2.5,
             }}
           >
-            <Grid align="center" sx={{ mt: 1, mb: 1 }}>
+            <Grid align="center" sx={{ mt: 1, mb: 1, display:"flex", flexDirection:"row" }}>
               <img
-                src="./static/images/logo/logo_new.png"
+                src="./static/images/logo/Shiksha.png"
+                alt="Shiksha-Niyojak"
+                height="70"
+                style={{
+                margin:"2%"
+                }}
+              />
+              <Grid align="left" sx={{margin:"2%", display:"flex", flexDirection:"column", width:"50%"}}>
+                <Typography variant="h2" style={{color:"#02263C", margin:"2%"}}>शिक्षा नियोजक</Typography>
+                <Typography variant="h4" style={{color:"#02263C", margin:"2%"}}>Shiksha Niyojak</Typography>
+              </Grid>
+              <img
+                src="./static/images/logo/aicte.jpg"
                 alt="aicte"
                 height="70"
+                style={{margin:"2%"}}
               />
             </Grid>
 
