@@ -184,10 +184,10 @@ export default function Page1New() {
           borderBottom: (t) => `1px solid ${t.palette.divider}`,
         }}
       ></AppBar>
-      <Container component="main" maxWidth="md" sx={{ mb: 10,mt:5 }}>
+      <Container component="main" maxWidth="md" sx={{ mt:25 }}>
         <Paper
           variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } , opacity:0.9}}
+          sx={{ my: { xs: 3, md: 8 }, p: { xs: 2, md: 3 } , opacity:0.9}}
         >
           <Grid
             container
