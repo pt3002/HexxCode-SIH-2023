@@ -112,12 +112,7 @@ const DynamicRoutes = () =>{
     lazy(() => import('./content/pages/Status/Maintenance'))
   );
 
-  const userContext = useContext(UserTokenContext)
-  const {dict, checkToken} = userContext;  
-    
-  useEffect(() => {
-    checkToken()
-  }, [])
+  const role = localStorage.getItem("shiksha-niyojak-role");
   let   all_routes = [    {
     path: '',
     element: <BaseLayout />,
@@ -336,7 +331,6 @@ const DynamicRoutes = () =>{
       path : 'discussionForum',
       element : <DiscussionForum />
     },]}]
-  const role = localStorage.getItem("shiksha-niyojak-role");
   if(role == "Educator"){
     all_routes.push({
       path : 'ED',
