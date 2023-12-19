@@ -34,21 +34,7 @@ export default function SubjectCard({ subject }) {
 
   const renderCurriculumDevelopers = cds.map(({ name }) => (
     <Tooltip key={name} title={name} placeholder="bottom">
-      <Avatar
-        src="/static/images/avatars/2.jpg"
-        alt={name}
-        size="xs"
-        sx={{
-          border: `10 solid ${theme.colors.alpha.trueWhite[100]}`,
-          cursor: "pointer",
-          position: "relative",
-          ml: -1.25,
-
-          "&:hover, &:focus": {
-            zIndex: "10",
-          },
-        }}
-      />
+      
     </Tooltip>
   ));
 

@@ -61,7 +61,7 @@ function Courses() {
           for (let i = 0; i < array.length; i++) {
             let n = {
               id: array[i].subject_id,
-              cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
+              cover: "/static/images/placeholders/covers/tech-img.jpg",
               name: array[i].name,
               code: array[i].subject_code,
               cds: ["Mary", "Jack", "Ron"],
