@@ -1,4 +1,4 @@
-const { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart } = require("../classes/AICTEAdmin");
+const { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart, FeedbackChart } = require("../classes/AICTEAdmin");
 
 exports.getAllDepartmentHeads = async (req, res, next) => {
   try {
@@ -283,6 +283,31 @@ exports.getCDApplicationCountGenderWise = async (req, res, next) => {
         applications.push(n);
       }
       res.send({ applications });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+// quality_content, utility content, affectiveness, goals, evaluation
+exports.getFeedbackDataDepartmentWise = async (req, res, next) => {
+  try {
+  let {department} = req.body;
+    let ans = await FeedbackChart.getFeedbackDataDepartmentWise(department);
+    try {
+      let feedbacks = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          quality_content: ans[i].quality_content,
+          utility_content: ans[i].utility_content,
+          affectiveness: ans[i].affectiveness,
+          goals: ans[i].goals,
+          evaluation: ans[i].evaluation
+        };
+        feedbacks.push(n);
+      }
+      res.send({ feedbacks });
     } catch (error) {
       console.log(error);
     }

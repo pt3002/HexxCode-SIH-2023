@@ -198,6 +198,14 @@ exports.GetDraftBySubjects = async (req, res, next) => {
   }
 };
 
+exports.getSubjectName  =async(req, res, next) => {
+  let cd_id = req.userId;
+  //console.log(cd_id)
+  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
+  let subject_name = ans[0]["subject_name"]
+  res.send({subject_name})
+}
+
 exports.GetDraftByDepartment = async (req, res, next) => {
   const department = req.params && req.params.department;
   if (!department) {
@@ -375,7 +383,7 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
         console.log(user);
         const token = generateToken(user);
         res.send({
-          message: "Login Successful",
+          message: "OTP sent",
           token: token,
           role: "CurriculumDeveloper",
         });
@@ -387,7 +395,31 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
-
+exports.getOTPEmailCheck = async (req, res) => {
+  const { email, password } = req.body;
+  let ans = await CurriculumDeveloperLogin.findCDByEmail(email);
+   if (ans.length === 0) {
+      res.send({ message: "Wrong user selected or Register First" });
+    } else {
+      if (ans[0].password === password) {
+        let user = {
+          id: ans[0]["id"],
+          role: "CurriculumDeveloper",
+          name: ans[0]["name"],
+          email: email,
+        };
+        console.log(user);
+        const token = generateToken(user);
+        res.send({
+          message: "Login Successfully",
+          token: token,
+          role: "CurriculumDeveloper",
+        });
+      } else {
+        res.send({ error: "Invalid Credentials" });
+      }
+    }
+};
 exports.getAllGuidelines = async (req, res, next) => {
   try {
     let ans = await Guidelines.getAllGuidelines();
@@ -450,7 +482,7 @@ exports.getAllCDsofDepartment = async(req, res) => {
 
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
-  const { title, description, createdBy } = req.body;
+  const { title, description, createdBy, subjectName } = req.body;
   if (!(title, description)) {
     return res.status(400).send({ error: "Input Fields Missing" });
   }
@@ -465,6 +497,7 @@ exports.createDocument = async (req, res) => {
     const newDocument = new document({
       title,
       description,
+      subjectName
     });
     newDocument
       .save()
@@ -603,6 +636,9 @@ exports.GetCommitsHistory = async (req, res, next) => {
 exports.getAllDocuments = async (req, res) => {
   let cd_id = req.userId;
   let cd = await CDLogin.findCDById(cd_id);
+  // get subject name
+  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
+  let subject_name = ans[0]["subject_name"]
   // console.log(cd);
   if (cd.length === 0) {
     res.send({
@@ -611,12 +647,12 @@ exports.getAllDocuments = async (req, res) => {
   } else {
     document
       .find()
-      .lean()
-      .exec()
       .then(async (documents) => {
         let complete = [];
         for (let i = 0; i < documents.length; i++) {
-          let save_creation_id = documents[i].saveIds[0];
+          console.log(documents[i])
+          if(documents[i]['subjectName'] == subject_name){
+            let save_creation_id = documents[i].saveIds[0];
           let last_modified_save_creation_id =
             documents[i].saveIds[documents[i].saveIds.length - 1];
           await save.findById(save_creation_id).then(async (save_resp) => {
@@ -631,9 +667,11 @@ exports.getAllDocuments = async (req, res) => {
                   lastModifiedCD: cd2[0]["name"],
                   ...documents[i],
                 };
-                complete.push(final);
+                complete.push(final._doc);
               });
           });
+          }
+          
         }
         //console.log(complete)
         res.status(200).send({ complete });

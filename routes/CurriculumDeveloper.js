@@ -30,6 +30,7 @@ router.get(
 router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
 router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
+router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
 
@@ -46,6 +47,10 @@ router.post(
 router.post(
   "/CurriculumDeveloperLogin",
   CurriculumDeveloperControllers.CurriculumDeveloperLogin
+);
+router.post(
+  "/checkAndLogin",
+  CurriculumDeveloperControllers.getOTPEmailCheck
 );
 
 // MONGO Post requests
