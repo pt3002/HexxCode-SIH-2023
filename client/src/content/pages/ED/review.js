@@ -5,11 +5,19 @@ import PageTitleWrapper from "../../../components/PageTitleWrapper";
 import Reviewcard from "../Components/Reviewcard";
 import axios from "axios";
 import React from "react";
+import { useContext, useEffect } from "react";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 import { useState } from "react";
 import { backendURL } from "../../../configKeys";
 
 function EDviewcurri() {
     const [curriculums, setCurriculums] = useState([]);
+  const EDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = EDContext;
+  React.useEffect(() => {
+    checkToken();
+  }, []);
+//   const [subjects, setSubjects] = useState([]);
 
   const curriculumDeveloper = {
     name: "Catherine Pike",

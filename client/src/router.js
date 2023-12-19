@@ -113,12 +113,7 @@ const DynamicRoutes = () =>{
     lazy(() => import('./content/pages/Status/Maintenance'))
   );
 
-  const userContext = useContext(UserTokenContext)
-  const {dict, checkToken} = userContext;  
-    
-  useEffect(() => {
-    checkToken()
-  }, [])
+  const role = localStorage.getItem("shiksha-niyojak-role");
   let   all_routes = [    {
     path: '',
     element: <BaseLayout />,
@@ -330,10 +325,14 @@ const DynamicRoutes = () =>{
         element : <AdminChart />
       }
     ]
-  }]
-  
-  console.log("role2...",dict.role);
-  if(dict.role === "Educator"){
+  },{
+    path : 'curriculumDeveloper',
+    element : <DeptHeadLayout />,
+    children : [{
+      path : 'discussionForum',
+      element : <DiscussionForum />
+    },]}]
+  if(role == "Educator"){
     all_routes.push({
       path : 'ED',
       element : <EducatorLayout />,
@@ -360,7 +359,7 @@ const DynamicRoutes = () =>{
         },
       ]
     })
-  }else if(dict.role == "DepartmentHead"){
+  }else if(role == "DepartmentHead"){
     all_routes.push(
     {
       path : 'deptHead',
@@ -392,7 +391,7 @@ const DynamicRoutes = () =>{
         },
       ]
     })
-  }else if(dict.role == "CurriculumDeveloper"){
+  }else if(role == "CurriculumDeveloper"){
     all_routes.push(
       {
         path : 'curriculumDeveloper',
@@ -421,10 +420,6 @@ const DynamicRoutes = () =>{
           {
             path : 'calendar',
             element : <Calendar />
-          },
-          {
-            path : 'discussionForum',
-            element : <DiscussionForum />
           },
           {
             path : 'chat',

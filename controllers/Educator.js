@@ -5,7 +5,11 @@ const {
   EducatorFeatures,
   Guidelines,
   Requirements,
+<<<<<<< HEAD
   Feedback,
+=======
+  EducatorNotification,
+>>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
 } = require("../classes/Educator");
 
 const generateToken = (user) => {
@@ -248,10 +252,30 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
     }
   }
   catch (error) {
+exports.getNotificationsByUserId = async (req, res, next) => {
+  try {
+    let user_id = req.userId;
+    let notifications = await EducatorNotification.getNotificationsByEducatorId(
+      user_id
+    );
+    res.send({ notifications });
+    //console.log(notifications);
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.setNotificationSeen = async (req, res, next) => {
+  try {
+    let { user_id, user_token } = req.body;
+    await EducatorNotification.setNotificationSeen(user_id);
+    res.send({ message: "Notification seen status updated" });
+    console.log("Hello...")
+  } catch (error) {
     console.log(error);
   }
 };
 
+<<<<<<< HEAD
 exports.getCurriculum=async(req,res,next)=>{
   try{
       let curriculum = [];
@@ -271,3 +295,15 @@ exports.getCurriculum=async(req,res,next)=>{
   }
 }
 
+=======
+exports.deleteNotification = async (req, res, next) => {
+  try {
+    const { user_id, guideline_id } = req.body;
+    await EducatorNotification.deleteNotification(user_id, guideline_id);
+    res.send({ message: "Notification deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+};
+>>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98

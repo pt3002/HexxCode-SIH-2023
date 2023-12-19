@@ -5,10 +5,23 @@ import PageTitleWrapper from "../../../components/PageTitleWrapper";
 import Reviewcard from "../Components/Reviewcard";
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { backendURL } from "../../../configKeys";
-
+import ImageSlider from '../../../components/Dashboard/Carousel'
+import UserTokenContext from "../../../contexts/UserTokenContext";
 function DashboardED() {
+  const EDContext = useContext(UserTokenContext);
+  const {dict, checkToken} = EDContext;
+  const slides = [
+    { url: "http://localhost:3000/static/images/placeholders/covers/0.jpg", title: "beach" },
+    { url: "http://localhost:3000/static/images/placeholders/covers/1.jpg", title: "boat" },
+    { url: "http://localhost:3000/static/images/placeholders/covers/2.jpg", title: "forest" },
+  ];
+  const containerStyles = {
+    width: "500px",
+    height: "280px",
+    margin: "0 auto",
+  };
 //   const [subjects, setSubjects] = useState([]);
 
   const curriculumDeveloper = {
@@ -69,27 +82,34 @@ function DashboardED() {
       cds: ["Ritu", "Sita"],
     },
   ];
+  React.useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <>
+
       <PageTitleWrapper>
+        <div style={containerStyles}>
+          <ImageSlider slides={slides} />
+        </div>
         <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
+          {/* <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
               Curriculum for {curriculumDeveloper.department}
             </Typography>
             <Typography variant="subtitle2">
               {curriculumDeveloper.name}, curriculum for different subjects is listed below:
             </Typography>
-          </Grid>
-          <Grid item>
+          </Grid> */}
+          {/* <Grid item>
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
               endIcon={<ChevronRightTwoToneIcon fontSize="small" />}>
               View All Books
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageTitleWrapper>
       <Grid container spacing={3}>

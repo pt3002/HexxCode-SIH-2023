@@ -70,10 +70,10 @@ export default function ViewGuidelines() {
         "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
       },
     }).then((res) => {
-      setRows(res.data.guidelines);
-      console.log("THERE");
-    });
-  }, []);
+    setRows(res.data.guidelines);
+    console.log("THERE");
+  });
+}, []);
 
   return (
     <>

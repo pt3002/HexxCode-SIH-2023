@@ -14,10 +14,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { backendURL } from "../../../configKeys";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useContext, useEffect } from "react";
+import UserTokenContext from "../../../contexts/UserTokenContext";
 
 const uuid = require("uuid").v4;
 
 export const CreateGroup = () => {
+  const DeptHeadContext = useContext(UserTokenContext);
+  const {dict, checkToken} = DeptHeadContext;
   const [open, setOpen] = React.useState(false);
   const [Edit, setEdit] = useState(0);
   const [rows, setRows] = useState([]);
@@ -66,7 +70,9 @@ export const CreateGroup = () => {
       ),
     },
   ];
-
+  React.useEffect(() => {
+    checkToken();
+  }, []);
   const handleClickOpen = () => {
     setEdit(0);
     setNewGroup({
@@ -89,7 +95,11 @@ export const CreateGroup = () => {
     };
 
     axios
-      .post(backendURL + "/DeptHead/addGroup", body)
+      .post(backendURL + "/DeptHead/addGroup", body,{
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
+      })
       .then((res) => {
         if (res.data.message) {
           Swal.fire({
@@ -118,12 +128,18 @@ export const CreateGroup = () => {
   };
 
   React.useEffect(() => {
-    let body = { department: newGroup.department}
-    axios.post(backendURL + "/DeptHead/getAllSubjectNamesByDepartment",body).then((res) => {
-        console.log(res.data)
-      setRows(res.data.subjects);
-    });
-  }, []);
+    if(dict.token){
+      let body = { department: newGroup.department}
+      axios.post(backendURL + "/DeptHead/getAllSubjectNamesByDepartment",body, {
+        headers: {
+          "shiksha-niyojak": dict.token
+        }
+      }).then((res) => {
+          console.log(res.data)
+        setRows(res.data.subjects);
+      });
+    }
+  }, [dict.token]);
   return (
     <div>
       <Button

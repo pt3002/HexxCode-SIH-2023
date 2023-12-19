@@ -14,16 +14,17 @@ export default function ViewRequirements() {
 
   React.useEffect(() => {
     axios
-      .get(backendURL + "/CurriculumDeveloper/getAllEducatorRequirements", {
-        headers: {
-          "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-        },
-      })
+      .get(backendURL + "/CurriculumDeveloper/getAllEducatorRequirements")
       .then((res) => {
         setRows(res.data.requirements);
       });
   }, []);
 
+  // , {
+  //   headers: {
+  //     "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+  //   },
+  // }
   return (
     <>
     <Box sx={{ m: 5, maxHeight: "500px", overflowY: "auto" }}>

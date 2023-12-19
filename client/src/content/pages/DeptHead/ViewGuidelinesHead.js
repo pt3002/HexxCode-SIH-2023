@@ -15,16 +15,9 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { fDate } from "../../../utils/formatTime";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useContext, useEffect } from "react";
-import UserTokenContext from "../../../contexts/UserTokenContext";
 
 const uuid = require("uuid").v4;
 export default function ViewGuidelines() {
-  const EDContext = useContext(UserTokenContext);
-  const {dict, checkToken} = EDContext;
-  React.useEffect(() => {
-    checkToken();
-  }, []);
   const [rows, setRows] = useState([]);
 
   const columns = [
@@ -32,8 +25,6 @@ export default function ViewGuidelines() {
       field: "title",
       headerName: "Title",
       flex: 1,
-      headerAlign: "center",
-      align: "center",
       renderCell: (params) => (
       <div
         style={{
@@ -49,9 +40,6 @@ export default function ViewGuidelines() {
       field: "mongo_file_id",
       headerName: "View",
       width: 120,
-      // flex: 2,
-      headerAlign: "center",
-      align: "center",
       renderCell: (params) => (
         <Button>
           <DocViewer
@@ -65,36 +53,27 @@ export default function ViewGuidelines() {
       field: "creation_date",
       headerName: "Creation Date",
       width: 120,
-      // flex: 1,
-      headerAlign: "center",
-      align: "center",
       renderCell: (params) => fDate(params.value),
     },
     {
       field: "last_modified_date",
       headerName: "Last Modified",
       width: 120,
-      // flex: 1,
-      headerAlign: "center",
-      align: "center",
       renderCell: (params) =>
         fDate(params.value) ? fDate(params.value) : "Not Modified",
     },
   ];
 
   React.useEffect(() => {
-    if(dict.token){
-      axios.get(backendURL + "/Educator/getGuidelines", {
-        headers: {
-          "shiksha-niyojak": dict.token
-        }
-      }
-        ,).then((res) => {
-        setRows(res.data.guidelines);
-        console.log("THERE");
-      });
-    }
-  }, [dict.token]);
+    axios.get(backendURL + "/DeptHead/getGuidelines", {
+      headers: {
+        "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+      },
+    }).then((res) => {
+    setRows(res.data.guidelines);
+    console.log("THERE");
+  });
+}, []);
 
   return (
     <>

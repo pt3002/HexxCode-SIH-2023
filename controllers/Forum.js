@@ -34,6 +34,7 @@ exports.GetPostById = async (req, res, next) => {
   }
 };
 
+// done
 exports.AddPost = async (req, res, next) => {
   const { title, tags, description, author } = req.body;
   const tags_array = [];
@@ -96,6 +97,7 @@ exports.GetTrending = async (req, res, next) => {
   }
 };
 
+// done
 exports.GetUnanswered = async (req, res, next) => {
   try {
     let all_post = await Post.find().populate("tags");
@@ -114,6 +116,7 @@ exports.GetUnanswered = async (req, res, next) => {
   }
 };
 
+// done
 exports.GetTags = async (req, res, next) => {
   try {
     const tags = await Tag.find().exec();
@@ -136,6 +139,30 @@ exports.AddTags = async (req, res, next) => {
     console.log("err", error);
   }
 };
+
+exports.getPostsAccordingToTags = async(req, res, next) => {
+  const {tagIds} = req.body
+  try{
+    const all_posts = []
+    const post_ids = []
+    for(let i = 0 ; i < tagIds.length ; i++){
+      await Post.find({tags : {$elemMatch : {$eq : tagIds[i]}} }).then((postForTag) => {
+        for(let j = 0; j < postForTag.length;j++){
+          if(post_ids.indexOf(String(postForTag[j]._id)) == -1){
+            all_posts.push(postForTag[j])
+            post_ids.push(String(postForTag[j]._id))
+          }   
+          
+        }
+        
+      })
+    }
+    res.send({all_posts})
+  }
+  catch(error) {
+    console.log("err", error)
+  }
+}
 
 // done
 exports.AddReply = async (req, res, next) => {

@@ -12,8 +12,14 @@ import { CardContent } from '@material-ui/core';
 import PostPage from './postPage';
 import TrendingPage from './trendingPage';
 import UnansweredPage from './unanswered';
+import CreateNewPost from './createNewPost';
+import GetPostsByTags from './postsByTags';
+import UserTokenContext from "../../../contexts/UserTokenContext";
+import { useContext, useEffect, useState } from "react";
 
 function CustomTabPanel(props) {
+  const CDContext = useContext(UserTokenContext);
+  const { dict, checkToken } = CDContext;
   const { children, value, index, ...other } = props;
 
   return (
@@ -84,7 +90,7 @@ export default function DiscussionForum() {
           <Tab label="Trending" {...a11yProps(1)} />
           <Tab label="Tags" {...a11yProps(2)} />
           <Tab label = "Unanswered" {...a11yProps(3)} />
-          <Tab label = "Badges" {...a11yProps(4)} />
+          <Tab label = "Create" {...a11yProps(4)} />
         </Tabs>
       </Box>
       
@@ -101,13 +107,13 @@ export default function DiscussionForum() {
         <TrendingPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <GetPostsByTags />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <UnansweredPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        Item Five
+        <CreateNewPost />
       </CustomTabPanel>
     </>
     

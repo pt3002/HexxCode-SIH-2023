@@ -1,6 +1,7 @@
 const {
   curriculumDeveloperAuth,
   curriculumDeveloperFeatures,
+  CurriculumDeveloperNotification,
   CurriculumDeveloperLogin,
   Guidelines,
   Requirements,
@@ -389,33 +390,25 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
 
 exports.getAllGuidelines = async (req, res, next) => {
   try {
-    let cd_id = req.userId;
-    let cd = await CDLogin.findCDById(cd_id);
-    // console.log(cd);
-    if (cd.length === 0) {
-      res.send({
-        message: "This User is not Authorised",
-      });
-    } else {
-      let ans = await Guidelines.getAllGuidelines();
-      try {
-        let guidelines = [];
-        for (let i = 0; i < ans.length; i++) {
-          let n = {
-            id: ans[i].id,
-            title: ans[i].title,
-            description: ans[i].description,
-            mongo_file_id: ans[i].mongo_file_id,
-            creation_date: ans[i].creation_date,
-            last_modified_date: ans[i].last_modified_date,
-          };
-          guidelines.push(n);
-        }
-        res.send({ guidelines });
-      } catch (error) {
-        console.log(error);
+    let ans = await Guidelines.getAllGuidelines();
+    try {
+      let guidelines = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          title: ans[i].title,
+          description: ans[i].description,
+          mongo_file_id: ans[i].mongo_file_id,
+          creation_date: ans[i].creation_date,
+          last_modified_date: ans[i].last_modified_date,
+        };
+        guidelines.push(n);
       }
+      res.send({ guidelines });
+    } catch (error) {
+      console.log(error);
     }
+
   } catch (error) {
     console.log(error);
   }
@@ -704,3 +697,36 @@ exports.addNewMessage = async(req, res) => {
     )
   })
 }
+exports.getNotificationsByUserId = async (req, res, next) => {
+  try {
+    let user_id = req.userId;
+    let notifications = await CurriculumDeveloperNotification.getNotificationsByCDId(
+      user_id
+    );
+    res.send({ notifications });
+    //console.log(notifications);
+  } catch (error) {
+    console.log(error);
+  }
+};
+exports.setNotificationSeen = async (req, res, next) => {
+  try {
+    let { user_id, user_token } = req.body;
+    await CurriculumDeveloperNotification.setNotificationSeen(user_id);
+    res.send({ message: "Notification seen status updated" });
+    console.log("Hello...")
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.deleteNotification = async (req, res, next) => {
+  try {
+    const { user_id, guideline_id } = req.body;
+    await CurriculumDeveloperNotification.deleteNotification(user_id, guideline_id);
+    res.send({ message: "Notification deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+};
