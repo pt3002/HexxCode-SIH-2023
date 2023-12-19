@@ -5,6 +5,7 @@ import {
   tooltipClasses,
   styled,
   useTheme,
+  Typography
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -98,8 +99,8 @@ function Logo() {
 
   return (
     <TooltipWrapper title=" Shiksha Niyojak" arrow>
-      <LogoWrapper to="/overview">
-        <Badge
+      <LogoWrapper to="/overview" style={{display:"flex", flexDirection:"row"}}>
+        {/* <Badge
           sx={{
             ".MuiBadge-badge": {
               fontSize: theme.typography.pxToRem(11),
@@ -109,13 +110,24 @@ function Logo() {
           }}
           overlap="circular"
           color="success"
-          badgeContent="2.0">
-          <LogoSignWrapper>
+          badgeContent="2.0"
+          > */}
+          {/* <LogoSignWrapper>
             <LogoSign>
               <LogoSignInner />
             </LogoSign>
-          </LogoSignWrapper>
-        </Badge>
+          </LogoSignWrapper> */}
+          <img
+            src="Shiksha.png"
+            style={{
+              width: "120%", 
+              height: "140%",
+              margin:"15%", 
+            }}
+          />
+      <Typography variant="h2" style={{color:"white", margin:"15%"}}> Shiksha Niyojak</Typography>
+
+        {/* </Badge> */}
       </LogoWrapper>
     </TooltipWrapper>
   );

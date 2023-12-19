@@ -211,31 +211,6 @@ export default function CurriculumDeveloperLogin() {
 
   return (
     <React.Fragment>
-      {/* <Box
-  sx={{
-    backgroundImage: 'url(./static/images/bg.jpg)',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '0px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    backgroundSize: 'cover',
-    minHeight: '100vh',
-    backgroundColor: '#767676',
-  }}> */}
-
-{/* backgroundImage: `url(${background})`,
-            height: "100vh",
-            marginTop: "-70px",
-            fontSize: "50px",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat", */}
       <CssBaseline />
       <AppBar
         position="absolute"
