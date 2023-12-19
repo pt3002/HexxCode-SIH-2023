@@ -31,6 +31,7 @@ router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllR
 router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
 router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
+router.get("/allSubjects", CurriculumDeveloperControllers.getAllSubjects)
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
 
@@ -56,6 +57,7 @@ router.post("/register", CurriculumDeveloperControllers.CDRegistration);
 router.post("/newSave", [auth,CurriculumDeveloperControllers.addNewSave])
 router.post("/setNotificationSeen", [auth, CurriculumDeveloperControllers.setNotificationSeen]);
 router.get("/getNotifications", [auth,CurriculumDeveloperControllers.getNotificationsByUserId]);
+router.post("/getAllDocumentsForEditAccess", [auth, CurriculumDeveloperControllers.getAllDocumentsForEditAccess])
 // MONGO GET REQUESTS
 router.get("/lastSaveBody/:documentId", [auth,CurriculumDeveloperControllers.GetLastSaveBody])
 router.get("/commitHistory/:documentId",[auth, CurriculumDeveloperControllers.GetCommitsHistory])
