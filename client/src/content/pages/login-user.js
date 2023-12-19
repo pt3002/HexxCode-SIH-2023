@@ -83,7 +83,7 @@ export default function CurriculumDeveloperLogin() {
       setClicked("ad")
     } else {
       setLink("");
-      setUser("Deptartment Head");
+      setUser("Bureau");
       setNotHead(false);
     }
     setData((prevData) => ({
@@ -266,7 +266,7 @@ export default function CurriculumDeveloperLogin() {
 
   const role_arr = [
     { value: "1", label: "Curriculum Developer" },
-    { value: "4", label: "Department Head" },
+    { value: "4", label: "Bureau" },
   ];
 
   return (
@@ -455,7 +455,7 @@ export default function CurriculumDeveloperLogin() {
                       Curriculum Developer
                     </MenuItem>
                    <MenuItem key="4" value="4">
-                      Department Head
+                      Bureau
                     </MenuItem>
                 </TextField>
               </Grid>
