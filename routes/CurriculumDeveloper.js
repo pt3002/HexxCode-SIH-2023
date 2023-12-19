@@ -32,6 +32,8 @@ router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
 router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 
+router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
+
 //# Post Request
 router.post(
   "/addPinnedResources",

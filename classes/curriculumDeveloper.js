@@ -118,6 +118,12 @@ class curriculumDeveloperFeatures {
     const [result, _] = await db.execute(sql);
     return result;
   }
+  
+  static async getSubBySem(sem) {
+    let sql = `select * from subject where semester="${sem}";`;
+    const [result, _] = await db.execute(sql);
+    return result;
+  }
 }
 
 
