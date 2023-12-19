@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
 import { useLocation } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -32,8 +34,6 @@ export const OtpScript = () => {
   const handleClickOpen = () => {
     setOpen(true);
     if (otp) {
-    } else {
-      alert("Please enter otp");
     }
   };
 
@@ -76,7 +76,13 @@ export const OtpScript = () => {
           navigate("/login");
         });
     } else {
-      alert("Incorrect otp");
+        Swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Incorrect OTP",
+            showConfirmButton: false,
+            timer: 3000,
+          });
       navigate("/login");
     }
   };
@@ -119,6 +125,17 @@ export const OtpScript = () => {
   };
 
   return (
+    <React.Fragment>
+      <CssBaseline />
+      <AppBar
+        position="absolute"
+        color="default"
+        elevation={0}
+        sx={{
+          position: "relative",
+          borderBottom: (t) => `1px solid ${t.palette.divider}`,
+        }}
+      ></AppBar>
     <div
       style={{
         backgroundImage: `url(${bg_pic})`,
@@ -126,6 +143,7 @@ export const OtpScript = () => {
         right: "0px",
         bottom: "0px",
         left: "0px",
+        margin:"0px",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -140,14 +158,15 @@ export const OtpScript = () => {
         component="main"
         maxWidth="sm"
         style={{
-          backgroundColor: "#E5EDF1",
-          borderRadius: "32px",
-          opacity: 0.8,
+          backgroundColor: "black",
+          borderRadius: "12px",
+          opacity: 1,
+          border: "solid 2px gold",
         }}>
-        <Typography component="h6" variant="h6">
+        <Typography component="h4" variant="h4" color="white" p={1}>
           Please Verify your details
         </Typography>
-        <Typography component="h6" variant="h6">
+        <Typography component="h4" variant="h4" color="white" p={1}>
           After OTP Verification these details cannot be modified
         </Typography>
         <form
@@ -168,19 +187,19 @@ export const OtpScript = () => {
               width: "100%",
               justifyContent: "space-evenly",
               alignItems: "start",
-              backgroundColor: "rgba(255, 255, 200, 0.5)",
+              backgroundColor: "rgba(0, 0, 0)",
               padding: "10px",
-              borderRadius: "16px",
+              borderRadius: "8px",
             }}>
-            <label>Email</label>
+            <label color="white">Email</label>
             <input
               type="email"
               name="user_email"
               value={location.state.body.email}
               style={{
                 fontSize: "24px",
-                borderRadius: "8px",
-                border: "0px",
+                // borderRadius: "8px",
+                border: "solid 2px gold",
                 padding: "4px",
               }}
             />
@@ -191,10 +210,10 @@ export const OtpScript = () => {
             <input
               style={{
                 fontSize: "24px",
-                backgroundColor: "#feca0a",
-                color: "#012d5e",
+                // backgroundColor: "#feca0a",
+                color: "rgba(255, 255, 255)",
                 borderRadius: "4px",
-                borderRadius: "12px",
+                // borderRadius: "12px",
                 cursor: "pointer",
                 fontWeight: "bold",
                 padding: "10px 15px",
@@ -202,7 +221,8 @@ export const OtpScript = () => {
                 transition: "200ms",
                 width: "100%",
                 boxSizing: "border-box",
-                border: "0",
+                backgroundColor: "rgba(0, 0, 0)",
+                border: "solid 2px gold",
                 fontSize: "16px",
                 userSelect: "none",
                 lineHeight: "28px",
@@ -215,10 +235,10 @@ export const OtpScript = () => {
             <Button
               style={{
                 fontSize: "24px",
-                backgroundColor: "#feca0a",
-                color: "#012d5e",
+                backgroundColor: "rgba(0, 0, 0)",
+                color: "rgba(255, 255, 255)",
                 borderRadius: "4px",
-                borderRadius: "12px",
+                // borderRadius: "12px",
                 cursor: "pointer",
                 fontWeight: "bold",
                 padding: "10px 15px",
@@ -226,7 +246,7 @@ export const OtpScript = () => {
                 transition: "200ms",
                 width: "100%",
                 boxSizing: "border-box",
-                border: "0",
+                border: "solid 2px gold",
                 fontSize: "16px",
                 userSelect: "none",
                 touchAction: "manipulation",
@@ -239,10 +259,10 @@ export const OtpScript = () => {
           <Button
             style={{
               fontSize: "24px",
-              backgroundColor: "#feca0a",
-              color: "#012d5e",
+              backgroundColor: "rgba(0, 0, 0)",
+              color: "rgba(255, 255, 255)",
               borderRadius: "4px",
-              borderRadius: "12px",
+            //   borderRadius: "12px",
               cursor: "pointer",
               fontWeight: "bold",
               padding: "10px 15px",
@@ -250,7 +270,7 @@ export const OtpScript = () => {
               transition: "200ms",
               width: "100%",
               boxSizing: "border-box",
-              border: "0",
+              border: "solid 2px gold",
               fontSize: "16px",
               userSelect: "none",
               touchAction: "manipulation",
@@ -284,5 +304,6 @@ export const OtpScript = () => {
         </form>
       </Container>
     </div>
+    </React.Fragment>
   );
 };

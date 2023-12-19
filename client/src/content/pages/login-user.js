@@ -4,10 +4,12 @@ import AppBar from "@mui/material/AppBar";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { useLocation } from "react-router-dom";
 import Grid from "@mui/material/Grid"; //1
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
+import emailjs from "@emailjs/browser";
 import { Avatar, ButtonGroup, Box } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Footer from "../../components/Footer";
@@ -30,11 +32,19 @@ export default function CurriculumDeveloperLogin() {
   const [notHead, setNotHead] = React.useState(true);
   const [dropDown, setDropDown] = React.useState(false);
   const [clicked, setClicked] = React.useState(null);
+  const form = React.useRef();
+  const location = useLocation();
+  const [correctotp, setCorrectotp] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+  const [otp, setOtp] = React.useState("");
+
+  const [loading, setLoading] = React.useState(false);
   const [Data, setData] = React.useState({
     email: "",
     password: "",
     type: 0,
   });
+  var o = Math.floor(100000 + Math.random() * 900000);
 
   const error = {};
   const userContext = useContext(UserTokenContext)
@@ -124,7 +134,42 @@ export default function CurriculumDeveloperLogin() {
       return "/deptHead";
     }
   };
+  const sendEmail = (e) => {
+    e.preventDefault();
 
+    if (location.state.body) {
+      setCorrectotp(o);
+      setLoading(true);
+      emailjs
+        .sendForm(
+          "service_6wjn715", // service id
+          "template_x77v08c", // template id
+          form.current,
+          "IWz8BxDawjTZYvnbQ" // public api key
+        )
+        .then(
+          (result) => {
+            Swal.fire({
+                icon: "info",
+                title: "INFO",
+                text: "Email sent, check for OTP",
+                showConfirmButton: false,
+                timer: 3000,
+              });
+            setLoading(false);
+          },
+          (error) => {
+            Swal.fire({
+                icon: "error",
+                title: "ERROR",
+                text: error.text,
+                showConfirmButton: false,
+                timer: 3000,
+              });
+          }
+        );
+    }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     let errors = error;
@@ -184,7 +229,7 @@ export default function CurriculumDeveloperLogin() {
               Swal.fire({
                 icon: "info",
                 title: "INFO",
-                text: res.data.message,
+                text: "Two step verification, use email to send OTP",
                 showConfirmButton: false,
                 timer: 3000,
               });
