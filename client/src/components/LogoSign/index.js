@@ -121,6 +121,8 @@ function Logo() {
               <LogoSignInner />
             </LogoSign>
           </LogoSignWrapper> */}
+
+        {/* <Grid> */}
         <img
           src="Shiksha.png"
           style={{
@@ -136,30 +138,29 @@ function Logo() {
             margin: "2%",
             display: "flex",
             flexDirection: "column",
-            width: "100%",
+            width: "50%",
           }}
         >
-          <Typography
-            variant="h2"
-            style={{
-              color: "white",
-              // margin: "2%",
-              // width: "60%",
-            }}
-          >
+          <Typography variant="h3" style={{ color: "white", margin: "2%" }}>
             शिक्षा नियोजक
           </Typography>
-          <Typography
-            variant="h5"
-            // display="inline"
-            style={{
-              color: "white",
-              // margin: "2%",
-            }}
-          >
+          <Typography variant="h4" style={{ color: "white", margin: "2%" }}>
             Shiksha Niyojak
           </Typography>
         </Grid>
+
+        <img
+          src="./static/images/logo/aicte.jpg"
+          alt="aicte"
+          style={{
+            width: "120%",
+            height: "140%",
+            margin: "15%",
+            marginLeft: "150%" 
+          }}
+        />
+        {/* </Grid> */}
+
         {/* </Badge> */}
       </LogoWrapper>
     </TooltipWrapper>
