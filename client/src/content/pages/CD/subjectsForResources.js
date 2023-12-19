@@ -9,8 +9,13 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { backendURL } from "../../../configKeys";
+import { useLocation } from "react-router-dom";
+
 
 function SubjectsForResources() {
+  const[subject, setSubject] = useState("");
+  const location = useLocation();
+
   // const temp_books = [
   //   {
   //     id: "1",
@@ -108,19 +113,27 @@ function SubjectsForResources() {
   const [books, setBooks] = useState([]);
 
   React.useEffect(() => {
+    let body = 
+    {
+      subject_id: location.state.subject_id,
+    };
     axios
-      .get(backendURL + "/CurriculumDeveloper/getResourceBySubject/Compilers", {
+      .post(backendURL + "/CurriculumDeveloper/getBooksBySubjects",
+        body,
+      {
         headers: {
           "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
         },
       })
       .then((res) => {
-        let array = res.data.resources;
+        // console.log("BOOKS==============================>",res.data);
+        let array = res.data.books;
+        // console.log("array===",array.length);
         let temp_resources = [];
         for (let i = 0; i < array.length; i++) {
           let n = {
             id: array[i].id,
-            subject_id: array[i].subject_id,
+            // subject_id: array[i].subject_id,
             code: array[i].code,
             name: array[i].name,
             author: array[i].author,
@@ -130,9 +143,10 @@ function SubjectsForResources() {
           temp_resources.push(n);
         }
         setBooks(temp_resources);
+        // console.log("setted books========>", books);
       })
       .catch((error) => {
-        console.log("Error Code: ", error);
+        // console.log("Error Code: ", error);
       });
   });
 

@@ -38,6 +38,7 @@ import NotificationAddIcon from '@mui/icons-material/NotificationAdd';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ClassIcon from '@mui/icons-material/Class';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -302,6 +303,17 @@ function SidebarMenu() {
                   startIcon={<GroupsIcon />}
                 >
                   Add Guidelines
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/aicte/feedbackChart"
+                  startIcon={<AssessmentIcon />}
+                >
+                  View Feedback Analysis
                 </Button>
               </ListItem>
               {/* <ListItem component="div">

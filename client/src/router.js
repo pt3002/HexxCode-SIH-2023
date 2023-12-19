@@ -13,6 +13,7 @@ import Checkout from './content/pages/registerSteps';
 import Page1New from './content/pages/page_one_new';
 import Page2New from './content/pages/page_two_new';
 import Page3New from './content/pages/page_three_new';
+import { OtpScript } from './content/pages/otpscript';
 import CurriculumDeveloperLogin from './content/pages/login-user';
 import SubjectsForResources from './content/pages/CD/subjectsForResources';
 import DashboardED from './content/pages/ED/dashboard';
@@ -40,6 +41,7 @@ import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
 import Chat from './content/pages/CD/chat';
 import AdminChart from './content/pages/AICTE/AdminChart';
+import FeedbackChart from './content/pages/AICTE/FeedbackChart';
 import GetSubjectsList from './content/pages/CD/subjectsList';
 
 const Loader = (Component) => (props) =>
@@ -286,6 +288,13 @@ const DynamicRoutes = () =>{
     ]
   },
   {
+    path : 'otpscript',
+    element : <OtpScript />,
+    children : [
+      
+    ]
+  },
+  {
     path : 'register-educator',
     element : <RegisterEducator />,
     children : [
@@ -323,6 +332,10 @@ const DynamicRoutes = () =>{
       {
         path: 'adminChart',
         element : <AdminChart />
+      },
+      {
+        path: 'feedbackChart',
+        element : <FeedbackChart />
       }
     ]
   },{

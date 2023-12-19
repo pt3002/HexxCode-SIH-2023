@@ -153,7 +153,7 @@ function Courses() {
       <Grid container spacing={3}>
         {subjects.map((subject) => (
           <Grid key={subject.id} item xs={12} md={4} xl={3}>
-            <SubjectCard subject={subject} />
+            <SubjectCard subject={subject}/>
           </Grid>
         ))}
       </Grid>

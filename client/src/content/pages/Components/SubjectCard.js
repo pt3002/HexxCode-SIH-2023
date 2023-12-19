@@ -26,7 +26,7 @@ SubjectCard.propTypes = {
 };
 
 export default function SubjectCard({ subject }) {
-  const { cover, name, code, cds } = subject;
+  const { id, cover, name, code, cds} = subject;
 
   const theme = useTheme();
 
@@ -96,7 +96,12 @@ export default function SubjectCard({ subject }) {
         <Button
           variant="outlined"
           sx={{ margin: 1 }}
-          onClick={() => navigate("/curriculumDeveloper/books")}>
+          onClick={() => navigate("/curriculumDeveloper/books", {
+            state: {
+              subject_id: id,
+            },
+            
+          })}>
           View Books
         </Button>
         <Box display="flex">{renderCurriculumDevelopers}</Box>

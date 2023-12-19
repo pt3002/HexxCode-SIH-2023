@@ -34,6 +34,7 @@ router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectNa
 router.get("/allSubjects", CurriculumDeveloperControllers.getAllSubjects)
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
+router.post("/getBooksBySubjects", CurriculumDeveloperControllers.GetBooksBySubject);
 
 //# Post Request
 router.post(
@@ -48,6 +49,10 @@ router.post(
 router.post(
   "/CurriculumDeveloperLogin",
   CurriculumDeveloperControllers.CurriculumDeveloperLogin
+);
+router.post(
+  "/checkAndLogin",
+  CurriculumDeveloperControllers.getOTPEmailCheck
 );
 
 // MONGO Post requests
