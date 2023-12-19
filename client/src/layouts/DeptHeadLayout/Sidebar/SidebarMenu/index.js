@@ -220,7 +220,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper"
+                  to="/curriculumDeveloper/calendar"
                   startIcon={<InsertInvitationIcon />}
                 >
                 {/* /calendar */}
@@ -243,7 +243,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/DeptHead/viewGroups"
                   startIcon={<GroupsIcon />}
                 >
                 {/* /DeptHead/viewGroups */}
@@ -255,7 +255,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper"
+                  to="/curriculumDeveloper/createDocument"
                   startIcon={<AutoFixHighIcon />}
                 >
                 {/* /createDocument */}
@@ -267,7 +267,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper"
+                  to="/curriculumDeveloper/discussionForum"
                   startIcon={<ForumIcon />}
                 >
                 {/* /discussionForum */}
@@ -279,14 +279,14 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper"
+                  to="/DeptHead/viewRequirements"
                   startIcon={<ArticleIcon />}
                 >
                 {/* /DeptHead/viewRequirements */}
                   Requirements from Educators
                 </Button>
               </ListItem>
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -296,7 +296,7 @@ function SidebarMenu() {
                 >
                   Past Curriculums
                 </Button>
-              </ListItem>
+              </ListItem> */}
               <ListItem component="div">
                 <Button
                   disableRipple
