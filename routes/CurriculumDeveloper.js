@@ -30,7 +30,7 @@ router.get(
 router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
 router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
-
+router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 
 //# Post Request
 router.post(

@@ -40,6 +40,7 @@ import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
 import Chat from './content/pages/CD/chat';
 import AdminChart from './content/pages/AICTE/AdminChart';
+import GetSubjectsList from './content/pages/CD/subjectsList';
 
 const Loader = (Component) => (props) =>
   (
@@ -415,6 +416,10 @@ const DynamicRoutes = () =>{
           {
             path : 'createDocument',
             element : <CreateDocument />
+          },
+          {
+            path : "allCurriculums",
+            element : <GetSubjectsList />
           },
           {
             path : 'calendar',

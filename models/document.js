@@ -19,6 +19,7 @@ const documentSchema = new Schema(
     },
     createdAt: { type: Date, default: Date.now, required: true },
     updatedAt: { type: Date, default: Date.now, required: true },
+    subjectName : {type: String, required : true}
   },
   { timestamps: true }
 );

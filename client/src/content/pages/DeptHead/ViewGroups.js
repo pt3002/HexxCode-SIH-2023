@@ -147,8 +147,35 @@ export default function ViewGroups() {
           "shiksha-niyojak": dict.token
         }
       })
-      .then((res) => {
+      .then(async(res) => {
         if (res.data.message) {
+
+          let a = [
+            "Learning Outcomes",
+            "Modules",
+            "Assessment Details",
+            "Resources",
+            "Suggested Videos",
+          ];
+          for (let i = 0; i < a.length; i++) {
+            let body = {
+              title: a[i],
+              description: "Initial Commits",
+              createdBy: dict.details.id,
+              subjectName: newGroup.subject_name,
+            };
+            console.log(body)
+            await axios.post(
+              backendURL + "/curriculumDeveloper/createDocument",
+              body,
+              {
+                headers: {
+                  "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+                },
+              }
+            );
+          }
+
           Swal.fire({
             icon: "success",
             title: "SUCCESS",
