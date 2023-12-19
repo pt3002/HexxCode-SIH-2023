@@ -257,7 +257,21 @@ exports.EducatorPostFeedback=async(req,res,next)=>{
         message: "Feedback Saved Successfully",
       });
     }
-  }}catch (error) {
+  }}
+  catch (error) {
+    console.log(error);
+  }
+};
+
+exports.getNotificationsByUserId = async (req, res, next) => {
+  try {
+    let user_id = req.userId;
+    let notifications = await EducatorNotification.getNotificationsByEducatorId(
+      user_id
+    );
+    res.send({ notifications });
+    //console.log(notifications);
+  } catch (error) {
     console.log(error);
   }
 };

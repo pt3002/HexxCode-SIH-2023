@@ -255,7 +255,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/createDocument"
+                  to="/DeptHead/createDocument"
                   startIcon={<AutoFixHighIcon />}
                 >
                 {/* /createDocument */}
@@ -267,7 +267,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/discussionForum"
+                  to="/DeptHead/discussionForum"
                   startIcon={<ForumIcon />}
                 >
                 {/* /discussionForum */}

@@ -31,6 +31,12 @@ import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwo
 import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import ColorizeIcon from '@mui/icons-material/Colorize';
+import ForumIcon from '@mui/icons-material/Forum';
+import SchoolIcon from '@mui/icons-material/School';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import ChatIcon from '@mui/icons-material/Chat';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -225,7 +231,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper/subjects"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<LibraryBooksIcon />}
                 >
                 {/* /curriculumDeveloper/subjects */}
                   Resource Repository
@@ -237,7 +243,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper/createDocument"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<ColorizeIcon />}
                 >
                 {/* /curriculumDeveloper/createDocument */}
                   Curriculum Development Tool
@@ -249,7 +255,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper/discussionForum"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<ForumIcon />}
                 >
                 {/* /curriculumDeveloper/discussionForum */}
                   Discussion Forum
@@ -261,7 +267,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper/viewRequirements"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<SchoolIcon />}
                 >
                 {/* /curriculumDeveloper/viewRequirements */}
                   Requirements from Educators
@@ -283,8 +289,8 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper/viewGuidelines"
-                  startIcon={<MmsTwoToneIcon />}
+                  to="/curriculumDeveloper/viewGuidelines"
+                  startIcon={<ChecklistIcon />}
                 >
                 {/* /CurriculumDeveloper/viewGuidelines */}
                   View Guidelines
@@ -295,8 +301,8 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper/Chat"
-                  startIcon={<MmsTwoToneIcon />}
+                  to="/curriculumDeveloper/Chat"
+                  startIcon={<ChatIcon />}
                 >
                 {/* /CurriculumDeveloper/Chat */}
                   Chat

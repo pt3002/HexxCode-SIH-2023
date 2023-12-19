@@ -15,6 +15,8 @@ import {
   ListItemText,
   ListSubheader,
   ListItemButton,
+  ListItemAvatar,
+  Avatar,
   Button,
 } from '@mui/material';
 import PropTypes from "prop-types";
@@ -32,6 +34,8 @@ import Scrollbar from "../../../../../components/Scrollbar"
 import { formatDistance, subDays } from 'date-fns';
 import Slide from "@mui/material/Slide";
 import DocViewer from "../../../../../content/pages/Components/DocViewer";
+import Iconify from '../../../../../components/iconify'
+// import AICTE from '../../../../../theme/aicte.jpg'
 
 const NotificationsBadge = styled(Badge)(
   ({ theme }) => `
@@ -50,12 +54,12 @@ const NotificationsBadge = styled(Badge)(
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            box-shadow: 0 0 0 1px ${alpha(theme.palette.error.main, 0.3)};
             content: "";
+          }
         }
-    }
-`
-);
+        `
+        );
+        // box-shadow: 0 0 0 1px ${alpha(theme.palette.error.main, 0.3)};
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -75,40 +79,72 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 //     </List>
 //   );
 // }
+// margin-bottom: ${theme.spacing(2)};
 const StyledCard = styled(Card)(
   ({ theme, isNew }) => `
-    margin-bottom: ${theme.spacing(2)};
-    background-color: ${isNew ? theme.palette.background.paper : theme.palette.background.default};
-    ${isNew ? '' : 'border: 1px solid ' + alpha(theme.palette.divider, 0.5)};
-  `
-);
+    background-color: ${theme.palette.background.paper};
+    `
+    );
+    // ${isNew ? '' : 'border: 1px solid ' + alpha(theme.palette.divider, 0.5)};
 
 const NotificationItem = ({ notification, onNotificationClick, onDeleteNotification }) => {
   const isNew = notification.isUnread === 1;
 
   return (
-    <StyledCard isNew={isNew} elevation={isNew ? 3 : 1}>
-      <Box padding={1} display="flex" alignItems="center" justify-content= "space-between">
-         {/* Add your notification content here */}
-        <Typography variant="subtitle1" align-self ="flex-end" >{notification.title}</Typography>
-        <Button sx={{marginLeft:"5%"}}>
-          <DocViewer
-            filename={notification.description}
-            contentType="application/pdf"
-          />
-        </Button>
-      </Box>
-      <Divider />
-      <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
-        <Typography variant="caption">{fToNow(notification.creation_time)}</Typography>
-        {/* <IconButton color="error" onClick={() => onDeleteNotification(notification.guideline_id)}>
-          <DeleteIcon />
-        </IconButton> */}
-      </Box>
-    </StyledCard>
+    <ListItemButton
+      sx={{
+        py: 1.5,
+        px: 2,
+        mt: "1px",
+        bgcolor: notification.isUnread ? "background.paper" : "action.focus",
+      }}
+      // onClick={handleNotificationClick}
+    >
+      <Iconify
+              icon="tdesign:address-book"
+              sx={{ mr: 10, width: "32px", height: "32px" }}
+        />
+      <ListItemText
+        primary={
+          <Typography
+            sx={{
+              color: "text.black",
+            }}
+          >
+            {notification.title}
+          </Typography>
+        }
+        secondary={
+          <Typography
+            variant="caption"
+            sx={{
+              mt: 0.5,
+              display: "flex",
+              alignItems: "center",
+              color: "text.darkGrey",
+            }}
+          >
+            <Iconify
+              icon="eva:clock-outline"
+              sx={{ mr: 0.5, width: 16, height: 16 }}
+            />
+            {fToNow(notification.creation_time)}
+          </Typography>
+        }
+      />
+    </ListItemButton>
   );
 };
 
+    // <StyledCard isNew={isNew} elevation={isNew ? 3 : 1}>
+    //   <Box padding={1} display="flex" alignItems="center" justify-content= "space-between">
+    //      {/* Add your notification content here */}
+    //     <Typography variant="subtitle1" align-self ="flex-end" >{notification.title}</Typography>
+    //     <Box display="flex" justifyContent="space-between" alignItems="center" padding={1}>
+    //       <Typography variant="caption">{fToNow(notification.creation_time)}</Typography>
+    //     </Box>
+    //   </Box>
+    // </StyledCard>
 function NotificationList({ notifications, handleMarkAllAsRead, onDeleteNotification }) {
   return (
     <List disablePadding>
@@ -259,9 +295,9 @@ function HeaderNotifications() {
         PaperProps={{
           sx: {
             mt: 1.5,
-            ml: 0.75,
-            width: 360,
-            p: 2,  // Added padding
+            ml: 0.1,
+            width: 300,
+            p: 1,  // Added padding
           },
         }}
       >
