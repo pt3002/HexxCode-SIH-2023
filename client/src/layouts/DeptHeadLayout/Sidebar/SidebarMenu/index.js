@@ -195,9 +195,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/deptHead/overview"
+                  to="/CurriculumDeveloper"
                   startIcon={<DesignServicesTwoToneIcon />}
                 >
+                {/* /overview */}
                   Dashboard
                 </Button>
               </ListItem>
@@ -219,9 +220,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/crypto"
+                  to="/curriculumDeveloper"
                   startIcon={<InsertInvitationIcon />}
                 >
+                {/* /calendar */}
                   Calendar
                 </Button>
               </ListItem>
@@ -241,9 +243,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/deptHead/viewGroups"
+                  to="/CurriculumDeveloper"
                   startIcon={<GroupsIcon />}
                 >
+                {/* /DeptHead/viewGroups */}
                   View Groups
                 </Button>
               </ListItem>
@@ -252,9 +255,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/createDocument"
+                  to="/curriculumDeveloper"
                   startIcon={<AutoFixHighIcon />}
                 >
+                {/* /createDocument */}
                   Curriculum Development Tool
                 </Button>
               </ListItem>
@@ -263,9 +267,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashboards/messenger"
+                  to="/curriculumDeveloper"
                   startIcon={<ForumIcon />}
                 >
+                {/* /discussionForum */}
                   Discussion Forum
                 </Button>
               </ListItem>
@@ -274,9 +279,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/viewRequirements"
+                  to="/CurriculumDeveloper"
                   startIcon={<ArticleIcon />}
                 >
+                {/* /DeptHead/viewRequirements */}
                   Requirements from Educators
                 </Button>
               </ListItem>
@@ -299,6 +305,7 @@ function SidebarMenu() {
                   to="/deptHead/viewGuidelines"
                   startIcon={<WysiwygIcon />}
                 >
+                {/* /DeptHead/viewGuidelines */}
                   View Guidelines
                 </Button>
               </ListItem>

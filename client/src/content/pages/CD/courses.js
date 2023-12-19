@@ -17,7 +17,7 @@ function Courses() {
   const curriculumDeveloper = {
     name: "Catherine Pike",
     avatar: "/static/images/avatars/1.jpg",
-    department: "Computer",
+    department: "Computer Engineering",
   };
   React.useEffect(() => {
     checkToken();

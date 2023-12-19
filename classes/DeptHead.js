@@ -6,7 +6,14 @@ class DeptHeadLogin {
     return newPost;
   }
 }
+class Guidelines{
 
+  static async getAllGuidelines() {
+    let sql = `Select * from guideline`;
+    const [guidelines, _] = await db.execute(sql);
+    return guidelines;
+  }
+}
 class Groups {
   static async addGroup(
     id,
@@ -90,5 +97,5 @@ class DeptHeadNotification {
   }
 }
 
-module.exports = { Groups, DeptHeadLogin, DeptHeadNotification };
+module.exports = { Groups, DeptHeadLogin, DeptHeadNotification, Guidelines };
 

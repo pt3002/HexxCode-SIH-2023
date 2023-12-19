@@ -24,7 +24,7 @@ router.get(
 
 router.get(
   "/getGuidelines",
- [auth, CurriculumDeveloperControllers.getAllGuidelines]
+ CurriculumDeveloperControllers.getAllGuidelines
 )
 
 router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);

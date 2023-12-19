@@ -4,7 +4,10 @@ const DeptHeadControllers = require("../controllers/DeptHead");
 const { auth } = require("../middleware/auth")
 
 router.post("/DeptHeadLogin",DeptHeadControllers.DeptHeadLogin);
-
+router.get(
+    "/getGuidelines",
+   DeptHeadControllers.getAllGuidelines
+  )
 //Groups
 router.post("/getAllSubjectNamesByDepartment", DeptHeadControllers.getAllSubjectNamesByDepartment);
 router.post("/addGroup", DeptHeadControllers.addGroup);
