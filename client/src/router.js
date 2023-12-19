@@ -41,6 +41,7 @@ import ViewGroups from './content/pages/DeptHead/ViewGroups';
 import GroupInfo from './content/pages/DeptHead/GroupInfo';
 import Chat from './content/pages/CD/chat';
 import AdminChart from './content/pages/AICTE/AdminChart';
+import FeedbackChart from './content/pages/AICTE/FeedbackChart';
 import GetSubjectsList from './content/pages/CD/subjectsList';
 
 const Loader = (Component) => (props) =>
@@ -331,6 +332,10 @@ const DynamicRoutes = () =>{
       {
         path: 'adminChart',
         element : <AdminChart />
+      },
+      {
+        path: 'feedbackChart',
+        element : <FeedbackChart />
       }
     ]
   },{
