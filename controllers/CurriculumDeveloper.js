@@ -448,6 +448,9 @@ exports.getAllGuidelines = async (req, res, next) => {
 
 exports.getAllRequirements = async (req, res, next) => {
   try {
+    // console.log("requirements.....",req.details)
+    // console.log("requirements.....",req)
+    console.log("Requirements...",req.userId)
     let ans = await Requirements.getAllRequirements(req.userId);
     try {
       let requirements = [];
