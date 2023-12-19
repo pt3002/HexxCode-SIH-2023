@@ -5,7 +5,8 @@ import {
   tooltipClasses,
   styled,
   useTheme,
-  Typography
+  Typography,
+  Grid,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -99,7 +100,10 @@ function Logo() {
 
   return (
     <TooltipWrapper title=" Shiksha Niyojak" arrow>
-      <LogoWrapper to="/overview" style={{display:"flex", flexDirection:"row"}}>
+      <LogoWrapper
+        to="/overview"
+        style={{ display: "flex", flexDirection: "row" }}
+      >
         {/* <Badge
           sx={{
             ".MuiBadge-badge": {
@@ -112,21 +116,50 @@ function Logo() {
           color="success"
           badgeContent="2.0"
           > */}
-          {/* <LogoSignWrapper>
+        {/* <LogoSignWrapper>
             <LogoSign>
               <LogoSignInner />
             </LogoSign>
           </LogoSignWrapper> */}
-          <img
-            src="Shiksha.png"
+        <img
+          src="Shiksha.png"
+          style={{
+            width: "120%",
+            height: "140%",
+            margin: "15%",
+          }}
+        />
+        {/* <Typography variant="h2" style={{color:"white", margin:"15%"}}> Shiksha Niyojak</Typography> */}
+        <Grid
+          align="left"
+          sx={{
+            margin: "2%",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          <Typography
+            variant="h2"
             style={{
-              width: "120%", 
-              height: "140%",
-              margin:"15%", 
+              color: "white",
+              // margin: "2%",
+              // width: "60%",
             }}
-          />
-      <Typography variant="h2" style={{color:"white", margin:"15%"}}> Shiksha Niyojak</Typography>
-
+          >
+            शिक्षा नियोजक
+          </Typography>
+          <Typography
+            variant="h5"
+            // display="inline"
+            style={{
+              color: "white",
+              // margin: "2%",
+            }}
+          >
+            Shiksha Niyojak
+          </Typography>
+        </Grid>
         {/* </Badge> */}
       </LogoWrapper>
     </TooltipWrapper>

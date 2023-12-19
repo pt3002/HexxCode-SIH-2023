@@ -340,12 +340,16 @@ export default function CurriculumDeveloperLogin() {
               borderRadius: 2.5,
             }}
           >
-            <Grid align="center" sx={{ mt: 1, mb: 1 }}>
+            <Grid align="center" sx={{ mt: 1, mb: 1, display:"flex", flexDirection:"row" }}>
               <img
-                src="./static/images/logo/logo_new.png"
-                alt="aicte"
+                src="./static/images/logo/Shiksha.png"
+                alt="Shiksha-Niyojak"
                 height="70"
               />
+              <Grid align="left" sx={{margin:"2%", display:"flex", flexDirection:"column", width:"50%"}}>
+                <Typography variant="h2" style={{color:"#02263C", margin:"2%"}}>शिक्षा नियोजक</Typography>
+                <Typography variant="h4" style={{color:"#02263C", margin:"2%"}}>Shiksha Niyojak</Typography>
+              </Grid>
             </Grid>
 
             <Grid align="center">
