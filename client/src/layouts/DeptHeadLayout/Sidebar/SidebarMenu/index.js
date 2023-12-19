@@ -296,7 +296,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/CurriculumDeveloper/viewGuidelines"
+                  to="/deptHead/viewGuidelines"
                   startIcon={<WysiwygIcon />}
                 >
                   View Guidelines
