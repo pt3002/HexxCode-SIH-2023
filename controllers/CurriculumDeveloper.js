@@ -198,6 +198,14 @@ exports.GetDraftBySubjects = async (req, res, next) => {
   }
 };
 
+exports.getSubjectName  =async(req, res, next) => {
+  let cd_id = req.userId;
+  //console.log(cd_id)
+  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
+  let subject_name = ans[0]["subject_name"]
+  res.send({subject_name})
+}
+
 exports.GetDraftByDepartment = async (req, res, next) => {
   const department = req.params && req.params.department;
   if (!department) {
@@ -474,7 +482,7 @@ exports.getAllCDsofDepartment = async(req, res) => {
 
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
-  const { title, description, createdBy } = req.body;
+  const { title, description, createdBy, subjectName } = req.body;
   if (!(title, description)) {
     return res.status(400).send({ error: "Input Fields Missing" });
   }
@@ -489,6 +497,7 @@ exports.createDocument = async (req, res) => {
     const newDocument = new document({
       title,
       description,
+      subjectName
     });
     newDocument
       .save()
@@ -627,6 +636,9 @@ exports.GetCommitsHistory = async (req, res, next) => {
 exports.getAllDocuments = async (req, res) => {
   let cd_id = req.userId;
   let cd = await CDLogin.findCDById(cd_id);
+  // get subject name
+  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
+  let subject_name = ans[0]["subject_name"]
   // console.log(cd);
   if (cd.length === 0) {
     res.send({
@@ -635,12 +647,12 @@ exports.getAllDocuments = async (req, res) => {
   } else {
     document
       .find()
-      .lean()
-      .exec()
       .then(async (documents) => {
         let complete = [];
         for (let i = 0; i < documents.length; i++) {
-          let save_creation_id = documents[i].saveIds[0];
+          console.log(documents[i])
+          if(documents[i]['subjectName'] == subject_name){
+            let save_creation_id = documents[i].saveIds[0];
           let last_modified_save_creation_id =
             documents[i].saveIds[documents[i].saveIds.length - 1];
           await save.findById(save_creation_id).then(async (save_resp) => {
@@ -655,9 +667,11 @@ exports.getAllDocuments = async (req, res) => {
                   lastModifiedCD: cd2[0]["name"],
                   ...documents[i],
                 };
-                complete.push(final);
+                complete.push(final._doc);
               });
           });
+          }
+          
         }
         //console.log(complete)
         res.status(200).send({ complete });
@@ -752,5 +766,33 @@ exports.deleteNotification = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Internal server error" });
+  }
+};
+
+
+exports.GetSubjectsBySemester = async (req, res, next) => {
+  try {
+    let sem = req.body.semester;
+
+    let ans = await curriculumDeveloperFeatures.getSubBySem(sem);
+      try {
+        let subjects = [];
+        for (let i = 0; i < ans.length; i++) {
+          let n = {
+            subject_id: ans[i].subject_id,
+            name: ans[i].name,
+            department: ans[i].department,
+            list_resource_id: ans[i].list_resource_id,
+            subject_code: ans[i].subject_code,
+          };
+          subjects.push(n);
+        }
+        res.send({ subjects });
+      } catch (error) {
+        console.log(error);
+      }
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Subjects Not Found" });
   }
 };

@@ -21,7 +21,7 @@ const uuid = require("uuid").v4;
 
 export const CreateGroup = () => {
   const DeptHeadContext = useContext(UserTokenContext);
-  const {dict, checkToken} = DeptHeadContext;
+  const { dict, checkToken } = DeptHeadContext;
   const [open, setOpen] = React.useState(false);
   const [Edit, setEdit] = useState(0);
   const [rows, setRows] = useState([]);
@@ -53,7 +53,7 @@ export const CreateGroup = () => {
         <Box>
           <Button
             onClick={() => {
-            //   handleClickEdit(params);
+              //   handleClickEdit(params);
             }}
           >
             <EditIcon />
@@ -61,7 +61,7 @@ export const CreateGroup = () => {
 
           <Button
             onClick={() => {
-            //   handleClickDelete(params);
+              //   handleClickDelete(params);
             }}
           >
             <DeleteIcon />
@@ -76,7 +76,7 @@ export const CreateGroup = () => {
   const handleClickOpen = () => {
     setEdit(0);
     setNewGroup({
-        ...newGroup,
+      ...newGroup,
       subject_name: "",
     });
     setOpen(true);
@@ -91,28 +91,58 @@ export const CreateGroup = () => {
     let body = {
       id: uuid(),
       department: newGroup.department,
-      subject_name: newGroup.subject_name
+      subject_name: newGroup.subject_name,
     };
+    console.log(body)
 
     axios
-      .post(backendURL + "/DeptHead/addGroup", body,{
+      .post(backendURL + "/DeptHead/addGroup", body, {
         headers: {
-          "shiksha-niyojak": dict.token
-        }
+          "shiksha-niyojak": dict.token,
+        },
       })
-      .then((res) => {
+      .then(async(res) => {
         if (res.data.message) {
-          Swal.fire({
-            icon: "success",
-            title: "SUCCESS",
-            text: res.data.message,
-            showConfirmButton: false,
-            timer: 3000,
-          }).then((confirm) => {
-            if (confirm) {
-              window.location.reload();
-            }
-          });
+          // creating documents
+          // 5 documents -
+          // 1. Learning Outcomes, 2. Modules, 3. Assessment Details, 4. Resources, 5. Suggested Videos
+          let a = [
+            "Learning Outcomes",
+            "Modules",
+            "Assessment Details",
+            "Resources",
+            "Suggested Videos",
+          ];
+          for (let i = 0; i < a.length; i++) {
+            let body = {
+              title: a[i],
+              description: "Initial Commits",
+              createdBy: dict.details.id,
+              subjectName: newGroup.subject_name,
+            };
+            console.log(body)
+            // await axios.post(
+            //   backendURL + "/curriculumDeveloper/createDocument",
+            //   body,
+            //   {
+            //     headers: {
+            //       "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+            //     },
+            //   }
+            // );
+          }
+
+          // Swal.fire({
+          //   icon: "success",
+          //   title: "SUCCESS",
+          //   text: res.data.message,
+          //   showConfirmButton: false,
+          //   timer: 3000,
+          // }).then((confirm) => {
+          //   if (confirm) {
+          //     window.location.reload();
+          //   }
+          // });
         } else if (res.data.error) {
           Swal.fire({
             icon: "error",
@@ -128,16 +158,18 @@ export const CreateGroup = () => {
   };
 
   React.useEffect(() => {
-    if(dict.token){
-      let body = { department: newGroup.department}
-      axios.post(backendURL + "/DeptHead/getAllSubjectNamesByDepartment",body, {
-        headers: {
-          "shiksha-niyojak": dict.token
-        }
-      }).then((res) => {
-          console.log(res.data)
-        setRows(res.data.subjects);
-      });
+    if (dict.token) {
+      let body = { department: newGroup.department };
+      axios
+        .post(backendURL + "/DeptHead/getAllSubjectNamesByDepartment", body, {
+          headers: {
+            "shiksha-niyojak": dict.token,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          setRows(res.data.subjects);
+        });
     }
   }, [dict.token]);
   return (
@@ -148,7 +180,7 @@ export const CreateGroup = () => {
         size="large"
         onClick={() => {
           // setEdit(0);
-            handleClickOpen();
+          handleClickOpen();
         }}
         startIcon={<AddCircleSharpIcon />}
       >
@@ -156,9 +188,7 @@ export const CreateGroup = () => {
       </Button>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          {Edit ? "EDIT GROUP" : "ADD NEW GROUP"}
-        </DialogTitle>
+        <DialogTitle>{Edit ? "EDIT GROUP" : "ADD NEW GROUP"}</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -180,7 +210,7 @@ export const CreateGroup = () => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           {Edit ? (
-            <Button onClick={()=>{}}>Edit</Button>
+            <Button onClick={() => {}}>Edit</Button>
           ) : (
             <Button onClick={handleAddGroup}>Add</Button>
           )}
