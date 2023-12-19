@@ -12,6 +12,8 @@ import FormControl from "@mui/material/FormControl";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
+// import bg_pic from "../../components/images/bg.jpg";
+// import profile_pic from "../../components/images/profile.webp";
 import Select from "@mui/material/Select";
 import { BACKEND_URL, backendURL } from "../../../configKeys"
 const uuid = require("uuid").v4;

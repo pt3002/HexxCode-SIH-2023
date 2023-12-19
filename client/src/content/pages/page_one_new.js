@@ -56,8 +56,7 @@ const uuid = require("uuid").v4;
 // import Page2 from './page_two';
 // import Page3 from './page_three'
 
-const steps = ["Personal Information", "Other Details"];
-
+const steps = ['Personal Information', 'Other Details'];
 // function getStepContent(step) {
 //   switch (step) {
 //     case 0:

@@ -61,7 +61,6 @@ const uuid = require("uuid").v4;
 
 
 const steps = ['Personal Information', 'Other Details'];
-
 // function getStepContent(step) {
 //   switch (step) {
 //     case 0:
@@ -207,31 +206,31 @@ function fileUpload(event) {
         } else {
             errors["university"] = "";
         }
-        // if (Data.password === "") {
-        //     errors["password"] = "Password cannot be empty";
-        // } else {
-        //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        //     if (!passwordRegex.test(Data.password)) {
-        //         errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
-        //     } else {
-        //         errors["password"] = "";
-        //     }
-        // }
+        if (Data.password === "") {
+            errors["password"] = "Password cannot be empty";
+        } else {
+            const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(Data.password)) {
+                errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
+            } else {
+                errors["password"] = "";
+            }
+        }
     
-        // if (Data.confirmPassword === "") {
-        //     errors["confirmPassword"] = "Confirm Password cannot be empty";
-        // } else if (Data.password !== Data.confirmPassword) {
-        //     errors["confirmPassword"] = "Passwords do not match";
-        // } else {
-        //     errors["confirmPassword"] = "";
-        // }
+        if (Data.confirmPassword === "") {
+            errors["confirmPassword"] = "Confirm Password cannot be empty";
+        } else if (Data.password !== Data.confirmPassword) {
+            errors["confirmPassword"] = "Passwords do not match";
+        } else {
+            errors["confirmPassword"] = "";
+        }
         let validate = true;
 
-        Object.keys(errors).map((error) => {
-          if (errors[error] !== "") {
-            validate = false;
-          }
-        });
+        // Object.keys(errors).map((error) => {
+        //   if (errors[error] !== "") {
+        //     validate = false;
+        //   }
+        // });
         if (validate == true) {
             console.log("All data is correctly filled", Data)
             let URL = backendURL + "/File/upload";
@@ -280,7 +279,7 @@ function fileUpload(event) {
               });
         }}).catch((error) => {
           console.log("Error Code: ", error);
-          navigate("/register/page1");
+          navigate("/login");
         });
           handleNext();
           } else {
@@ -526,7 +525,7 @@ function fileUpload(event) {
                   onClick={handleSubmit}
                   sx={{ mt: 3, ml: 1 }}
                 >
-                  {activeStep === steps.length - 1 ? 'Register' : 'Next'}
+                  Register
                 </Button>
               </Box>
       </Container>
