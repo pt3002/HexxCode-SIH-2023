@@ -1,123 +1,168 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-
-
-
-
-
-import Grid from '@mui/material/Grid';
-import TextField from '@mui/material/TextField';
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
+import Paper from "@mui/material/Paper";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 import { nanoid } from "nanoid";
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import NativeSelect from "@mui/material/NativeSelect";
+import Footer from "../../components/Footer";
+import bg_pic from "../../components/images/bg.jpg";
+import profile_pic from "../../components/images/profile.webp";
 
-
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import RegisterReadExp from './Components/RegisterReadExp';
-import RegisterReadQuali from './Components/RegisterReadQuali'
-import { Fragment  } from "react";
+import DocViewer from "./Components/DocViewer";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import RegisterReadExp from "./Components/RegisterReadExp";
+import RegisterReadQuali from "./Components/RegisterReadQuali";
+import { Fragment } from "react";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import { renderButton, renderInputSelect } from './Components/displayComponents';
-import dayjs from "dayjs";
-// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useNavigate } from 'react-router';
 import {
-    Table,
-    TableBody,
-    TableHead,
-    TableRow,
-    TableContainer,
-  } from "@material-ui/core";
-import { Search } from '@mui/icons-material';
+  renderButton,
+  renderInputSelect,
+} from "./Components/displayComponents";
+// import dayjs from "dayjs";
+// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useNavigate } from "react-router";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableContainer,
+} from "@material-ui/core";
+import { Search } from "@mui/icons-material";
+import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
+import axios from "axios";
+import { backendURL } from "../../configKeys";
+const uuid = require("uuid").v4;
+
 // import Page1 from './page_one'
 // import Page2 from './page_two';
 // import Page3 from './page_three'
 
-
-const steps = ['Personal Information', 'Academic and Work Details', 'Other Details'];
-
-// function getStepContent(step) {
-//   switch (step) {
-//     case 0:
-//       return <Page1 />;
-//     case 1:
-//       return <Page2 />;
-//     case 2:
-//       return <Page3 />;
-//     default:
-//       throw new Error('Unknown step');
-//   }
-// }
+const steps = ["Personal Information", "Other Details", "Upload Resume"];
 
 export default function Page2New() {
+  const location = useLocation();
+  // const [fileData, setfileData] = React.useState();
+  const [open, setOpen] = React.useState(false);
+  const [Edit, setEdit] = React.useState(0);
+  const [newGuideline, setNewGuideline] = React.useState({
+    mongo_file_id: "",
+  });
+  // const columns = [
+  //   {
+  //     field: "mongo_file_id",
+  //     headerName: "View",
+  //     width: 110,
+  //     renderCell: (params) => {
+  //       return (
+  //         <Button>
+  //           <DocViewer
+  //             filename={params.row.mongo_file_id}
+  //             contentType="application/pdf"
+  //           />
+  //         </Button>
+  //       );
+  //     },
+  //   },
+  // ]
   const [activeStep, setActiveStep] = React.useState(1);
+  const navigate = useNavigate();
+  const arr = [
+    { value: "Computer Engineering", label: "Computer Engineering" },
+    { value: "Electrical Engineering", label: "Electrical Engineering" },
+    { value: "Mechanical Engineering", label: "Mechanical Engineering" },
+    { value: "Civil Engineering", label: "Civil Engineering" },
+    { value: "Chemical Engineering", label: "Chemical Engineering" },
+    {
+      value: "Electronics and Communication Engineering",
+      label: "Electronics and Communication Engineering",
+    },
+    { value: "Information Technology", label: "Information Technology" },
+    { value: "Aeronautical Engineering", label: "Aeronautical Engineering" },
+    { value: "Biotechnology", label: "Biotechnology" },
+    { value: "Automobile Engineering", label: "Automobile Engineering" },
+    { value: "Environmental Engineering", label: "Environmental Engineering" },
+    {
+      value: "Instrumentation Engineering",
+      label: "Instrumentation Engineering",
+    },
+    { value: "Petroleum Engineering", label: "Petroleum Engineering" },
+    { value: "Metallurgical Engineering", label: "Metallurgical Engineering" },
+    { value: "Mining Engineering", label: "Mining Engineering" },
+  ];
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
+    navigate("/register/page3");
   };
-  const handleBack = () =>{
+  const handleBack = () => {
     setActiveStep(activeStep - 1);
-    navigate("/register/page1")
-  }
-
-  const navigate = useNavigate();
+    navigate("/register/page1");
+  };
   const [stateVar, setStateVar] = React.useState({
     Data: {
-    qualifications: [
-        {
-        specialization: '',
-        periodFrom: '',
-        periodTo: '',
-        },
-    ],
-    experiences: [
-        {
-          workPlace: '',
-          rankDesignation: '',
-          years: '',
-        },
-      ], 
-  },
-  errors:{}
-});
-   const [contacts, setContacts] = React.useState(stateVar.Data.experiences);
-   const [addFormData, setAddFormData] = React.useState({
-    workPlace: "",
-    rankDesignation: "",
-    years: "",
+      college: "",
+      department: "",
+      university: "",
+      specializationDomain: "",
+      mongo_file_id: "",
+      // password: '',
+      // confirmPassword: '',
+    },
+    errors: {},
   });
-  const [conQualifications, setConQualification] = React.useState(stateVar.Data.qualifications);
-   const [addFormDataQuali, setAddFormDataQuali] = React.useState({
-    specialization: "",
-    periodFrom: "",
-    periodTo: "",
-  });
-  const [periodFromDate, setPeriodFromDate] = React.useState(null);
-  const [periodToDate, setPeriodToDate] = React.useState(null);
-  const handleChange = ({target}) => {
+  const handleClickOpen = () => {
+    setEdit(0);
+    setNewGuideline({
+      title: "",
+      description: "",
+      mongo_file_id: "",
+    });
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    // console.log(newDepartmentHead);
+    setOpen(false);
+  };
+  // function fileUpload(event) {
+  //   if (event.target.files[0].type != "application/pdf") {
+  //     alert("Please upload PDF file");
+  //     return;
+  //   } else {
+  //     let data = new FormData();
+  //     data.append("file", event.target.files[0], event.target.files[0].name);
+  //     // console.log("File Upload:", event);
+  //     // setfileData(data);
+  //   }
+  // }
+  const handleChange = ({ target }) => {
     let errors = { ...stateVar.errors };
     let Data = { ...stateVar.Data };
     Data[target.name] = target.value;
-    console.log(target.name, target.value)
+    console.log(target.name, target.value);
     setStateVar({ Data: Data, errors: errors });
     // const { name, value } = e.target;
     // //console.log(name, value)
@@ -126,524 +171,327 @@ export default function Page2New() {
     //   Data.name: value,
     // }));
   };
-    const validateEmail = (email) => {
-        return String(email)
-        .toLowerCase()
-        .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    };
-    const handleSubmit = () => {
-        let { Data, errors } = stateVar;
-        console.log('Form submitted:', Data);
-        if (Data.experiences.length > 1) {
-            for (let index = 1; index < Data.experiences.length; index++) {
-                const hasEmptyField = Object.values(Data.experiences[index]).some((field) => field === "");
-        
-                if (hasEmptyField) {
-                    errors["experiences"] = "All subfields in Experiences should be filled";
-                    break;
-                } 
-                else {
-                    var isValidYears = /^\d+$/.test(Data.experiences[index].years) && parseInt(Data.experiences[index].years) >= 0 && parseInt(Data.experiences[index].years) <= 100;
-
-                    if (!isValidYears) {
-                        errors["experiences"] = "Years should be a numeric value between 0 and 100";
-                        break;
-                    } else {
-                        errors["experiences"] = "";
-                    }
-                }
-            }
-        } else {
-            errors["experiences"] = "";
-        }
-        if (Data.qualifications.length > 1) {
-            for (let index = 1; index < Data.qualifications.length; index++) {
-                const hasEmptyField = Object.values(Data.qualifications[index]).some((field) => field === "");
-        
-                if (hasEmptyField) {
-                    errors["qualifications"] = "All subfields in Qualifications should be filled";
-                    break;
-                } else {    
-                    var dateFrom = Data.qualifications[index].periodFrom.split("-")
-                    var dateTo= Data.qualifications[index].periodTo.split("-")
-                    console.log(dateFrom)
-                    console.log(dateTo)
-                    if ((Number(dateFrom[2])>Number(dateTo[2]))||((Number(dateFrom[2]) == Number(dateTo[2])) && (Number(dateFrom[1]) > Number(dateTo[1])))||((Number(dateFrom[2]) == Number(dateTo[2])) && (Number(dateFrom[1]) == Number(dateTo[1])) && (Number(dateFrom[0]) > Number(dateTo[0])))) {
-                        errors["qualifications"] = "Period From date should be less than Period To date";
-                        break
-                    } else {
-                        errors["qualifications"] = "";
-                    }
-                }
-            }
-        } else {
-            errors["qualifications"] = "";
-        }
-        let validate = true;
-
-        Object.keys(errors).map((error) => {
-          if (errors[error] !== "") {
-            validate = false;
-          }
-        });
-        if (validate == true) {
-            console.log("All data is correctly filled", Data)
-            navigate("/register/page3")
-          } else {
-            console.log(errors)
-            alert("Please fill all data first");
-          }
-    };
-
-    // const professionalExperienceChange = (value) => {
-    //     // let errors = { ...stateVar.errors };
-    //     // let Data = { ...stateVar.Data };
-    //     // Data[target.name] = target.value;
-    // //setStateVar({ Data: Data, errors: errors });
-    //     setStateVar((prevData) => ({
-    //         ...prevData,
-    //         experiences: value,
-    //     }));
-    //     console.log(contacts)
+  React.useEffect(() => {
+    // Access the data passed from Page1New
+    console.log("navigate location", location.state);
+    const { dataFromPage1 } = location.state || {};
+    if (dataFromPage1) {
+      setStateVar((prevState) => ({
+        ...prevState,
+        Data: { ...prevState.Data, ...dataFromPage1 },
+      }));
+    } else {
+      // Handle case where data is not available
+    }
+  }, [navigate.location]);
+  const handleSubmit = () => {
+    let { Data, errors } = stateVar;
+    if (Data.specializationDomain === "") {
+      errors["specializationDomain"] = "Specialization Domain cannot be empty";
+    } else {
+      errors["specializationDomain"] = "";
+    }
+    if (Data.college === "") {
+      errors["college"] = "College Domain cannot be empty";
+    } else {
+      errors["college"] = "";
+    }
+    if (Data.university === "") {
+      errors["university"] = "University cannot be empty";
+    } else {
+      errors["university"] = "";
+    }
+    // if (Data.password === "") {
+    //     errors["password"] = "Password cannot be empty";
+    // } else {
+    //     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    //     if (!passwordRegex.test(Data.password)) {
+    //         errors["password"] = "Password should contain at least 8 characters, one letter, one number, and one special character";
+    //     } else {
+    //         errors["password"] = "";
+    //     }
     // }
-    const handleDeleteClick = (contactId) => {
-    const newContacts = [...contacts];
 
-    const index = contacts.findIndex((contact) => contact.id === contactId);
-
-    newContacts.splice(index, 1);
-
-    setContacts(newContacts);
-    handleChange({target:{name:"experiences", value:newContacts}})
-    // professionalExperienceChange(newContacts)
-  };
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-
-    setAddFormData(newFormData);
-};
-const handleAddFormSubmit = (event) => {
-    event.preventDefault();
-    // console.log("run");
-    // companyName: ""
-    // rankDesignation: ""
-    // periodFrom: ""
-    // periodFrom: ""
-    // workNature: ""
-
-//console.log(addFormData)
-
-    const newContact = {
-        id: nanoid(),
-        workPlace: addFormData.workPlace,
-        rankDesignation: addFormData.rankDesignation,
-        years: addFormData.years,
-    };
-// console.log(newContact.companyName);
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
-    var getValue1= document.getElementById("t1");
-    getValue1.value = "";
-    var getValue2= document.getElementById("t2");
-    getValue2.value = "";
-    var getValue3= document.getElementById("t4");
-    getValue3.value = ""
-    handleChange({target:{name:"experiences", value:newContacts}})
-    setAddFormData({
-        workPlace: "",
-        rankDesignation: "",
-        years: "",
-      })
-    // professionalExperienceChange(newContacts)
-};
-//Qualifications
-    // const qualificationsChange = (value) => {
-    //     setStateVar((prevData) => ({
-    //         ...prevData,
-    //         qualifications: value,
-    //     }));
-    //     console.log(conQualifications)
+    // if (Data.confirmPassword === "") {
+    //     errors["confirmPassword"] = "Confirm Password cannot be empty";
+    // } else if (Data.password !== Data.confirmPassword) {
+    //     errors["confirmPassword"] = "Passwords do not match";
+    // } else {
+    //     errors["confirmPassword"] = "";
     // }
-    const handleDeleteClickQuali = (contactId) => {
-        const newContacts = [...conQualifications];
+    let validate = true;
 
-        const index = conQualifications.findIndex((qualification) => qualification.id === contactId);
-
-        newContacts.splice(index, 1);
-
-        setConQualification(newContacts);
-        handleChange({target:{name:"qualifications", value:newContacts}})
-        //qualificationsChange(newContacts)
-    };
-    const handleAddFormChangeQuali = (event) => {
-        event.preventDefault();
-
-        const fieldName = event.target.getAttribute("name");
-        const fieldValue = event.target.value;
-
-        const newFormData = { ...addFormDataQuali };
-        newFormData[fieldName] = fieldValue;
-
-        setAddFormDataQuali(newFormData);
-    };
-    const handleAddFormSubmitQuali = (event) => {
-        event.preventDefault();
-        //console.log(addFormData)
-
-        const newContact = {
-            id: nanoid(),
-            specialization: addFormDataQuali.specialization,
-            periodFrom: addFormDataQuali.periodFrom,
-            periodTo: addFormDataQuali.periodTo,
-        };
-        // console.log(newContact.companyName);
-        const newContacts = [...conQualifications, newContact];
-        setConQualification(newContacts);
-        var getValue1= document.getElementById("t5");
-        getValue1.value = "";
-        var getValue2= document.getElementById("t6");
-        getValue2.value = "";
-        var getValue3= document.getElementById("t7");
-        getValue3.value = ""
-        handleChange({target:{name:"qualifications", value:newContacts}})
-        setAddFormDataQuali({
-            specialization: "",
-            periodFrom: "",
-            periodTo: "",
-          })
-        //qualificationsChange(newContacts)
-    };
-    const handleOnChangeDate = (name, value) => {
-        const newFormData = { ...addFormDataQuali };
-        let d = value.$D
-        let m = value.$M + 1
-        let y = value.$y
-        newFormData[name] = d + "-" + m + "-" + y
-    
-        if(name == "periodFrom"){
-          setPeriodFromDate(
-            dayjs(
-              y + "-" + m + "-" + d
-            )
-          )
-        }
-        else{
-          setPeriodToDate(
-            dayjs(
-              y + "-" + m + "-" + d
-            )
-          )
-        }
-        setAddFormDataQuali(newFormData);
+    Object.keys(errors).map((error) => {
+      if (errors[error] !== "") {
+        validate = false;
       }
-      const arr = [
-        { value: "male", label: "Male" },
-        { value: "female", label: "Female" },
-        { value: "Other", label: "Other" },
-      ]
+    });
+    if (validate == true) {
+      console.log("All data is correctly filled", Data);
+      handleNext();
+      navigate("/register/page3", { state: { dataFromPage2: stateVar.Data } });
+    } else {
+      console.log(errors);
+      alert("Please fill all data first");
+    }
+  }
+ 
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
+      <Box
         sx={{
-          position: 'relative',
-          borderBottom: (t) => `1px solid ${t.palette.divider}`,
+          backgroundImage: `url(${bg_pic})`,
+          top: "0px",
+          right: "0px",
+          bottom: "0px",
+          left: "0px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          minHeight: "100vh",
+          backgroundColor: "#767676",
         }}
       >
-      </AppBar>
-      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography
-            component="h1"
-            variant="h4"
-            align="center"
-            style={{ fontSize: '1.5rem', margin: '20px' }}
+        <CssBaseline />
+        <AppBar
+          position="absolute"
+          color="default"
+          elevation={0}
+          sx={{
+            position: "relative",
+            borderBottom: (t) => `1px solid ${t.palette.divider}`,
+          }}
+        ></AppBar>
+        <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+          <Paper
+            variant="outlined"
+            sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 }, opacity: 0.9 }}
+          >
+            <Grid
+              container
+              spacing={2}
+              align="center"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                p: { xs: 2, md: 2 },
+              }}
             >
-            Curriculum Developer Registration
+              <Avatar
+                sx={{ width: 60, height: 60, mr: 1 }}
+                alt="CD"
+                src={profile_pic}
+              />
+            </Grid>
+            <Typography
+              component="h1"
+              variant="h4"
+              align="center"
+              style={{ fontSize: "1.5rem", margin: "20px" }}
+            >
+              Curriculum Developer Registration
             </Typography>
 
-          <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {activeStep === steps.length ? (
-            <React.Fragment>
-              <Typography variant="h5" gutterBottom>
-                Successfully Registered.
-              </Typography>
-              <Typography variant="subtitle1">
-                To confirm your registration check the otp sent in your email.
-              </Typography>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {/* {getStepContent(activeStep)} */}
+            <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            {activeStep === steps.length ? (
               <React.Fragment>
-      {/* <CssBaseline /> */}
-      <AppBar
-        position="absolute"
-        color="default"
-        elevation={0}
-        sx={{
-          position: 'relative',
-        //   borderBottom: (t) => `1px solid ${t.palette.divider}`,
-        }}
-      >
-        {/* <Typography variant="h6" color="inherit" noWrap>
-        Qualification and Experience
-        </Typography> */}
-      </AppBar>
-      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-            <Typography component="h2" variant="h4" align="left">
-            Qualification and Experience
-          </Typography>
-            <Grid container spacing={3} marginBottom={5}>
-            <Grid item xs={20}>
-            <TableContainer sx={{marginBottom : "20px", width: "100%"}}>
-                <TableHead>
-                            <TableRow>
-                                <TableCell sx={{width: "30%"}}>Specialization</TableCell>
-                                <TableCell sx={{width: "30%"}}>Period From</TableCell>
-                                <TableCell sx={{width: "30%"}}>Period To</TableCell>
-
-                                <TableCell sx={{width: "30%"}}>Actions</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                {conQualifications.slice(1).map((qualification) => (
-                    <Fragment>
-                        <RegisterReadQuali
-                        contact={qualification}
-                        handleDeleteClick={handleDeleteClickQuali}
-                        />
-                    </Fragment>
-                    ))
-                }
-                
-                  </TableBody>
-                  <div style={{ display: 'flex', gap: '2px' }}>
-                  <TextField
-					label="Specialization"
-					// color={color ? color : "primary"}
-					variant="outlined"
-                    type = "search"
-					name="specialization"
-					// fullWidth={true}
-					size="medium"
-					onChange={handleAddFormChangeQuali}
-					style={{margin:"9px", width: '25%', marginRight:"25px" }}
-                    id = "t5"
-				/>
-                
-				{/* {<LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DatePicker"]}>
-                          {" "}
-                          <DemoItem label="">
-                            <DatePicker
-                              disableFuture
-                              // views={['year', 'month', 'day']}
-                              slotProps={{
-                                textField: {
-                                    required: true,
-                                    id: 't6',
-                                    style: { width: '80%' }
-                                }
-                            }}
-                            value = {periodFromDate}
-                              name="periodFrom"
-                              onChange={(value) => {
-                                handleOnChangeDate("periodFrom", value)
-                              }}
-                            ></DatePicker>
-                          </DemoItem>
-                        </DemoContainer>
-                        <DemoContainer components={["DatePicker"]}>
-                            {" "}
-                            <DemoItem label="">
-                            <DatePicker
-                                disableFuture
-                                // views={['year', 'month', 'day']}
-                                slotProps={{
-                                textField: {
-                                    required: true,
-                                    id: 't7',
-                                    style: { width: '80%' }
-                                }
-                            }}
-                            value = {periodToDate}
-                                name="periodTo"
-                                onChange={(value) => {
-                                handleOnChangeDate("periodTo", value)
-                                }}
-                            ></DatePicker>
-                            </DemoItem>
-                        </DemoContainer>
-            </LocalizationProvider>} */}
-                {/* <TextField
-					label="Nature of Work"
-					// color={color ? color : "primary"}
-					variant="outlined"
-					name="workNature"
-					// fullWidth={true}
-					size="medium"
-					//style={{ margin: "1px" }}
-					onChange={handleAddFormChange}
-                    id = "t5"
-				/> */}
-                <Button
-                  variant="contained"
-                  onClick={handleAddFormSubmitQuali}
-                  sx={{ mt: 1, mb: 1 }}
+                <Typography variant="h5" gutterBottom>
+                  Successfully Registered.
+                </Typography>
+                <Typography variant="subtitle1">
+                  To confirm your registration check the otp sent in your email.
+                </Typography>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <CssBaseline />
+                <AppBar
+                  position="absolute"
+                  fullWidth
+                  color="default"
+                  elevation={5}
+                  sx={{
+                    position: "relative",
+                    //   borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                  }}
                 >
-                  Add
-                </Button>
-            </div>
-                </TableContainer>
-
-              </Grid>
-            {/* <Grid item xs={12}>
+                  {/* <Typography variant="h6" color="inherit" noWrap>
+          
+        </Typography> */}
+                </AppBar>
+                <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+                  <Grid container spacing={3} marginBottom={5}>
+                    <Grid item xs={12}>
+                      <InputLabel
+                        variant="standard"
+                        htmlFor="uncontrolled-native"
+                      >
+                        College
+                      </InputLabel>
+                      <TextareaAutosize
+                        required
+                        id="college"
+                        name="college"
+                        aria-label=""
+                        placeholder="Mention your college name"
+                        minRows={1}
+                        fullWidth
+                        value={stateVar.Data.college}
+                        onChange={handleChange}
+                        style={{
+                          padding: "10px",
+                          fontSize: "16px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                          width: "100%",
+                          boxSizing: "border-box",
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        label="Department"
+                        select
+                        color="primary"
+                        variant="outlined"
+                        name="department"
+                        fullWidth={true}
+                        size="small"
+                        value={stateVar.Data.department}
+                        onChange={handleChange}
+                      >
+                        {arr.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <InputLabel
+                        variant="standard"
+                        htmlFor="uncontrolled-native"
+                      >
+                        University
+                      </InputLabel>
+                      <TextareaAutosize
+                        required
+                        id="university"
+                        name="university"
+                        aria-label=""
+                        placeholder="Mention your university"
+                        minRows={1}
+                        fullWidth
+                        value={stateVar.Data.university}
+                        onChange={handleChange}
+                        style={{
+                          padding: "10px",
+                          fontSize: "16px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                          width: "100%",
+                          boxSizing: "border-box",
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <InputLabel
+                        variant="standard"
+                        htmlFor="uncontrolled-native"
+                      >
+                        Specialization
+                      </InputLabel>
+                      <TextareaAutosize
+                        required
+                        id="specializationDomain"
+                        name="specializationDomain"
+                        aria-label=""
+                        placeholder="Mention your domain of specialization"
+                        minRows={1}
+                        fullWidth
+                        value={stateVar.Data.specializationDomain}
+                        onChange={handleChange}
+                        style={{
+                          padding: "10px",
+                          fontSize: "16px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                          width: "100%",
+                          boxSizing: "border-box",
+                        }}
+                      />
+                    </Grid>
+                    {/* <Grid sm item>
+                      <Button fullWidth variant="outlined">
+                        <input
+                          type="file"
+                          accept={".pdf"}
+                          onChange={(event) => fileUpload(event)}
+                          // style={{ color: "transparent" }}
+                        />
+                      </Button>
+                    </Grid> */}
+                    {/* <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="qualification"
-                name="qualification"
-                label="Qualification"
+                id="passwword"
+                name="password"
+                label="Password"
+                fullWidth
+                type="password"
                 variant="standard"
-                value={Data.qualifications[0]}
-                onChange={(e) => handleQualificationChange(0, e.target.value)}
+                value={stateVar.Data.password}
+                onChange={handleChange}
               />
-              <Button variant="outlined" onClick={handleAddQualification} sx={{ m: 1 }}>
-                Add Qualification
-              </Button>
-              {Data.qualifications.slice(1).map((qualification, index) => (
-                <TextField
-                  key={index + 1}
-                  variant="standard"
-                  label={`Qualification ${index + 2}`}
-                  value={qualification}
-                  onChange={(e) => handleQualificationChange(index + 1, e.target.value)}
-                  sx={{ mt: 1 }}
-                />
-              ))}
-              </Grid> */}
-            <Grid item xs={20}>
-            <TableContainer sx={{marginBottom : "20px", width: "100%"}}>
-                <TableHead>
-                            <TableRow>
-                                <TableCell sx={{width: "30%"}}>Work Place</TableCell>
-                                <TableCell sx={{width: "30%"}}>Designation or Rank</TableCell>
-                                <TableCell sx={{width: "30%"}}>Years</TableCell>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="confirmPassword"
+                name="confirmPassword"
+                label="Confirm Password"
+                fullWidth
+                type="password"
+                variant="standard"
+                value={stateVar.Data.confirmPassword}
+                onChange={handleChange}
+              />
+            </Grid> */}
+                  </Grid>
+                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+                        Back
+                      </Button>
+                    )}
 
-                                <TableCell sx={{width: "30%"}}>Actions</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                {contacts.slice(1).map((contact) => (
-                    <Fragment>
-                        <RegisterReadExp
-                        contact={contact}
-                        handleDeleteClick={handleDeleteClick}
-                        />
-                    </Fragment>
-                    ))
-                }
-                
-                  </TableBody>
-                  <div style={{ display: 'flex', gap: '2px', height:"68px" }}>
-                  <TextField
-					label="Working Place"
-					// color={color ? color : "primary"}
-					variant="outlined"
-                    type = "search"
-					name="workPlace"
-					// fullWidth={true}
-					size="small"
-					onChange={handleAddFormChange}
-					style={{ margin: "9px", width: '27%' }}
-                    id = "t1"
-				/>
-				<TextField
-					label="Designation and Rank"
-					// color={color ? color : "primary"}
-					variant="outlined"
-                    type = "search"
-					name="rankDesignation"
-					// fullWidth={true}
-					size="small"
-					style={{ margin: "9px", width: '27%' }}
-					onChange={handleAddFormChange}
-                    id = "t2"
-				/>
-                <TextField
-					label="Years"
-					// color={color ? color : "primary"}
-					variant="outlined"
-                    type = "search"
-					name="years"
-					// fullWidth={true}
-					size="small"
-					style={{ margin: "9px", width: '27%', marginRight:"33px" }}
-					onChange={handleAddFormChange}
-                    id = "t4"
-				/>
-                {/* <TextField
-					label="Nature of Work"
-					// color={color ? color : "primary"}
-					variant="outlined"
-					name="workNature"
-					// fullWidth={true}
-					size="medium"
-					//style={{ margin: "1px" }}
-					onChange={handleAddFormChange}
-                    id = "t5"
-				/> */}
-                <Button
-                  variant="contained"
-                  onClick={handleAddFormSubmit}
-                  sx={{ mt: 1.2, mb: 2.2 }}
-                >
-                  Add
-                </Button>
-            </div>
-                </TableContainer>
-
-              </Grid>
-              </Grid>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                 {activeStep !== 0 && (
-                  <Button onClick = {handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
-                  </Button>
-                )}
-
-                <Button
-                  variant="contained"
-                  onClick={handleSubmit}
-                  sx={{ mt: 3, ml: 1 }}
-                >
-                  {activeStep === steps.length - 1 ? 'Register' : 'Next'}
-                </Button>
-              </Box>
-      </Container>
-    </React.Fragment>
-            </React.Fragment>
-          )}
-        </Paper>
-      </Container>
+                    <Button
+                      variant="contained"
+                      onClick={handleSubmit}
+                      sx={{ mt: 3, ml: 1 }}
+                    >
+                      Next
+                    </Button>
+                  </Box>
+                </Container>
+              </React.Fragment>
+            )}
+          </Paper>
+        </Container>
+        <Footer />
+      </Box>
     </React.Fragment>
   );
 }

@@ -5,7 +5,11 @@ const {
   EducatorFeatures,
   Guidelines,
   Requirements,
+<<<<<<< HEAD
+  Feedback,
+=======
   EducatorNotification,
+>>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
 } = require("../classes/Educator");
 
 const generateToken = (user) => {
@@ -220,6 +224,34 @@ exports.EducatorDeleteRequirement = async (req, res, next) => {
   }
 };
 
+exports.EducatorPostFeedback=async(req,res,next)=>{
+  try{
+    let educator_id = req.userId;
+    let {id,subject_id,quality_content,utility_content,affectiveness,goals,evaluation,feedback_message}=req.body;
+    let educator= await EducatorLogin.findEducatorById(educator_id);
+    if(educator.length===0){
+      res.send({
+        message:"This User Cannot Post Feedback",
+      });
+    }
+    else{
+      await Feedback.insertEducatorFeedback(
+        id,
+        subject_id,
+        educator_id,
+        quality_content,
+        utility_content,
+        affectiveness,
+        goals,
+        evaluation,
+        feedback_message
+      );
+      res.send({
+        message: "Feedback Saved Successfully",
+      });
+    }
+  }
+  catch (error) {
 exports.getNotificationsByUserId = async (req, res, next) => {
   try {
     let user_id = req.userId;
@@ -243,6 +275,27 @@ exports.setNotificationSeen = async (req, res, next) => {
   }
 };
 
+<<<<<<< HEAD
+exports.getCurriculum=async(req,res,next)=>{
+  try{
+      let curriculum = [];
+      let ans=await EducatorFeatures.getAllCurriculum();
+      console.log(ans);
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          department: ans[i].department,
+        };
+        curriculum.push(n);
+      }
+      res.send({ curriculum });
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+=======
 exports.deleteNotification = async (req, res, next) => {
   try {
     const { user_id, guideline_id } = req.body;
@@ -253,3 +306,4 @@ exports.deleteNotification = async (req, res, next) => {
     res.status(500).send({ error: "Internal server error" });
   }
 };
+>>>>>>> 36d60e70b29613431c861659db5ea7fd9b7dbb98
