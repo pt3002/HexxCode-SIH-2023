@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 import DocumentsTable from "../Components/Table/DocumentsTable";
 import { useNavigate } from "react-router-dom";
 import UserTokenContext from "../../../contexts/UserTokenContext";
+import MergedPDF from "./mergedPDF";
 
 function CreateDocument() {
 
@@ -128,15 +129,9 @@ function CreateDocument() {
               This is content drafting Panel
             </Typography>
           </Grid>
-          {/* <Grid item>
-            <Button
-              sx={{ mt: { xs: 2, md: 0 } }}
-              variant="contained"
-              onClick={handleClickOpen}
-            >
-              Create Document
-            </Button>
-          </Grid> */}
+          <Grid item>
+            <MergedPDF subjectName = "DBMS"/>
+          </Grid>
         </Grid>
       </PageTitleWrapper>
       <Dialog open={open} onClose={handleClose} fullWidth>
