@@ -644,10 +644,10 @@ exports.GetCommitsHistory = async (req, res, next) => {
 exports.getAllDocuments = async (req, res) => {
   let cd_id = req.userId;
   let cd = await CDLogin.findCDById(cd_id);
-  // get subject name
-  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
-  if(ans.length > 0){
-    let subject_name = ans[0]["subject_name"]
+  // // get subject name
+  // let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
+  // if(ans.length > 0){
+  //   let subject_name = ans[0]["subject_name"]
   // console.log(cd);
   if (cd.length === 0) {
     res.send({
@@ -656,12 +656,13 @@ exports.getAllDocuments = async (req, res) => {
   } else {
     document
       .find()
+      .lean()
+      .exec()
       .then(async (documents) => {
         let complete = [];
         for (let i = 0; i < documents.length; i++) {
           console.log(documents[i])
-          if(documents[i]['subjectName'] == subject_name){
-            let save_creation_id = documents[i].saveIds[0];
+          let save_creation_id = documents[i].saveIds[0];
           let last_modified_save_creation_id =
             documents[i].saveIds[documents[i].saveIds.length - 1];
           await save.findById(save_creation_id).then(async (save_resp) => {
@@ -676,10 +677,9 @@ exports.getAllDocuments = async (req, res) => {
                   lastModifiedCD: cd2[0]["name"],
                   ...documents[i],
                 };
-                complete.push(final._doc);
+                complete.push(final);
               });
           });
-          }
           
         }
         //console.log(complete)
@@ -688,7 +688,6 @@ exports.getAllDocuments = async (req, res) => {
   }
   }
   
-};
 
 exports.getAllDocumentsForEditAccess = async (req, res) => {
   let cd_id = req.userId;

@@ -5,6 +5,7 @@
   "dependencies": {
     "@devexpress/dx-react-scheduler": "^4.0.6",
     "@devexpress/dx-react-scheduler-material-ui": "^4.0.6",
+    "@emailjs/browser": "^3.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@iconify/react": "^4.1.1",
@@ -15,7 +16,9 @@
     "@mui/lab": "^5.0.0-alpha.148",
     "@mui/material": "^5.14.13",
     "@mui/styles": "^5.14.20",
-    "@mui/x-data-grid": "^6.16.2",
+    "@mui/x-data-grid": "^6.18.5",
+    "@mui/x-data-grid-generator": "^6.18.5",
+    "@mui/x-data-grid-pro": "^6.18.5",
     "@mui/x-date-pickers": "^5.0.15",
     "apexcharts": "^3.44.2",
     "axios": "^1.6.2",
