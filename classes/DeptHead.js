@@ -96,6 +96,38 @@ class DeptHeadNotification {
     await db.execute(sql);
   }
 }
-
-module.exports = { Groups, DeptHeadLogin, DeptHeadNotification, Guidelines };
+class CurriculumStatus{
+    static async getAllGuidelines(department) {
+      let sql = `Select * from curriculum_draft where department = "${department}"`;
+      const [guidelines, _] = await db.execute(sql);
+      return guidelines;
+    }
+  
+    static async addGuideline(
+      id,
+      title,
+      description,
+      mongo_file_id,
+      department,
+    ) {
+      let sql = `INSERT INTO curriculum_draft (id, department,mongo_file_id, status, message, title) VALUES ("${id}","${department}","${mongo_file_id}", "P", "", "${title}");`;
+      try {
+        await db.execute(sql);
+      } catch (error) {
+        console.log(error)
+        return "error";
+      }
+    }
+    
+    static async deleteGuideline(id) {
+      let sql = `DELETE FROM curriculum_draft where id = "${id}";`;
+      try {
+        await db.execute(sql);
+      } catch (error) {
+        console.log(error)
+        return "error";
+      }
+    }
+  }
+module.exports = { CurriculumStatus, Groups, DeptHeadLogin, DeptHeadNotification, Guidelines };
 

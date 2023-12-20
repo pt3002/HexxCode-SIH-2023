@@ -298,6 +298,17 @@ function SidebarMenu() {
                   View Guidelines
                 </Button>
               </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/deptHead/viewStatus"
+                  startIcon={<WysiwygIcon />}>
+                  {/* /DeptHead/viewGuidelines */}
+                  Curriculum Draft Status
+                </Button>
+              </ListItem>
             </List>
           </SubMenuWrapper>
         </List>

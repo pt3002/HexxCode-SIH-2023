@@ -34,6 +34,14 @@ router.get(
 router.post("/changeCDStatus", AICTEAdminControllers.changeCDStatus);
 router.post("/deleteCD", AICTEAdminControllers.deleteCD);
 
+//Curriculum
+router.get(
+  "/getAvailableCurriculums",
+  AICTEAdminControllers.getAvailableCurriculum
+);
+router.post("/changeCurriculumStatus", AICTEAdminControllers.changeCurriculumStatus);
+router.post("/deleteCurriculum", AICTEAdminControllers.deleteCurriculum);
+
 //CD Charts
 router.get(
   "/getCDApplicationCountUniversityWise",

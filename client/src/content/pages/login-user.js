@@ -126,9 +126,9 @@ export default function CurriculumDeveloperLogin() {
 
   const getPage = (type) => {
     if (type === "1") {
-      return "/curriculumDeveloper";
+      return "/curriculumDeveloper/dahsboard";
     } else if (type === "2") {
-      return "/ED";
+      return "/ED/review";
     } else if (type === "3") {
       return "/aicte";
     } else {

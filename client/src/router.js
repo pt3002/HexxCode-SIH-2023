@@ -41,14 +41,14 @@ import ViewGroups from "./content/pages/DeptHead/ViewGroups";
 import GroupInfo from "./content/pages/DeptHead/GroupInfo";
 import Chat from "./content/pages/CD/chat";
 import AdminChart from "./content/pages/AICTE/AdminChart";
-
 import EducatorFeedback from "./content/pages/ED/feedback-page";
-
+import ApproveCurriculum from "./content/pages/AICTE/ApproveCurriculum";
 import FeedbackChart from "./content/pages/AICTE/FeedbackChart";
 import GetSubjectsList from "./content/pages/CD/subjectsList";
 import CDDashboard from "./content/pages/CD/dashboard";
 import BuildCurriculum from "./content/pages/CD/buildCurriculum";
 import EditableBuildCurriculum from "./content/pages/DeptHead/editableBuildCurriculum";
+import ViewDraftStatus from "./content/pages/DeptHead/viewDraftStatus";
 import HeadCreateDocument from "./content/pages/DeptHead/createDocument";
 
 const Loader = (Component) => (props) =>
@@ -330,6 +330,10 @@ const DynamicRoutes = () => {
           element: <ApproveCurriculumDevelopers />,
         },
         {
+          path: "approveCurriculum",
+          element: <ApproveCurriculum />,
+        },
+        {
           path: "adminChart",
           element: <AdminChart />,
         },
@@ -485,6 +489,10 @@ const DynamicRoutes = () => {
       {
         path: "viewGroups",
         element: <ViewGroups />,
+      },
+      {
+        path: "viewStatus",
+        element: <ViewDraftStatus />,
       },
       {
         path: "viewGroupInfo",
