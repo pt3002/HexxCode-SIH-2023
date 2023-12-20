@@ -20,6 +20,7 @@
     "@mui/x-data-grid-generator": "^6.18.5",
     "@mui/x-data-grid-pro": "^6.18.5",
     "@mui/x-date-pickers": "^5.0.15",
+    "@react-pdf/renderer": "^3.1.14",
     "apexcharts": "^3.44.2",
     "axios": "^1.6.2",
     "chart.js": "^4.4.1",
