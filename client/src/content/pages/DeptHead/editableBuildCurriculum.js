@@ -6,6 +6,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import ReactHtmlParser from 'react-html-parser';
 import {
   GridRowModes,
   DataGrid,
@@ -23,10 +29,12 @@ import { Grid, Typography } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import UserTokenContext from "../../../contexts/UserTokenContext";
 import { backendURL } from "../../../configKeys";
-import { useContext } from "react";
+import { useContext , useEffect, useRef} from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
+import html2canvas from "html2canvas"
+import jsPDF from 'jspdf'
 
 const uuid = require("uuid").v4;
 
@@ -89,10 +97,21 @@ function EditToolbar(props) {
 }
 
 export default function EditableBuildCurriculum() {
+  const pdfRef = useRef()
   const navigate = useNavigate();
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [documents, setDocuments] = React.useState([]);
+  const [html, setHtml] = React.useState([])
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   //   const userContext = useContext(UserTokenContext);
   //   const { dict, checkToken } = userContext;
 
@@ -238,6 +257,52 @@ export default function EditableBuildCurriculum() {
     setRowModesModel(newRowModesModel);
   };
 
+  useEffect(async() => {
+    let html = ""
+      for(let i = 0 ;i < rows.length ; i++){
+        let body = {
+          "subjectName" : rows[i]["name"]
+      }
+      html += "<h1>" + "Subject Name : " + rows[i]["name"] + "</h1><p><br></p>"
+        await axios.post(backendURL + "/curriculumDeveloper/getDocsSubjectWise", body).then(async(res) => {
+          let all_docs = res.data
+          for(let i = 0 ; i < all_docs.length ; i++){
+              html += "<h3>" + all_docs[i]["title"] + "</h3><p><br></p>"
+              await axios.get(backendURL + "/curriculumDeveloper/lastSaveBody/" + all_docs[i]["_id"], {
+                  headers: {
+                    "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+                  },
+                }).then((resp) => {
+                  if(resp.status == 200){
+                      html += resp.data.body
+                  }
+                })
+          }
+          
+      })
+      }
+        html = "<div>" + html + "</div>"
+            setHtml(html)
+}, [rows])
+
+const downloadPDF = () => {
+  const input = pdfRef.current; 
+  html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4', true);
+      const pdfWidth = pdf.internal.pageSize.getWidth()
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth/imgWidth, pdfHeight/imgHeight);
+      const imgX  = (pdfWidth - imgWidth*ratio)/2;
+      const imgY = 30;
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth *ratio, imgHeight *ratio);
+      pdf.save('complete.pdf');
+
+  })
+
+}
   const columns = [
     {
       field: "subject_code",
@@ -357,7 +422,9 @@ export default function EditableBuildCurriculum() {
             label="View"
             className="textPrimary"
             onClick={() => {
-              navigate("/curriculumDeveloper/createDocument");
+              navigate("/deptHead/createDocument", {
+                "state" : rows[id-1]["name"]
+              });
             }}
             color="inherit"
           />,
@@ -372,6 +439,11 @@ export default function EditableBuildCurriculum() {
         <Typography variant="h3" sx={{ ml: 3 }}>
           Semester 1 Curriculum
         </Typography>
+      </Grid>
+      <Grid container justifyContent = "contained" alignItems="center">
+        <Button variant = "contained" sx = {{m:3}} onClick={handleClickOpen}>
+          View Complete Curriculum
+        </Button>
       </Grid>
       <Box
         sx={{
@@ -409,6 +481,23 @@ export default function EditableBuildCurriculum() {
           Download Curriculum
         </Button>
       </Grid>
+      <Dialog open={open} onClose={handleClose} fullWidth>
+        <DialogTitle>Viewing Complete Draft</DialogTitle>
+        <DialogContent>
+          <Box p={2}>
+            <Grid item xs={12} sx={{ mt: 2 }}>
+                <div ref = {pdfRef}>{ ReactHtmlParser (html) }</div>
+            
+            </Grid>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button variant="contained" onClick = {downloadPDF}>
+            Export As PDF
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
