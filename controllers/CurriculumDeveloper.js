@@ -6,6 +6,7 @@ const {
   Guidelines,
   Requirements,
   CDLogin,
+  CurriculumContent,
 } = require("../classes/curriculumDeveloper");
 
 const document = require("../models/document");
@@ -887,3 +888,90 @@ exports.GetBooksBySubject = async (req, res, next) => {
     res.send({ error: "Books Not Found" });
   }
 };
+
+exports.getSemesterSubjects=async(req,res,next)=>{
+  try{
+    let sem_num=req.body.semester;
+    let ans=await CurriculumContent.getSemesterSubject(sem_num);
+    console.log(ans);
+    try {
+      let subjects = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          subject_id: ans[i].subject_id,
+          name: ans[i].name,
+          department: ans[i].department,
+          subject_code: ans[i].subject_code,
+          semester: ans[i].semester,
+          type: ans[i].type,
+          learning: ans[i].learning,
+          tutorial: ans[i].tutorial,
+          practical: ans[i].practical,
+          credits: ans[i].credits,
+          document_id:ans[i].document_id,
+        };
+        subjects.push(n);
+      }
+      res.send({ subjects });
+    } catch (error) {
+      console.log(error);
+    }
+  }catch (error) {
+    console.log(error);
+    res.send({ error: "Subject for Semester not found" });
+  }
+}
+
+exports.updateSubjects=async(req,res,next)=>{
+  try{
+    let subjects=req.body.subjects;
+    try{
+    for(let i=0;i<subjects.length;i++){
+      let subject_id=subjects[i].subject_id;
+      let findSubject=await CurriculumContent.getSubjectByID(subject_id);
+      if(findSubject.length===0){
+        //creating new subject
+        // let {subject_id,name,department,subject_code,semester,type,learning,tutorial,practical,credits}=req.body;
+        await CurriculumContent.insertNewSubject(
+          subjects[i].subject_id,
+          subjects[i].name,
+          subjects[i].department,
+          subjects[i].subject_code,
+          subjects[i].semester,
+          subjects[i].type,
+          subjects[i].learning,
+          subjects[i].tutorial,
+          subjects[i].practical,
+          subjects[i].credits,
+        );
+        res.send({
+          message: "Subject Added Successfully",
+        });
+      }else{
+        //update existing row
+        await CurriculumContent.updateSubject(
+          subjects[i].subject_id,
+          subjects[i].name,
+          subjects[i].department,
+          subjects[i].subject_code,
+          subjects[i].semester,
+          subjects[i].type,
+          subjects[i].learning,
+          subjects[i].tutorial,
+          subjects[i].practical,
+          subjects[i].credits
+        );
+        res.send({
+          message: "Subject Updated Successfully",
+        });
+
+      }}
+    }catch (error) {
+      console.log(error);
+      res.send({ error});
+    }
+  }catch (error) {
+    console.log(error);
+    res.send({ error});
+  }
+}
