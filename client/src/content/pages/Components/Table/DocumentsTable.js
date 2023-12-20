@@ -44,7 +44,7 @@ const applyPagination = (docs, page, limit) => {
   return docs.slice(page * limit, page * limit + limit);
 };
 
-const DocumentsTable = ({ docs, access}) => {
+const DocumentsTable = ({ docs, access, subject}) => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(5);
 
@@ -168,7 +168,7 @@ const DocumentsTable = ({ docs, access}) => {
                   </TableCell>
                   <TableCell align="center">
                     {
-                      access == false ? (
+                      access == "no" ? (
                         <Tooltip title="View Document" arrow>
                       <IconButton
                         sx={{
@@ -205,21 +205,6 @@ const DocumentsTable = ({ docs, access}) => {
                       )
                     }
                     
-                    <Tooltip title="Download Document" arrow>
-                      <IconButton
-                        sx={{
-                          "&:hover": {
-                            background: theme.colors.alpha.black[10],
-                          },
-                          marginRight: 1,
-                          color: theme.colors.primary.main,
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DownloadIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
                     <Tooltip title="Show History" arrow>
                       <IconButton
                         sx={{

@@ -41,6 +41,8 @@ function CreateDocument() {
 
   const location = useLocation();
 
+  const [subject, setSubject] = useState("")
+
   const [stateVar, setStateVar] = useState({
     data: {
       title : "",
@@ -70,9 +72,21 @@ function CreateDocument() {
             setDocuments(c)
         }
     })
+
     }
     
   }, []);
+
+  useEffect(() => {
+    checkToken()
+    axios.get(backendURL + "/curriculumDeveloper/getSubjectName", {
+      "headers" : {
+        "shiksha-niyojak" : localStorage.getItem("shiksha-niyojak")
+      }
+    } ).then((res) => {
+      setSubject(res.data.subject_name)
+    })
+}, [])
 
   console.log(location.state)
 
@@ -125,11 +139,12 @@ function CreateDocument() {
         })
     }
   }
+  console.log(subject, location.state)
 
   return (
     <>
       <Helmet>
-        <title>Template for Course Contents of - {location.state}</title>
+        <title>Template for Course Contents</title>
       </Helmet>
       <PageTitleWrapper>
         <Grid container justifyContent="space-between" alignItems="center">
@@ -142,7 +157,7 @@ function CreateDocument() {
             </Typography>
           </Grid>
           <Grid item>
-            <MergedPDF subjectName = "DBMS"/>
+            <MergedPDF subjectName ={location.state}/>
           </Grid>
         </Grid>
       </PageTitleWrapper>
@@ -188,7 +203,12 @@ function CreateDocument() {
       </Dialog>
       <Container maxWidth = "lg">
         <Card>
-          <DocumentsTable docs = {documents} access = {true}/>
+          {subject == location.state ? (
+            <DocumentsTable docs = {documents} access = {"yes"} subject = {location.state}/>
+          ) : (
+            <DocumentsTable docs = {documents} access = {"no"} subject = {location.state}/>
+          )}
+          
         </Card>
       </Container>
     </>

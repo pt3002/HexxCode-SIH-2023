@@ -148,6 +148,20 @@ export default function Document() {
           ]
     }
 
+    const Editor_not_editable = {
+      "modules" : {
+        toolbar: [
+            [{size: []}],
+        ],
+        clipboard: {
+            // toggle to add extra line breaks when pasting HTML:
+            matchVisual: false,
+          }
+    },
+    "formats" : [
+      ]
+    }
+
   return (
     <>
     <PageTitleWrapper>
@@ -163,33 +177,37 @@ export default function Document() {
               <Typography variant="h3" component="h3" gutterBottom>
                 Document Title : {location.state.doc.title}
               </Typography>
-              <Typography variant="subtitle2">
-                Document Created By: Prerna and Last Modified By: Pratik
-              </Typography>
             </Box>
           </Box>
         </Grid>
         <Grid item>
-          {intitalDocDesc == docsDesc ? (
-            <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="outlined"
-            startIcon={<AddTwoToneIcon fontSize="small" />}
-            onClick={saveDocument}
-            disabled
-          >
-            Save Document
-          </Button>
-          ) : (
-            <Button
-            sx={{ mt: { xs: 2, md: 0 } }}
-            variant="contained"
-            startIcon={<AddTwoToneIcon fontSize="small" />}
-            onClick={handleClickOpen}
-          >
-            Save Document
-          </Button>
-          )}
+          {
+            location.state.access == "yes" && (
+              <>
+              { intitalDocDesc == docsDesc ? (
+                <Button
+                sx={{ mt: { xs: 2, md: 0 } }}
+                variant="outlined"
+                startIcon={<AddTwoToneIcon fontSize="small" />}
+                onClick={saveDocument}
+                disabled
+              >
+                Save Document
+              </Button>
+              ) : (
+                <Button
+                sx={{ mt: { xs: 2, md: 0 } }}
+                variant="contained"
+                startIcon={<AddTwoToneIcon fontSize="small" />}
+                onClick={handleClickOpen}
+              >
+                Save Document
+              </Button>
+              )}
+              </>
+            )
+          }
+          
           
         </Grid>
       </Grid>
@@ -236,14 +254,28 @@ export default function Document() {
       </Dialog>
 
       <Box sx = {{px:1}}>
-        <ReactQuill
+        {
+          location.state.access === "no" ? (
+            <ReactQuill
+        theme = "snow"
+        onChange={getQuillData}
+        value = {docsDesc}
+        modules = {Editor_not_editable.modules}
+        format = {Editor_not_editable.formats}
+        placeholder = {"Write something..."}
+        /> 
+          ) : (
+            <ReactQuill
         theme = "snow"
         onChange={getQuillData}
         value = {docsDesc}
         modules = {Editor.modules}
         format = {Editor.formats}
         placeholder = {"Write something..."}
-        />
+        /> 
+          )
+        }
+        
       </Box>
     </>
   );
