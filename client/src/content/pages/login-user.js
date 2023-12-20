@@ -297,12 +297,6 @@ export default function CurriculumDeveloperLogin() {
           component="main"
           sx={{ nt: 3, mb: 2, width: 500, position: "relative", top: "3px" }}
         >
-          {/* <Grid align="center" sx={{ mt: 2.5 }}>
-            <Typography component="h1" variant="h2" align="center" sx={{color: "white"}}>
-              Select User
-            </Typography>
-          </Grid> */}
-
           <Grid
             container
             spacing={2}
