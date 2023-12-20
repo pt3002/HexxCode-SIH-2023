@@ -213,7 +213,7 @@ class CurriculumContent {
     practical,
     credits
   ) {
-    let sql = `INSERT INTO subject (subject_id,name,department,subject_code,semester,type,learning,tutorial,practical,credits) VALUES ("${subject_id}","${name}","${department}","${subject_code}","${semester}","${type}","${learning}","${tutorial}","${practical}}","${credits}");`;
+    let sql = `INSERT INTO subject (subject_id,name,department,subject_code,semester,type,learning,tutorial,practical,credits) VALUES ("${subject_id}","${name}","${department}","${subject_code}","${semester}","${type}","${learning}","${tutorial}","${practical}","${credits}");`;
     try {
       await db.execute(sql);
     } catch (error) {

@@ -11,8 +11,8 @@ const {
 
 const document = require("../models/document");
 const save = require("../models/save");
-const Chat = require("../models/chat")
-const Message = require("../models/message")
+const Chat = require("../models/chat");
+const Message = require("../models/message");
 const { jwtSecretKey } = require("../config/configKeys");
 const jwt = require("jsonwebtoken");
 
@@ -31,23 +31,22 @@ const generateToken = (user) => {
     token: token,
   };
 };
-exports.profileDevelopment = async(req, res) => {
-  let  { id }= req.body
-  let ans = await curriculumDeveloperFeatures.profileDevelopment(id)
-  res.send({ans})
-}
+exports.profileDevelopment = async (req, res) => {
+  let { id } = req.body;
+  let ans = await curriculumDeveloperFeatures.profileDevelopment(id);
+  res.send({ ans });
+};
 
-exports.findCDName = async(req, res) => {
-  try{
-    let id = req.params && req.params.id
-    let ans = await CDLogin.findCDById(id)
-    res.send({name : ans[0]["name"]})
-  }
-  catch (error) {
+exports.findCDName = async (req, res) => {
+  try {
+    let id = req.params && req.params.id;
+    let ans = await CDLogin.findCDById(id);
+    res.send({ name: ans[0]["name"] });
+  } catch (error) {
     console.log(error);
     res.send({ error: "Error" });
   }
-}
+};
 
 exports.GetAllSubjects = async (req, res, next) => {
   try {
@@ -204,13 +203,13 @@ exports.GetDraftBySubjects = async (req, res, next) => {
   }
 };
 
-exports.getSubjectName  =async(req, res, next) => {
+exports.getSubjectName = async (req, res, next) => {
   let cd_id = req.userId;
   //console.log(cd_id)
-  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
-  let subject_name = ans[0]["subject_name"]
-  res.send({subject_name})
-}
+  let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id);
+  let subject_name = ans[0]["subject_name"];
+  res.send({ subject_name });
+};
 
 exports.GetDraftByDepartment = async (req, res, next) => {
   const department = req.params && req.params.department;
@@ -404,27 +403,27 @@ exports.CurriculumDeveloperLogin = async (req, res) => {
 exports.getOTPEmailCheck = async (req, res) => {
   const { email, password } = req.body;
   let ans = await CurriculumDeveloperLogin.findCDByEmail(email);
-   if (ans.length === 0) {
-      res.send({ message: "Wrong user selected or Register First" });
+  if (ans.length === 0) {
+    res.send({ message: "Wrong user selected or Register First" });
+  } else {
+    if (ans[0].password === password) {
+      let user = {
+        id: ans[0]["id"],
+        role: "CurriculumDeveloper",
+        name: ans[0]["name"],
+        email: email,
+      };
+      console.log(user);
+      const token = generateToken(user);
+      res.send({
+        message: "Login Successfully",
+        token: token,
+        role: "CurriculumDeveloper",
+      });
     } else {
-      if (ans[0].password === password) {
-        let user = {
-          id: ans[0]["id"],
-          role: "CurriculumDeveloper",
-          name: ans[0]["name"],
-          email: email,
-        };
-        console.log(user);
-        const token = generateToken(user);
-        res.send({
-          message: "Login Successfully",
-          token: token,
-          role: "CurriculumDeveloper",
-        });
-      } else {
-        res.send({ error: "Invalid Credentials" });
-      }
+      res.send({ error: "Invalid Credentials" });
     }
+  }
 };
 exports.getAllGuidelines = async (req, res, next) => {
   try {
@@ -446,7 +445,6 @@ exports.getAllGuidelines = async (req, res, next) => {
     } catch (error) {
       console.log(error);
     }
-
   } catch (error) {
     console.log(error);
   }
@@ -456,7 +454,7 @@ exports.getAllRequirements = async (req, res, next) => {
   try {
     // console.log("requirements.....",req.details)
     // console.log("requirements.....",req)
-    console.log("Requirements...",req.userId)
+    console.log("Requirements...", req.userId);
     let ans = await Requirements.getAllRequirements(req.userId);
     try {
       let requirements = [];
@@ -480,33 +478,24 @@ exports.getAllRequirements = async (req, res, next) => {
   }
 };
 
-exports.getAllCDsofDepartment = async(req, res) => {
+exports.getAllCDsofDepartment = async (req, res) => {
   const department = req.params && req.params.department;
-  if(!department){
-    return res.status(400).send({err: "Department is missing"})
+  if (!department) {
+    return res.status(400).send({ err: "Department is missing" });
   }
-  let allCDsofDept = await curriculumDeveloperFeatures.cdsAccToDept(department)
-  res.status(200).send({allCDsofDept})
-}
+  let allCDsofDept = await curriculumDeveloperFeatures.cdsAccToDept(department);
+  res.status(200).send({ allCDsofDept });
+};
 
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
-  const { title, description, createdBy, subjectName } = req.body;
+  const { title, description, createdBy } = req.body;
   if (!(title, description)) {
     return res.status(400).send({ error: "Input Fields Missing" });
   }
-  let cd_id = req.userId;
-  let cd = await CDLogin.findCDById(cd_id);
-  // console.log(cd);
-  if (cd.length === 0) {
-    res.send({
-      message: "This User is not Authorised",
-    });
-  } else {
     const newDocument = new document({
       title,
-      description,
-      subjectName
+      description
     });
     newDocument
       .save()
@@ -537,7 +526,7 @@ exports.createDocument = async (req, res) => {
         });
       })
       .catch((err) => res.status(400).json({ error: err.message }));
-  }
+  
 };
 
 exports.addNewSave = async (req, res) => {
@@ -602,13 +591,14 @@ exports.GetLastSaveBody = async (req, res, next) => {
       message: "This User is not Authorised",
     });
   } else {
-  document.findById(documentId).then((resp) => {
-    let last_save_id = resp.saveIds[resp.saveIds.length - 1];
-    save.findById(last_save_id).then((save_resp) => {
-      return res.status(200).send({ body: save_resp.body });
+    document.findById(documentId).then((resp) => {
+      let last_save_id = resp.saveIds[resp.saveIds.length - 1];
+      save.findById(last_save_id).then((save_resp) => {
+        return res.status(200).send({ body: save_resp.body });
+      });
     });
-  });
-}};
+  }
+};
 
 // get commit history
 exports.GetCommitsHistory = async (req, res, next) => {
@@ -624,37 +614,26 @@ exports.GetCommitsHistory = async (req, res, next) => {
       message: "This User is not Authorised",
     });
   } else {
-  document.findById(documentId).then(async (resp) => {
-    let history = [];
-    let saveIds = resp.saveIds;
-    let c = 0;
-    for (let i = 0; i < resp.saveIds.length; i++) {
-      await save.findById(saveIds[i]).then(async (save_resp) => {
-        let cd = await CDLogin.findCDById(save_resp["createdBy"]);
-        let save_new = { cdname: cd[0]["name"], ...save_resp["_doc"] };
-        history.push(save_new);
-        c += 1;
-      });
-    }
-    if (c == resp.saveIds.length) {
-      res.send({ history });
-    }
-  });
-}};
+    document.findById(documentId).then(async (resp) => {
+      let history = [];
+      let saveIds = resp.saveIds;
+      let c = 0;
+      for (let i = 0; i < resp.saveIds.length; i++) {
+        await save.findById(saveIds[i]).then(async (save_resp) => {
+          let cd = await CDLogin.findCDById(save_resp["createdBy"]);
+          let save_new = { cdname: cd[0]["name"], ...save_resp["_doc"] };
+          history.push(save_new);
+          c += 1;
+        });
+      }
+      if (c == resp.saveIds.length) {
+        res.send({ history });
+      }
+    });
+  }
+};
 
 exports.getAllDocuments = async (req, res) => {
-  let cd_id = req.userId;
-  let cd = await CDLogin.findCDById(cd_id);
-  // // get subject name
-  // let ans = await curriculumDeveloperFeatures.getSubjectName(cd_id)
-  // if(ans.length > 0){
-  //   let subject_name = ans[0]["subject_name"]
-  // console.log(cd);
-  if (cd.length === 0) {
-    res.send({
-      message: "This User is not Authorised",
-    });
-  } else {
     document
       .find()
       .lean()
@@ -662,7 +641,6 @@ exports.getAllDocuments = async (req, res) => {
       .then(async (documents) => {
         let complete = [];
         for (let i = 0; i < documents.length; i++) {
-          console.log(documents[i])
           let save_creation_id = documents[i].saveIds[0];
           let last_modified_save_creation_id =
             documents[i].saveIds[documents[i].saveIds.length - 1];
@@ -681,33 +659,28 @@ exports.getAllDocuments = async (req, res) => {
                 complete.push(final);
               });
           });
-          
         }
         //console.log(complete)
         res.status(200).send({ complete });
       });
-  }
-  }
-  
+};
 
 exports.getAllDocumentsForEditAccess = async (req, res) => {
   let cd_id = req.userId;
   let cd = await CDLogin.findCDById(cd_id);
-  let { subject_name }= req.body
+  let { subject_name } = req.body;
   // console.log(cd);
   if (cd.length === 0) {
     res.send({
       message: "This User is not Authorised",
     });
   } else {
-    document
-      .find()
-      .then(async (documents) => {
-        let complete = [];
-        for (let i = 0; i < documents.length; i++) {
-          console.log(documents[i])
-          if(documents[i]['subjectName'] == subject_name){
-            let save_creation_id = documents[i].saveIds[0];
+    document.find().then(async (documents) => {
+      let complete = [];
+      for (let i = 0; i < documents.length; i++) {
+        console.log(documents[i]);
+        if (documents[i]["subjectName"] == subject_name) {
+          let save_creation_id = documents[i].saveIds[0];
           let last_modified_save_creation_id =
             documents[i].saveIds[documents[i].saveIds.length - 1];
           await save.findById(save_creation_id).then(async (save_resp) => {
@@ -725,77 +698,75 @@ exports.getAllDocumentsForEditAccess = async (req, res) => {
                 complete.push(final._doc);
               });
           });
-          }
-          
         }
-        //console.log(complete)
-        res.status(200).send({ complete });
-      });
+      }
+      //console.log(complete)
+      res.status(200).send({ complete });
+    });
   }
 };
 
-
-exports.addNewChat = async(req, res) => {
-  const{
-    userIds, isGroupChat
-  } = req.body;
+exports.addNewChat = async (req, res) => {
+  const { userIds, isGroupChat } = req.body;
   const newChat = new Chat({
-    userIds : userIds.sort(), isGroupChat
-  })
-  Chat.find({userIds : userIds.sort()}).then((resp) => {
-    if(resp.length == 0) {
+    userIds: userIds.sort(),
+    isGroupChat,
+  });
+  Chat.find({ userIds: userIds.sort() }).then((resp) => {
+    if (resp.length == 0) {
       newChat.save().then(() => {
-        res.status(200).send({message : "Chat saved successfully"})
-      })
+        res.status(200).send({ message: "Chat saved successfully" });
+      });
+    } else {
+      res.status(200).send({ message: "Chat already created" });
     }
-    else{
-      res.status(200).send({message : "Chat already created"})
-    }
-  })
-  
-}
+  });
+};
 
 // get all chats of a particular user
-exports.fetchChatsForUser = async(req, res) => {
-  Chat.find({userIds : {$elemMatch: { $eq: req.userId}}}).then((chats) => {
-    res.send({chats})
-  })
-}
+exports.fetchChatsForUser = async (req, res) => {
+  Chat.find({ userIds: { $elemMatch: { $eq: req.userId } } }).then((chats) => {
+    res.send({ chats });
+  });
+};
 
 // adding a message
-exports.addNewMessage = async(req, res) => {
-  const{
-    chatId, text, sender, receiver, previousMessageIds
-  } = req.body
+exports.addNewMessage = async (req, res) => {
+  const { chatId, text, sender, receiver, previousMessageIds } = req.body;
   const newMessage = new Message({
-    chatId, text, sender, receiver
-  })
+    chatId,
+    text,
+    sender,
+    receiver,
+  });
   newMessage.save().then((save_resp) => {
-    previousMessageIds.push(save_resp._id)
+    previousMessageIds.push(save_resp._id);
     Chat.updateOne(
       {
-        _id : chatId,
+        _id: chatId,
       },
       {
-        $addToSet : {messageIds : previousMessageIds, lastMessageTime : save_resp.createdAt, lastMessageText : text}
+        $addToSet: {
+          messageIds: previousMessageIds,
+          lastMessageTime: save_resp.createdAt,
+          lastMessageText: text,
+        },
       },
-      function(err, result){
-        if(err){
+      function (err, result) {
+        if (err) {
           res.send(err);
-        }
-        else{
-          res.status(200).send({message : "Chat Added Successfully"})
+        } else {
+          res.status(200).send({ message: "Chat Added Successfully" });
         }
       }
-    )
-  })
-}
+    );
+  });
+};
 exports.getNotificationsByUserId = async (req, res, next) => {
   try {
     let user_id = req.userId;
-    let notifications = await CurriculumDeveloperNotification.getNotificationsByCDId(
-      user_id
-    );
+    let notifications =
+      await CurriculumDeveloperNotification.getNotificationsByCDId(user_id);
     res.send({ notifications });
     //console.log(notifications);
   } catch (error) {
@@ -807,7 +778,7 @@ exports.setNotificationSeen = async (req, res, next) => {
     let { user_id, user_token } = req.body;
     await CurriculumDeveloperNotification.setNotificationSeen(user_id);
     res.send({ message: "Notification seen status updated" });
-    console.log("Hello...")
+    console.log("Hello...");
   } catch (error) {
     console.log(error);
   }
@@ -816,7 +787,10 @@ exports.setNotificationSeen = async (req, res, next) => {
 exports.deleteNotification = async (req, res, next) => {
   try {
     const { user_id, guideline_id } = req.body;
-    await CurriculumDeveloperNotification.deleteNotification(user_id, guideline_id);
+    await CurriculumDeveloperNotification.deleteNotification(
+      user_id,
+      guideline_id
+    );
     res.send({ message: "Notification deleted successfully" });
   } catch (error) {
     console.error(error);
@@ -824,75 +798,73 @@ exports.deleteNotification = async (req, res, next) => {
   }
 };
 
-
 exports.GetSubjectsBySemester = async (req, res, next) => {
   try {
     let sem = req.body.semester;
 
     let ans = await curriculumDeveloperFeatures.getSubBySem(sem);
-      try {
-        let subjects = [];
-        for (let i = 0; i < ans.length; i++) {
-          let n = {
-            subject_id: ans[i].subject_id,
-            name: ans[i].name,
-            department: ans[i].department,
-            list_resource_id: ans[i].list_resource_id,
-            subject_code: ans[i].subject_code,
-          };
-          subjects.push(n);
-        }
-        res.send({ subjects });
-      } catch (error) {
-        console.log(error);
+    try {
+      let subjects = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          subject_id: ans[i].subject_id,
+          name: ans[i].name,
+          department: ans[i].department,
+          list_resource_id: ans[i].list_resource_id,
+          subject_code: ans[i].subject_code,
+        };
+        subjects.push(n);
       }
+      res.send({ subjects });
+    } catch (error) {
+      console.log(error);
+    }
   } catch (error) {
     console.log(error);
     res.send({ error: "Subjects Not Found" });
   }
 };
 
-exports.getAllSubjects = async(req, res, next) => {
-  try{
-    let subjects = await curriculumDeveloperFeatures.getAllSubjectNames()
-    res.send({subjects})
-  }
-  catch (error) {
+exports.getAllSubjects = async (req, res, next) => {
+  try {
+    let subjects = await curriculumDeveloperFeatures.getAllSubjectNames();
+    res.send({ subjects });
+  } catch (error) {
     console.log(error);
   }
-}
+};
 
 exports.GetBooksBySubject = async (req, res, next) => {
   try {
     let subject_id = req.body.subject_id;
 
     let ans = await curriculumDeveloperFeatures.getBookBySub(subject_id);
-      try {
-        let books = [];
-        for (let i = 0; i < ans.length; i++) {
-          let n = {
-            id: ans[i].id,
-            name: ans[i].name,
-            author: ans[i].author,
-            rating: ans[i].rating,
-            creation_time: ans[i].creation_time,
-          };
-          books.push(n);
-        }
-        res.send({ books });
-      } catch (error) {
-        console.log(error);
+    try {
+      let books = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          name: ans[i].name,
+          author: ans[i].author,
+          rating: ans[i].rating,
+          creation_time: ans[i].creation_time,
+        };
+        books.push(n);
       }
+      res.send({ books });
+    } catch (error) {
+      console.log(error);
+    }
   } catch (error) {
     console.log(error);
     res.send({ error: "Books Not Found" });
   }
 };
 
-exports.getSemesterSubjects=async(req,res,next)=>{
-  try{
-    let sem_num=req.body.semester;
-    let ans=await CurriculumContent.getSemesterSubject(sem_num);
+exports.getSemesterSubjects = async (req, res, next) => {
+  try {
+    let sem_num = req.body.semester;
+    let ans = await CurriculumContent.getSemesterSubject(sem_num);
     console.log(ans);
     try {
       let subjects = [];
@@ -908,7 +880,7 @@ exports.getSemesterSubjects=async(req,res,next)=>{
           tutorial: ans[i].tutorial,
           practical: ans[i].practical,
           credits: ans[i].credits,
-          document_id:ans[i].document_id,
+          document_id: ans[i].document_id,
         };
         subjects.push(n);
       }
@@ -916,69 +888,68 @@ exports.getSemesterSubjects=async(req,res,next)=>{
     } catch (error) {
       console.log(error);
     }
-  }catch (error) {
+  } catch (error) {
     console.log(error);
     res.send({ error: "Subject for Semester not found" });
   }
-}
+};
 
-exports.updateSubjects=async(req,res,next)=>{
-  try{
-    let subjects=req.body.subjects;
-    try{
-      let c = 0
-    for(let i=0;i<subjects.length;i++){
-      let subject_id=subjects[i].subject_id;
-      let findSubject=await CurriculumContent.getSubjectByID(subject_id);
-      if(findSubject.length===0){
-        //creating new subject
-        // let {subject_id,name,department,subject_code,semester,type,learning,tutorial,practical,credits}=req.body;
-        await CurriculumContent.insertNewSubject(
-          subjects[i].subject_id,
-          subjects[i].name,
-          subjects[i].department,
-          subjects[i].subject_code,
-          subjects[i].semester,
-          subjects[i].type,
-          subjects[i].learning,
-          subjects[i].tutorial,
-          subjects[i].practical,
-          subjects[i].credits,
-        );
-        // res.send({
-        //   message: "Subject Added Successfully",
-        // });
-      }else{
-        //update existing row
-        console.log(i , subjects[i])
-        await CurriculumContent.updateSubject(
-          subjects[i].subject_id,
-          subjects[i].name,
-          subjects[i].department,
-          subjects[i].subject_code,
-          subjects[i].semester,
-          subjects[i].type,
-          subjects[i].learning,
-          subjects[i].tutorial,
-          subjects[i].practical,
-          subjects[i].credits
-        );
-        // res.send({
-        //   message: "Subject Updated Successfully",
-        // });
-
+exports.updateSubjects = async (req, res, next) => {
+  try {
+    let subjects = req.body.subjects;
+    try {
+      let c = 0;
+      for (let i = 0; i < subjects.length; i++) {
+        let subject_id = subjects[i].subject_id;
+        let findSubject = await CurriculumContent.getSubjectByID(subject_id);
+        if (findSubject.length === 0) {
+          //creating new subject
+          // let {subject_id,name,department,subject_code,semester,type,learning,tutorial,practical,credits}=req.body;
+          await CurriculumContent.insertNewSubject(
+            subjects[i].subject_id,
+            subjects[i].name,
+            subjects[i].department,
+            subjects[i].subject_code,
+            subjects[i].semester,
+            subjects[i].type,
+            subjects[i].learning,
+            subjects[i].tutorial,
+            subjects[i].practical,
+            subjects[i].credits
+          );
+          // res.send({
+          //   message: "Subject Added Successfully",
+          // });
+        } else {
+          //update existing row
+          console.log(i, subjects[i]);
+          await CurriculumContent.updateSubject(
+            subjects[i].subject_id,
+            subjects[i].name,
+            subjects[i].department,
+            subjects[i].subject_code,
+            subjects[i].semester,
+            subjects[i].type,
+            subjects[i].learning,
+            subjects[i].tutorial,
+            subjects[i].practical,
+            subjects[i].credits
+          );
+          // res.send({
+          //   message: "Subject Updated Successfully",
+          // });
+        }
+        c += 1;
       }
-      c += 1
-    }
-      if(c == subjects.length){
-        res.send({message : "Updated"})
+      if (c == subjects.length) {
+        res.send({ message: "Updated" });
       }
-    }catch (error) {
+    } catch (error) {
       console.log(error);
-      res.send({ error});
+      res.send({ error });
     }
-  }catch (error) {
+  } catch (error) {
     console.log(error);
-    res.send({ error});
+    res.send({ error });
   }
-}
+};

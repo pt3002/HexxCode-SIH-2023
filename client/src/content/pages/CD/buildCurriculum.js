@@ -26,6 +26,7 @@ import { backendURL } from '../../../configKeys';
 import { useContext } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router";
 
 
 const uuid = require("uuid").v4
@@ -73,17 +74,29 @@ function EditToolbar(props) {
 }
 
 export default function BuildCurriculum() {
-  const [rows, setRows] = React.useState(initialRows);
+  const navigate = useNavigate();
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [documents, setDocuments] = React.useState([])
   const userContext = useContext(UserTokenContext)
   const {dict, checkToken} = userContext
 
   const handleSaveAll = () => {
-    let body = {
-      subjects : rows
+    let subjects=rows;
+    for(let i=0;i<subjects.length;i++){
+      subjects[i]["department"]="Computer Engineering";
+      subjects[i]["semester"]="1";
+      if(subjects[i]["subject_id"]){
+        continue;
+      }
+      else{
+        subjects[i]["subject_id"]=uuid();
+      }
     }
-    console.log(body)
+    let body = {
+      subjects : subjects
+    }
+    console.log("hjdbubfdsybgf:",body);
     axios.post(backendURL + "/curriculumDeveloper/updateSubjects", body).then((res) => {
       if(res.data.message == "Updated"){
         Swal.fire({
@@ -96,9 +109,9 @@ export default function BuildCurriculum() {
           }
         })
         
-      }
-    })
   }
+})
+}
 
   React.useEffect(() => {
     // check if document by subject name exists else create new
@@ -110,6 +123,7 @@ export default function BuildCurriculum() {
           },
         }).then((res) => {
           if(res.status == 200){
+            console.log(res.data.complete)
               setDocuments(res.data.complete)
           }
       })
@@ -126,7 +140,39 @@ export default function BuildCurriculum() {
       }
   }, [])
 
-  console.log(documents)
+  // React.useEffect(async() => {
+  //   let a = [
+  //     "Learning Outcomes",
+  //     "Modules",
+  //     "Assessment Details",
+  //     "Resources",
+  //     "Suggested Videos",
+  //   ];
+  //   console.log(dict)
+  //   if(dict && dict.details && dict.details.id){
+  //     console.log(rows)
+  //       for (let i = 0; i < a.length; i++) {
+  //         let body = {
+  //           title: a[i],
+  //           description: "Initial Commits",
+  //           createdBy: dict.details.id,
+  //         };
+  //         await axios.post(
+  //           backendURL + "/curriculumDeveloper/createDocument",
+  //           body,
+  //           {
+  //             headers: {
+  //               "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+  //             },
+  //           }
+  //         ).then((res) => {
+  //           console.log(res)
+  //         })
+  //       }
+      
+  //   }
+    
+  // } , [documents, rows])
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -173,14 +219,14 @@ export default function BuildCurriculum() {
     {
       field: 'name',
       headerName: 'Course Name',
-      width: 120,
+      width: 220,
       editable: true,
     },
     {
       field: 'learning',
       headerName: 'Lectures',
       type: 'number',
-      width: 80,
+      width: 70,
       align : "left",
       headerAlign : "left",
       editable: true,
@@ -189,7 +235,7 @@ export default function BuildCurriculum() {
         field: 'tutorial',
         headerName: 'Tutorials',
         type: 'number',
-        width: 80,
+        width: 70,
         align : "left",
       headerAlign : "left",
         editable: true,
@@ -198,7 +244,7 @@ export default function BuildCurriculum() {
         field: 'practical',
         headerName: 'Practicals',
         type: 'number',
-        width: 80,
+        width: 70,
         align : "left",
       headerAlign : "left",
         editable: true,
@@ -207,7 +253,7 @@ export default function BuildCurriculum() {
         field: 'credits',
         headerName: 'Credits',
         type: 'number',
-        width: 80,
+        width: 70,
         align : "left",
       headerAlign : "left",
         editable: true,
@@ -277,27 +323,12 @@ export default function BuildCurriculum() {
         cellClassName : "hyperlink",
         getActions : ({id}) => {
 
-            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-            if(isInEditMode){
-                return[
-                    <GridActionsCellItem
-                    icon = {<VisibilityIcon />}
-                    label = "View"
-                    className='textPrimary'
-                    onClick={() => console.log(id)}
-                    color = "inherit"
-    
-                    />
-                ]
-            }
-
             return[
                 <GridActionsCellItem
                 icon = {<VisibilityIcon />}
                 label = "View"
                 className='textPrimary'
-                onClick={() => console.log(id)}
+                onClick={() => {navigate("/curriculumDeveloper/createDocument")}}
                 color = "inherit"
 
                 />
