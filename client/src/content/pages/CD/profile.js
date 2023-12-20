@@ -103,26 +103,19 @@ const ProfileCover = () => {
 
     useEffect(() => {
       checkToken()
-      if(dict){
-            let body = {
+      
+  }, [])
+
+  useEffect(() => {
+    if(dict && dict.details && dict.details.id){
+      let body = {
         id : dict.details.id
       }
       axios.post(backendURL + "/curriculumDeveloper/profile", body).then((res) => {
         setUserData(res.data.ans[0])
       })
-      }
-  }, [])
-
-  // useEffect(() => {
-  //   if(dict){
-  //     let body = {
-  //       id : dict.details.id
-  //     }
-  //     axios.post(backendURL + "/curriculumDeveloper/profile", body).then((res) => {
-  //       setUserData(res.data.ans[0])
-  //     })
-  //   }
-  // }, [dict])
+    }
+  }, [dict])
 
 
   return (

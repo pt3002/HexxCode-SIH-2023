@@ -489,13 +489,14 @@ exports.getAllCDsofDepartment = async (req, res) => {
 
 // MONGO DB Requests
 exports.createDocument = async (req, res) => {
-  const { title, description, createdBy } = req.body;
+  const { title, description, createdBy, subjectName } = req.body;
   if (!(title, description)) {
     return res.status(400).send({ error: "Input Fields Missing" });
   }
     const newDocument = new document({
       title,
-      description
+      description,
+      subjectName
     });
     newDocument
       .save()

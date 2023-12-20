@@ -102,13 +102,24 @@ function CDDashboard(){
 
     const userContext = useContext(UserTokenContext)
     const { dict, checkToken } = userContext;
+    const [subject, setSubject] = useState([])
 
     useEffect(() => {
         checkToken()
+        axios.get(backendURL + "/curriculumDeveloper/getSubjectName", {
+          "headers" : {
+            "shiksha-niyojak" : localStorage.getItem("shiksha-niyojak")
+          }
+        } ).then((res) => {
+          setSubject(res.data.subject_name)
+        })
     }, [])
 
     return(
         <RootWrapper>
+        <Typography variant = "h3" sx = {{m : 2}}>
+          Subject Name : {subject}
+        </Typography>
         <ProfileCover />
         <MeetingBox>
         <Typography variant="h4">Daily Design Meeting</Typography>

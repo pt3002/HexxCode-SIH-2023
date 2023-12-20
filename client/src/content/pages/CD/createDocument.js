@@ -24,6 +24,7 @@ import DocumentsTable from "../Components/Table/DocumentsTable";
 import { useNavigate } from "react-router-dom";
 import UserTokenContext from "../../../contexts/UserTokenContext";
 import MergedPDF from "./mergedPDF";
+import { useLocation } from "react-router-dom";
 
 function CreateDocument() {
 
@@ -37,6 +38,8 @@ function CreateDocument() {
   const [open, setOpen] = useState(false);
 
   const [documents, setDocuments] = useState([])
+
+  const location = useLocation();
 
   const [stateVar, setStateVar] = useState({
     data: {
@@ -56,13 +59,22 @@ function CreateDocument() {
         },
       }).then((res) => {
         if(res.status == 200){
-            setDocuments(res.data.complete)
+          console.log(res)
+          let d = res.data.complete
+          let c = []
+          for(let i = 0; i <d.length; i++){
+            if(d[i]["subjectName"] == location.state){
+              c.push(d[i])
+            }
+          }
+            setDocuments(c)
         }
     })
     }
     
   }, []);
 
+  console.log(location.state)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,7 +103,7 @@ function CreateDocument() {
         let body = {
             "title" : stateVar.data.title,
             "description" : stateVar.data.description,
-            "createdBy" : dict.id
+            "createdBy" : dict.details.id
         }
         axios.post(backendURL + "/curriculumDeveloper/createDocument", body, {
           headers: {
@@ -117,13 +129,13 @@ function CreateDocument() {
   return (
     <>
       <Helmet>
-        <title>Template for Course Contents</title>
+        <title>Template for Course Contents of - {location.state}</title>
       </Helmet>
       <PageTitleWrapper>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-            Template for Course Contents
+            Template for Course Contents of - {location.state}
             </Typography>
             <Typography variant="subtitle2">
               This is content drafting Panel

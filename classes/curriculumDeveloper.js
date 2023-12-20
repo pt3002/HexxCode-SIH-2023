@@ -120,6 +120,7 @@ class curriculumDeveloperFeatures {
   // getting group of cd
   static async getSubjectName(id) {
     let sql = `SELECT subject_name from subject_group where id = (SELECT group_id from curriculum_developer where id = "${id}");`;
+    console.log(sql)
     const [result, _] = await db.execute(sql);
     return result;
   }

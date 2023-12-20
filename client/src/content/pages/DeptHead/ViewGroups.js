@@ -148,54 +148,22 @@ export default function ViewGroups() {
         }
       })
       .then(async(res) => {
-        if (res.data.message) {
-
-          let a = [
-            "Learning Outcomes",
-            "Modules",
-            "Assessment Details",
-            "Resources",
-            "Suggested Videos",
-          ];
-          for (let i = 0; i < a.length; i++) {
-            let body = {
-              title: a[i],
-              description: "Initial Commits",
-              createdBy: dict.details.id,
-              subjectName: newGroup.subject_name,
-            };
-            console.log(body)
-            await axios.post(
-              backendURL + "/curriculumDeveloper/createDocument",
-              body,
-              {
-                headers: {
-                  "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-                },
-              }
-            );
+        if(res.data.message){
+          body = {
+            "title" : "Learning Outcomes", "description" : "Initial Setup", "createdBy" : "4ed875b8-14d5-4bb8-bf89-91241e9e9cbe", "subjectName" : newGroup.subject_name
           }
-
-          Swal.fire({
-            icon: "success",
-            title: "SUCCESS",
-            text: res.data.message,
-            showConfirmButton: false,
-            timer: 3000,
-          }).then((confirm) => {
-            if (confirm) {
-              window.location.reload();
-            }
-          });
-        } else if (res.data.error) {
-          Swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: res.data.error,
-            showConfirmButton: false,
-            timer: 3000,
-          });
         }
+        axios.post(backendURL + "/curriculumDeveloper/createDocument", body)
+        body = {"title" : "Module Outlining", "description" : "Initial Setup", "createdBy" : "4ed875b8-14d5-4bb8-bf89-91241e9e9cbe", "subjectName" : newGroup.subject_name}
+        axios.post(backendURL + "/curriculumDeveloper/createDocument", body)
+        body = {"title" : "Textbook Resources", "description" : "Initial Setup", "createdBy" : "4ed875b8-14d5-4bb8-bf89-91241e9e9cbe", "subjectName" : newGroup.subject_name}
+        axios.post(backendURL + "/curriculumDeveloper/createDocument", body)
+        body = {"title" : "Assessment", "description" : "Initial Setup", "createdBy" : "4ed875b8-14d5-4bb8-bf89-91241e9e9cbe", "subjectName" : newGroup.subject_name}
+        axios.post(backendURL + "/curriculumDeveloper/createDocument", body)
+        body = {"title" : "Learning Videos", "description" : "Initial Setup", "createdBy" : "4ed875b8-14d5-4bb8-bf89-91241e9e9cbe", "subjectName" : newGroup.subject_name}
+        axios.post(backendURL + "/curriculumDeveloper/createDocument", body)
+
+        window.location.reload()
       });
 
     setOpen(false);
