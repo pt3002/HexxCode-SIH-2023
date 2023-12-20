@@ -308,6 +308,7 @@ exports.getCurriculum=async(req,res,next)=>{
         let n = {
           id: ans[i].id,
           department: ans[i].department,
+          mongo_file_id: ans[i].mongo_file_id,
         };
         curriculum.push(n);
       }

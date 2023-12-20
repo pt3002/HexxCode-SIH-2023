@@ -78,5 +78,7 @@ router.get("/commitHistory/:documentId",[auth, CurriculumDeveloperControllers.Ge
 router.post("/addNewChat", CurriculumDeveloperControllers.addNewChat)
 router.get("/fetchChats", CurriculumDeveloperControllers.fetchChatsForUser)
 
+//
+router.post("/getDocsSubjectWise", CurriculumDeveloperControllers.getAllDocumentsBySubjectName)
 
 module.exports = router;
