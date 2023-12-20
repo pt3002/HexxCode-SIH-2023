@@ -577,6 +577,17 @@ exports.addNewSave = async (req, res) => {
   }
 };
 
+exports.DeleteSubject = async (req, res, next) => {
+  try {
+    let { subject_id } = req.body;
+    await CurriculumContent.deleteSubject(subject_id);
+    res.send({ message: "Course Deleted" });
+  } catch (error) {
+    console.log(error);
+    res.send({ error: "Subject for Semester not found" });
+  }
+};
+
 // get body of last save of a particular document
 exports.GetLastSaveBody = async (req, res, next) => {
   const documentId = req.params && req.params.documentId;

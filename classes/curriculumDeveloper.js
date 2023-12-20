@@ -222,6 +222,16 @@ class CurriculumContent {
     }
   }
 
+  static async deleteSubject(subject_id) {
+    let sql = `DELETE FROM subject WHERE (subject_id = '${subject_id}');`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error);
+      return error.code;
+    }
+}
+
   static async updateSubject(
     subject_id,
     name,

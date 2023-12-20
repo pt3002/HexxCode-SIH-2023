@@ -190,6 +190,11 @@ export default function BuildCurriculum() {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
+    let body = {
+      subject_id: id,
+    };
+    // console.log("dsefd", body);
+    axios.post(backendURL + "/curriculumDeveloper/deleteSubjects", body);
   };
 
   const handleCancelClick = (id) => () => {

@@ -62,6 +62,8 @@ router.post(
   CurriculumDeveloperControllers.getOTPEmailCheck
 );
 
+router.post("/deleteSubjects", CurriculumDeveloperControllers.DeleteSubject);
+
 // MONGO Post requests
 router.post("/createDocument",CurriculumDeveloperControllers.createDocument)
 router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
