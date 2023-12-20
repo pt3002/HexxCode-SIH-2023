@@ -194,7 +194,7 @@ export default function BuildCurriculum() {
       subject_id: id,
     };
     // console.log("dsefd", body);
-    axios.post(backendURL + "/curriculumDeveloper/deleteSubjects", body);
+    axios.post(backendURL + "/curriculumDeveloper/deleteSubjects",body);
   };
 
   const handleCancelClick = (id) => () => {

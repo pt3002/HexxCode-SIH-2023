@@ -99,26 +99,36 @@ const ProfileCover = () => {
   const userContext = useContext(UserTokenContext)
     const { dict, checkToken } = userContext;
     const [userData, setUserData] = useState([])
+
+
     useEffect(() => {
       checkToken()
-      
-  }, [])
-
-  useEffect(() => {
-    let body = {
+      if(dict){
+            let body = {
         id : dict.details.id
       }
       axios.post(backendURL + "/curriculumDeveloper/profile", body).then((res) => {
         setUserData(res.data.ans[0])
       })
-  }, [dict])
+      }
+  }, [])
 
-  console.log(userData)
+  // useEffect(() => {
+  //   if(dict){
+  //     let body = {
+  //       id : dict.details.id
+  //     }
+  //     axios.post(backendURL + "/curriculumDeveloper/profile", body).then((res) => {
+  //       setUserData(res.data.ans[0])
+  //     })
+  //   }
+  // }, [dict])
+
 
   return (
     <>
     {
-        dict && (
+        dict && dict["details"] && (
             <>
       <Box display="flex" m={3}>
         <Box>
