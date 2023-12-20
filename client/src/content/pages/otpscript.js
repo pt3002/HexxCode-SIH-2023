@@ -63,7 +63,7 @@ export const OtpScript = () => {
             localStorage.setItem("shiksha-niyojak", token_dict.token);
             localStorage.setItem("shiksha-niyojak-role", res.data.role);
             console.log("Login ls ", localStorage);
-          navigate("/curriculumDeveloper");
+          navigate("/curriculumDeveloper/dashboard");
         })
         .catch((res) => {
             Swal.fire({

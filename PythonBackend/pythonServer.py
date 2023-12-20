@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+from flask_cors import CORS  
+ 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/api/ml1', methods=["POST"])
 def getData():
@@ -27,7 +29,7 @@ def getData():
 
     match = similarity_matrix[0][1] * 100
     print(match)
-    return { 'match': match}
+    return jsonify({ 'match': match})
     # return jsonpickle.encode(match)
 
 @app.route('/api/ml')

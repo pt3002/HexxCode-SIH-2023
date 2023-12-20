@@ -192,6 +192,11 @@ export default function BuildCurriculum() {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
+    let body = {
+      subject_id: id,
+    };
+    // console.log("dsefd", body);
+    axios.post(backendURL + "/curriculumDeveloper/deleteSubjects", body);
   };
 
   const handleCancelClick = (id) => () => {
@@ -221,14 +226,14 @@ export default function BuildCurriculum() {
     {
       field: 'name',
       headerName: 'Course Name',
-      width: 120,
+      width: 220,
       editable: true,
     },
     {
       field: 'learning',
       headerName: 'Lectures',
       type: 'number',
-      width: 80,
+      width: 70,
       align : "left",
       headerAlign : "left",
       editable: true,
@@ -237,7 +242,7 @@ export default function BuildCurriculum() {
         field: 'tutorial',
         headerName: 'Tutorials',
         type: 'number',
-        width: 80,
+        width: 70,
         align : "left",
       headerAlign : "left",
         editable: true,
@@ -246,7 +251,7 @@ export default function BuildCurriculum() {
         field: 'practical',
         headerName: 'Practicals',
         type: 'number',
-        width: 80,
+        width: 70,
         align : "left",
       headerAlign : "left",
         editable: true,
@@ -255,7 +260,7 @@ export default function BuildCurriculum() {
         field: 'credits',
         headerName: 'Credits',
         type: 'number',
-        width: 80,
+        width: 70,
         align : "left",
       headerAlign : "left",
         editable: true,
