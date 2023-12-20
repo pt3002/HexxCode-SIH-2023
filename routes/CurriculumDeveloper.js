@@ -32,6 +32,12 @@ router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
 router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 router.get("/allSubjects", CurriculumDeveloperControllers.getAllSubjects)
+
+
+router.post("/getSemesterSubjects", CurriculumDeveloperControllers.getSemesterSubjects)
+router.post("/updateSubjects", CurriculumDeveloperControllers.updateSubjects)
+
+
 router.post("/profile", CurriculumDeveloperControllers.profileDevelopment)
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)

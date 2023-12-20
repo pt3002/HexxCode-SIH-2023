@@ -926,6 +926,7 @@ exports.updateSubjects=async(req,res,next)=>{
   try{
     let subjects=req.body.subjects;
     try{
+      let c = 0
     for(let i=0;i<subjects.length;i++){
       let subject_id=subjects[i].subject_id;
       let findSubject=await CurriculumContent.getSubjectByID(subject_id);
@@ -944,11 +945,12 @@ exports.updateSubjects=async(req,res,next)=>{
           subjects[i].practical,
           subjects[i].credits,
         );
-        res.send({
-          message: "Subject Added Successfully",
-        });
+        // res.send({
+        //   message: "Subject Added Successfully",
+        // });
       }else{
         //update existing row
+        console.log(i , subjects[i])
         await CurriculumContent.updateSubject(
           subjects[i].subject_id,
           subjects[i].name,
@@ -961,11 +963,16 @@ exports.updateSubjects=async(req,res,next)=>{
           subjects[i].practical,
           subjects[i].credits
         );
-        res.send({
-          message: "Subject Updated Successfully",
-        });
+        // res.send({
+        //   message: "Subject Updated Successfully",
+        // });
 
-      }}
+      }
+      c += 1
+    }
+      if(c == subjects.length){
+        res.send({message : "Updated"})
+      }
     }catch (error) {
       console.log(error);
       res.send({ error});

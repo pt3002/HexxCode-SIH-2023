@@ -191,12 +191,14 @@ class CurriculumDeveloperNotification {
 class CurriculumContent {
   static async getSemesterSubject(sem_num) {
     let sql = `SELECT * FROM subject WHERE semester="${sem_num}";`;
-    await db.execute(sql);
+    const [subjects, _] = await db.execute(sql);
+      return subjects;
   }
 
   static async getSubjectByID(subject_id) {
     let sql = `SELECT * FROM subject WHERE subject_id="${subject_id}";`;
-    await db.execute(sql);
+    const [id, _] = await db.execute(sql);
+      return id;
   }
 
   static async insertNewSubject(

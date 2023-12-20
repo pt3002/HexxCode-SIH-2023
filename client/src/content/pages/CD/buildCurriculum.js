@@ -80,7 +80,24 @@ export default function BuildCurriculum() {
   const {dict, checkToken} = userContext
 
   const handleSaveAll = () => {
-    console.log(rows)
+    let body = {
+      subjects : rows
+    }
+    console.log(body)
+    axios.post(backendURL + "/curriculumDeveloper/updateSubjects", body).then((res) => {
+      if(res.data.message == "Updated"){
+        Swal.fire({
+          icon : "success",
+          text : "SUCCESS",
+          timer : 1500
+        }).then((confirm) => {
+          if(confirm){
+            window.location.reload()
+          }
+        })
+        
+      }
+    })
   }
 
   React.useEffect(() => {
@@ -95,6 +112,16 @@ export default function BuildCurriculum() {
           if(res.status == 200){
               setDocuments(res.data.complete)
           }
+      })
+      let body = {
+        "semester" : 1
+      }
+      axios.post(backendURL + "/curriculumDeveloper/getSemesterSubjects", body).then((res) => {
+        let subjects = res.data.subjects
+        for(let i = 0; i <subjects.length; i++){
+          subjects[i]["id"] = subjects[i]["subject_id"]
+        }
+        setRows(subjects)
       })
       }
   }, [])
@@ -258,7 +285,7 @@ export default function BuildCurriculum() {
                     icon = {<VisibilityIcon />}
                     label = "View"
                     className='textPrimary'
-                    onClick={console.log(id)}
+                    onClick={() => console.log(id)}
                     color = "inherit"
     
                     />
@@ -270,7 +297,7 @@ export default function BuildCurriculum() {
                 icon = {<VisibilityIcon />}
                 label = "View"
                 className='textPrimary'
-                onClick={console.log(id)}
+                onClick={() => console.log(id)}
                 color = "inherit"
 
                 />
