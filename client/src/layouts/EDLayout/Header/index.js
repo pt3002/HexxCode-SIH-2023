@@ -26,7 +26,6 @@ const HeaderWrapper = styled(Box)(
         padding: ${theme.spacing(0, 2)};
         right: 0;
         z-index: 6;
-        background-color: rgb(255, 200, 0);        
         backdrop-filter: blur(3px);
         position: fixed;
         justify-content: space-between;
