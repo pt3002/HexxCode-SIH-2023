@@ -11,7 +11,7 @@ import { useState } from "react";
 import { backendURL } from "../../../configKeys";
 
 function EDviewcurri() {
-    const [curriculums, setCurriculums] = useState([]);
+    const [sub, setSub] = useState([]);
   const EDContext = useContext(UserTokenContext);
   const {dict, checkToken} = EDContext;
   React.useEffect(() => {
@@ -59,35 +59,35 @@ function EDviewcurri() {
       })
       .then((res) => {
         // console.log("res : ",res.data.requirements);
-        // console.log(res.data.curriculum);
-        setCurriculums(res.data.curriculum);
-        console.log("curriculum...",curriculums);
+        console.log("curriculum=======",res.data.curriculum);
+        setSub(res.data.curriculum);
+        console.log("curriculum...",sub);
       });
   }, []);
 
-  const sub = [
-    {
-      id: "1234",
-      cover: "/static/images/placeholders/covers/tech-img.jpg",
-      // name: "Cryptography",
-      department: "Computer Engineering",
-      // cds: ["Mary", "Jack", "Ron"],
-    },
-    {
-      id: "4567",
-      cover: "/static/images/placeholders/covers/tech-img.jpg",
-      // name: "Compilers",
-      department:"Electrical Engineering",
-      // cds: ["Sony", "Rony", "Tony"],
-    },
-    {
-      id: "76890",
-      cover: "/static/images/placeholders/covers/tech-img.jpg",
-      // name: "Cyber Security",
-      department: "Mechanical Engineering",
-      // cds: ["Ritu", "Sita"],
-    },
-  ];
+  // const sub = [
+  //   {
+  //     id: "1234",
+  //     cover: "/static/images/placeholders/covers/tech-img.jpg",
+  //     // name: "Cryptography",
+  //     department: "Computer Engineering",
+  //     // cds: ["Mary", "Jack", "Ron"],
+  //   },
+  //   {
+  //     id: "4567",
+  //     cover: "/static/images/placeholders/covers/tech-img.jpg",
+  //     // name: "Compilers",
+  //     department:"Electrical Engineering",
+  //     // cds: ["Sony", "Rony", "Tony"],
+  //   },
+  //   {
+  //     id: "76890",
+  //     cover: "/static/images/placeholders/covers/tech-img.jpg",
+  //     // name: "Cyber Security",
+  //     department: "Mechanical Engineering",
+  //     // cds: ["Ritu", "Sita"],
+  //   },
+  // ];
 
   return (
     <>
@@ -95,10 +95,10 @@ function EDviewcurri() {
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-              Curriculums by AICTE
+              Curriculums Approved by AICTE
             </Typography>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
@@ -106,8 +106,8 @@ function EDviewcurri() {
             >
               View All Books
             </Button>
-          </Grid>
-        </Grid>
+          </Grid>*/}
+        </Grid> 
       </PageTitleWrapper>
       <Grid container spacing={3}>
         {sub.map((subject) => (

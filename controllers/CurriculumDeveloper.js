@@ -588,6 +588,18 @@ exports.DeleteSubject = async (req, res, next) => {
   }
 };
 
+exports.getAllDocumentsBySubjectName = async(req, res, next) => {
+  try{
+    let {subjectName} = req.body
+    await document.find({subjectName : subjectName}).then((resp) => {
+      res.send(resp)
+    })
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
 // get body of last save of a particular document
 exports.GetLastSaveBody = async (req, res, next) => {
   const documentId = req.params && req.params.documentId;

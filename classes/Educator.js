@@ -40,7 +40,7 @@ class EducatorFeatures {
     }
 
     static async getAllCurriculum(){
-      let sql = `SELECT * FROM curriculum;`;
+      let sql = `SELECT * FROM curriculum_draft where status="A";`;
       const [newPost, _] = await db.execute(sql);
       return newPost;
     }
