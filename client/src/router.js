@@ -48,6 +48,7 @@ import FeedbackChart from './content/pages/AICTE/FeedbackChart';
 import GetSubjectsList from './content/pages/CD/subjectsList';
 import CDDashboard from './content/pages/CD/dashboard';
 import BuildCurriculum from './content/pages/CD/buildCurriculum';
+import ShortlistResume from './content/pages/AICTE/ShortlistResume'
 
 
 const Loader = (Component) => (props) =>
@@ -342,6 +343,10 @@ const DynamicRoutes = () =>{
       {
         path: 'feedbackChart',
         element : <FeedbackChart />
+      },
+      {
+        path: 'resume',
+        element : <ShortlistResume />
       }
     ]
   },
