@@ -31,7 +31,7 @@ import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import StarBorderTwoToneIcon from "@mui/icons-material/StarBorderTwoTone";
 import BulkActions from "./BulkActions";
-
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 const getRatingLabel = (bookRating) => {
   const map = {
     1: {
@@ -79,6 +79,9 @@ const BooksTable = ({ books }) => {
   const [filters, setFilters] = useState({
     rating: null,
   });
+  const [url,setUrl]=useState("https://bmsce.ac.in/Content/CHY/LABORATORY_MANUAL.pdf");
+
+  
 
   const ratingOptions = [
     {
@@ -124,6 +127,8 @@ const BooksTable = ({ books }) => {
       );
     }
   };
+
+  
 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
@@ -214,7 +219,7 @@ const BooksTable = ({ books }) => {
                     {getRatingLabel(book.rating)}
                   </TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Rate Book" arrow>
+                    {/* <Tooltip title="Rate Book" arrow>
                       <IconButton
                         sx={{
                           "&:hover": {
@@ -237,6 +242,30 @@ const BooksTable = ({ books }) => {
                         color="inherit"
                         size="small">
                         <FavoriteBorderRoundedIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip> */}
+                    
+                    <Tooltip title="Rate Book" arrow>
+                      <IconButton
+                        sx={{
+                          "&:hover": {
+                            background: theme.colors.warning.lighter,
+                          },
+                          marginRight: 1,
+                          color: theme.colors.warning.dark,
+                        }}
+                        color="inherit"
+                        size="small"
+                        onClick={()=>{
+                          let u=["https://bmsce.ac.in/Content/CHY/LABORATORY_MANUAL.pdf","https://mrcet.com/downloads/digital_notes/ECE/III%20Year/DATABASE%20MANAGEMENT%20SYSTEMS.pdf","https://drive.google.com/drive/folders/1MscnnuFo7SCG3lxGAkBDE67UppqTEd1O","https://lisstudymaterials.files.wordpress.com/2017/12/cc-6th-edition.pdf"];
+                          let a=Math.floor(Math.random()*4);
+                          setUrl(u[a]);
+                        }}
+                        >
+                          <a
+      href={url}
+    >
+                        <ArrowOutwardIcon fontSize="small" /></a>
                       </IconButton>
                     </Tooltip>
                   </TableCell>

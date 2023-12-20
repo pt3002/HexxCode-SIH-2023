@@ -21,6 +21,8 @@ function Courses() {
   const { dict, checkToken } = CDContext;
   const [sem, setSem] = React.useState("");
 
+  // const covers=["/static/images/placeholders/covers/comp.jpg","/static/images/placeholders/covers/tech-img.jpg","/static/images/placeholders/covers/phy.jpg"]
+
   const curriculumDeveloper = {
     name: "Catherine Pike",
     avatar: "/static/images/avatars/1.jpg",
