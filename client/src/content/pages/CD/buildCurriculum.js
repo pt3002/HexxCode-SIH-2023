@@ -80,10 +80,21 @@ export default function BuildCurriculum() {
   const {dict, checkToken} = userContext
 
   const handleSaveAll = () => {
-    let body = {
-      subjects : rows
+    let subjects=rows;
+    for(let i=0;i<subjects.length;i++){
+      subjects[i]["department"]="Computer Engineering";
+      subjects[i]["semester"]="1";
+      if(subjects[i]["subject_id"]){
+        continue;
+      }
+      else{
+        subjects[i]["subject_id"]=uuid();
+      }
     }
-    console.log(body)
+    let body = {
+      subjects : subjects
+    }
+    // console.log("hjdbubfdsybgf:",body);
     axios.post(backendURL + "/curriculumDeveloper/updateSubjects", body).then((res) => {
       if(res.data.message == "Updated"){
         Swal.fire({
