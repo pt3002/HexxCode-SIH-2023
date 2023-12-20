@@ -87,7 +87,6 @@ const DocumentsTable = ({ docs, access}) => {
 
   return (
     <Card>
-      <CardHeader action={<Box width={150}></Box>} title="All Documents" />
       <Divider />
       <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" >
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
@@ -103,7 +102,7 @@ const DocumentsTable = ({ docs, access}) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Document Title</TableCell>
+              <TableCell>Draft Title</TableCell>
               <TableCell>Creation Date</TableCell>
               <TableCell>Last Modified</TableCell>
               <TableCell>Description</TableCell>

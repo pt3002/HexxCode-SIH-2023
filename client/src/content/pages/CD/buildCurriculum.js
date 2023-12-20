@@ -26,6 +26,7 @@ import { backendURL } from '../../../configKeys';
 import { useContext } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router";
 
 
 const uuid = require("uuid").v4
@@ -73,7 +74,8 @@ function EditToolbar(props) {
 }
 
 export default function BuildCurriculum() {
-  const [rows, setRows] = React.useState(initialRows);
+  const navigate = useNavigate();
+  const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [documents, setDocuments] = React.useState([])
   const userContext = useContext(UserTokenContext)
@@ -94,7 +96,9 @@ export default function BuildCurriculum() {
     let body = {
       subjects : subjects
     }
-    // console.log("hjdbubfdsybgf:",body);
+
+    console.log("hjdbubfdsybgf:",body);
+
     axios.post(backendURL + "/curriculumDeveloper/updateSubjects", body).then((res) => {
       if(res.data.message == "Updated"){
         Swal.fire({
@@ -107,9 +111,9 @@ export default function BuildCurriculum() {
           }
         })
         
-      }
-    })
   }
+})
+}
 
   React.useEffect(() => {
     // check if document by subject name exists else create new
@@ -121,6 +125,7 @@ export default function BuildCurriculum() {
           },
         }).then((res) => {
           if(res.status == 200){
+            console.log(res.data.complete)
               setDocuments(res.data.complete)
           }
       })
@@ -137,7 +142,39 @@ export default function BuildCurriculum() {
       }
   }, [])
 
-  console.log(documents)
+  // React.useEffect(async() => {
+  //   let a = [
+  //     "Learning Outcomes",
+  //     "Modules",
+  //     "Assessment Details",
+  //     "Resources",
+  //     "Suggested Videos",
+  //   ];
+  //   console.log(dict)
+  //   if(dict && dict.details && dict.details.id){
+  //     console.log(rows)
+  //       for (let i = 0; i < a.length; i++) {
+  //         let body = {
+  //           title: a[i],
+  //           description: "Initial Commits",
+  //           createdBy: dict.details.id,
+  //         };
+  //         await axios.post(
+  //           backendURL + "/curriculumDeveloper/createDocument",
+  //           body,
+  //           {
+  //             headers: {
+  //               "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+  //             },
+  //           }
+  //         ).then((res) => {
+  //           console.log(res)
+  //         })
+  //       }
+      
+  //   }
+    
+  // } , [documents, rows])
 
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -288,27 +325,12 @@ export default function BuildCurriculum() {
         cellClassName : "hyperlink",
         getActions : ({id}) => {
 
-            const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
-
-            if(isInEditMode){
-                return[
-                    <GridActionsCellItem
-                    icon = {<VisibilityIcon />}
-                    label = "View"
-                    className='textPrimary'
-                    onClick={() => console.log(id)}
-                    color = "inherit"
-    
-                    />
-                ]
-            }
-
             return[
                 <GridActionsCellItem
                 icon = {<VisibilityIcon />}
                 label = "View"
                 className='textPrimary'
-                onClick={() => console.log(id)}
+                onClick={() => {navigate("/curriculumDeveloper/createDocument")}}
                 color = "inherit"
 
                 />

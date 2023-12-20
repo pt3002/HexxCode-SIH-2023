@@ -63,8 +63,8 @@ router.post(
 );
 
 // MONGO Post requests
-router.post("/createDocument",[auth, CurriculumDeveloperControllers.createDocument])
-router.get("/getDocuments", [auth,CurriculumDeveloperControllers.getAllDocuments])
+router.post("/createDocument",CurriculumDeveloperControllers.createDocument)
+router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
 router.post("/register", CurriculumDeveloperControllers.CDRegistration);
 router.post("/newSave", [auth,CurriculumDeveloperControllers.addNewSave])
 router.post("/setNotificationSeen", [auth, CurriculumDeveloperControllers.setNotificationSeen]);
