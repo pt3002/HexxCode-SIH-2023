@@ -98,7 +98,7 @@ function EDviewcurri() {
               Curriculums Approved by AICTE
             </Typography>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
@@ -106,8 +106,8 @@ function EDviewcurri() {
             >
               View All Books
             </Button>
-          </Grid>
-        </Grid>
+          </Grid>*/}
+        </Grid> 
       </PageTitleWrapper>
       <Grid container spacing={3}>
         {sub.map((subject) => (
