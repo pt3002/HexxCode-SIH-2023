@@ -259,22 +259,8 @@ function FeedbackChart() {
       });
 
     // fetch("/api/ml").then(res=>{console.log(res.json())})
-
-    // let body1 = {
-    //   JD_txt: "Good development skills knowledge of java",
-    //   resume_txt: "Web development in React",
-    // };
-    // fetch(`http://localhost:5000/api/ml1`, {
-    //   mode: "no-cors",
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(body1),
-    // })
-    //   .then((response) => {console.log(response)})
-    //   .catch((error) => console.log(error));
   }, []);
+
   return (
     <div>
       {drillDown ? (
