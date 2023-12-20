@@ -74,7 +74,7 @@ function EditToolbar(props) {
 
   return (
     <GridToolbarContainer>
-      {/* <Grid container justify-content="center" alignItem="center">
+      <Grid container justify-content="center" alignItem="center">
         <Button
           color="primary"
           startIcon={<AddIcon />}
@@ -83,18 +83,18 @@ function EditToolbar(props) {
           sx={{ m: 3 }}>
           Add Course
         </Button>
-      </Grid> */}
+      </Grid>
     </GridToolbarContainer>
   );
 }
 
-export default function BuildCurriculum() {
+export default function EditableBuildCurriculum() {
   const navigate = useNavigate();
   const [rows, setRows] = React.useState([]);
   const [rowModesModel, setRowModesModel] = React.useState({});
   const [documents, setDocuments] = React.useState([]);
-  const userContext = useContext(UserTokenContext);
-  const { dict, checkToken } = userContext;
+  //   const userContext = useContext(UserTokenContext);
+  //   const { dict, checkToken } = userContext;
 
   const handleSaveAll = () => {
     let subjects = rows;
@@ -130,34 +130,34 @@ export default function BuildCurriculum() {
 
   React.useEffect(() => {
     // check if document by subject name exists else create new
-    if (dict) {
-      checkToken();
-      axios
-        .get(backendURL + "/curriculumDeveloper/getDocuments", {
-          headers: {
-            "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
-          },
-        })
-        .then((res) => {
-          if (res.status == 200) {
-            console.log(res.data.complete);
-            setDocuments(res.data.complete);
-          }
-        });
-      let body = {
-        semester: 1,
-      };
-      axios
-        .post(backendURL + "/curriculumDeveloper/getSemesterSubjects", body)
-        .then((res) => {
-          let subjects = res.data.subjects;
-          for (let i = 0; i < subjects.length; i++) {
-            subjects[i]["id"] = subjects[i]["subject_id"];
-          }
-          setRows(subjects);
-        });
-    }
+    // if (dict) {
+    //   checkToken();
+    // axios
+    //   .get(backendURL + "/curriculumDeveloper/getDocuments", {
+    //     headers: {
+    //       "shiksha-niyojak": localStorage.getItem("shiksha-niyojak"),
+    //     },
+    //   })
+    axios.get(backendURL + "/curriculumDeveloper/getDocuments").then((res) => {
+      if (res.status == 200) {
+        console.log(res.data.complete);
+        setDocuments(res.data.complete);
+      }
+    });
+    let body = {
+      semester: 1,
+    };
+    axios
+      .post(backendURL + "/curriculumDeveloper/getSemesterSubjects", body)
+      .then((res) => {
+        let subjects = res.data.subjects;
+        for (let i = 0; i < subjects.length; i++) {
+          subjects[i]["id"] = subjects[i]["subject_id"];
+        }
+        setRows(subjects);
+      });
   }, []);
+  // }, []);
 
   // React.useEffect(async() => {
   //   let a = [
@@ -243,57 +243,103 @@ export default function BuildCurriculum() {
       field: "subject_code",
       headerName: "Course Code",
       width: 120,
-      editable: false,
+      editable: true,
     },
     {
       field: "name",
       headerName: "Course Name",
       width: 220,
-      editable: false,
+      editable: true,
     },
     {
       field: "learning",
       headerName: "Lectures",
       type: "number",
-      width: 80,
+      width: 70,
       align: "left",
       headerAlign: "left",
-      editable: false,
+      editable: true,
     },
     {
       field: "tutorial",
       headerName: "Tutorials",
       type: "number",
-      width: 80,
+      width: 70,
       align: "left",
       headerAlign: "left",
-      editable: false,
+      editable: true,
     },
     {
       field: "practical",
       headerName: "Practicals",
       type: "number",
-      width: 80,
+      width: 70,
       align: "left",
       headerAlign: "left",
-      editable: false,
+      editable: true,
     },
     {
       field: "credits",
       headerName: "Credits",
       type: "number",
-      width: 80,
+      width: 70,
       align: "left",
       headerAlign: "left",
-      editable: false,
+      editable: true,
     },
     {
       field: "type",
       headerName: "Type",
       width: 220,
-      editable: false,
+      editable: true,
       type: "singleSelect",
       valueOptions: type,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      headerName: "Actions",
+      width: 150,
+      cellClassName: "actions",
+      getActions: ({ id }) => {
+        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              sx={{
+                color: "primary.main",
+              }}
+              onClick={handleSaveClick(id)}
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className="textPrimary"
+              onClick={handleCancelClick(id)}
+              color="inherit"
+            />,
+          ];
+        }
+
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className="textPrimary"
+            onClick={handleEditClick(id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(id)}
+            color="inherit"
+          />,
+        ];
+      },
     },
     {
       field: "view",
@@ -355,14 +401,14 @@ export default function BuildCurriculum() {
           }}
         />
       </Box>
-      {/* <Grid container justifyContent="center" alignItems="center">
+      <Grid container justifyContent="center" alignItems="center">
         <Button variant="contained" onClick={handleSaveAll} sx={{ mx: 3 }}>
           Save
         </Button>
         <Button variant="contained" onClick={handleSaveAll}>
           Download Curriculum
         </Button>
-      </Grid> */}
+      </Grid>
     </>
   );
 }
