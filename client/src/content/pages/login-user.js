@@ -21,9 +21,9 @@ import UserTokenContext from "../../contexts/UserTokenContext";
 import { useContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import bg from "../../theme/bg.jpg";
-import GroupsIcon from '@mui/icons-material/Groups';
-import SchoolIcon from '@mui/icons-material/School';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import GroupsIcon from "@mui/icons-material/Groups";
+import SchoolIcon from "@mui/icons-material/School";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export default function CurriculumDeveloperLogin() {
   const navigate = useNavigate();
@@ -47,15 +47,16 @@ export default function CurriculumDeveloperLogin() {
   var o = Math.floor(100000 + Math.random() * 900000);
 
   const error = {};
-  const userContext = useContext(UserTokenContext)
-  const {dict, checkToken} = userContext;
+  const userContext = useContext(UserTokenContext);
+  const { dict, checkToken } = userContext;
 
   console.log(Data);
 
   const getDropDown = () => {
     setDropDown(true);
     setUser("Curriculum Developer");
-    setClicked("cd")
+    setLink("/register/page1");
+    setClicked("cd");
     setData((prevData) => ({
       ...prevData,
       type: "1",
@@ -68,22 +69,22 @@ export default function CurriculumDeveloperLogin() {
     setNotHead(true);
     if (value === "1") {
       setUser("Curriculum Developer");
-      setLink("/register/page1");
+      console.log(link);
       setNotHead(true);
     } else if (value === "2") {
       setUser("Educator");
       setLink("/register-educator");
       setDropDown(false);
       setNotHead(true);
-      setClicked("ed")
+      setClicked("ed");
     } else if (value === "3") {
       setDropDown(false);
       setUser("AICTE Administrator");
       setNotHead(true);
-      setClicked("ad")
+      setClicked("ad");
     } else {
       setLink("");
-      setUser("Deptartment Head");
+      setUser("Department head");
       setNotHead(false);
     }
     setData((prevData) => ({
@@ -118,7 +119,7 @@ export default function CurriculumDeveloperLogin() {
       return backendURL + "/Educator/EducatorLogin";
     } else if (type === "3") {
       return backendURL + "/AICTEAdmin/AICTEAdminLogin";
-    }else {
+    } else {
       return backendURL + "/DeptHead/DeptHeadLogin";
     }
   };
@@ -128,7 +129,7 @@ export default function CurriculumDeveloperLogin() {
       return "/curriculumDeveloper";
     } else if (type === "2") {
       return "/ED";
-    } else if (type === "3"){
+    } else if (type === "3") {
       return "/aicte";
     } else {
       return "/deptHead";
@@ -150,22 +151,22 @@ export default function CurriculumDeveloperLogin() {
         .then(
           (result) => {
             Swal.fire({
-                icon: "info",
-                title: "INFO",
-                text: "Email sent, check for OTP",
-                showConfirmButton: false,
-                timer: 3000,
-              });
+              icon: "info",
+              title: "INFO",
+              text: "Email sent, check for OTP",
+              showConfirmButton: false,
+              timer: 3000,
+            });
             setLoading(false);
           },
           (error) => {
             Swal.fire({
-                icon: "error",
-                title: "ERROR",
-                text: error.text,
-                showConfirmButton: false,
-                timer: 3000,
-              });
+              icon: "error",
+              title: "ERROR",
+              text: error.text,
+              showConfirmButton: false,
+              timer: 3000,
+            });
           }
         );
     }
@@ -225,7 +226,7 @@ export default function CurriculumDeveloperLogin() {
               timer: 3000,
             });
           } else {
-            if(res.data.role == "CurriculumDeveloper"){
+            if (res.data.role == "CurriculumDeveloper") {
               Swal.fire({
                 icon: "info",
                 title: "INFO",
@@ -235,10 +236,10 @@ export default function CurriculumDeveloperLogin() {
               });
               navigate("/otpscript", {
                 state: {
-                  body: body
-                }
-              })
-            }else{
+                  body: body,
+                },
+              });
+            } else {
               Swal.fire({
                 icon: "success",
                 title: "SUCCESS",
@@ -251,7 +252,7 @@ export default function CurriculumDeveloperLogin() {
               localStorage.setItem("shiksha-niyojak-role", res.data.role);
               console.log("Login ls ", localStorage);
               navigate(navigate_page);
-            }           
+            }
           }
         })
         .catch((error) => {
@@ -287,11 +288,10 @@ export default function CurriculumDeveloperLogin() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          backgroundImage: `url(${bg})`, 
+          backgroundImage: `url(${bg})`,
           backgroundSize: "cover",
         }}
       >
-        
         <Container
           align="center"
           component="main"
@@ -323,7 +323,7 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'cd' ? '#02263C' : 'transparent',
+                  backgroundColor: clicked === "cd" ? "#02263C" : "transparent",
                 }}
               >
                 {/* <Avatar
@@ -331,8 +331,14 @@ export default function CurriculumDeveloperLogin() {
                   alt="Curriculum Developer"
                   src="./static/images/avatars/cd2.png"
                 /> */}
-                <GroupsIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
-                <Typography variant="caption" align="center" style={{color:"white"}}>
+                <GroupsIcon
+                  sx={{ width: 50, height: 50, mr: 1, color: "white" }}
+                />
+                <Typography
+                  variant="caption"
+                  align="center"
+                  style={{ color: "white" }}
+                >
                   Curriculum Developer
                 </Typography>
               </Button>
@@ -348,7 +354,7 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'ed' ? '#02263C' : 'transparent',
+                  backgroundColor: clicked === "ed" ? "#02263C" : "transparent",
                 }}
               >
                 {/* <Avatar
@@ -356,8 +362,14 @@ export default function CurriculumDeveloperLogin() {
                   alt="Educator"
                   src="./static/images/avatars/edu.jpg"
                 /> */}
-                <SchoolIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
-                <Typography variant="caption" align="center" style={{color:"white"}}>
+                <SchoolIcon
+                  sx={{ width: 50, height: 50, mr: 1, color: "white" }}
+                />
+                <Typography
+                  variant="caption"
+                  align="center"
+                  style={{ color: "white" }}
+                >
                   Educator
                 </Typography>
               </Button>
@@ -373,7 +385,7 @@ export default function CurriculumDeveloperLogin() {
                   alignItems: "center",
                   width: "100%",
                   height: "100%",
-                  backgroundColor: clicked === 'ad' ? '#02263C' : 'transparent',
+                  backgroundColor: clicked === "ad" ? "#02263C" : "transparent",
                 }}
               >
                 {/* <Avatar
@@ -382,8 +394,14 @@ export default function CurriculumDeveloperLogin() {
                   src="./static/images/avatars/admin1.png"
                   style={{color:"white"}}
                 /> */}
-                <AdminPanelSettingsIcon sx={{ width: 50, height: 50, mr: 1, color: "white" }}/>
-                <Typography variant="caption" align="center" style={{color:"white"}}>
+                <AdminPanelSettingsIcon
+                  sx={{ width: 50, height: 50, mr: 1, color: "white" }}
+                />
+                <Typography
+                  variant="caption"
+                  align="center"
+                  style={{ color: "white" }}
+                >
                   AICTE Administrator
                 </Typography>
               </Button>
@@ -400,24 +418,45 @@ export default function CurriculumDeveloperLogin() {
               borderRadius: 2.5,
             }}
           >
-            <Grid align="center" sx={{ mt: 1, mb: 1, display:"flex", flexDirection:"row" }}>
+            <Grid
+              align="center"
+              sx={{ mt: 1, mb: 1, display: "flex", flexDirection: "row" }}
+            >
               <img
                 src="./static/images/logo/Shiksha.png"
                 alt="Shiksha-Niyojak"
                 height="70"
                 style={{
-                margin:"2%"
+                  margin: "2%",
                 }}
               />
-              <Grid align="left" sx={{margin:"2%", display:"flex", flexDirection:"column", width:"50%"}}>
-                <Typography variant="h2" style={{color:"#02263C", margin:"2%"}}>शिक्षा नियोजक</Typography>
-                <Typography variant="h4" style={{color:"#02263C", margin:"2%"}}>Shiksha Niyojak</Typography>
+              <Grid
+                align="left"
+                sx={{
+                  margin: "2%",
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "50%",
+                }}
+              >
+                <Typography
+                  variant="h2"
+                  style={{ color: "#02263C", margin: "2%" }}
+                >
+                  शिक्षा नियोजक
+                </Typography>
+                <Typography
+                  variant="h4"
+                  style={{ color: "#02263C", margin: "2%" }}
+                >
+                  Shiksha Niyojak
+                </Typography>
               </Grid>
               <img
                 src="./static/images/logo/aicte.jpg"
                 alt="aicte"
                 height="70"
-                style={{margin:"2%"}}
+                style={{ margin: "2%" }}
               />
             </Grid>
 
@@ -451,12 +490,12 @@ export default function CurriculumDeveloperLogin() {
                       {option.label}
                     </MenuItem>
                   ))} */}
-                   <MenuItem key="1" value="1" selected >
-                      Curriculum Developer
-                    </MenuItem>
-                   <MenuItem key="4" value="4">
-                      Department Head
-                    </MenuItem>
+                  <MenuItem key="1" value="1" selected>
+                    Curriculum Developer
+                  </MenuItem>
+                  <MenuItem key="4" value="4">
+                    Department Head
+                  </MenuItem>
                 </TextField>
               </Grid>
             )}
@@ -530,7 +569,6 @@ export default function CurriculumDeveloperLogin() {
         </Container>
         <Footer />
       </div>
-     
 
       {/* </Box> */}
     </React.Fragment>
