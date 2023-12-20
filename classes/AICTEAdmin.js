@@ -184,6 +184,38 @@ class FeedbackChart{
     return feedbacks;
   }
 }
+class Curriculum{
+  static async getAllCurriculum(){
 
+    // let sql = `select * from curriculum_developers`;
+    let sql = `select id, department, mongo_file_id, status from curriculum_draft`;
+    const [curriculum, _] = await db.execute(sql);
+    return curriculum;
+  }
 
-module.exports = { AICTEAdminFeatures, Guidelines, CurriculumDevelopers, AdminChart, FeedbackChart };
+  static async changeStatus(
+    id,
+    new_status,
+    message
+  ) {
+    let sql = `update curriculum_draft set status="${new_status}", message = "${message}" where id="${id}"`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+
+  static async deleteCurriculum(id) {
+    let sql = `DELETE FROM curriculum_draft where id = "${id}";`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error)
+      return "error";
+    }
+  }
+}
+
+module.exports = { AICTEAdminFeatures, Curriculum, Guidelines, CurriculumDevelopers, AdminChart, FeedbackChart };

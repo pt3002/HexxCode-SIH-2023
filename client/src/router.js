@@ -43,7 +43,7 @@ import Chat from './content/pages/CD/chat';
 import AdminChart from './content/pages/AICTE/AdminChart';
 
 import EducatorFeedback from './content/pages/ED/feedback-page';
-
+import ApproveCurriculum from './content/pages/AICTE/ApproveCurriculum';
 import FeedbackChart from './content/pages/AICTE/FeedbackChart';
 import GetSubjectsList from './content/pages/CD/subjectsList';
 import CDDashboard from './content/pages/CD/dashboard';
@@ -336,6 +336,10 @@ const DynamicRoutes = () =>{
         element : <ApproveCurriculumDevelopers />
       },
       {
+        path: 'approveCurriculum',
+        element : <ApproveCurriculum />
+      },
+      {
         path: 'adminChart',
         element : <AdminChart />
       },
@@ -463,8 +467,8 @@ const DynamicRoutes = () =>{
             element : <ViewRequirements />
           },
           {
-                 path : 'discussionForum',
-              element : <DiscussionForum />
+            path : 'discussionForum',
+            element : <DiscussionForum />
           },
           {
             path : "ltpModel",
