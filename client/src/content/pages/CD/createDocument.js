@@ -116,19 +116,19 @@ function CreateDocument() {
   return (
     <>
       <Helmet>
-        <title>Documents Page</title>
+        <title>Template for Course Contents</title>
       </Helmet>
       <PageTitleWrapper>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h3" component="h3" gutterBottom>
-              Documents Page
+            Template for Course Contents
             </Typography>
             <Typography variant="subtitle2">
-              This is Projects and Drafts panel
+              This is content drafting Panel
             </Typography>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
@@ -136,7 +136,7 @@ function CreateDocument() {
             >
               Create Document
             </Button>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageTitleWrapper>
       <Dialog open={open} onClose={handleClose} fullWidth>

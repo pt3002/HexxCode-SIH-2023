@@ -32,6 +32,12 @@ router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
 router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 router.get("/allSubjects", CurriculumDeveloperControllers.getAllSubjects)
+
+
+router.post("/getSemesterSubjects", CurriculumDeveloperControllers.getSemesterSubjects)
+router.post("/updateSubjects", CurriculumDeveloperControllers.updateSubjects)
+
+
 router.post("/profile", CurriculumDeveloperControllers.profileDevelopment)
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
@@ -56,9 +62,11 @@ router.post(
   CurriculumDeveloperControllers.getOTPEmailCheck
 );
 
+router.post("/deleteSubjects", CurriculumDeveloperControllers.DeleteSubject);
+
 // MONGO Post requests
-router.post("/createDocument",[auth, CurriculumDeveloperControllers.createDocument])
-router.get("/getDocuments", [auth,CurriculumDeveloperControllers.getAllDocuments])
+router.post("/createDocument",CurriculumDeveloperControllers.createDocument)
+router.get("/getDocuments", CurriculumDeveloperControllers.getAllDocuments)
 router.post("/register", CurriculumDeveloperControllers.CDRegistration);
 router.post("/newSave", [auth,CurriculumDeveloperControllers.addNewSave])
 router.post("/setNotificationSeen", [auth, CurriculumDeveloperControllers.setNotificationSeen]);

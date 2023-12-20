@@ -242,7 +242,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/curriculumDeveloper/createDocument"
+                  to="/curriculumDeveloper/ltpmodel"
                   startIcon={<ColorizeIcon />}
                 >
                 {/* /curriculumDeveloper/createDocument */}

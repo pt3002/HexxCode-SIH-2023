@@ -33,10 +33,10 @@ class curriculumDeveloperFeatures {
     return newPost;
   }
 
-  static async cdsAccToDept(department){
+  static async cdsAccToDept(department) {
     let sql = `SELECT * from curriculum_developer where department = '${department}' and status = 'A';`;
-    const [newPost, _] = await db.execute(sql)
-    return newPost
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
   }
   static async insertCD(
     id,
@@ -53,8 +53,8 @@ class curriculumDeveloperFeatures {
       await db.execute(sql);
       console.log("reflected in table");
     } catch (error) {
-      console.log(error)
-      return error.code
+      console.log(error);
+      return error.code;
     }
   }
   static async getAllSubjects() {
@@ -118,7 +118,7 @@ class curriculumDeveloperFeatures {
   }
 
   // getting group of cd
-  static async getSubjectName(id){
+  static async getSubjectName(id) {
     let sql = `SELECT subject_name from subject_group where id = (SELECT group_id from curriculum_developer where id = "${id}");`;
     const [result, _] = await db.execute(sql);
     return result;
@@ -130,19 +130,18 @@ class curriculumDeveloperFeatures {
     return result;
   }
 
-  static async getAllSubjectNames(){
+  static async getAllSubjectNames() {
     let sql = `select * from subject_group;`;
     const [result, _] = await db.execute(sql);
     return result;
   }
-  
+
   static async getBookBySub(subject_id) {
     let sql = `select * from resource where subject_id="${subject_id}";`;
     const [result, _] = await db.execute(sql);
     return result;
   }
 }
-
 
 class CurriculumDeveloperLogin {
   static async findCDByEmail(email) {
@@ -152,9 +151,7 @@ class CurriculumDeveloperLogin {
   }
 }
 
-
-class Guidelines{
-
+class Guidelines {
   static async getAllGuidelines() {
     let sql = `Select * from guideline`;
     const [guidelines, _] = await db.execute(sql);
@@ -162,9 +159,7 @@ class Guidelines{
   }
 }
 
-
-class Requirements{
-
+class Requirements {
   static async getAllRequirements(userId) {
     let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,educator_id,department,subject,requirement_text,id FROM requirement where department in (select department from curriculum_developer where id = "${userId}");`;
     const [requirement, _] = await db.execute(sql);
@@ -184,7 +179,7 @@ class CurriculumDeveloperNotification {
     }
   }
   static async setNotificationSeen(user_id) {
-    console.log(user_id)
+    console.log(user_id);
     let sql = `UPDATE notifications SET isUnread = 0 WHERE user_id = "${user_id}";`;
     await db.execute(sql);
   }
@@ -193,6 +188,79 @@ class CurriculumDeveloperNotification {
     await db.execute(sql);
   }
 }
+class CurriculumContent {
+  static async getSemesterSubject(sem_num) {
+    let sql = `SELECT * FROM subject WHERE semester="${sem_num}";`;
+    const [subjects, _] = await db.execute(sql);
+      return subjects;
+  }
 
-module.exports = { CDLogin,curriculumDeveloperAuth, curriculumDeveloperFeatures, Guidelines,CurriculumDeveloperLogin,Requirements, CurriculumDeveloperNotification };
+  static async getSubjectByID(subject_id) {
+    let sql = `SELECT * FROM subject WHERE subject_id="${subject_id}";`;
+    const [id, _] = await db.execute(sql);
+      return id;
+  }
 
+  static async insertNewSubject(
+    subject_id,
+    name,
+    department,
+    subject_code,
+    semester,
+    type,
+    learning,
+    tutorial,
+    practical,
+    credits
+  ) {
+    let sql = `INSERT INTO subject (subject_id,name,department,subject_code,semester,type,learning,tutorial,practical,credits) VALUES ("${subject_id}","${name}","${department}","${subject_code}","${semester}","${type}","${learning}","${tutorial}","${practical}","${credits}");`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error);
+      return error.code;
+    }
+  }
+
+  static async deleteSubject(subject_id) {
+    let sql = `DELETE FROM subject WHERE (subject_id = '${subject_id}');`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error);
+      return error.code;
+    }
+}
+
+  static async updateSubject(
+    subject_id,
+    name,
+    department,
+    subject_code,
+    semester,
+    type,
+    learning,
+    tutorial,
+    practical,
+    credits
+  ) {
+    let sql = `UPDATE subject set name="${name}",department="${department}",subject_code="${subject_code}",semester="${semester}",type="${type}",learning="${learning}",tutorial="${tutorial}",practical="${practical}",credits="${credits}" where subject_id="${subject_id}"`;
+    try {
+      await db.execute(sql);
+    } catch (error) {
+      console.log(error);
+      return error.code;
+    }
+  }
+}
+
+module.exports = {
+  CDLogin,
+  curriculumDeveloperAuth,
+  curriculumDeveloperFeatures,
+  Guidelines,
+  CurriculumDeveloperLogin,
+  Requirements,
+  CurriculumDeveloperNotification,
+  CurriculumContent,
+};
