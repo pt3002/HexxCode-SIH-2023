@@ -13,6 +13,9 @@ import {
 import Label from "../../../components/Label";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import DocViewer from "../Components/DocViewer";
+
 
 const StyledSubjectImg = styled("img")({
   top: 0,
@@ -26,7 +29,7 @@ CurriculumCard.propTypes = {
 };
 
 export default function CurriculumCard({ subject }) {
-  const { id,cover, department } = subject;
+  const { id,cover, department, mongo_file_id } = subject;
 
   const theme = useTheme();
 
@@ -68,7 +71,7 @@ export default function CurriculumCard({ subject }) {
           }}>
           Pinned
         </Label>
-        <StyledSubjectImg alt="cover" src={cover} />
+        <StyledSubjectImg alt="cover" src="/static/images/placeholders/covers/tech-img.jpg" />
       </Box>
 
       {/* <Stack spacing={1} sx={{ px: 1, pt: 0.5 }}>
@@ -101,6 +104,12 @@ export default function CurriculumCard({ subject }) {
           Rate and review
         </Button>
         {/* <Box display="flex">{renderCurriculumDevelopers}</Box> */}
+        <Button>
+            <DocViewer
+              filename={mongo_file_id}
+              contentType="application/pdf"
+            />
+          </Button>
       </Box>
     </Card>
   );
