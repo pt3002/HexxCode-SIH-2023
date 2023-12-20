@@ -76,7 +76,7 @@ export default function AddDepartmentHeads() {
     },
     {
       field: "department",
-      headerName: "Department",
+      headerName: "Bureau",
       width: 110,
       editable: true,
     },
@@ -293,7 +293,7 @@ export default function AddDepartmentHeads() {
         }}
         startIcon={<AddCircleSharpIcon />}
       >
-        Add New Department Head
+        Add New Bureau
       </Button>
 
       <Box sx={{ height: 400, width: "96%", margin: "2%" }}>
@@ -307,7 +307,7 @@ export default function AddDepartmentHeads() {
                 }}
                 // sx={{ backgroundColor: "green" }}
               >
-                Delete Heads
+                Delete Bureau
                 <DeleteIcon />
               </Button>
             </Grid>
@@ -337,7 +337,7 @@ export default function AddDepartmentHeads() {
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>ADD NEW DEPARTMENT HEAD</DialogTitle>
+        <DialogTitle>ADD NEW Bureau</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here. We
@@ -410,7 +410,7 @@ export default function AddDepartmentHeads() {
             }}
           />
           <TextField
-					label= "Department"
+					label= "Bureau"
 					select
           id = "department"
 					color="primary"
@@ -418,7 +418,7 @@ export default function AddDepartmentHeads() {
 					name="department"
 					fullWidth={true}
 					size="small"
-					value={newDepartmentHead.department_department}
+					value={newDepartmentHead.deptHead_department}
 					onChange={({target}) => {
     let Data = { ...newDepartmentHead };
     Data[target.name] = target.value;

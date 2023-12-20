@@ -258,7 +258,7 @@ function SidebarMenu() {
                   to="/aicte/addDeptHeads"
                   startIcon={<AdminPanelSettingsIcon />}
                 >
-                  Appoint Department Heads
+                  Appoint Bureau
                 </Button>
               </ListItem>
               {/* <ListItem component="div">
