@@ -17,5 +17,10 @@ router.post("/viewGroupMembers", DeptHeadControllers.viewMembersOfGroup);
 router.post("/deleteMembersFromGroup", DeptHeadControllers.deleteMembersFromGroup);
 router.get("/getNotifications", [auth, DeptHeadControllers.getNotificationsByUserId]);
 router.post("/setNotificationSeen", [auth, DeptHeadControllers.setNotificationSeen]);
-
+router.get(
+  "/getAvailableCurriculums",
+  DeptHeadControllers.getAllGuidelines
+);
+router.post("/deleteCurriculum", DeptHeadControllers.deleteGuideline);
+router.post("/addCurriculum", DeptHeadControllers.addCurriculum);
 module.exports = router;

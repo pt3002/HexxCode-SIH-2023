@@ -48,7 +48,7 @@ import GetSubjectsList from "./content/pages/CD/subjectsList";
 import CDDashboard from "./content/pages/CD/dashboard";
 import BuildCurriculum from "./content/pages/CD/buildCurriculum";
 import EditableBuildCurriculum from "./content/pages/DeptHead/editableBuildCurriculum";
-
+import ViewDraftStatus from "./content/pages/DeptHead/viewDraftStatus";
 const Loader = (Component) => (props) =>
   (
     <Suspense fallback={<SuspenseLoader />}>
@@ -487,6 +487,10 @@ const DynamicRoutes = () => {
       {
         path: "viewGroups",
         element: <ViewGroups />,
+      },
+      {
+        path: "viewStatus",
+        element: <ViewDraftStatus />,
       },
       {
         path: "viewGroupInfo",

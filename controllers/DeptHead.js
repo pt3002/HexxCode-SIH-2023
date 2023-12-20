@@ -1,5 +1,5 @@
 const { configDotenv } = require("dotenv");
-const { Groups, DeptHeadLogin, DeptHeadNotification, Guidelines} = require("../classes/DeptHead");
+const { CurriculumStatus, Groups, DeptHeadLogin, DeptHeadNotification, Guidelines} = require("../classes/DeptHead");
 const { jwtSecretKey } = require("../config/configKeys");
 const jwt = require("jsonwebtoken");
 
@@ -261,5 +261,65 @@ exports.deleteNotification = async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Internal server error" });
+  }
+};
+exports.getAllGuidelines = async (req, res, next) => {
+  try {
+    const department = "Computer Engineering";
+    let ans = await CurriculumStatus.getAllGuidelines(department);
+    try {
+      let guidelines = [];
+      for (let i = 0; i < ans.length; i++) {
+        let n = {
+          id: ans[i].id,
+          mongo_file_id: ans[i].mongo_file_id,
+          status: ans[i].status,
+          message: ans[i].message,
+          title: ans[i].title
+        };
+        guidelines.push(n);
+      }
+      res.send({ guidelines });
+    } catch (error) {
+      console.log(error);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.addCurriculum = async (req, res, next) => {
+  try {
+    let { id, title, description, mongo_file_id } = req.body;
+    let error_flag = false;
+    let department = "Computer Engineering"
+
+    let a = await CurriculumStatus.addGuideline(
+      id,
+      title,
+      description,
+      mongo_file_id,
+      department
+    );
+    if (a == "error") {
+      error_flag = true;
+    }
+
+    if (error_flag) {
+      res.send({ error: "Error Occured while adding guideline" });
+    } else {
+      res.send({ message: "Guideline added successfully" });
+    }
+  } catch (error) {
+    res.send({ error: "Error Occured while adding guideline" });
+  }
+};
+exports.deleteGuideline = async (req, res, next) => {
+  try {
+    let { id } = req.body;
+    await CurriculumStatus.deleteGuideline(id);
+    res.send({ message: "Guideline deleted successfully" });
+  } catch (error) {
+    console.log(error);
   }
 };
