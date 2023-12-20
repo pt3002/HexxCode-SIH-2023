@@ -257,35 +257,53 @@ function FeedbackChart() {
         setfeedbackData(res.data.feedbacks);
         setAvgFeedbackData(AvgRatingCalculator());
       });
+
+    // fetch("/api/ml").then(res=>{console.log(res.json())})
+
+    // let body1 = {
+    //   JD_txt: "Good development skills knowledge of java",
+    //   resume_txt: "Web development in React",
+    // };
+    // fetch(`http://localhost:5000/api/ml1`, {
+    //   mode: "no-cors",
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(body1),
+    // })
+    //   .then((response) => {console.log(response)})
+    //   .catch((error) => console.log(error));
   }, []);
   return (
-      <div>
-        {
-          drillDown ? (<IconButton
-            onClick={() => {
-              setdrillDown(false);
-            }}
-          >
-            <ExitToAppIcon />
-          </IconButton>):(<></>)
-        }
-        
-        {drillDown ? (
-          <Bar options={options} data={drillBarData} />
-        ) : (
-          <Bar
-            ref={chartRef}
-            data={barData}
-            onClick={(e) => {
-              let reference = getElementAtEvent(chartRef.current, e);
-              console.log(reference[0].index);
-              setdrillDown(true);
-              setInd(reference[0].index);
-            }}
-          />
-        )}
-      </div>
+    <div>
+      {drillDown ? (
+        <IconButton
+          onClick={() => {
+            setdrillDown(false);
+          }}
+        >
+          <ExitToAppIcon />
+        </IconButton>
+      ) : (
+        <></>
+      )}
 
+      {drillDown ? (
+        <Bar options={options} data={drillBarData} />
+      ) : (
+        <Bar
+          ref={chartRef}
+          data={barData}
+          onClick={(e) => {
+            let reference = getElementAtEvent(chartRef.current, e);
+            console.log(reference[0].index);
+            setdrillDown(true);
+            setInd(reference[0].index);
+          }}
+        />
+      )}
+    </div>
   );
 }
 export default FeedbackChart;

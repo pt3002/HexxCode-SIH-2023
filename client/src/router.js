@@ -46,6 +46,7 @@ import EducatorFeedback from './content/pages/ED/feedback-page';
 
 import FeedbackChart from './content/pages/AICTE/FeedbackChart';
 import GetSubjectsList from './content/pages/CD/subjectsList';
+import CDDashboard from './content/pages/CD/dashboard';
 
 
 const Loader = (Component) => (props) =>
@@ -418,6 +419,10 @@ const DynamicRoutes = () =>{
         path : 'curriculumDeveloper',
         element : <CurriculumDeveloperLayout />,
         children : [
+          {
+            path : 'dashboard',
+            element : <CDDashboard />
+          },
           {
             path : 'books',
             element : <SubjectsForResources />

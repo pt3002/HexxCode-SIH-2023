@@ -21,9 +21,14 @@ class CDLogin {
   }
 }
 class curriculumDeveloperFeatures {
+  static async profileDevelopment(id) {
+    let sql = `SELECT * from curriculum_developer where id = "${id}"`;
+    console.log(sql)
+    const [newPost, _] = await db.execute(sql);
+    return newPost;
+  }
   static async getAllUsers() {
     let sql = `SELECT * FROM curriculum_developer;`;
-
     const [newPost, _] = await db.execute(sql);
     return newPost;
   }
@@ -156,7 +161,7 @@ class Guidelines {
 
 class Requirements {
   static async getAllRequirements(userId) {
-    let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,educator_id,department,subject,requirement_text,id FROM requirement where department in (select department from curriculum_developer where id = ${userId});`;
+    let sql = `SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNum,educator_id,department,subject,requirement_text,id FROM requirement where department in (select department from curriculum_developer where id = "${userId}");`;
     const [requirement, _] = await db.execute(sql);
     return requirement;
   }

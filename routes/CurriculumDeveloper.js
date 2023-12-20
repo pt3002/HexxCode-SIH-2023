@@ -27,11 +27,12 @@ router.get(
  CurriculumDeveloperControllers.getAllGuidelines
 )
 
-router.get("/getAllEducatorRequirements", CurriculumDeveloperControllers.getAllRequirements);
+router.get("/getAllEducatorRequirements", [auth,CurriculumDeveloperControllers.getAllRequirements]);
 router.get("/getAllCDsofDepartment/:department", CurriculumDeveloperControllers.getAllCDsofDepartment)
 router.get("/getCDName/:id", CurriculumDeveloperControllers.findCDName)
 router.get("/getSubjectName", [auth, CurriculumDeveloperControllers.getSubjectName])
 router.get("/allSubjects", CurriculumDeveloperControllers.getAllSubjects)
+router.post("/profile", CurriculumDeveloperControllers.profileDevelopment)
 
 router.post("/getSubjectsBySEM", CurriculumDeveloperControllers.GetSubjectsBySemester)
 router.post("/getBooksBySubjects", CurriculumDeveloperControllers.GetBooksBySubject);
