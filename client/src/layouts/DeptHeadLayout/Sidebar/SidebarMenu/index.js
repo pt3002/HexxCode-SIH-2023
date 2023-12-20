@@ -190,17 +190,17 @@ function SidebarMenu() {
         <List component="div">
           <SubMenuWrapper>
             <List component="div">
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/curriculumDeveloper"
                   startIcon={<DesignServicesTwoToneIcon />}>
-                  {/* /overview */}
+                  /overview
                   Dashboard
                 </Button>
-              </ListItem>
+              </ListItem> */}
             </List>
           </SubMenuWrapper>
         </List>

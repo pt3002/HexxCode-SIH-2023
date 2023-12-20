@@ -133,7 +133,7 @@ export default function CurriculumDeveloperLogin() {
     } else if (type === "3") {
       return "/aicte";
     } else {
-      return "/deptHead";
+      return "/deptHead/viewGroups";
     }
   };
   const sendEmail = (e) => {
