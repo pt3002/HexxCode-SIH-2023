@@ -26,7 +26,7 @@ import UserTokenContext from "../../../contexts/UserTokenContext";
 import MergedPDF from "./mergedPDF";
 import { useLocation } from "react-router-dom";
 
-function CreateDocument() {
+function HeadCreateDocument() {
 
   const userContext = useContext(UserTokenContext)
   const {dict, checkToken} = userContext
@@ -41,7 +41,6 @@ function CreateDocument() {
 
   const location = useLocation();
 
-  const [subject, setSubject] = useState("")
 
   const [openReplies, setOpenReplies] = useState(false);
 
@@ -68,8 +67,8 @@ function CreateDocument() {
           let c = []
           for(let i = 0; i <d.length; i++){
             if(d[i]["subjectName"] == location.state){
-              c.push(d[i])
-            }
+                c.push(d[i])
+              }
           }
             setDocuments(c)
         }
@@ -81,13 +80,7 @@ function CreateDocument() {
 
   useEffect(() => {
     checkToken()
-    axios.get(backendURL + "/curriculumDeveloper/getSubjectName", {
-      "headers" : {
-        "shiksha-niyojak" : localStorage.getItem("shiksha-niyojak")
-      }
-    } ).then((res) => {
-      setSubject(res.data.subject_name)
-    })
+    
 }, [])
 
   console.log(location.state)
@@ -149,7 +142,6 @@ function CreateDocument() {
         })
     }
   }
-  console.log(subject, location.state)
 
   return (
     <>
@@ -211,7 +203,7 @@ function CreateDocument() {
           <Button onClick={handleCreate}>Create</Button>
         </DialogActions>
       </Dialog>
-      <Grid justifyContent = "center" alignContent="center">
+      {/* <Grid justifyContent = "center" alignContent="center">
         <Grid item>
           {
             subject != location.state && (
@@ -222,14 +214,10 @@ function CreateDocument() {
           }
         
         </Grid>
-      </Grid>
+      </Grid> */}
       <Container maxWidth = "lg">
         <Card>
-          {subject == location.state ? (
-            <DocumentsTable docs = {documents} access = {"yes"} subject = {location.state}/>
-          ) : (
-            <DocumentsTable docs = {documents} access = {"no"} subject = {location.state}/>
-          )}
+        <DocumentsTable docs = {documents} access = {"yes"} subject = {location.state}/>
           
         </Card>
       </Container>
@@ -237,4 +225,4 @@ function CreateDocument() {
   );
 }
 
-export default CreateDocument;
+export default HeadCreateDocument;

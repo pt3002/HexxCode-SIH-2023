@@ -311,7 +311,9 @@ export default function BuildCurriculum() {
             label="View"
             className="textPrimary"
             onClick={() => {
-              navigate("/curriculumDeveloper/createDocument");
+              navigate("/curriculumDeveloper/createDocument", {
+                "state" : rows[id-1]["name"]
+              });
             }}
             color="inherit"
           />,

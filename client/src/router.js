@@ -49,6 +49,8 @@ import CDDashboard from "./content/pages/CD/dashboard";
 import BuildCurriculum from "./content/pages/CD/buildCurriculum";
 import EditableBuildCurriculum from "./content/pages/DeptHead/editableBuildCurriculum";
 import ViewDraftStatus from "./content/pages/DeptHead/viewDraftStatus";
+import HeadCreateDocument from "./content/pages/DeptHead/createDocument";
+
 const Loader = (Component) => (props) =>
   (
     <Suspense fallback={<SuspenseLoader />}>
@@ -414,7 +416,7 @@ const DynamicRoutes = () => {
   //     ],
   //   });
   // }
-  else if (role == "CurriculumDeveloper") {
+  else if (role == "CurriculumDeveloper" ) {
     all_routes.push({
       path: "curriculumDeveloper",
       element: <CurriculumDeveloperLayout />,
@@ -508,6 +510,10 @@ const DynamicRoutes = () => {
         path: "viewGuidelines",
         element: <ViewGuidelines />,
       },
+      {
+        path : "createDocument",
+        element : <HeadCreateDocument />
+      }
     ],
   });
 
