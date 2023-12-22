@@ -125,7 +125,7 @@ Installations required:
 ## Usage
 Here is a Video depicting the role wise distribution of various stakeholders in developing a model curriculum.
 
-https://github.com/pt3002/HexxCode-SIH-2023/assets/87142754/8a4f27ad-dcd8-4b03-b6ed-dc0a65f8c279
+https://github.com/pt3002/HexxCode-SIH-2023/assets/87142731/7906c22d-8b69-4597-a603-535f0861450b
 
 ## Contributors
 
