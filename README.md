@@ -65,8 +65,6 @@ Here's a brief description and role divisions of all the stakeholders:
 <img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"/>
 </p>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -109,5 +107,6 @@ Installations required:
 ```sh
     npm run dev
 ```
+## Usage
+Here is a Video depicting the role wise distribution of various stakeholders in developing a model curriculum.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
