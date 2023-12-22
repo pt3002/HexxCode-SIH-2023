@@ -52,6 +52,22 @@ Here's a brief description and role divisions of all the stakeholders:
 * <b>Curriculum Developers : </b> Develops curriculum for the allocated subject by satisfying following 5 parameters : Learning Outcomes, Modules, Assessment Details, Resources, Suggested Videos
 * <b>Educational Experts : </b> Reviews curriculums for different departments according to these <a href="https://github.com/pt3002/HexxCode-SIH-2023/tree/main/client/public/static/images/logo/EducationalRequirements.JPG"><strong>25 parameters »</strong></a>
 
+## Fetures Implemented
+* <b> Personalized Dashboard: </b>
+* <b> Calendar: </b>
+* <b> Curriclum Developemt Tool: </b>
+* <b> Version Control : </b>
+* <b> Discussion Forum : </b>
+* <b> Latest Guidelines : </b>
+* <b> Chat : </b>
+* <b> Progress Trackers : </b>
+* <b> Grouping Developers : </b>
+* <b> LTP Model : </b>
+* <b> Effectiveness of Curriculum : </b>
+* <b> Visual Analatics : </b>
+* <b> Multi-factor Authentication : </b>
+* <b> Email Reminders : </b>
+
 
 ### Built With
 
