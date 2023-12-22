@@ -11,16 +11,16 @@ import { useState } from "react";
 import { backendURL } from "../../../configKeys";
 
 function EDviewcurri() {
-    const [sub, setSub] = useState([]);
+  const [sub, setSub] = useState([]);
   const EDContext = useContext(UserTokenContext);
-  const {dict, checkToken} = EDContext;
+  const { dict, checkToken } = EDContext;
   React.useEffect(() => {
     checkToken();
   }, []);
-//   const [subjects, setSubjects] = useState([]);
+  //   const [subjects, setSubjects] = useState([]);
 
   const curriculumDeveloper = {
-    name: "Catherine Pike",
+    name: "Kriti",
     avatar: "/static/images/avatars/1.jpg",
     department: "Computer Engineering",
   };
@@ -59,9 +59,9 @@ function EDviewcurri() {
       })
       .then((res) => {
         // console.log("res : ",res.data.requirements);
-        console.log("curriculum=======",res.data.curriculum);
+        console.log("curriculum=======", res.data.curriculum);
         setSub(res.data.curriculum);
-        console.log("curriculum...",sub);
+        console.log("curriculum...", sub);
       });
   }, []);
 
@@ -107,7 +107,7 @@ function EDviewcurri() {
               View All Books
             </Button>
           </Grid>*/}
-        </Grid> 
+        </Grid>
       </PageTitleWrapper>
       <Grid container spacing={3}>
         {sub.map((subject) => (

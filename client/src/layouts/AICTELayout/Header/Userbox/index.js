@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
-import { NavLink,useNavigate } from 'react-router-dom';
-
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
   Avatar,
@@ -15,14 +14,14 @@ import {
   ListItemText,
   Popover,
   Typography,
-  styled
-} from '@mui/material';
+  styled,
+} from "@mui/material";
 
-import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
-import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
-import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
-import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import InboxTwoToneIcon from "@mui/icons-material/InboxTwoTone";
+import ExpandMoreTwoToneIcon from "@mui/icons-material/ExpandMoreTwoTone";
+import AccountBoxTwoToneIcon from "@mui/icons-material/AccountBoxTwoTone";
+import LockOpenTwoToneIcon from "@mui/icons-material/LockOpenTwoTone";
+import AccountTreeTwoToneIcon from "@mui/icons-material/AccountTreeTwoTone";
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -61,16 +60,14 @@ const UserBoxDescription = styled(Typography)(
 
 function HeaderUserbox() {
   const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
+    name: "Kriti",
+    avatar: "/static/images/avatars/1.jpg",
+    jobtitle: "Project Manager",
   };
 
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
   const navigate = useNavigate();
-
-
 
   const handleOpen = () => {
     setOpen(true);
@@ -82,7 +79,7 @@ function HeaderUserbox() {
 
   const handleSignOut = () => {
     localStorage.removeItem("shiksha-niyojak");
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -106,14 +103,13 @@ function HeaderUserbox() {
         onClose={handleClose}
         open={isOpen}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-      >
+          vertical: "top",
+          horizontal: "right",
+        }}>
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
           <Avatar variant="rounded" alt={user.name} src={user.avatar} />
           <UserBoxText>

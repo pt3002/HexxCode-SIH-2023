@@ -24,7 +24,7 @@ function Courses() {
   // const covers=["/static/images/placeholders/covers/comp.jpg","/static/images/placeholders/covers/tech-img.jpg","/static/images/placeholders/covers/phy.jpg"]
 
   const curriculumDeveloper = {
-    name: "Catherine Pike",
+    name: "Kriti",
     avatar: "/static/images/avatars/1.jpg",
     department: "Computer Engineering",
   };
@@ -39,21 +39,15 @@ function Courses() {
   }, []);
   React.useEffect(() => {
     if (dict.token) {
-      let body = 
-      {
+      let body = {
         semester: sem,
-      }
+      };
       axios
-        .post(
-          backendURL +
-            "/CurriculumDeveloper/getSubjectsBySEM/" ,
-            body,
-          {
-            headers: {
-              "shiksha-niyojak": dict.token,
-            },
-          }
-        )
+        .post(backendURL + "/CurriculumDeveloper/getSubjectsBySEM/", body, {
+          headers: {
+            "shiksha-niyojak": dict.token,
+          },
+        })
         .then((res) => {
           // setSubjects(res.data.subjects);
           // console.log("res.data=====>", res.data);
@@ -77,10 +71,7 @@ function Courses() {
           console.log("Error Code: ", error);
         });
     }
-  }, 
-  [dict.token, sem]
-  
-  );
+  }, [dict.token, sem]);
 
   // const subjects = [
   //   {
@@ -123,13 +114,12 @@ function Courses() {
             <Button
               sx={{ mt: { xs: 2, md: 0 } }}
               variant="contained"
-              endIcon={<ChevronRightTwoToneIcon fontSize="small" />}
-            >
+              endIcon={<ChevronRightTwoToneIcon fontSize="small" />}>
               View All Books
             </Button>
           </Grid>
         </Grid>
-        <Box sx={{ width: "20%", margin:"2%" }}>
+        <Box sx={{ width: "20%", margin: "2%" }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label"> Select SEM</InputLabel>
             <Select
@@ -137,8 +127,7 @@ function Courses() {
               id="demo-simple-select"
               value={sem}
               label="Age"
-              onChange={handleClickSem}
-            >
+              onChange={handleClickSem}>
               <MenuItem value={1}>SEM 1</MenuItem>
               <MenuItem value={2}>SEM 2</MenuItem>
               <MenuItem value={3}>SEM 3</MenuItem>
@@ -147,7 +136,6 @@ function Courses() {
               <MenuItem value={6}>SEM 6</MenuItem>
               <MenuItem value={7}>SEM 7</MenuItem>
               <MenuItem value={8}>SEM 8</MenuItem>
-
             </Select>
           </FormControl>
         </Box>
@@ -155,7 +143,7 @@ function Courses() {
       <Grid container spacing={3}>
         {subjects.map((subject) => (
           <Grid key={subject.id} item xs={12} md={4} xl={3}>
-            <SubjectCard subject={subject}/>
+            <SubjectCard subject={subject} />
           </Grid>
         ))}
       </Grid>

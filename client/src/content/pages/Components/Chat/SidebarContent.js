@@ -28,7 +28,7 @@ import Label from "../../../../components/Label";
 import CheckTwoToneIcon from "@mui/icons-material/CheckTwoTone";
 import AlarmTwoToneIcon from "@mui/icons-material/AlarmTwoTone";
 import { Link as RouterLink } from "react-router-dom";
-import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
+import ChatBubbleTwoToneIcon from "@mui/icons-material/ChatBubbleTwoTone";
 import axios from "axios";
 import { backendURL } from "../../../../configKeys";
 
@@ -111,9 +111,8 @@ const TabsContainerWrapper = styled(Box)(
 );
 
 function SidebarContent(props) {
-
   const user = {
-    name: "Catherine Pike",
+    name: "Kriti",
     avatar: "/static/images/avatars/1.jpg",
     jobtitle: "Software Developer",
   };
@@ -165,15 +164,13 @@ function SidebarContent(props) {
         </Box>
       </Box>
 
-      <Box sx = {{ml:"15%", mr:"15%", my:3}} justifyContent="center">
-      <Button endIcon={<ChatBubbleTwoToneIcon />} variant="contained">
-            Start New Chat
-          </Button>
+      <Box sx={{ ml: "15%", mr: "15%", my: 3 }} justifyContent="center">
+        <Button endIcon={<ChatBubbleTwoToneIcon />} variant="contained">
+          Start New Chat
+        </Button>
       </Box>
 
       <Divider />
-
-      
 
       {/* <TextField
         sx={{

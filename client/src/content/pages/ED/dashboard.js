@@ -7,57 +7,66 @@ import axios from "axios";
 import React from "react";
 import { useContext, useState } from "react";
 import { backendURL } from "../../../configKeys";
-import ImageSlider from '../../../components/Dashboard/Carousel'
+import ImageSlider from "../../../components/Dashboard/Carousel";
 import UserTokenContext from "../../../contexts/UserTokenContext";
 function DashboardED() {
   const EDContext = useContext(UserTokenContext);
-  const {dict, checkToken} = EDContext;
+  const { dict, checkToken } = EDContext;
   const slides = [
-    { url: "http://localhost:3000/static/images/placeholders/covers/0.jpg", title: "beach" },
-    { url: "http://localhost:3000/static/images/placeholders/covers/1.jpg", title: "boat" },
-    { url: "http://localhost:3000/static/images/placeholders/covers/2.jpg", title: "forest" },
+    {
+      url: "http://localhost:3000/static/images/placeholders/covers/0.jpg",
+      title: "beach",
+    },
+    {
+      url: "http://localhost:3000/static/images/placeholders/covers/1.jpg",
+      title: "boat",
+    },
+    {
+      url: "http://localhost:3000/static/images/placeholders/covers/2.jpg",
+      title: "forest",
+    },
   ];
   const containerStyles = {
     width: "500px",
     height: "280px",
     margin: "0 auto",
   };
-//   const [subjects, setSubjects] = useState([]);
+  //   const [subjects, setSubjects] = useState([]);
 
   const curriculumDeveloper = {
-    name: "Catherine Pike",
+    name: "Kriti",
     avatar: "/static/images/avatars/1.jpg",
     department: "Computer Engineering",
   };
 
-//   React.useEffect(() => {
-//     axios
-//       .get(
-//         backendURL +
-//           "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
-//           curriculumDeveloper.department
-//       )
-//       .then((res) => {
-//         // setSubjects(res.data.subjects);
-//         let array = res.data.subjects;
-//         let temp_subjects = [];
-//         for (let i = 0; i < array.length; i++) {
-//           let n = {
-//             id: array[i].subject_id,
-//             cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
-//             name: array[i].name,
-//             code: array[i].subject_code,
-//             cds: ["Mary", "Jack", "Ron"],
-//           };
-//           temp_subjects.push(n);
-//         }
-//         setSubjects(temp_subjects);
-//         console.log("Happp0", subjects);
-//       })
-//       .catch((error) => {
-//         console.log("Error Code: ", error);
-//       });
-//   });
+  //   React.useEffect(() => {
+  //     axios
+  //       .get(
+  //         backendURL +
+  //           "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
+  //           curriculumDeveloper.department
+  //       )
+  //       .then((res) => {
+  //         // setSubjects(res.data.subjects);
+  //         let array = res.data.subjects;
+  //         let temp_subjects = [];
+  //         for (let i = 0; i < array.length; i++) {
+  //           let n = {
+  //             id: array[i].subject_id,
+  //             cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
+  //             name: array[i].name,
+  //             code: array[i].subject_code,
+  //             cds: ["Mary", "Jack", "Ron"],
+  //           };
+  //           temp_subjects.push(n);
+  //         }
+  //         setSubjects(temp_subjects);
+  //         console.log("Happp0", subjects);
+  //       })
+  //       .catch((error) => {
+  //         console.log("Error Code: ", error);
+  //       });
+  //   });
 
   const subjects = [
     {
@@ -88,7 +97,6 @@ function DashboardED() {
 
   return (
     <>
-
       <PageTitleWrapper>
         <div style={containerStyles}>
           <ImageSlider slides={slides} />

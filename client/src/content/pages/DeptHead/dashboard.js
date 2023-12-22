@@ -9,42 +9,42 @@ import { useState } from "react";
 import { backendURL } from "../../../configKeys";
 
 function DashboardDeptHead() {
-//   const [subjects, setSubjects] = useState([]);
+  //   const [subjects, setSubjects] = useState([]);
 
   const curriculumDeveloper = {
-    name: "Catherine Pike",
+    name: "Kriti",
     avatar: "/static/images/avatars/1.jpg",
     department: "Computer Engineering",
   };
 
-//   React.useEffect(() => {
-//     axios
-//       .get(
-//         backendURL +
-//           "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
-//           curriculumDeveloper.department
-//       )
-//       .then((res) => {
-//         // setSubjects(res.data.subjects);
-//         let array = res.data.subjects;
-//         let temp_subjects = [];
-//         for (let i = 0; i < array.length; i++) {
-//           let n = {
-//             id: array[i].subject_id,
-//             cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
-//             name: array[i].name,
-//             code: array[i].subject_code,
-//             cds: ["Mary", "Jack", "Ron"],
-//           };
-//           temp_subjects.push(n);
-//         }
-//         setSubjects(temp_subjects);
-//         console.log("Happp0", subjects);
-//       })
-//       .catch((error) => {
-//         console.log("Error Code: ", error);
-//       });
-//   });
+  //   React.useEffect(() => {
+  //     axios
+  //       .get(
+  //         backendURL +
+  //           "/CurriculumDeveloper/getAllSubjectsByDepartment/" +
+  //           curriculumDeveloper.department
+  //       )
+  //       .then((res) => {
+  //         // setSubjects(res.data.subjects);
+  //         let array = res.data.subjects;
+  //         let temp_subjects = [];
+  //         for (let i = 0; i < array.length; i++) {
+  //           let n = {
+  //             id: array[i].subject_id,
+  //             cover: "/static/images/placeholders/covers/" + (i % 3) + ".jpg",
+  //             name: array[i].name,
+  //             code: array[i].subject_code,
+  //             cds: ["Mary", "Jack", "Ron"],
+  //           };
+  //           temp_subjects.push(n);
+  //         }
+  //         setSubjects(temp_subjects);
+  //         console.log("Happp0", subjects);
+  //       })
+  //       .catch((error) => {
+  //         console.log("Error Code: ", error);
+  //       });
+  //   });
 
   const subjects = [
     {
@@ -79,7 +79,8 @@ function DashboardDeptHead() {
               Curriculum for {curriculumDeveloper.department}
             </Typography>
             <Typography variant="subtitle2">
-              {curriculumDeveloper.name}, curriculum for different subjects is listed below:
+              {curriculumDeveloper.name}, curriculum for different subjects is
+              listed below:
             </Typography>
           </Grid>
           <Grid item>

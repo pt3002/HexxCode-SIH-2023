@@ -1,9 +1,9 @@
-import { Typography, Avatar, Grid, useTheme } from '@mui/material';
+import { Typography, Avatar, Grid, useTheme } from "@mui/material";
 
 function PageHeader() {
   const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg'
+    name: "Kriti",
+    avatar: "/static/images/avatars/1.jpg",
   };
   const theme = useTheme();
 
@@ -14,7 +14,7 @@ function PageHeader() {
           sx={{
             mr: 2,
             width: theme.spacing(8),
-            height: theme.spacing(8)
+            height: theme.spacing(8),
           }}
           variant="rounded"
           alt={user.name}
