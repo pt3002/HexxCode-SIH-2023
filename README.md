@@ -113,6 +113,7 @@ Here is a Video depicting the role wise distribution of various stakeholders in 
 https://github.com/pt3002/HexxCode-SIH-2023/assets/87142731/7906c22d-8b69-4597-a603-535f0861450b
 
 ## Structure Hierarchy
+![Structure_Hierarchy](https://github.com/pt3002/HexxCode-SIH-2023/assets/87142731/9b47a37c-5ee1-4805-9fd2-c6632c4c5886)
 
 
 ## Features
