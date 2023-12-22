@@ -120,7 +120,7 @@ https://github.com/pt3002/HexxCode-SIH-2023/assets/87142731/7906c22d-8b69-4597-a
 
 * <b> Personalized Dashboard: </b> For different Educational Stakeholders.
 * <b> Calendar: </b> For setting up meetings and connecting with curriculum developers.
-* <b> Curriculum Developemt Tool: </b> A collaborative tool with version control and edit access according to the group assigned to the curriculum developer.
+* <b> Curriculum Development Tool: </b> A collaborative tool with version control and edit access according to the group assigned to the curriculum developer.
 * <b> Discussion Forum: </b> A forum for anonymous discussions with live tracking of likes, upvotes, reviews.
 * <b> Latest Guidelines: </b> Mechanism through which AICTE Admin adds Indian Education Guidelines which have to be followed by different stakeholders.
 * <b> Grouping Developers: </b> Right given to bureau heads to make subject wise groups and adding approved Curriculum Developers to this group.
