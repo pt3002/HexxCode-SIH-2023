@@ -12,7 +12,9 @@
     <br />
     College of Engineering Pune, Technological University (COEP Tech)
     <br />
-    <a href="https://www.canva.com/design/DAF3TheBPcE/mPds3cU6rbFVqEu2z2EPrw/edit?utm_content=DAF3TheBPcE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"><strong>View Presentation »</strong></a>
+    <a href = "#usage"><strong>Demo</strong></a>
+    ·
+    <a href="https://www.canva.com/design/DAF3TheBPcE/mPds3cU6rbFVqEu2z2EPrw/edit?utm_content=DAF3TheBPcE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"><strong>Presentation</strong></a>
     <br />
     <br />
   </p>
@@ -36,10 +38,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#contributors">Contributors</a></li>
   </ol>
 </details>
 
@@ -109,4 +108,22 @@ Installations required:
 ```
 ## Usage
 Here is a Video depicting the role wise distribution of various stakeholders in developing a model curriculum.
+
+https://github.com/pt3002/HexxCode-SIH-2023/assets/87142754/8a4f27ad-dcd8-4b03-b6ed-dc0a65f8c279
+
+## Contributors
+
+<a href = "https://github.com/pt3002">Prerna Tulsiani</a>
+<br />
+<a href = "https://github.com/kmnat">Tanvi Kale</a>
+<br />
+<a href = "https://github.com/jiaj21">Jia Johnson</a>
+<br />
+<a href = "https://github.com/HarshalAbhayKausadikar">Harshal Kausadikar</a>
+<br />
+<a href = "https://github.com/ppatil002">Pratik Patil</a>
+<br />
+<a href = "https://github.com/abhi-1003">Abhinav Kurule</a>
+<br />
+
 
