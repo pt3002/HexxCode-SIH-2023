@@ -325,14 +325,14 @@ export default function BuildCurriculum() {
   return (
     <>
       <Grid container justifyContent="contained" alignItems="center">
-        <Typography variant="h3" sx={{ ml: 3 }}>
-          Semester 1 Curriculum
+        <Typography variant="h3" sx={{ ml: 3, mt: 2 }}>
+          Semester 1 Curriculum - Lectures, Tutorials and Practicals Model
         </Typography>
       </Grid>
       <Box
         sx={{
           m: 4,
-          height: 600,
+          height: 370,
           width: "90%",
           "& .actions": {
             color: "text.secondary",

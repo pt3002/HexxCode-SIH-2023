@@ -37,7 +37,9 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#structure-hierarchy">Structure Hierarchy</a></li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#features">Features</a></li>
     <li><a href="#contributors">Contributors</a></li>
   </ol>
 </details>
@@ -51,23 +53,6 @@ Here's a brief description and role divisions of all the stakeholders:
 * <b>Bureau Heads : </b> Makes Subject wise groups from approved list of curriculum developers, Reviews and merges all curriculums and sends them to AICTE Admins
 * <b>Curriculum Developers : </b> Develops curriculum for the allocated subject by satisfying following 5 parameters : Learning Outcomes, Modules, Assessment Details, Resources, Suggested Videos
 * <b>Educational Experts : </b> Reviews curriculums for different departments according to these <a href="https://github.com/pt3002/HexxCode-SIH-2023/tree/main/client/public/static/images/logo/EducationalRequirements.JPG"><strong>25 parameters »</strong></a>
-
-## Fetures Implemented
-* <b> Personalized Dashboard: </b>
-* <b> Calendar: </b>
-* <b> Curriclum Developemt Tool: </b>
-* <b> Version Control : </b>
-* <b> Discussion Forum : </b>
-* <b> Latest Guidelines : </b>
-* <b> Chat : </b>
-* <b> Progress Trackers : </b>
-* <b> Grouping Developers : </b>
-* <b> LTP Model : </b>
-* <b> Effectiveness of Curriculum : </b>
-* <b> Visual Analatics : </b>
-* <b> Multi-factor Authentication : </b>
-* <b> Email Reminders : </b>
-
 
 ### Built With
 
@@ -127,19 +112,82 @@ Here is a Video depicting the role wise distribution of various stakeholders in 
 
 https://github.com/pt3002/HexxCode-SIH-2023/assets/87142731/7906c22d-8b69-4597-a603-535f0861450b
 
+## Structure Hierarchy
+
+
+## Features
+
+* <b> Personalized Dashboard: </b> For different Educational Stakeholders.
+* <b> Calendar: </b> For setting up meetings and connecting with curriculum developers.
+* <b> Curriculum Developemt Tool: </b> A collaborative tool with version control and edit access according to the group assigned to the curriculum developer.
+* <b> Discussion Forum: </b> A forum for anonymous discussions with live tracking of likes, upvotes, reviews.
+* <b> Latest Guidelines: </b> Mechanism through which AICTE Admin adds Indian Education Guidelines which have to be followed by different stakeholders.
+* <b> Grouping Developers: </b> Right given to bureau heads to make subject wise groups and adding approved Curriculum Developers to this group.
+* <b> LTP Model: </b>Lectures, Tutorials and Practicals which can be assigned for different departments.
+* <b> Collecting Expert Requirements: </b>Mechanism of reviewing and rating curriculum designs approved by AICTE Admins.
+* <b> Visual Analytics: </b>To get a deep understanding of the feedback received for a particular curriculum design.
+
 ## Contributors
 
-<a href = "https://github.com/pt3002">Prerna Tulsiani</a>
-<br />
-<a href = "https://github.com/kmnat">Tanvi Kale</a>
-<br />
-<a href = "https://github.com/jiaj21">Jia Johnson</a>
-<br />
-<a href = "https://github.com/HarshalAbhayKausadikar">Harshal Kausadikar</a>
-<br />
-<a href = "https://github.com/ppatil002">Pratik Patil</a>
-<br />
-<a href = "https://github.com/abhi-1003">Abhinav Kurule</a>
-<br />
+<p>
+  <strong>Prerna Tulsiani</strong>
+  <br />
+  <a href="https://in.linkedin.com/in/prerna-tulsiani-00b894202" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp; 
+  <a href="https://github.com/pt3002" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
+  </a>
+</p>
+<p>
+  <strong>Tanvi Kale</strong>
+  <br />
+  <a href="https://in.linkedin.com/in/tanvi-mahesh-kale-9669b9205" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp; 
+  <a href="https://github.com/kmnat" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
+  </a>
+</p>
+<p>
+  <strong>Jia Johnson</strong>
+  <br />
+  <a href="https://in.linkedin.com/in/jia-johnson-533733248" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp; 
+  <a href="https://github.com/jiaj21" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
+  </a>
+</p>
+<p>
+  <strong>Harshal Kausadikar</strong>
+  <br />
+  <a href="https://in.linkedin.com/in/harshal-kausadikar-805b55204" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp; 
+  <a href="https://github.com/HarshalAbhayKausadikar" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
+  </a>
+</p>
+<p>
+  <strong>Pratik Patil</strong>
+  <br />
+  <a href="https://in.linkedin.com/in/pratik-patil-b44a18202?trk=public_profile_browsemap-profile" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp; 
+  <a href="https://github.com/ppatil002" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
+  </a>
+</p>
+<p>
+  <strong>Abhinav Kurule</strong>
+  <br />
+  <a href="https://in.linkedin.com/in/abhinav-kurule-5339b3252" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> LinkedIn
+  </a> &nbsp; 
+  <a href="https://github.com/abhi-1003" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/tskMh.png" alt="github"> Github
+  </a>
+</p>
 
 

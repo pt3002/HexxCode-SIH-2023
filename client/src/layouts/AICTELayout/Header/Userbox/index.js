@@ -62,7 +62,7 @@ function HeaderUserbox() {
   const user = {
     name: "Kriti",
     avatar: "/static/images/avatars/1.jpg",
-    jobtitle: "Project Manager",
+    jobtitle: "AICTE Admin",
   };
 
   const ref = useRef(null);

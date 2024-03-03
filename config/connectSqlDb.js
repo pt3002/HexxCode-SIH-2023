@@ -4,7 +4,7 @@ const { db_port, host, database, password } = require("./configKeys");
 const db = mysql.createPool({
     port: db_port,
     host: host,
-    user: "admin",
+    user: "root",
     password: password,
     database: database,
 });

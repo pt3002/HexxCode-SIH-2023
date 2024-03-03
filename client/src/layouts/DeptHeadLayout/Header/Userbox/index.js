@@ -61,9 +61,9 @@ const UserBoxDescription = styled(Typography)(
 
 function HeaderUserbox() {
   const user = {
-    name: 'Hexxcoders',
+    name: 'Prerna Tulsiani',
     avatar: '/static/images/avatars/edu.jpg',
-    jobtitle: 'Hackers'
+    jobtitle: 'Department Head'
   };
 
   const ref = useRef(null);
